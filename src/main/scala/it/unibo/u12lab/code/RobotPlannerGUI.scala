@@ -14,6 +14,7 @@ class OffButton(text: String) extends Button(text):
 
 //noinspection ScalaWeakerAccess
 object RobotPlannerGUI extends SimpleSwingApplication:
+  given Conversion[String, Term]   = Term.createTerm(_)
 
   // GUI constants
   val GRID_SIZE: Int = 4; val CELL_SIZE: Int = 80; val CELL_OFFSET = 10

@@ -20,9 +20,8 @@ object Scala2P:
   extension (solutions: LazyList[SolveInfo])
     def extractSolutionsOf(target: String): LazyList[String] = solutions map (extractTerm(_, s"$target"))
 
-  given Conversion[String, Term]   = Term.createTerm(_)
   given Conversion[Term, String]   = _.toString
-  given Conversion[Seq[_], Term]   = _.mkString("[", ",", "]")
+  given Conversion[Seq[_], Term]   = s => Term createTerm s.mkString("[", ",", "]")
   given Conversion[String, Theory] = new Theory(_)
 
   def mkPrologEngine(theory: Theory): Term => LazyList[SolveInfo] =
@@ -64,9 +63,10 @@ object TryScala2P extends App:
     permutation(L,[H|TP]) :- member(L,H,T), permutation(T,TP).
   """)
 
-  engine("permutation([1,2,3],L)") foreach println
+  private val goal = Term createTerm "permutation([1,2,3],L)"
+  engine(goal) foreach println
   // permutation([1,2,3],[1,2,3]) ... permutation([1,2,3],[3,2,1])
 
-  val input = Struct("permutation",(1 to 20), Var())
+  private val input = Struct("permutation",1 to 20, Var())
   engine(input) map (extractTerm(_,1)) take 100 foreach (println(_))
   // [1,2,3,4,..,20] ... [1,2,..,15,20,16,18,19,17]
