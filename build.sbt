@@ -1,4 +1,4 @@
-name := "pps-lab-scala-prolog-integration"
+name := "pps-24-scala-path"
 
 scalaVersion := "3.3.3"
 libraryDependencies += "it.unibo.alice.tuprolog" % "2p-core" % "4.1.1"

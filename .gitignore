@@ -9,3 +9,8 @@ project/target
 target
 build
 .gradle
+*.DS_Store
+.bsp
+*.class
+*.log
+*.tmp
