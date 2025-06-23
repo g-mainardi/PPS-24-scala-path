@@ -32,5 +32,5 @@ jobs:
       - name: Upload fat JAR artifact with tag in name
         uses: actions/upload-artifact@v4
         with:
-          name: fat-jar-${{ steps.tag.outputs.tag_name }}
+          name: scala-path-${{ steps.tag.outputs.tag_name }}
           path: target/scala-*/*-assembly-*.jar
