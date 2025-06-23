@@ -19,9 +19,17 @@
             "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\sbt\\1.9.9\\sbt-1.9.9.jar",
             "C:\\Users\\muham\\.sbt\\boot\\scala-2.12.18\\lib\\scala-library.jar",
             "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\ch\\epfl\\scala\\sbt-bloop_2.12_1.0\\1.5.17\\sbt-bloop_2.12_1.0-1.5.17.jar",
+            "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\org\\jetbrains\\scala\\sbt-ide-settings_2.12_1.0\\1.1.2\\sbt-ide-settings_2.12_1.0-1.1.2.jar",
+            "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo.scala-sbt.org\\scalasbt\\sbt-plugin-releases\\com.eed3si9n\\sbt-assembly\\scala_2.12\\sbt_1.0\\0.15.0\\jars\\sbt-assembly.jar",
+            "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scalameta\\sbt-scalafmt_2.12_1.0\\2.5.4\\sbt-scalafmt_2.12_1.0-2.5.4.jar",
             "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\main_2.12\\1.9.9\\main_2.12-1.9.9.jar",
             "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\io_2.12\\1.9.9\\io_2.12-1.9.9.jar",
             "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\ch\\epfl\\scala\\bloop-config_2.12\\1.5.5\\bloop-config_2.12-1.5.5.jar",
+            "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scalactic\\scalactic_2.12\\3.0.8\\scalactic_2.12-3.0.8.jar",
+            "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\com\\eed3si9n\\jarjarabrams\\jarjar-abrams-core_2.12\\0.1.0\\jarjar-abrams-core_2.12-0.1.0.jar",
+            "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\com\\googlecode\\java-diff-utils\\diffutils\\1.3.0\\diffutils-1.3.0.jar",
+            "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scalameta\\scalafmt-sysops_2.12\\3.8.5\\scalafmt-sysops_2.12-3.8.5.jar",
+            "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scalameta\\scalafmt-dynamic_2.12\\3.8.5\\scalafmt-dynamic_2.12-3.8.5.jar",
             "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\logic_2.12\\1.9.9\\logic_2.12-1.9.9.jar",
             "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\actions_2.12\\1.9.9\\actions_2.12-1.9.9.jar",
             "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\main-settings_2.12\\1.9.9\\main-settings_2.12-1.9.9.jar",
@@ -46,6 +54,12 @@
             "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\net\\java\\dev\\jna\\jna\\5.13.0\\jna-5.13.0.jar",
             "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\net\\java\\dev\\jna\\jna-platform\\5.13.0\\jna-platform-5.13.0.jar",
             "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\com\\github\\plokhotnyuk\\jsoniter-scala\\jsoniter-scala-core_2.12\\2.4.0\\jsoniter-scala-core_2.12-2.4.0.jar",
+            "C:\\Users\\muham\\.sbt\\boot\\scala-2.12.18\\lib\\scala-reflect.jar",
+            "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\org\\pantsbuild\\jarjar\\1.7.2\\jarjar-1.7.2.jar",
+            "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\com\\github\\bigwheel\\util-backports_2.12\\2.1\\util-backports_2.12-2.1.jar",
+            "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scalameta\\scalafmt-interfaces\\3.8.5\\scalafmt-interfaces-3.8.5.jar",
+            "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\io\\get-coursier\\interface\\1.0.26\\interface-1.0.26.jar",
+            "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\com\\typesafe\\config\\1.4.3\\config-1.4.3.jar",
             "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\util-relation_2.12\\1.9.9\\util-relation_2.12-1.9.9.jar",
             "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\completion_2.12\\1.9.9\\completion_2.12-1.9.9.jar",
             "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\task-system_2.12\\1.9.9\\task-system_2.12-1.9.9.jar",
@@ -70,7 +84,6 @@
             "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\org\\jline\\jline-terminal-jna\\3.24.1\\jline-terminal-jna-3.24.1.jar",
             "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\org\\jline\\jline-terminal-jansi\\3.24.1\\jline-terminal-jansi-3.24.1.jar",
             "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\com\\lmax\\disruptor\\3.4.2\\disruptor-3.4.2.jar",
-            "C:\\Users\\muham\\.sbt\\boot\\scala-2.12.18\\lib\\scala-reflect.jar",
             "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\org\\checkerframework\\checker-qual\\3.4.1\\checker-qual-3.4.1.jar",
             "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\com\\google\\errorprone\\error_prone_annotations\\2.4.0\\error_prone_annotations-2.4.0.jar",
             "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-lang\\modules\\scala-collection-compat_2.12\\2.10.0\\scala-collection-compat_2.12-2.10.0.jar",
@@ -79,6 +92,10 @@
             "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\com\\jcraft\\jsch\\0.1.54\\jsch-0.1.54.jar",
             "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\com\\eed3si9n\\gigahorse-apache-http_2.12\\0.7.0\\gigahorse-apache-http_2.12-0.7.0.jar",
             "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\ivy\\ivy\\2.3.0-sbt-396a783bba347016e7fe30dacc60d355be607fe2\\ivy-2.3.0-sbt-396a783bba347016e7fe30dacc60d355be607fe2.jar",
+            "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\org\\apache\\ant\\ant\\1.9.9\\ant-1.9.9.jar",
+            "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\org\\ow2\\asm\\asm\\7.0\\asm-7.0.jar",
+            "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\org\\ow2\\asm\\asm-commons\\7.0\\asm-commons-7.0.jar",
+            "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\org\\apache\\maven\\maven-plugin-api\\3.3.9\\maven-plugin-api-3.3.9.jar",
             "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\org\\jline\\jline-reader\\3.24.1\\jline-reader-3.24.1.jar",
             "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\org\\jline\\jline-builtins\\3.24.1\\jline-builtins-3.24.1.jar",
             "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\test-agent\\1.9.9\\test-agent-1.9.9.jar",
@@ -97,12 +114,25 @@
             "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\org\\fusesource\\jansi\\jansi\\2.4.1\\jansi-2.4.1.jar",
             "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\com\\eed3si9n\\gigahorse-core_2.12\\0.7.0\\gigahorse-core_2.12-0.7.0.jar",
             "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\com\\eed3si9n\\shaded-apache-httpasyncclient\\0.7.0\\shaded-apache-httpasyncclient-0.7.0.jar",
+            "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\org\\apache\\ant\\ant-launcher\\1.9.9\\ant-launcher-1.9.9.jar",
+            "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\org\\ow2\\asm\\asm-tree\\7.0\\asm-tree-7.0.jar",
+            "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\org\\ow2\\asm\\asm-analysis\\7.0\\asm-analysis-7.0.jar",
+            "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\org\\apache\\maven\\maven-model\\3.3.9\\maven-model-3.3.9.jar",
+            "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\org\\apache\\maven\\maven-artifact\\3.3.9\\maven-artifact-3.3.9.jar",
+            "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\org\\eclipse\\sisu\\org.eclipse.sisu.plexus\\0.3.2\\org.eclipse.sisu.plexus-0.3.2.jar",
             "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\org\\jline\\jline-style\\3.24.1\\jline-style-3.24.1.jar",
             "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\zinc-persist-core-assembly\\1.9.6\\zinc-persist-core-assembly-1.9.6.jar",
             "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-sbt\\sbinary_2.12\\0.5.1\\sbinary_2.12-0.5.1.jar",
             "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\com\\typesafe\\ssl-config-core_2.12\\0.6.1\\ssl-config-core_2.12-0.6.1.jar",
             "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\org\\reactivestreams\\reactive-streams\\1.0.3\\reactive-streams-1.0.3.jar",
-            "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\com\\typesafe\\config\\1.4.2\\config-1.4.2.jar"
+            "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\org\\codehaus\\plexus\\plexus-utils\\3.0.22\\plexus-utils-3.0.22.jar",
+            "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\org\\apache\\commons\\commons-lang3\\3.4\\commons-lang3-3.4.jar",
+            "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\javax\\enterprise\\cdi-api\\1.0\\cdi-api-1.0.jar",
+            "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\org\\eclipse\\sisu\\org.eclipse.sisu.inject\\0.3.2\\org.eclipse.sisu.inject-0.3.2.jar",
+            "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\org\\codehaus\\plexus\\plexus-component-annotations\\1.5.5\\plexus-component-annotations-1.5.5.jar",
+            "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\org\\codehaus\\plexus\\plexus-classworlds\\2.5.2\\plexus-classworlds-2.5.2.jar",
+            "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\javax\\annotation\\jsr250-api\\1.0\\jsr250-api-1.0.jar",
+            "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\javax\\inject\\javax.inject\\1\\javax.inject-1.jar"
         ],
         "out": "C:\\Users\\muham\\Desktop\\Coding\\Unibo\\PPS-24-scala-path\\project\\.bloop\\pps-24-scala-path-build",
         "classesDir": "C:\\Users\\muham\\Desktop\\Coding\\Unibo\\PPS-24-scala-path\\project\\.bloop\\pps-24-scala-path-build\\scala-2.12\\sbt-1.0\\classes",
@@ -147,8 +177,8 @@
                 "import _root_.sbt._",
                 "import _root_.sbt.Keys._",
                 "import _root_.sbt.nio.Keys._",
-                "import _root_.sbt.ScriptedPlugin.autoImport._, _root_.sbt.plugins.JUnitXmlReportPlugin.autoImport._, _root_.sbt.plugins.MiniDependencyTreePlugin.autoImport._, _root_.bloop.integrations.sbt.BloopPlugin.autoImport._",
-                "import _root_.sbt.plugins.IvyPlugin, _root_.sbt.plugins.JvmPlugin, _root_.sbt.plugins.CorePlugin, _root_.sbt.ScriptedPlugin, _root_.sbt.plugins.SbtPlugin, _root_.sbt.plugins.SemanticdbPlugin, _root_.sbt.plugins.JUnitXmlReportPlugin, _root_.sbt.plugins.Giter8TemplatePlugin, _root_.sbt.plugins.MiniDependencyTreePlugin, _root_.bloop.integrations.sbt.BloopPlugin"
+                "import _root_.sbt.ScriptedPlugin.autoImport._, _root_.sbt.plugins.JUnitXmlReportPlugin.autoImport._, _root_.sbt.plugins.MiniDependencyTreePlugin.autoImport._, _root_.bloop.integrations.sbt.BloopPlugin.autoImport._, _root_.sbtide.ConfigPlugin.autoImport._, _root_.sbtassembly.AssemblyPlugin.autoImport._, _root_.org.scalafmt.sbt.ScalafmtPlugin.autoImport._",
+                "import _root_.sbt.plugins.IvyPlugin, _root_.sbt.plugins.JvmPlugin, _root_.sbt.plugins.CorePlugin, _root_.sbt.ScriptedPlugin, _root_.sbt.plugins.SbtPlugin, _root_.sbt.plugins.SemanticdbPlugin, _root_.sbt.plugins.JUnitXmlReportPlugin, _root_.sbt.plugins.Giter8TemplatePlugin, _root_.sbt.plugins.MiniDependencyTreePlugin, _root_.bloop.integrations.sbt.BloopPlugin, _root_.sbtide.ConfigPlugin, _root_.sbtassembly.AssemblyPlugin, _root_.org.scalafmt.sbt.ScalafmtPlugin"
             ]
         },
         "test": {
@@ -230,9 +260,42 @@
             "classpath": [
                 "C:\\Users\\muham\\Desktop\\Coding\\Unibo\\PPS-24-scala-path\\project\\.bloop\\pps-24-scala-path-build\\scala-2.12\\sbt-1.0\\classes",
                 "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\ch\\epfl\\scala\\sbt-bloop_2.12_1.0\\1.5.17\\sbt-bloop_2.12_1.0-1.5.17.jar",
+                "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\org\\jetbrains\\scala\\sbt-ide-settings_2.12_1.0\\1.1.2\\sbt-ide-settings_2.12_1.0-1.1.2.jar",
+                "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo.scala-sbt.org\\scalasbt\\sbt-plugin-releases\\com.eed3si9n\\sbt-assembly\\scala_2.12\\sbt_1.0\\0.15.0\\jars\\sbt-assembly.jar",
+                "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scalameta\\sbt-scalafmt_2.12_1.0\\2.5.4\\sbt-scalafmt_2.12_1.0-2.5.4.jar",
                 "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\ch\\epfl\\scala\\bloop-config_2.12\\1.5.5\\bloop-config_2.12-1.5.5.jar",
+                "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scalactic\\scalactic_2.12\\3.0.8\\scalactic_2.12-3.0.8.jar",
+                "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\com\\eed3si9n\\jarjarabrams\\jarjar-abrams-core_2.12\\0.1.0\\jarjar-abrams-core_2.12-0.1.0.jar",
+                "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\com\\googlecode\\java-diff-utils\\diffutils\\1.3.0\\diffutils-1.3.0.jar",
+                "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scalameta\\scalafmt-sysops_2.12\\3.8.5\\scalafmt-sysops_2.12-3.8.5.jar",
+                "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scalameta\\scalafmt-dynamic_2.12\\3.8.5\\scalafmt-dynamic_2.12-3.8.5.jar",
                 "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\com\\github\\plokhotnyuk\\jsoniter-scala\\jsoniter-scala-core_2.12\\2.4.0\\jsoniter-scala-core_2.12-2.4.0.jar",
-                "C:\\Users\\muham\\.sbt\\boot\\scala-2.12.18\\lib\\scala-library.jar"
+                "C:\\Users\\muham\\.sbt\\boot\\scala-2.12.18\\lib\\scala-library.jar",
+                "C:\\Users\\muham\\.sbt\\boot\\scala-2.12.18\\lib\\scala-reflect.jar",
+                "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\org\\pantsbuild\\jarjar\\1.7.2\\jarjar-1.7.2.jar",
+                "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\com\\github\\bigwheel\\util-backports_2.12\\2.1\\util-backports_2.12-2.1.jar",
+                "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scalameta\\scalafmt-interfaces\\3.8.5\\scalafmt-interfaces-3.8.5.jar",
+                "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\io\\get-coursier\\interface\\1.0.26\\interface-1.0.26.jar",
+                "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\com\\typesafe\\config\\1.4.3\\config-1.4.3.jar",
+                "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\org\\apache\\ant\\ant\\1.9.9\\ant-1.9.9.jar",
+                "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\org\\ow2\\asm\\asm\\7.0\\asm-7.0.jar",
+                "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\org\\ow2\\asm\\asm-commons\\7.0\\asm-commons-7.0.jar",
+                "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\org\\apache\\maven\\maven-plugin-api\\3.3.9\\maven-plugin-api-3.3.9.jar",
+                "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\org\\slf4j\\slf4j-api\\1.7.36\\slf4j-api-1.7.36.jar",
+                "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\org\\apache\\ant\\ant-launcher\\1.9.9\\ant-launcher-1.9.9.jar",
+                "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\org\\ow2\\asm\\asm-tree\\7.0\\asm-tree-7.0.jar",
+                "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\org\\ow2\\asm\\asm-analysis\\7.0\\asm-analysis-7.0.jar",
+                "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\org\\apache\\maven\\maven-model\\3.3.9\\maven-model-3.3.9.jar",
+                "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\org\\apache\\maven\\maven-artifact\\3.3.9\\maven-artifact-3.3.9.jar",
+                "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\org\\eclipse\\sisu\\org.eclipse.sisu.plexus\\0.3.2\\org.eclipse.sisu.plexus-0.3.2.jar",
+                "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\org\\codehaus\\plexus\\plexus-utils\\3.0.22\\plexus-utils-3.0.22.jar",
+                "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\org\\apache\\commons\\commons-lang3\\3.4\\commons-lang3-3.4.jar",
+                "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\javax\\enterprise\\cdi-api\\1.0\\cdi-api-1.0.jar",
+                "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\org\\eclipse\\sisu\\org.eclipse.sisu.inject\\0.3.2\\org.eclipse.sisu.inject-0.3.2.jar",
+                "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\org\\codehaus\\plexus\\plexus-component-annotations\\1.5.5\\plexus-component-annotations-1.5.5.jar",
+                "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\org\\codehaus\\plexus\\plexus-classworlds\\2.5.2\\plexus-classworlds-2.5.2.jar",
+                "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\javax\\annotation\\jsr250-api\\1.0\\jsr250-api-1.0.jar",
+                "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\javax\\inject\\javax.inject\\1\\javax.inject-1.jar"
             ]
         },
         "resolution": {
@@ -255,6 +318,57 @@
                     ]
                 },
                 {
+                    "organization": "org.jetbrains.scala",
+                    "name": "sbt-ide-settings",
+                    "version": "1.1.2",
+                    "configurations": "default",
+                    "artifacts": [
+                        {
+                            "name": "sbt-ide-settings",
+                            "path": "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\org\\jetbrains\\scala\\sbt-ide-settings_2.12_1.0\\1.1.2\\sbt-ide-settings_2.12_1.0-1.1.2.jar"
+                        },
+                        {
+                            "name": "sbt-ide-settings",
+                            "classifier": "sources",
+                            "path": "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\org\\jetbrains\\scala\\sbt-ide-settings_2.12_1.0\\1.1.2\\sbt-ide-settings_2.12_1.0-1.1.2-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization": "com.eed3si9n",
+                    "name": "sbt-assembly",
+                    "version": "0.15.0",
+                    "configurations": "compile",
+                    "artifacts": [
+                        {
+                            "name": "sbt-assembly",
+                            "path": "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo.scala-sbt.org\\scalasbt\\sbt-plugin-releases\\com.eed3si9n\\sbt-assembly\\scala_2.12\\sbt_1.0\\0.15.0\\jars\\sbt-assembly.jar"
+                        },
+                        {
+                            "name": "sbt-assembly",
+                            "classifier": "sources",
+                            "path": "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo.scala-sbt.org\\scalasbt\\sbt-plugin-releases\\com.eed3si9n\\sbt-assembly\\scala_2.12\\sbt_1.0\\0.15.0\\srcs\\sbt-assembly-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization": "org.scalameta",
+                    "name": "sbt-scalafmt",
+                    "version": "2.5.4",
+                    "configurations": "default",
+                    "artifacts": [
+                        {
+                            "name": "sbt-scalafmt",
+                            "path": "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scalameta\\sbt-scalafmt_2.12_1.0\\2.5.4\\sbt-scalafmt_2.12_1.0-2.5.4.jar"
+                        },
+                        {
+                            "name": "sbt-scalafmt",
+                            "classifier": "sources",
+                            "path": "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scalameta\\sbt-scalafmt_2.12_1.0\\2.5.4\\sbt-scalafmt_2.12_1.0-2.5.4-sources.jar"
+                        }
+                    ]
+                },
+                {
                     "organization": "ch.epfl.scala",
                     "name": "bloop-config_2.12",
                     "version": "1.5.5",
@@ -268,6 +382,91 @@
                             "name": "bloop-config_2.12",
                             "classifier": "sources",
                             "path": "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\ch\\epfl\\scala\\bloop-config_2.12\\1.5.5\\bloop-config_2.12-1.5.5-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization": "org.scalactic",
+                    "name": "scalactic_2.12",
+                    "version": "3.0.8",
+                    "configurations": "default",
+                    "artifacts": [
+                        {
+                            "name": "scalactic_2.12",
+                            "path": "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scalactic\\scalactic_2.12\\3.0.8\\scalactic_2.12-3.0.8.jar"
+                        },
+                        {
+                            "name": "scalactic_2.12",
+                            "classifier": "sources",
+                            "path": "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scalactic\\scalactic_2.12\\3.0.8\\scalactic_2.12-3.0.8-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization": "com.eed3si9n.jarjarabrams",
+                    "name": "jarjar-abrams-core_2.12",
+                    "version": "0.1.0",
+                    "configurations": "default",
+                    "artifacts": [
+                        {
+                            "name": "jarjar-abrams-core_2.12",
+                            "path": "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\com\\eed3si9n\\jarjarabrams\\jarjar-abrams-core_2.12\\0.1.0\\jarjar-abrams-core_2.12-0.1.0.jar"
+                        },
+                        {
+                            "name": "jarjar-abrams-core_2.12",
+                            "classifier": "sources",
+                            "path": "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\com\\eed3si9n\\jarjarabrams\\jarjar-abrams-core_2.12\\0.1.0\\jarjar-abrams-core_2.12-0.1.0-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization": "com.googlecode.java-diff-utils",
+                    "name": "diffutils",
+                    "version": "1.3.0",
+                    "configurations": "default",
+                    "artifacts": [
+                        {
+                            "name": "diffutils",
+                            "path": "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\com\\googlecode\\java-diff-utils\\diffutils\\1.3.0\\diffutils-1.3.0.jar"
+                        },
+                        {
+                            "name": "diffutils",
+                            "classifier": "sources",
+                            "path": "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\com\\googlecode\\java-diff-utils\\diffutils\\1.3.0\\diffutils-1.3.0-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization": "org.scalameta",
+                    "name": "scalafmt-sysops_2.12",
+                    "version": "3.8.5",
+                    "configurations": "default",
+                    "artifacts": [
+                        {
+                            "name": "scalafmt-sysops_2.12",
+                            "path": "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scalameta\\scalafmt-sysops_2.12\\3.8.5\\scalafmt-sysops_2.12-3.8.5.jar"
+                        },
+                        {
+                            "name": "scalafmt-sysops_2.12",
+                            "classifier": "sources",
+                            "path": "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scalameta\\scalafmt-sysops_2.12\\3.8.5\\scalafmt-sysops_2.12-3.8.5-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization": "org.scalameta",
+                    "name": "scalafmt-dynamic_2.12",
+                    "version": "3.8.5",
+                    "configurations": "default",
+                    "artifacts": [
+                        {
+                            "name": "scalafmt-dynamic_2.12",
+                            "path": "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scalameta\\scalafmt-dynamic_2.12\\3.8.5\\scalafmt-dynamic_2.12-3.8.5.jar"
+                        },
+                        {
+                            "name": "scalafmt-dynamic_2.12",
+                            "classifier": "sources",
+                            "path": "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scalameta\\scalafmt-dynamic_2.12\\3.8.5\\scalafmt-dynamic_2.12-3.8.5-sources.jar"
                         }
                     ]
                 },
@@ -302,6 +501,431 @@
                             "name": "scala-library",
                             "classifier": "sources",
                             "path": "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-lang\\scala-library\\2.12.18\\scala-library-2.12.18-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization": "org.scala-lang",
+                    "name": "scala-reflect",
+                    "version": "2.12.18",
+                    "configurations": "default",
+                    "artifacts": [
+                        {
+                            "name": "scala-reflect",
+                            "path": "C:\\Users\\muham\\.sbt\\boot\\scala-2.12.18\\lib\\scala-reflect.jar"
+                        },
+                        {
+                            "name": "scala-reflect",
+                            "classifier": "sources",
+                            "path": "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-lang\\scala-reflect\\2.12.18\\scala-reflect-2.12.18-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization": "org.pantsbuild",
+                    "name": "jarjar",
+                    "version": "1.7.2",
+                    "configurations": "default",
+                    "artifacts": [
+                        {
+                            "name": "jarjar",
+                            "path": "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\org\\pantsbuild\\jarjar\\1.7.2\\jarjar-1.7.2.jar"
+                        },
+                        {
+                            "name": "jarjar",
+                            "classifier": "sources",
+                            "path": "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\org\\pantsbuild\\jarjar\\1.7.2\\jarjar-1.7.2-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization": "com.github.bigwheel",
+                    "name": "util-backports_2.12",
+                    "version": "2.1",
+                    "configurations": "default",
+                    "artifacts": [
+                        {
+                            "name": "util-backports_2.12",
+                            "path": "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\com\\github\\bigwheel\\util-backports_2.12\\2.1\\util-backports_2.12-2.1.jar"
+                        },
+                        {
+                            "name": "util-backports_2.12",
+                            "classifier": "sources",
+                            "path": "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\com\\github\\bigwheel\\util-backports_2.12\\2.1\\util-backports_2.12-2.1-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization": "org.scalameta",
+                    "name": "scalafmt-interfaces",
+                    "version": "3.8.5",
+                    "configurations": "default",
+                    "artifacts": [
+                        {
+                            "name": "scalafmt-interfaces",
+                            "path": "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scalameta\\scalafmt-interfaces\\3.8.5\\scalafmt-interfaces-3.8.5.jar"
+                        },
+                        {
+                            "name": "scalafmt-interfaces",
+                            "classifier": "sources",
+                            "path": "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scalameta\\scalafmt-interfaces\\3.8.5\\scalafmt-interfaces-3.8.5-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization": "io.get-coursier",
+                    "name": "interface",
+                    "version": "1.0.26",
+                    "configurations": "default",
+                    "artifacts": [
+                        {
+                            "name": "interface",
+                            "path": "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\io\\get-coursier\\interface\\1.0.26\\interface-1.0.26.jar"
+                        },
+                        {
+                            "name": "interface",
+                            "classifier": "sources",
+                            "path": "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\io\\get-coursier\\interface\\1.0.26\\interface-1.0.26-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization": "com.typesafe",
+                    "name": "config",
+                    "version": "1.4.3",
+                    "configurations": "default",
+                    "artifacts": [
+                        {
+                            "name": "config",
+                            "path": "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\com\\typesafe\\config\\1.4.3\\config-1.4.3.jar"
+                        },
+                        {
+                            "name": "config",
+                            "classifier": "sources",
+                            "path": "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\com\\typesafe\\config\\1.4.3\\config-1.4.3-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization": "org.apache.ant",
+                    "name": "ant",
+                    "version": "1.9.9",
+                    "configurations": "default",
+                    "artifacts": [
+                        {
+                            "name": "ant",
+                            "path": "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\org\\apache\\ant\\ant\\1.9.9\\ant-1.9.9.jar"
+                        },
+                        {
+                            "name": "ant",
+                            "classifier": "sources",
+                            "path": "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\org\\apache\\ant\\ant\\1.9.9\\ant-1.9.9-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization": "org.ow2.asm",
+                    "name": "asm",
+                    "version": "7.0",
+                    "configurations": "default",
+                    "artifacts": [
+                        {
+                            "name": "asm",
+                            "path": "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\org\\ow2\\asm\\asm\\7.0\\asm-7.0.jar"
+                        },
+                        {
+                            "name": "asm",
+                            "classifier": "sources",
+                            "path": "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\org\\ow2\\asm\\asm\\7.0\\asm-7.0-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization": "org.ow2.asm",
+                    "name": "asm-commons",
+                    "version": "7.0",
+                    "configurations": "default",
+                    "artifacts": [
+                        {
+                            "name": "asm-commons",
+                            "path": "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\org\\ow2\\asm\\asm-commons\\7.0\\asm-commons-7.0.jar"
+                        },
+                        {
+                            "name": "asm-commons",
+                            "classifier": "sources",
+                            "path": "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\org\\ow2\\asm\\asm-commons\\7.0\\asm-commons-7.0-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization": "org.apache.maven",
+                    "name": "maven-plugin-api",
+                    "version": "3.3.9",
+                    "configurations": "default",
+                    "artifacts": [
+                        {
+                            "name": "maven-plugin-api",
+                            "path": "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\org\\apache\\maven\\maven-plugin-api\\3.3.9\\maven-plugin-api-3.3.9.jar"
+                        },
+                        {
+                            "name": "maven-plugin-api",
+                            "classifier": "sources",
+                            "path": "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\org\\apache\\maven\\maven-plugin-api\\3.3.9\\maven-plugin-api-3.3.9-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization": "org.slf4j",
+                    "name": "slf4j-api",
+                    "version": "1.7.36",
+                    "configurations": "default",
+                    "artifacts": [
+                        {
+                            "name": "slf4j-api",
+                            "path": "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\org\\slf4j\\slf4j-api\\1.7.36\\slf4j-api-1.7.36.jar"
+                        },
+                        {
+                            "name": "slf4j-api",
+                            "classifier": "sources",
+                            "path": "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\org\\slf4j\\slf4j-api\\1.7.36\\slf4j-api-1.7.36-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization": "org.apache.ant",
+                    "name": "ant-launcher",
+                    "version": "1.9.9",
+                    "configurations": "default",
+                    "artifacts": [
+                        {
+                            "name": "ant-launcher",
+                            "path": "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\org\\apache\\ant\\ant-launcher\\1.9.9\\ant-launcher-1.9.9.jar"
+                        },
+                        {
+                            "name": "ant-launcher",
+                            "classifier": "sources",
+                            "path": "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\org\\apache\\ant\\ant-launcher\\1.9.9\\ant-launcher-1.9.9-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization": "org.ow2.asm",
+                    "name": "asm-tree",
+                    "version": "7.0",
+                    "configurations": "default",
+                    "artifacts": [
+                        {
+                            "name": "asm-tree",
+                            "path": "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\org\\ow2\\asm\\asm-tree\\7.0\\asm-tree-7.0.jar"
+                        },
+                        {
+                            "name": "asm-tree",
+                            "classifier": "sources",
+                            "path": "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\org\\ow2\\asm\\asm-tree\\7.0\\asm-tree-7.0-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization": "org.ow2.asm",
+                    "name": "asm-analysis",
+                    "version": "7.0",
+                    "configurations": "default",
+                    "artifacts": [
+                        {
+                            "name": "asm-analysis",
+                            "path": "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\org\\ow2\\asm\\asm-analysis\\7.0\\asm-analysis-7.0.jar"
+                        },
+                        {
+                            "name": "asm-analysis",
+                            "classifier": "sources",
+                            "path": "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\org\\ow2\\asm\\asm-analysis\\7.0\\asm-analysis-7.0-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization": "org.apache.maven",
+                    "name": "maven-model",
+                    "version": "3.3.9",
+                    "configurations": "default",
+                    "artifacts": [
+                        {
+                            "name": "maven-model",
+                            "path": "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\org\\apache\\maven\\maven-model\\3.3.9\\maven-model-3.3.9.jar"
+                        },
+                        {
+                            "name": "maven-model",
+                            "classifier": "sources",
+                            "path": "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\org\\apache\\maven\\maven-model\\3.3.9\\maven-model-3.3.9-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization": "org.apache.maven",
+                    "name": "maven-artifact",
+                    "version": "3.3.9",
+                    "configurations": "default",
+                    "artifacts": [
+                        {
+                            "name": "maven-artifact",
+                            "path": "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\org\\apache\\maven\\maven-artifact\\3.3.9\\maven-artifact-3.3.9.jar"
+                        },
+                        {
+                            "name": "maven-artifact",
+                            "classifier": "sources",
+                            "path": "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\org\\apache\\maven\\maven-artifact\\3.3.9\\maven-artifact-3.3.9-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization": "org.eclipse.sisu",
+                    "name": "org.eclipse.sisu.plexus",
+                    "version": "0.3.2",
+                    "configurations": "default",
+                    "artifacts": [
+                        {
+                            "name": "org.eclipse.sisu.plexus",
+                            "path": "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\org\\eclipse\\sisu\\org.eclipse.sisu.plexus\\0.3.2\\org.eclipse.sisu.plexus-0.3.2.jar"
+                        },
+                        {
+                            "name": "org.eclipse.sisu.plexus",
+                            "classifier": "sources",
+                            "path": "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\org\\eclipse\\sisu\\org.eclipse.sisu.plexus\\0.3.2\\org.eclipse.sisu.plexus-0.3.2-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization": "org.codehaus.plexus",
+                    "name": "plexus-utils",
+                    "version": "3.0.22",
+                    "configurations": "default",
+                    "artifacts": [
+                        {
+                            "name": "plexus-utils",
+                            "path": "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\org\\codehaus\\plexus\\plexus-utils\\3.0.22\\plexus-utils-3.0.22.jar"
+                        },
+                        {
+                            "name": "plexus-utils",
+                            "classifier": "sources",
+                            "path": "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\org\\codehaus\\plexus\\plexus-utils\\3.0.22\\plexus-utils-3.0.22-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization": "org.apache.commons",
+                    "name": "commons-lang3",
+                    "version": "3.4",
+                    "configurations": "default",
+                    "artifacts": [
+                        {
+                            "name": "commons-lang3",
+                            "path": "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\org\\apache\\commons\\commons-lang3\\3.4\\commons-lang3-3.4.jar"
+                        },
+                        {
+                            "name": "commons-lang3",
+                            "classifier": "sources",
+                            "path": "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\org\\apache\\commons\\commons-lang3\\3.4\\commons-lang3-3.4-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization": "javax.enterprise",
+                    "name": "cdi-api",
+                    "version": "1.0",
+                    "configurations": "default",
+                    "artifacts": [
+                        {
+                            "name": "cdi-api",
+                            "path": "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\javax\\enterprise\\cdi-api\\1.0\\cdi-api-1.0.jar"
+                        },
+                        {
+                            "name": "cdi-api",
+                            "classifier": "sources",
+                            "path": "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\javax\\enterprise\\cdi-api\\1.0\\cdi-api-1.0-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization": "org.eclipse.sisu",
+                    "name": "org.eclipse.sisu.inject",
+                    "version": "0.3.2",
+                    "configurations": "default",
+                    "artifacts": [
+                        {
+                            "name": "org.eclipse.sisu.inject",
+                            "path": "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\org\\eclipse\\sisu\\org.eclipse.sisu.inject\\0.3.2\\org.eclipse.sisu.inject-0.3.2.jar"
+                        },
+                        {
+                            "name": "org.eclipse.sisu.inject",
+                            "classifier": "sources",
+                            "path": "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\org\\eclipse\\sisu\\org.eclipse.sisu.inject\\0.3.2\\org.eclipse.sisu.inject-0.3.2-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization": "org.codehaus.plexus",
+                    "name": "plexus-component-annotations",
+                    "version": "1.5.5",
+                    "configurations": "default",
+                    "artifacts": [
+                        {
+                            "name": "plexus-component-annotations",
+                            "path": "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\org\\codehaus\\plexus\\plexus-component-annotations\\1.5.5\\plexus-component-annotations-1.5.5.jar"
+                        },
+                        {
+                            "name": "plexus-component-annotations",
+                            "classifier": "sources",
+                            "path": "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\org\\codehaus\\plexus\\plexus-component-annotations\\1.5.5\\plexus-component-annotations-1.5.5-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization": "org.codehaus.plexus",
+                    "name": "plexus-classworlds",
+                    "version": "2.5.2",
+                    "configurations": "default",
+                    "artifacts": [
+                        {
+                            "name": "plexus-classworlds",
+                            "path": "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\org\\codehaus\\plexus\\plexus-classworlds\\2.5.2\\plexus-classworlds-2.5.2.jar"
+                        },
+                        {
+                            "name": "plexus-classworlds",
+                            "classifier": "sources",
+                            "path": "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\org\\codehaus\\plexus\\plexus-classworlds\\2.5.2\\plexus-classworlds-2.5.2-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization": "javax.annotation",
+                    "name": "jsr250-api",
+                    "version": "1.0",
+                    "configurations": "default",
+                    "artifacts": [
+                        {
+                            "name": "jsr250-api",
+                            "path": "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\javax\\annotation\\jsr250-api\\1.0\\jsr250-api-1.0.jar"
+                        },
+                        {
+                            "name": "jsr250-api",
+                            "classifier": "sources",
+                            "path": "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\javax\\annotation\\jsr250-api\\1.0\\jsr250-api-1.0-sources.jar"
+                        }
+                    ]
+                },
+                {
+                    "organization": "javax.inject",
+                    "name": "javax.inject",
+                    "version": "1",
+                    "configurations": "default",
+                    "artifacts": [
+                        {
+                            "name": "javax.inject",
+                            "path": "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\javax\\inject\\javax.inject\\1\\javax.inject-1.jar"
+                        },
+                        {
+                            "name": "javax.inject",
+                            "classifier": "sources",
+                            "path": "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\javax\\inject\\javax.inject\\1\\javax.inject-1-sources.jar"
                         }
                     ]
                 },
@@ -1156,23 +1780,6 @@
                     ]
                 },
                 {
-                    "organization": "org.scala-lang",
-                    "name": "scala-reflect",
-                    "version": "2.12.18",
-                    "configurations": "default",
-                    "artifacts": [
-                        {
-                            "name": "scala-reflect",
-                            "path": "C:\\Users\\muham\\.sbt\\boot\\scala-2.12.18\\lib\\scala-reflect.jar"
-                        },
-                        {
-                            "name": "scala-reflect",
-                            "classifier": "sources",
-                            "path": "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-lang\\scala-reflect\\2.12.18\\scala-reflect-2.12.18-sources.jar"
-                        }
-                    ]
-                },
-                {
                     "organization": "org.checkerframework",
                     "name": "checker-qual",
                     "version": "3.4.1",
@@ -1220,23 +1827,6 @@
                             "name": "scala-collection-compat_2.12",
                             "classifier": "sources",
                             "path": "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\org\\scala-lang\\modules\\scala-collection-compat_2.12\\2.10.0\\scala-collection-compat_2.12-2.10.0-sources.jar"
-                        }
-                    ]
-                },
-                {
-                    "organization": "org.slf4j",
-                    "name": "slf4j-api",
-                    "version": "1.7.36",
-                    "configurations": "default",
-                    "artifacts": [
-                        {
-                            "name": "slf4j-api",
-                            "path": "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\org\\slf4j\\slf4j-api\\1.7.36\\slf4j-api-1.7.36.jar"
-                        },
-                        {
-                            "name": "slf4j-api",
-                            "classifier": "sources",
-                            "path": "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\org\\slf4j\\slf4j-api\\1.7.36\\slf4j-api-1.7.36-sources.jar"
                         }
                     ]
                 },
@@ -1696,23 +2286,6 @@
                             "name": "reactive-streams",
                             "classifier": "sources",
                             "path": "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\org\\reactivestreams\\reactive-streams\\1.0.3\\reactive-streams-1.0.3-sources.jar"
-                        }
-                    ]
-                },
-                {
-                    "organization": "com.typesafe",
-                    "name": "config",
-                    "version": "1.4.2",
-                    "configurations": "default",
-                    "artifacts": [
-                        {
-                            "name": "config",
-                            "path": "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\com\\typesafe\\config\\1.4.2\\config-1.4.2.jar"
-                        },
-                        {
-                            "name": "config",
-                            "classifier": "sources",
-                            "path": "C:\\Users\\muham\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\com\\typesafe\\config\\1.4.2\\config-1.4.2-sources.jar"
                         }
                     ]
                 },
