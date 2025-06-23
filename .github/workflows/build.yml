@@ -1,0 +1,33 @@
+name: Build Fat JAR on Tag
+
+on:
+  push:
+    tags:
+      - '*'  # Esegui il workflow su ogni tag (es. v1.0.0, release-xyz)
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Build fat JAR
+        run: sbt clean assembly
+
+      - name: Get Git tag
+        id: tag
+        run: echo "tag_name=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+
+      - name: Upload fat JAR artifact with tag in name
+        uses: actions/upload-artifact@v4
+        with:
+          name: fat-jar-${{ steps.tag.outputs.tag_name }}
+          path: target/scala-*/<your-project-name>-assembly-*.jar
