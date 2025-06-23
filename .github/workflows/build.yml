@@ -19,6 +19,9 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
+      - name: Setup sbt
+        uses: sbt/setup-sbt@v1
+
       - name: Build fat JAR
         run: sbt clean assembly
 
