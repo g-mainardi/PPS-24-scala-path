@@ -1,4 +1,4 @@
-import it.unibo.model.{Direction, Cardinals}
+package it.unibo.model
 
 trait Tile:
   def x: Int
