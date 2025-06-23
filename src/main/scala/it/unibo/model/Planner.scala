@@ -1,4 +1,4 @@
 package it.unibo.model
 
 trait Planner:
-  def plan(): 
+  def plan(): Seq[Direction]

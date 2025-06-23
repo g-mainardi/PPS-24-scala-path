@@ -1,10 +1,10 @@
 package it.unibo.model
 
-trait Move:
-  def direction: Direction
+//trait Move:
+//  def direction: Direction
 
-case class BasicMove() extends Move
-case class Diagonal(override val direction: Diagonals) extends Move
+//case class BasicMove() extends Move
+//case class Diagonal(override val direction: Diagonals) extends Move
 
 trait Direction
 
@@ -13,7 +13,7 @@ enum Cardinals extends Direction:
   case Down
   case Left
   case Right
-  
+
 enum Diagonals extends Direction:
   case rightUp
   case rightDown
