@@ -1,7 +1,6 @@
 # Scala-Path
 
-This project aims to create a path finding engine in Scala
-
+This project aims to create a path finding engine for different scenarios in Scala
 
 ## Table of Contents
 
@@ -12,5 +11,5 @@ This project aims to create a path finding engine in Scala
 - [Detailed Design](5-detailed_design/index.md)
 - [Implementation](6-implementation/index.md)
 - [Testing](7-testing/index.md)
-- [Retrospective](8-retrospective/index.md)
+- [Retrospective](8-process/index.md)
 - [Conclusion](9-conclusion/index.md)

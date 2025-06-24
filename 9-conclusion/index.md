@@ -1,3 +1,3 @@
 # Conclusion
 
-| [Previous Chapter](../8-retrospective/index.md) | [Index](../index.md) |
+| [Previous Chapter](../8-process/index.md) | [Index](../index.md) |
