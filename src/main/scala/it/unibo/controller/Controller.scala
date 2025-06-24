@@ -1,3 +1,12 @@
 package it.unibo.controller
 
-object Controller
+import it.unibo.model.Scenario
+import it.unibo.view.View
+
+trait SimulationController:
+  def startSimulation(): Unit
+  def stopSimulation(): Unit
+  def resetScenario(): Unit
+  def resetPath():Unit
+  val scenario: Scenario
+  val view: View
