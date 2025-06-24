@@ -3,21 +3,25 @@ package it.unibo.view
 import it.unibo.controller.SimulationController
 import it.unibo.model.Tiling.*
 
-import scala.swing.SimpleSwingApplication
-import java.awt.Color
+import scala.swing.{Color, Frame, SimpleSwingApplication}
 
 object View extends SimpleSwingApplication:
   val controller: SimulationController = ???
+  val cellSize = 20
   
-  def tileColor(tile: Tile): Color = tile match
-    case _:Floor => Color.WHITE
-    case _: Grass => Color.GREEN
-    case _: Teleport => Color.PINK
-    case _: Arrow => Color.YELLOW
-    case _: Wall => Color.GRAY
-    case _: Trap => Color.RED
-    case _: Water => Color.CYAN
-    case _: Lava => Color.ORANGE
+  def tileColor(tile: Tile): Color =
+    import java.awt.Color.*
+    tile match
+      case _: Floor    => WHITE
+      case _: Grass    => GREEN
+      case _: Teleport => PINK
+      case _: Arrow    => YELLOW
+      case _: Wall     => GRAY
+      case _: Trap     => RED
+      case _: Water    => CYAN
+      case _: Lava     => ORANGE
+
+  override def top: Frame = ???
 
 
 
