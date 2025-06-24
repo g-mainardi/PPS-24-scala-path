@@ -9,4 +9,5 @@ trait SimulationController:
   def resetScenario(): Unit
   def resetPath():Unit
   val scenario: Scenario
-  val view: View
+  
+  View.top.visible = true

@@ -1,7 +1,7 @@
 package it.unibo.view
 
 import it.unibo.controller.SimulationController
-import it.unibo.model.*
+import it.unibo.model.Tiling.*
 
 import scala.swing.SimpleSwingApplication
 import java.awt.Color
