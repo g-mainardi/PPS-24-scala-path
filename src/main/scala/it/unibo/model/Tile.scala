@@ -1,20 +1,29 @@
 package it.unibo.model
 
-trait Tile:
-  def x: Int
-  def y: Int
-  def visited: Boolean = false
+case class Position(x: Int, y: Int, visited: Boolean = false)
 
-sealed trait Passage extends Tile
-case class Floor(override val x:Int, override val y:Int, override val visited: Boolean = false) extends Passage
-case class Grass(override val x:Int, override val y:Int, override val visited: Boolean = false) extends Passage
-case class Teleport(override val x:Int, override val y:Int, override val visited: Boolean = false) extends Passage
-case class Arrow(override val x:Int, override val y:Int, override val visited: Boolean = false, direction: Direction) extends Passage
+trait Tile:
+  protected def pos: Position
+  def x: Int = pos.x
+  def y: Int = pos.y
+
+sealed trait Passage extends Tile:
+  def visited: Boolean = pos.visited
+
+case class Floor(protected val pos: Position) extends Passage
+case class Grass(protected val pos: Position) extends Passage
+case class Teleport(protected val pos: Position) extends Passage
+case class Arrow(protected val pos: Position, direction: Direction) extends Passage
 
 sealed trait Obstacle extends Tile
-case class Wall(override val x:Int, override val y:Int, override val visited: Boolean = false, directions: Set[Cardinals]) extends Obstacle
-case class Trap(override val x:Int, override val y:Int, override val visited: Boolean = false) extends Obstacle
-case class Water(override val x:Int, override val y:Int, override val visited: Boolean = false) extends Obstacle
-case class Lava(override val x:Int, override val y:Int, override val visited: Boolean = false) extends Obstacle
-case class Rock(override val x:Int, override val y:Int, override val visited: Boolean = false) extends Obstacle
+case class Wall(protected val pos: Position, directions: Set[Cardinals]) extends Obstacle
+case class Trap(protected val pos: Position) extends Obstacle
+case class Water(protected val pos: Position) extends Obstacle
+case class Lava(protected val pos: Position) extends Obstacle
+case class Rock(protected val pos: Position) extends Obstacle
 
+@main def testArchitecture(): Unit = {
+  val f = Floor(Position(x = 1, y = 2))
+  // f.pos not accessibile
+  println(s"The floor is at (${f.x}, ${f.y}), has it been visited? ${if f.visited then "yes" else "no"}")
+}
