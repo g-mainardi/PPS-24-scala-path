@@ -7,11 +7,12 @@ import it.unibo.view.View
 import scala.swing.{Frame, SimpleSwingApplication}
 
 object ScalaPath extends SimpleSwingApplication:
-    val controller: SimulationController = SimulationControllerImpl()
-    val view: View = View(controller)
+    // val controller: SimulationController = SimulationControllerImpl()
 
-    controller.attachView(view)
-    controller.initSimulation()
+    val view: View = View(SimulationControllerImpl)
+
+    SimulationControllerImpl.attachView(view)
+    SimulationControllerImpl.initSimulation()
 
     val cellSize = 20
     val gridSize = 9

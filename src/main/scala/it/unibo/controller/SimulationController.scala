@@ -6,9 +6,10 @@ import it.unibo.view.View
 
 trait SimulationController:
   def startSimulation(): Unit
-  def stopSimulation(): Unit
+  def pauseSimulation(): Unit
+  def resumeSimulation(): Unit
+  def resetSimulation(): Unit
   def resetScenario(): Unit
-  def resetPath():Unit
   def initSimulation(): Unit = scenario.generateScenario()
   def attachView(view: View): Unit
   def changeScenario(scenario: Scenario): Unit
@@ -16,21 +17,25 @@ trait SimulationController:
   protected var view: Option[View] = None
   protected var planner: Planner = DummyPlanner()
 
-class SimulationControllerImpl extends SimulationController:
-  def attachView(view: View): Unit =
+object SimulationControllerImpl extends SimulationController:
+  override def attachView(view: View): Unit =
     this.view = Some(view)
 
-  def changeScenario(scenario: Scenario): Unit =
+  override def changeScenario(scenario: Scenario): Unit =
     this.scenario = scenario
 
-  def startSimulation(): Unit =
+  override def startSimulation(): Unit =
     planner.plan()
 
-  override def stopSimulation(): Unit = ()
+  override def pauseSimulation(): Unit = ()
+
+  override def resumeSimulation(): Unit = ()
+
+  override def resetSimulation(): Unit =
+    scenario.resetAgent()
 
   override def resetScenario(): Unit =
     scenario.generateScenario()
     view foreach(_.repaint())
-    resetPath()
+    resetSimulation()
 
-  override def resetPath(): Unit = ()
