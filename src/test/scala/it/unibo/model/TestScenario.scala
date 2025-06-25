@@ -12,7 +12,7 @@ class TestScenario extends AnyFlatSpec with Matchers:
   "A Scenario" should "have agent in initial position" in :
     val scenario: Scenario = DummyScenario()
     scenario.generateScenario()
-    scenario.agent shouldEqual scenario.initialPosition
+    scenario.agent.pos shouldEqual scenario.initialPosition
 
   "A DummyScenario" should "have initial position (0, 0)" in :
     val scenario: DummyScenario = DummyScenario()

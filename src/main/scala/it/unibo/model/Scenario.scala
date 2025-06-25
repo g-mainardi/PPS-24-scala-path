@@ -6,12 +6,19 @@ object Scenario:
   val nRows = 10
   val nCols = 10
 
+class Agent(val initialPosition: Position):
+  var pos: Position = initialPosition
+  def x: Int = pos.x
+  def y: Int = pos.y
+  def computeCommand(direction: Direction): Unit =
+    pos = pos + direction.vector
+
 trait Scenario:
   def initialPosition: Position
-  var agent: Position = initialPosition
+  var agent: Agent = Agent(initialPosition)
   var tiles: List[Tile] = List()
   def generateScenario(): Unit
-  def resetAgent(): Unit = agent = initialPosition
+  def resetAgent(): Unit = agent = Agent(initialPosition)
 
 class DummyScenario extends Scenario:
   def initialPosition: Position = Position(0, 0)
