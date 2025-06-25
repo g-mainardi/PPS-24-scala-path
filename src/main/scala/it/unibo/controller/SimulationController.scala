@@ -10,6 +10,7 @@ trait SimulationController:
   def resumeSimulation(): Unit
   def resetSimulation(): Unit
   def resetScenario(): Unit
+  def simulationStep(): Unit
   def initSimulation(): Unit = scenario.generateScenario()
   def attachView(view: View): Unit
   def changeScenario(scenario: Scenario): Unit
@@ -33,7 +34,7 @@ object SimulationControllerImpl extends SimulationController:
 
   override def resetSimulation(): Unit =
     scenario.resetAgent()
-
+  override def simulationStep(): Unit = ()
   override def resetScenario(): Unit =
     scenario.generateScenario()
     view foreach(_.repaint())
