@@ -26,13 +26,17 @@ object ViewUtilities:
 class View(controller: SimulationController) extends MainFrame:
   import ViewUtilities.*
   import it.unibo.ScalaPath.{gridOffset, cellSize, gridSize}
-  title = "Demo Dimensioni"
+  title = "Scala Path"
   preferredSize = new Dimension(800, 600)
       
   private val startButton = new Button("Start")
   private val resetButton = new Button("Reset")
   private val stepButton = new Button("Step")
   private val pauseResumeButton = new Button("Pause")
+  private val generateScenarioButton = new Button("Generate scenario")
+  private val scenarios = Seq("Maze", "Map", "Trap")
+  private val scenarioDropdown = new ComboBox(scenarios)
+
 
   private val gridPanel: Panel = new Panel:
     preferredSize = new Dimension(200, 100)
@@ -69,23 +73,28 @@ class View(controller: SimulationController) extends MainFrame:
         g drawLine(pos, gOffset, pos, size * cellSize + gOffset)
 
 
-  private object ControlPanel extends FlowPanel(startButton, stepButton, resetButton, pauseResumeButton)
+  private object ControlPanel extends FlowPanel(startButton, stepButton, resetButton, pauseResumeButton, scenarioDropdown, generateScenarioButton)
 
   contents = new BorderPanel:
     import BorderPanel.Position
     layout(gridPanel) = Position.Center
     layout(ControlPanel) = Position.North
 
-  listenTo(startButton, stepButton, resetButton, pauseResumeButton)
+  listenTo(startButton, stepButton, resetButton, pauseResumeButton, scenarioDropdown, generateScenarioButton)
   reactions += {
-    case ButtonClicked(`startButton`) => println("Starting...")
-    case ButtonClicked(`stepButton`) => println("Stepping...")
-    case ButtonClicked(`resetButton`) => println("Resetting...")
+    case ButtonClicked(`startButton`) => controller.startSimulation()
+    case ButtonClicked(`stepButton`) => controller.simulationStep()
+    case ButtonClicked(`resetButton`) => controller.resetSimulation()
+    case ButtonClicked(`generateScenarioButton`) => controller.generateScenario()
     case ButtonClicked(`pauseResumeButton`) =>
       if pauseResumeButton.text == "Pause" then
+        controller.pauseSimulation()
         pauseResumeButton.text = "Resume"
       else
+        controller.resumeSimulation()
         pauseResumeButton.text = "Pause"
-
+    case SelectionChanged(`scenarioDropdown`) =>
+      println(s"Selected scenario: ${scenarioDropdown.selection.item}")
+      controller.changeScenario(null)
   }
     
