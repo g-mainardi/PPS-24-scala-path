@@ -12,8 +12,8 @@ directions(D):- cardinals(D).
 directions(D):- diagonals(D).
 
 % Stato iniziale e obiettivo
-init(s(0, 0)).
-goal(s(5, 3)).
+% init(s(0, 0)).
+% goal(s(5, 3)).
 
 % Regole di transizione: move(State, Direction, NewState)
 move(s(X,Y), up,         s(X, Y1)) :- Y1 is Y + 1.
