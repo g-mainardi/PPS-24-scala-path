@@ -1,6 +1,6 @@
 package it.unibo.model
 
-import Tiling.Tile
+import Tiling.*
 
 object Scenario:
   val nRows = 10
@@ -8,3 +8,11 @@ object Scenario:
 
 trait Scenario: 
   def generateScenario(): List[Tile]
+
+class DummyScenario extends Scenario:
+  override def generateScenario(): List[Tile] =
+    for
+      (tileType, ind) <- List(Floor(_), Grass(_), Teleport(_), Trap(_), Water(_), Lava(_), Rock(_)).zipWithIndex
+      pos: Position = Position(ind, ind)
+    yield
+      tileType(pos)
