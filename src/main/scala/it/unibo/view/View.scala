@@ -3,7 +3,8 @@ package it.unibo.view
 import it.unibo.controller.SimulationController
 import it.unibo.model.{Scenario, Tiling}
 
-import java.awt.geom.Rectangle2D
+import java.awt.Color
+import java.awt.geom.{Ellipse2D, Rectangle2D}
 import scala.swing.event.ButtonClicked
 import scala.swing.*
 
@@ -22,7 +23,7 @@ object ViewUtilities:
       case _: Lava => ORANGE
       case _: Rock => GRAY
   
-class View(scene: Scenario, controller: SimulationController) extends MainFrame:
+class View(controller: SimulationController) extends MainFrame:
   import ViewUtilities.*
   import it.unibo.ScalaPath.{gridOffset, cellSize, gridSize}
   title = "Demo Dimensioni"
@@ -38,18 +39,33 @@ class View(scene: Scenario, controller: SimulationController) extends MainFrame:
       given Graphics2D = g
       drawGrid(gridSize, cellSize, gridOffset)
       drawCells(cellSize, gridOffset)
+      drawAgent(gridOffset)
+
+    private def drawAgent(gridOffset: Int)(using g: Graphics2D): Unit =
+      val agent = controller.scenario.agent
+      g setColor Color.BLUE
+      val agentRect = new Ellipse2D.Double(
+        agent.y * cellSize + gridOffset,
+        agent.x * cellSize + gridOffset,
+        cellSize, cellSize
+      )
+      g fill agentRect
+
     private def drawCells(size: Int, gridOffset: Int)(using g: Graphics2D): Unit =
       def makeCell(x: Int, y: Int): Rectangle2D =
         new Rectangle2D.Double(y * size + gridOffset, x * size + gridOffset, size, size)
-      scene.generateScenario() foreach : t =>
+      print(controller.scenario.tiles)
+      controller.scenario.tiles foreach : t =>
         g setColor tileColor(t)
         g fill makeCell(t.x, t.y)
+
     private def drawGrid(size: Int, cellSize: Int, offset: Int)(using g: Graphics2D): Unit =
       List(0, size) foreach : i =>
         val gOffset = offset - 1
         val pos: Int = i * cellSize + gOffset
         g drawLine(gOffset, pos, size * cellSize + gOffset, pos)
         g drawLine(pos, gOffset, pos, size * cellSize + gOffset)
+
 
   private object ControlPanel extends FlowPanel(planButton, stepButton)
 
