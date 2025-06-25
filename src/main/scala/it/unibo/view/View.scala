@@ -29,8 +29,10 @@ class View(controller: SimulationController) extends MainFrame:
   title = "Demo Dimensioni"
   preferredSize = new Dimension(800, 600)
       
-  private val planButton = new Button("Plan")
+  private val startButton = new Button("Start")
+  private val resetButton = new Button("Reset")
   private val stepButton = new Button("Step")
+  private val pauseResumeButton = new Button("Pause")
 
   private val gridPanel: Panel = new Panel:
     preferredSize = new Dimension(200, 100)
@@ -67,16 +69,23 @@ class View(controller: SimulationController) extends MainFrame:
         g drawLine(pos, gOffset, pos, size * cellSize + gOffset)
 
 
-  private object ControlPanel extends FlowPanel(planButton, stepButton)
+  private object ControlPanel extends FlowPanel(startButton, stepButton, resetButton, pauseResumeButton)
 
   contents = new BorderPanel:
     import BorderPanel.Position
     layout(gridPanel) = Position.Center
-    layout(ControlPanel) = Position.South
+    layout(ControlPanel) = Position.North
 
-  listenTo(planButton, stepButton)
+  listenTo(startButton, stepButton, resetButton, pauseResumeButton)
   reactions += {
-    case ButtonClicked(`planButton`) => println("Planning...")
+    case ButtonClicked(`startButton`) => println("Starting...")
     case ButtonClicked(`stepButton`) => println("Stepping...")
+    case ButtonClicked(`resetButton`) => println("Resetting...")
+    case ButtonClicked(`pauseResumeButton`) =>
+      if pauseResumeButton.text == "Pause" then
+        pauseResumeButton.text = "Resume"
+      else
+        pauseResumeButton.text = "Pause"
+
   }
     
