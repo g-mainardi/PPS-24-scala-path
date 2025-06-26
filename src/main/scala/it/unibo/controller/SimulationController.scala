@@ -51,11 +51,11 @@ object SimulationControllerImpl extends SimulationController:
 
   override def resetSimulation(): Unit =
     scenario.resetAgent()
-    view foreach {_.repaint()}
+    updateView()
 
   override def resetScenario(): Unit =
     scenario.generateScenario()
-    view foreach(_.repaint())
+    updateView()
     resetSimulation()
 
   import GameState.*
@@ -82,8 +82,11 @@ object SimulationControllerImpl extends SimulationController:
   override def step(): Unit =
     scenario.agent computeCommand currentPlan.head
     currentPlan = currentPlan.tail
-    view foreach {_.repaint()}
+    updateView()
 
   private def planOver(): Unit =
     println("Plan terminated!")
     GameState setCurrent Reset
+  
+  private def updateView(): Unit =
+    view foreach {_.repaint()}
