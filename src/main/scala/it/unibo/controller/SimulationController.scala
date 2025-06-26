@@ -1,7 +1,6 @@
 package it.unibo.controller
 
 import it.unibo.model.{DummyPlanner, DummyScenario, Planner, Scenario}
-import it.unibo.model.Tiling.Tile
 import it.unibo.view.View
 
 trait SimulationController:
@@ -26,8 +25,17 @@ object SimulationControllerImpl extends SimulationController:
   override def changeScenario(scenario: Scenario): Unit =
     this.scenario = scenario
 
+  /**
+   * <li> Start a simulation: init to goal
+   * <li> It can be paused/resume
+   * <li> Reset stops it and it has to be re-started
+   */
   override def startSimulation(): Unit =
-    planner.plan
+    planner.plan take 3 foreach : cmd =>
+      println(s"Executing... $cmd")
+      scenario.agent computeCommand cmd
+      view foreach {_.repaint()}
+    println("Plan executed")
 
   override def pauseSimulation(): Unit = ()
 
