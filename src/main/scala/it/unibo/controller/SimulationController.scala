@@ -49,4 +49,3 @@ object SimulationControllerImpl extends SimulationController:
     scenario.generateScenario()
     view foreach(_.repaint())
     resetSimulation()
-

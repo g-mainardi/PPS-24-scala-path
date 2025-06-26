@@ -52,15 +52,15 @@ class View(controller: SimulationController) extends MainFrame:
       val agent = controller.scenario.agent
       g setColor Color.BLUE
       val agentRect = new Ellipse2D.Double(
-        agent.y * cellSize + gridOffset,
         agent.x * cellSize + gridOffset,
+        agent.y * cellSize + gridOffset,
         cellSize, cellSize
       )
       g fill agentRect
 
     private def drawCells(size: Int, gridOffset: Int)(using g: Graphics2D): Unit =
       def makeCell(x: Int, y: Int): Rectangle2D =
-        new Rectangle2D.Double(y * size + gridOffset, x * size + gridOffset, size, size)
+        new Rectangle2D.Double(x * size + gridOffset, y * size + gridOffset, size, size)
       print(controller.scenario.tiles)
       controller.scenario.tiles foreach : t =>
         g setColor tileColor(t)
