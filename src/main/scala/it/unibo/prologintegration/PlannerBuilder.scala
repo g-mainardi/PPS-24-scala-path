@@ -54,20 +54,6 @@ class PlannerBuilder private():
         import Conversions.given
         directions.map(_.map(s => s: Direction))
 
-        //        val result = directions.map { moveList =>
-//          moveList.flatMap {
-//            case "up" => Some(Cardinals.Up)
-//            case "down" => Some(Cardinals.Down)
-//            case "right" => Some(Cardinals.Right)
-//            case "left" => Some(Cardinals.Left)
-//            case "rightUp" => Some(Diagonals.RightUp)
-//            case "rightDown" => Some(Diagonals.RightDown)
-//            case "leftUp" => Some(Diagonals.LeftUp)
-//            case "leftDown" => Some(Diagonals.LeftDown)
-//            case _ => None
-//          }
-//        }
-
       case _ =>
         println("Planner not fully configured (missing init, goal, or maxMoves)")
         None
