@@ -5,25 +5,25 @@ import it.unibo.prologintegration.Scala2Prolog.*
 import it.unibo.prologintegration.Prolog2Scala.*
 import scala.io.Source
 
-class PlannerDSL private():
+class PlannerBuilder private():
   private var theoryStr: String = ""
   private var initPos: Option[(Int, Int)] = None
   private var goalPos: Option[(Int, Int)] = None
   private var maxMoves: Option[Int] = None
 
-  def withTheoryFrom(path: String): PlannerDSL =
+  def withTheoryFrom(path: String): PlannerBuilder =
     this.theoryStr = Source.fromFile(path).mkString
     this
 
-  def withInit(x: Int, y: Int): PlannerDSL =
+  def withInit(x: Int, y: Int): PlannerBuilder =
     this.initPos = Some((x, y))
     this
 
-  def withGoal(x: Int, y: Int): PlannerDSL =
+  def withGoal(x: Int, y: Int): PlannerBuilder =
     this.goalPos = Some((x, y))
     this
 
-  def withMaxMoves(m: Int): PlannerDSL =
+  def withMaxMoves(m: Int): PlannerBuilder =
     this.maxMoves = Some(m)
     this
 
@@ -47,11 +47,11 @@ class PlannerDSL private():
         println("Planner not fully configured (missing init, goal, or maxMoves)")
         None
 
-object PlannerDSL:
-  def apply(): PlannerDSL = new PlannerDSL()
+object PlannerBuilder:
+  def apply(): PlannerBuilder = new PlannerBuilder()
 
 @main def testPlannerDSL(): Unit =
-  val pathOpt = PlannerDSL()
+  val pathOpt = PlannerBuilder()
     .withTheoryFrom("src/main/prolog/basePlanner.pl")
     .withInit(0, 0)
     .withGoal(2, 2)

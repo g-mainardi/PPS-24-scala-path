@@ -1,13 +1,19 @@
 .idea/
 .bsp/
 .bloop/
+
 *.iml
 *.pdf
+
 bin
 out
+
 project/target
+project/.bloop
+
 target
 build
+
 .gradle
 *.DS_Store
 
