@@ -1,6 +1,6 @@
 package it.unibo.controller
 
-import it.unibo.model.{Direction, DummyPlanner, DummyScenario, Planner, Scenario}
+import it.unibo.model.{Direction, DummyPlanner, DummyScenario, MazeScenario, Planner, Scenario}
 import it.unibo.view.View
 
 import scala.annotation.tailrec
@@ -26,7 +26,7 @@ trait SimulationController:
   def initSimulation(): Unit = scenario.generateScenario()
   def attachView(view: View): Unit
   def changeScenario(scenario: Scenario): Unit
-  var scenario: Scenario = DummyScenario()
+  var scenario: Scenario = MazeScenario()
   protected var view: Option[View] = None
   protected var planner: Planner = DummyPlanner()
   protected var currentPlan: List[Direction] = planner.plan.get
