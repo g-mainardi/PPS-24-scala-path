@@ -31,10 +31,11 @@ object SimulationControllerImpl extends SimulationController:
    * <li> Reset stops it and it has to be re-started
    */
   override def startSimulation(): Unit =
-    planner.plan take 3 foreach : cmd =>
-      println(s"Executing... $cmd")
-      scenario.agent computeCommand cmd
-      view foreach {_.repaint()}
+    planner.plan foreach : p => 
+      p take 3 foreach : cmd =>
+        println(s"Executing... $cmd")
+        scenario.agent computeCommand cmd
+        view foreach {_.repaint()}
     println("Plan executed")
 
   override def pauseSimulation(): Unit = ()

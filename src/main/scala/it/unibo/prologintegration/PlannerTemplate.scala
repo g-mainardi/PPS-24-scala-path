@@ -19,13 +19,11 @@ class PlannerTemplate {
     val goal = Term.createTerm("plan(P, " + maxMoves + ")")
     val solutions = engine(goal)
 
-    val firstPath: Option[List[String]] =
-      solutions.headOption.map { info =>
+    // first path
+    solutions.headOption.map { info =>
         val listTerm = extractTerm(info, "P")
         extractListFromTerm(listTerm).toList
       }
-
-    firstPath
 }
 
 @main def testPlanner(): Unit =

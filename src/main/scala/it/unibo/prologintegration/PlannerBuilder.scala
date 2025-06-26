@@ -3,8 +3,15 @@ package it.unibo.prologintegration
 import alice.tuprolog.{Term, Theory}
 import it.unibo.prologintegration.Scala2Prolog.*
 import it.unibo.prologintegration.Prolog2Scala.*
+
+import scala.util.Try
 import scala.io.Source
 import it.unibo.model.{Direction, Cardinals, Diagonals}
+
+object Conversions:
+  given Conversion[String, Direction] with
+    def apply(s: String): Direction =
+      Try(Cardinals.valueOf(s.capitalize)).getOrElse(Diagonals.valueOf(s.capitalize))
 
 class PlannerBuilder private():
   private var theoryStr: String = ""
@@ -16,12 +23,12 @@ class PlannerBuilder private():
     this.theoryStr = Source.fromFile(path).mkString
     this
 
-  def withInit(x: Int, y: Int): PlannerBuilder =
-    this.initPos = Some((x, y))
+  def withInit(initPos: (Int, Int)): PlannerBuilder =
+    this.initPos = Some(initPos)
     this
 
-  def withGoal(x: Int, y: Int): PlannerBuilder =
-    this.goalPos = Some((x, y))
+  def withGoal(goal: (Int, Int)): PlannerBuilder =
+    this.goalPos = Some(goal)
     this
 
   def withMaxMoves(m: Int): PlannerBuilder =
@@ -44,21 +51,22 @@ class PlannerBuilder private():
           extractListFromTerm(listTerm).toList
         }
 
-        val result = directions.map { moveList =>
-          moveList.flatMap {
-            case "up" => Some(Cardinals.Up)
-            case "down" => Some(Cardinals.Down)
-            case "right" => Some(Cardinals.Right)
-            case "left" => Some(Cardinals.Left)
-            case "rightUp" => Some(Diagonals.RightUp)
-            case "rightDown" => Some(Diagonals.RightDown)
-            case "leftUp" => Some(Diagonals.LeftUp)
-            case "leftDown" => Some(Diagonals.LeftDown)
-            case _ => None
-          }
-        }
-        
-        result
+        import Conversions.given
+        directions.map(_.map(s => s: Direction))
+
+        //        val result = directions.map { moveList =>
+//          moveList.flatMap {
+//            case "up" => Some(Cardinals.Up)
+//            case "down" => Some(Cardinals.Down)
+//            case "right" => Some(Cardinals.Right)
+//            case "left" => Some(Cardinals.Left)
+//            case "rightUp" => Some(Diagonals.RightUp)
+//            case "rightDown" => Some(Diagonals.RightDown)
+//            case "leftUp" => Some(Diagonals.LeftUp)
+//            case "leftDown" => Some(Diagonals.LeftDown)
+//            case _ => None
+//          }
+//        }
 
       case _ =>
         println("Planner not fully configured (missing init, goal, or maxMoves)")
