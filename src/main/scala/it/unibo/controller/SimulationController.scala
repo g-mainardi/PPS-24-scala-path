@@ -10,50 +10,39 @@ object GameState:
     case Reset
     case Running
     case Paused
+    case Step
+    case Empty
   export State.*
-  @volatile private var current: State = Reset
+  @volatile private var current: State = Empty
   def getCurrent: State = synchronized{current}
   def setCurrent(s: State): Unit = synchronized{current = s}
 
 trait SimulationController:
-  def startSimulation(): Unit
-  def pauseSimulation(): Unit
-  def resumeSimulation(): Unit
-  def resetSimulation(): Unit
-  def resetScenario(): Unit
-  def simulationStep(): Unit
-  def generateScenario(): Unit
-  def initSimulation(): Unit = scenario.generateScenario()
-  def attachView(view: View): Unit
-  def changeScenario(scenario: Scenario): Unit
   var scenario: Scenario = DummyScenario()
   protected var view: Option[View] = None
   protected var planner: Planner = DummyPlanner()
   protected var currentPlan: List[Direction] = planner.plan.get
 
+  def initSimulation(): Unit = scenario.generateScenario()
+  def step(): Unit
+  def generateScenario(): Unit
+  def attachView(view: View): Unit
+  def changeScenario(scenario: Scenario): Unit
+
+  protected def pauseSimulation(): Unit
+  protected def resumeSimulation(): Unit
+  protected def resetSimulation(): Unit
+  protected def resetScenario(): Unit
+
 object SimulationControllerImpl extends SimulationController:
-  override def attachView(view: View): Unit =
-    this.view = Some(view)
+  override def attachView(view: View): Unit = this.view = Some(view)
 
-  override def changeScenario(scenario: Scenario): Unit =
-    this.scenario = scenario
-
-  /**
-   * <li> Start a simulation: init to goal
-   * <li> It can be paused/resume
-   * <li> Reset stops it and it has to be re-started
-   */
-  override def startSimulation(): Unit =
-    planner.plan foreach : p => 
-      p take 3 foreach : cmd =>
-        println(s"Executing... $cmd")
-        scenario.agent computeCommand cmd
-        view foreach {_.repaint()}
-    println("Plan executed")
+  override def changeScenario(scenario: Scenario): Unit = this.scenario = scenario
 
   override def pauseSimulation(): Unit = ()
 
   override def resumeSimulation(): Unit = ()
+
   override def generateScenario(): Unit = ()
 
   override def initSimulation(): Unit =
@@ -62,7 +51,8 @@ object SimulationControllerImpl extends SimulationController:
 
   override def resetSimulation(): Unit =
     scenario.resetAgent()
-  override def simulationStep(): Unit = ()
+    view foreach {_.repaint()}
+
   override def resetScenario(): Unit =
     scenario.generateScenario()
     view foreach(_.repaint())
@@ -72,21 +62,27 @@ object SimulationControllerImpl extends SimulationController:
   @tailrec
   private def loop(s: State): Unit =
     s match
-      case Reset   => ()
+      case Empty => ()
+      case Reset   =>
+        resetSimulation()
+        GameState setCurrent Empty
       case Paused  => ()
+      case Step =>
+        step()
+        GameState setCurrent Paused
       case Running =>
         if currentPlan.nonEmpty
         then
           step()
+          Thread sleep 500
         else
           planOver()
     loop(GameState.getCurrent)
 
-  private def step(): Unit =
+  override def step(): Unit =
     scenario.agent computeCommand currentPlan.head
     currentPlan = currentPlan.tail
     view foreach {_.repaint()}
-    Thread sleep 500
 
   private def planOver(): Unit =
     println("Plan terminated!")

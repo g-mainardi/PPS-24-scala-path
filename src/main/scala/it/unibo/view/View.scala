@@ -1,12 +1,12 @@
 package it.unibo.view
 
 import it.unibo.controller.{GameState, SimulationController}
-import it.unibo.model.{Scenario, Tiling}
+import it.unibo.model.Tiling
 
 import java.awt.Color
 import java.awt.geom.{Ellipse2D, Rectangle2D}
-import scala.swing.event.{ButtonClicked, SelectionChanged}
 import scala.swing.*
+import scala.swing.event.{ButtonClicked, SelectionChanged}
 
 object ViewUtilities:
   import Tiling.*
@@ -83,8 +83,8 @@ class View(controller: SimulationController) extends MainFrame:
   listenTo(startButton, stepButton, resetButton, pauseResumeButton, scenarioDropdown, generateScenarioButton)
   reactions += {
     case ButtonClicked(`startButton`) => GameState setCurrent GameState.Running
-    case ButtonClicked(`stepButton`) => controller.simulationStep()
-    case ButtonClicked(`resetButton`) => controller.resetSimulation()
+    case ButtonClicked(`stepButton`) => GameState setCurrent GameState.Step
+    case ButtonClicked(`resetButton`) => GameState setCurrent GameState.Reset
     case ButtonClicked(`generateScenarioButton`) => controller.generateScenario()
     case ButtonClicked(`pauseResumeButton`) =>
       if pauseResumeButton.text == "Pause" then
