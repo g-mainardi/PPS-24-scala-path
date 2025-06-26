@@ -27,7 +27,7 @@ object SimulationControllerImpl extends SimulationController:
     this.scenario = scenario
 
   override def startSimulation(): Unit =
-    planner.plan()
+    planner.plan
 
   override def pauseSimulation(): Unit = ()
 
