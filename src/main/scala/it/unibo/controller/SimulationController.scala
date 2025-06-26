@@ -1,7 +1,19 @@
 package it.unibo.controller
 
-import it.unibo.model.{DummyPlanner, DummyScenario, Planner, Scenario}
+import it.unibo.model.{Direction, DummyPlanner, DummyScenario, Planner, Scenario}
 import it.unibo.view.View
+
+import scala.annotation.tailrec
+
+object GameState:
+  enum State:
+    case Reset
+    case Running
+    case Paused
+  export State.*
+  @volatile private var current: State = Reset
+  def getCurrent: State = synchronized{current}
+  def setCurrent(s: State): Unit = synchronized{current = s}
 
 trait SimulationController:
   def startSimulation(): Unit
@@ -17,6 +29,7 @@ trait SimulationController:
   var scenario: Scenario = DummyScenario()
   protected var view: Option[View] = None
   protected var planner: Planner = DummyPlanner()
+  protected var currentPlan: List[Direction] = planner.plan.get
 
 object SimulationControllerImpl extends SimulationController:
   override def attachView(view: View): Unit =
@@ -43,6 +56,10 @@ object SimulationControllerImpl extends SimulationController:
   override def resumeSimulation(): Unit = ()
   override def generateScenario(): Unit = ()
 
+  override def initSimulation(): Unit =
+    super.initSimulation()
+    loop(GameState.getCurrent)
+
   override def resetSimulation(): Unit =
     scenario.resetAgent()
   override def simulationStep(): Unit = ()
@@ -50,3 +67,27 @@ object SimulationControllerImpl extends SimulationController:
     scenario.generateScenario()
     view foreach(_.repaint())
     resetSimulation()
+
+  import GameState.*
+  @tailrec
+  private def loop(s: State): Unit =
+    s match
+      case Reset   => ()
+      case Paused  => ()
+      case Running =>
+        if currentPlan.nonEmpty
+        then
+          step()
+        else
+          planOver()
+    loop(GameState.getCurrent)
+
+  private def step(): Unit =
+    scenario.agent computeCommand currentPlan.head
+    currentPlan = currentPlan.tail
+    view foreach {_.repaint()}
+    Thread sleep 500
+
+  private def planOver(): Unit =
+    println("Plan terminated!")
+    GameState setCurrent Reset
