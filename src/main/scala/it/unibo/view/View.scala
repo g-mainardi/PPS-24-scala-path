@@ -82,16 +82,16 @@ class View(controller: SimulationController) extends MainFrame:
 
   listenTo(startButton, stepButton, resetButton, pauseResumeButton, scenarioDropdown, generateScenarioButton)
   reactions += {
-    case ButtonClicked(`startButton`) => GameState setCurrent GameState.Running
-    case ButtonClicked(`stepButton`) => GameState setCurrent GameState.Step
-    case ButtonClicked(`resetButton`) => GameState setCurrent GameState.Reset
+    case ButtonClicked(`startButton`) => GameState set GameState.Running
+    case ButtonClicked(`stepButton`) => GameState set GameState.Step
+    case ButtonClicked(`resetButton`) => GameState set GameState.Reset
     case ButtonClicked(`generateScenarioButton`) => controller.generateScenario()
     case ButtonClicked(`pauseResumeButton`) =>
       if pauseResumeButton.text == "Pause" then
-        GameState setCurrent GameState.Paused
+        GameState set GameState.Paused
         pauseResumeButton.text = "Resume"
       else
-        GameState setCurrent GameState.Running
+        GameState set GameState.Running
         pauseResumeButton.text = "Pause"
     case SelectionChanged(`scenarioDropdown`) =>
       println(s"Selected scenario: ${scenarioDropdown.selection.item}")

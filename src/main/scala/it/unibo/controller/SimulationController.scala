@@ -13,9 +13,9 @@ object GameState:
     case Step
     case Empty
   export State.*
-  @volatile private var current: State = Empty
-  def getCurrent: State = synchronized{current}
-  def setCurrent(s: State): Unit = synchronized{current = s}
+  @volatile private var currentState: State = Empty
+  def current: State = synchronized{currentState}
+  def set(s: State): Unit = synchronized{currentState = s}
 
 trait SimulationController:
   var scenario: Scenario = DummyScenario()
@@ -47,7 +47,7 @@ object SimulationControllerImpl extends SimulationController:
 
   override def initSimulation(): Unit =
     super.initSimulation()
-    loop(GameState.getCurrent)
+    loop(GameState.current)
 
   override def resetSimulation(): Unit =
     scenario.resetAgent()
@@ -65,11 +65,11 @@ object SimulationControllerImpl extends SimulationController:
       case Empty => ()
       case Reset   =>
         resetSimulation()
-        GameState setCurrent Empty
+        GameState set Empty
       case Paused  => ()
       case Step =>
         step()
-        GameState setCurrent Paused
+        GameState set Paused
       case Running =>
         if currentPlan.nonEmpty
         then
@@ -77,7 +77,7 @@ object SimulationControllerImpl extends SimulationController:
           Thread sleep 500
         else
           planOver()
-    loop(GameState.getCurrent)
+    loop(GameState.current)
 
   override def step(): Unit =
     scenario.agent computeCommand currentPlan.head
@@ -86,7 +86,7 @@ object SimulationControllerImpl extends SimulationController:
 
   private def planOver(): Unit =
     println("Plan terminated!")
-    GameState setCurrent Reset
+    GameState set Reset
   
   private def updateView(): Unit =
     view foreach {_.repaint()}
