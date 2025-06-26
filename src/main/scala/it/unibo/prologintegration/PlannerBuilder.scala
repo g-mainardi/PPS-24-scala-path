@@ -4,6 +4,7 @@ import alice.tuprolog.{Term, Theory}
 import it.unibo.prologintegration.Scala2Prolog.*
 import it.unibo.prologintegration.Prolog2Scala.*
 import scala.io.Source
+import it.unibo.model.{Direction, Cardinals, Diagonals}
 
 class PlannerBuilder private():
   private var theoryStr: String = ""
@@ -27,7 +28,7 @@ class PlannerBuilder private():
     this.maxMoves = Some(m)
     this
 
-  def run(): Option[List[String]] =
+  def run(): Option[List[Direction]] =
     (initPos, goalPos, maxMoves) match
       case (Some((ix, iy)), Some((gx, gy)), Some(moves)) =>
         val initFact = s"init(s($ix, $iy))."
@@ -38,10 +39,26 @@ class PlannerBuilder private():
         val goal = Term.createTerm(s"plan(P, $moves)")
         val solutions = engine(goal)
 
-        solutions.headOption.map { info =>
+        val directions: Option[List[String]] = solutions.headOption.map { info =>
           val listTerm = extractTerm(info, "P")
           extractListFromTerm(listTerm).toList
         }
+
+        val result = directions.map { moveList =>
+          moveList.flatMap {
+            case "up" => Some(Cardinals.Up)
+            case "down" => Some(Cardinals.Down)
+            case "right" => Some(Cardinals.Right)
+            case "left" => Some(Cardinals.Left)
+            case "rightUp" => Some(Diagonals.RightUp)
+            case "rightDown" => Some(Diagonals.RightDown)
+            case "leftUp" => Some(Diagonals.LeftUp)
+            case "leftDown" => Some(Diagonals.LeftDown)
+            case _ => None
+          }
+        }
+        
+        result
 
       case _ =>
         println("Planner not fully configured (missing init, goal, or maxMoves)")
@@ -50,7 +67,7 @@ class PlannerBuilder private():
 object PlannerBuilder:
   def apply(): PlannerBuilder = new PlannerBuilder()
 
-@main def testPlannerDSL(): Unit =
+@main def testPlannerBuilder(): Unit =
   val pathOpt = PlannerBuilder()
     .withTheoryFrom("src/main/prolog/basePlanner.pl")
     .withInit(0, 0)
