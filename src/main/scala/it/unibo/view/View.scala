@@ -5,7 +5,8 @@ import it.unibo.model.{Scenario, Tiling}
 
 import java.awt.Color
 import java.awt.geom.{Ellipse2D, Rectangle2D}
-import scala.swing.event.ButtonClicked
+import scala.swing.event.{ButtonClicked, SelectionChanged}
+
 import scala.swing.*
 
 object ViewUtilities:
