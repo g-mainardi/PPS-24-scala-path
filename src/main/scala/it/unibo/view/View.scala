@@ -1,12 +1,11 @@
 package it.unibo.view
 
-import it.unibo.controller.SimulationController
+import it.unibo.controller.{GameState, SimulationController}
 import it.unibo.model.{Scenario, Tiling}
 
 import java.awt.Color
 import java.awt.geom.{Ellipse2D, Rectangle2D}
 import scala.swing.event.{ButtonClicked, SelectionChanged}
-
 import scala.swing.*
 
 object ViewUtilities:
@@ -61,7 +60,7 @@ class View(controller: SimulationController) extends MainFrame:
     private def drawCells(size: Int, gridOffset: Int)(using g: Graphics2D): Unit =
       def makeCell(x: Int, y: Int): Rectangle2D =
         new Rectangle2D.Double(x * size + gridOffset, y * size + gridOffset, size, size)
-      print(controller.scenario.tiles)
+      println(controller.scenario.tiles)
       controller.scenario.tiles foreach : t =>
         g setColor tileColor(t)
         g fill makeCell(t.x, t.y)
@@ -83,16 +82,16 @@ class View(controller: SimulationController) extends MainFrame:
 
   listenTo(startButton, stepButton, resetButton, pauseResumeButton, scenarioDropdown, generateScenarioButton)
   reactions += {
-    case ButtonClicked(`startButton`) => controller.startSimulation()
+    case ButtonClicked(`startButton`) => GameState setCurrent GameState.Running
     case ButtonClicked(`stepButton`) => controller.simulationStep()
     case ButtonClicked(`resetButton`) => controller.resetSimulation()
     case ButtonClicked(`generateScenarioButton`) => controller.generateScenario()
     case ButtonClicked(`pauseResumeButton`) =>
       if pauseResumeButton.text == "Pause" then
-        controller.pauseSimulation()
+        GameState setCurrent GameState.Paused
         pauseResumeButton.text = "Resume"
       else
-        controller.resumeSimulation()
+        GameState setCurrent GameState.Running
         pauseResumeButton.text = "Pause"
     case SelectionChanged(`scenarioDropdown`) =>
       println(s"Selected scenario: ${scenarioDropdown.selection.item}")
