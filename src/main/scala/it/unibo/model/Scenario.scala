@@ -3,8 +3,8 @@ package it.unibo.model
 import Tiling.*
 
 object Scenario:
-  val nRows = 10
-  val nCols = 10
+  val nRows = 100
+  val nCols = 100
 
 class Agent(val initialPosition: Position):
   var pos: Position = initialPosition
@@ -28,7 +28,3 @@ class DummyScenario extends Scenario:
       pos: Position = Position(ind, ind)
     yield
       tileType(pos)
-
-
-@main def TestScenario(): Unit =
-  println(DummyScenario().initialPosition)
