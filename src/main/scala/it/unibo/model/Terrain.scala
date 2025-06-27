@@ -74,7 +74,7 @@ class Terrain extends Scenario:
   override def generateScenario(): Unit =
     tiles =
       (for
-        x <- 0 until Scenario.nCols
-        y <- 0 until Scenario.nRows
+        x <- 0 until Scenario.nRows
+        y <- 0 until Scenario.nCols
       yield
         getTileFromNoise(PerlinNoise.getNoise(x, y, 0.15))(Position(x, y))).toList
