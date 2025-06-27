@@ -77,4 +77,4 @@ class Terrain extends Scenario:
         x <- 0 until Scenario.nCols
         y <- 0 until Scenario.nRows
       yield
-        getTileFromNoise(PerlinNoise.getNoise(x, y, 0.4))(Position(x, y))).toList
+        getTileFromNoise(PerlinNoise.getNoise(x, y, 0.15))(Position(x, y))).toList
