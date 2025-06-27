@@ -17,36 +17,50 @@ object GameState:
   def current: State = synchronized{currentState}
   def set(s: State): Unit = synchronized{currentState = s}
 
-trait SimulationController:
+trait ScenarioManager:
   var scenario: Scenario = DummyScenario()
-  protected var view: Option[View] = None
-  protected var planner: Planner = DummyPlanner()
-  protected var currentPlan: List[Direction] = planner.plan.get
 
-  def initSimulation(): Unit = scenario.generateScenario()
-  def step(): Unit
+  def changeScenario(newScenario: Scenario): Unit = scenario = newScenario
   def generateScenario(): Unit
-  def attachView(view: View): Unit
-  def changeScenario(scenario: Scenario): Unit
 
-  protected def pauseSimulation(): Unit
-  protected def resumeSimulation(): Unit
-  protected def resetSimulation(): Unit
-  protected def resetScenario(): Unit
+trait PlannerManager:
+  protected var planner: Option[Planner] = Some(DummyPlanner())
+  protected var currentPlan: List[Direction] = List()
 
-object SimulationControllerImpl extends SimulationController:
-  override def attachView(view: View): Unit = this.view = Some(view)
+  def refreshPlan(): Unit = currentPlan = planner match
+    case Some(p) => p.plan getOrElse List()
+    case None    => List()
 
-  override def changeScenario(scenario: Scenario): Unit = this.scenario = scenario
+trait ViewAttachable:
+  protected var view: Option[View] = None
 
-  override def pauseSimulation(): Unit = ()
+  final def attachView(v: View): Unit = view = Some(v)
 
-  override def resumeSimulation(): Unit = ()
+trait ControllableSimulation:
+  def pause(): Unit
+  def resume(): Unit
+  def resetSimulation(): Unit
+  def resetScenario(): Unit
 
-  override def generateScenario(): Unit = ()
+trait SimulationController extends ScenarioManager:
+  def step(): Unit
+  def initSimulation(): Unit
+
+object SimulationControllerImpl extends SimulationController
+  with ScenarioManager
+  with PlannerManager
+  with ViewAttachable
+  with ControllableSimulation:
+
+  override def pause(): Unit = ()
+
+  override def resume(): Unit = ()
+
+  override def generateScenario(): Unit = scenario.generateScenario()
 
   override def initSimulation(): Unit =
-    super.initSimulation()
+    generateScenario()
+    refreshPlan()
     loop(GameState.current)
 
   override def resetSimulation(): Unit =
@@ -54,7 +68,7 @@ object SimulationControllerImpl extends SimulationController:
     updateView()
 
   override def resetScenario(): Unit =
-    scenario.generateScenario()
+    generateScenario()
     updateView()
     resetSimulation()
 
