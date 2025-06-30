@@ -3,7 +3,7 @@ package it.unibo.model
 import it.unibo.model.Tiling.{Floor, Position, Tile, Wall}
 import scala.util.Random
 
-class MazeScenario extends Scenario:
+class Maze extends Scenario:
 
   def initialPosition: Position = Position(1, 1, false)
 

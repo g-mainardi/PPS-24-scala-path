@@ -1,6 +1,6 @@
 package it.unibo.controller
 
-import it.unibo.model.{BasePlanner, Direction, DummyPlanner, DummyScenario, MazeScenario, Planner, PlannerWithTiles, Scenario}
+import it.unibo.model.{BasePlanner, Direction, DummyPlanner, DummyScenario, Maze, Planner, PlannerWithTiles, Scenario}
 import it.unibo.model.{Direction, DummyPlanner, Planner, Scenario, Terrain}
 import it.unibo.view.View
 
@@ -19,7 +19,7 @@ object GameState:
   def set(s: State): Unit = synchronized{currentState = s}
 
 trait ScenarioManager:
-  var scenario: Scenario = Terrain()
+  var scenario: Scenario = Maze()
 
   def changeScenario(newScenario: Scenario): Unit = scenario = newScenario
   def generateScenario(): Unit
@@ -53,9 +53,9 @@ object SimulationControllerImpl extends SimulationController
   with ViewAttachable
   with ControllableSimulation:
 
-//  planner = Some(BasePlanner((0,0), (5,5), 15, scenario.tiles))
-  planner = Some(DummyPlanner())
- // planner = Some(PlannerWithTiles((0,0), (5,5), 100, scenario.tiles))
+  // planner = Some(DummyPlanner())
+  // planner = Some(BasePlanner((0,0), (2,2), 5))
+  // planner = Some(PlannerWithTiles((0,0), (5,5), 100, scenario.tiles))
 
   override def pause(): Unit = ()
 
@@ -65,7 +65,11 @@ object SimulationControllerImpl extends SimulationController
 
   override def initSimulation(): Unit =
     generateScenario()
+    // planner = Some(BasePlanner((0,0), (2,2), 5))
+    planner = Some(PlannerWithTiles((0,0), (4,4), 7, scenario.tiles))
     refreshPlan()
+    println("Current plan " + currentPlan)
+    println(currentPlan mkString " -> ")
     loop(GameState.current)
 
   override def resetSimulation(): Unit =

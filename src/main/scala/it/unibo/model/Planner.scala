@@ -21,10 +21,11 @@ class BasePlanner(initPos:(Int, Int), goal:(Int, Int), maxMoves:Int) extends Pla
 
 class PlannerWithTiles(initPos:(Int, Int), goal:(Int, Int), maxMoves:Int, tiles: List[Tile]) extends Planner:
   override def plan: Option[List[Direction]] =
+    println(s"Tiles: $tiles")
     PlannerBuilder()
       .withTheoryFrom("src/main/prolog/plannerWithTiles.pl")
       .withInit(initPos)
       .withGoal(goal)
-      .withMaxMoves(maxMoves)
       .withTiles(tiles)
+      .withMaxMoves(maxMoves)
       .run

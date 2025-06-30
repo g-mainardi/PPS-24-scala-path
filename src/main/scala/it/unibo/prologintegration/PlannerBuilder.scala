@@ -37,12 +37,18 @@ class PlannerBuilder:
     this
 
   def withTiles(tiles: List[Tile]): PlannerBuilder =
+    if tiles.isEmpty then
+      println("No tiles provided, skipping tile facts generation.")
+      return this
+
     val tileFacts =  tiles.map {
       case p: Passage => s"passable(${p.x}, ${p.y})."
       case o: Obstacle => s"blocked(${o.x}, ${o.y})."
     }.mkString("\n")
 
+    // println(s"$tileFacts\n")
     this.theoryStr += s"\n$tileFacts"
+
     this
 
   def run: Option[List[Direction]] =
@@ -50,6 +56,9 @@ class PlannerBuilder:
       case (Some((ix, iy)), Some((gx, gy)), Some(moves)) =>
         val initFact = s"init(s($ix, $iy))."
         val goalFact = s"goal(s($gx, $gy))."
+
+        // println(s"$initFact\n$goalFact\n$theoryStr\n")
+
         val fullTheory = new Theory(s"$theoryStr\n$initFact\n$goalFact")
 
         val engine: Engine = mkPrologEngine(fullTheory)
