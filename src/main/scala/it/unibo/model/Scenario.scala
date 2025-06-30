@@ -16,6 +16,8 @@ object Scenario:
     yield
       Position(x, y)
     positions(rand nextInt positions.size)
+  
+  def randomPositions(size: Int): Set[Position] = Set.fill(size)(randomPosition)
 
 class Agent(val initialPosition: Position):
   var pos: Position = initialPosition
