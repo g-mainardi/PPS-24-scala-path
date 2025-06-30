@@ -14,7 +14,7 @@ class Traps extends Scenario:
 
   override def initialPosition: Position = Position(0, 0)
 
-  override def generateScenario(): Unit =
+  override def generate(): Unit =
     tiles = (for
       x <- 0 to nRows
       y <- 0 to nCols

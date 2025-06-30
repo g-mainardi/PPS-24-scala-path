@@ -71,7 +71,7 @@ class Terrain extends Scenario:
 
   def initialPosition: Position = Position(0, 0)
 
-  override def generateScenario(): Unit =
+  override def generate(): Unit =
     tiles =
       (for
         x <- 0 until Scenario.nRows

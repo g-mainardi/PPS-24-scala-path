@@ -73,7 +73,7 @@ object SimulationControllerImpl extends SimulationController
   override def resume(): Unit = ()
 
   override def generateScenario(): Unit =
-    scenario.generateScenario()
+    scenario.generate()
     updateView()
 
   override def initSimulation(): Unit =

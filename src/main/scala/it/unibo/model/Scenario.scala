@@ -30,13 +30,13 @@ trait Scenario:
   def initialPosition: Position
   var agent: Agent = Agent(initialPosition)
   var tiles: List[Tile] = List()
-  def generateScenario(): Unit
+  def generate(): Unit
   def resetAgent(): Unit = agent = Agent(initialPosition)
   override def toString: String = s"${getClass.getSimpleName}"
 
 class DummyScenario extends Scenario:
   def initialPosition: Position = Position(0, 0)
-  override def generateScenario(): Unit =
+  override def generate(): Unit =
     tiles = for
       (tileType, ind) <- List(Floor(_), Grass(_), Teleport(_), Trap(_), Water(_), Lava(_), Rock(_)).zipWithIndex
       pos: Position = Position(ind, ind)

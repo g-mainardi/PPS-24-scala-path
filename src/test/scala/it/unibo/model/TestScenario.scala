@@ -7,12 +7,12 @@ import org.scalatest.matchers.should.Matchers
 class TestScenario extends AnyFlatSpec with Matchers:
   "A Scenario" should "generate some tiling" in :
     val scenario: Scenario = DummyScenario()
-    scenario.generateScenario()
+    scenario.generate()
     scenario.tiles should not be empty  
 
   "A Scenario" should "have agent in initial position" in :
     val scenario: Scenario = DummyScenario()
-    scenario.generateScenario()
+    scenario.generate()
     scenario.agent.pos shouldEqual scenario.initialPosition
 
   "A DummyScenario" should "have initial position (0, 0)" in :
@@ -27,5 +27,5 @@ class TestScenario extends AnyFlatSpec with Matchers:
       case _ => false
 
     countTrampoline(scenario.tiles) should be (0)
-    scenario.generateScenario()
+    scenario.generate()
     countTrampoline(scenario.tiles) shouldEqual scenario.nTrampolines
