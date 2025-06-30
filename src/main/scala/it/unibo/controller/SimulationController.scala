@@ -1,7 +1,8 @@
 package it.unibo.controller
 
-import it.unibo.model.{Direction, DummyPlanner, Maze, Planner, PlannerWithTiles, Scenario, Terrain, Traps}
+import it.unibo.model.*
 import it.unibo.view.View
+import Tiling.Position
 
 import scala.annotation.tailrec
 
@@ -34,6 +35,13 @@ trait PlannerManager:
     case Some(p) => p.plan getOrElse List()
     case None    => List()
 
+trait PathManager:
+  protected var path: List[Position] = List()
+
+  protected def addToPath(p: Position): Unit = path = path :+ p
+  protected def resetPath(): Unit = path = List()
+  def getPath: List[Position] = path
+
 trait ViewAttachable:
   protected var view: Option[View] = None
 
@@ -52,6 +60,7 @@ trait SimulationController extends ScenarioManager:
 object SimulationControllerImpl extends SimulationController
   with ScenarioManager
   with PlannerManager
+  with PathManager
   with ViewAttachable
   with ControllableSimulation:
 
@@ -63,10 +72,9 @@ object SimulationControllerImpl extends SimulationController
 
   override def resume(): Unit = ()
 
-  override def generateScenario(): Unit = {
+  override def generateScenario(): Unit =
     scenario.generateScenario()
     updateView()
-  }
 
   override def initSimulation(): Unit =
     generateScenario()
@@ -79,11 +87,11 @@ object SimulationControllerImpl extends SimulationController
 
   override def resetSimulation(): Unit =
     scenario.resetAgent()
+    resetPath()
     updateView()
 
   override def resetScenario(): Unit =
     generateScenario()
-    updateView()
     resetSimulation()
 
   import GameState.*
@@ -108,10 +116,10 @@ object SimulationControllerImpl extends SimulationController
       case ChangeScenario(scenarioIndex) =>
         changeScenario(scenarios(scenarioIndex))
 
-
     loop(GameState.current)
 
   override def step(): Unit =
+    addToPath(scenario.agent.pos)
     scenario.agent computeCommand currentPlan.head
     currentPlan = currentPlan.tail
     updateView()
