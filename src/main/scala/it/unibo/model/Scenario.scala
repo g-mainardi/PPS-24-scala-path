@@ -41,3 +41,7 @@ class DummyScenario extends Scenario:
       pos: Position = Position(ind, ind)
     yield
       tileType(pos)
+
+
+@main def TestScenario(): Unit =
+  println(DummyScenario().initialPosition)

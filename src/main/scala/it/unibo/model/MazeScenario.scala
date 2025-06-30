@@ -56,4 +56,6 @@ class MazeScenario extends Scenario:
     val exitY = gridCols - 2
     mazeTiles += Position(exitX, exitY) -> Floor(Position(exitX, exitY))
 
+    println(s"exit at: (${exitX}, ${exitY})")
+
     tiles = mazeTiles.values.toList

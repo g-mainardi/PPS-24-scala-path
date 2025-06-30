@@ -1,5 +1,6 @@
 package it.unibo.controller
 
+import it.unibo.model.{BasePlanner, Direction, DummyPlanner, DummyScenario, MazeScenario, Planner, PlannerWithTiles, Scenario}
 import it.unibo.model.{Direction, DummyPlanner, Planner, Scenario, Terrain}
 import it.unibo.view.View
 
@@ -54,6 +55,7 @@ object SimulationControllerImpl extends SimulationController
 
 //  planner = Some(BasePlanner((0,0), (5,5), 15, scenario.tiles))
   planner = Some(DummyPlanner())
+ // planner = Some(PlannerWithTiles((0,0), (5,5), 100, scenario.tiles))
 
   override def pause(): Unit = ()
 

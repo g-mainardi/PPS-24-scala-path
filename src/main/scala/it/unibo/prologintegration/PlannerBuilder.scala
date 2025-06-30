@@ -1,7 +1,7 @@
 package it.unibo.prologintegration
 
 import alice.tuprolog.{Term, Theory}
-import it.unibo.model.Tiling.{Obstacle, Passage, Tile}
+import it.unibo.model.Tiling.*
 import it.unibo.prologintegration.Scala2Prolog.*
 import it.unibo.prologintegration.Prolog2Scala.*
 
@@ -73,15 +73,15 @@ object PlannerBuilder:
 
 @main def testPlannerBuilder(): Unit =
   val pathOpt = PlannerBuilder()
-    .withTheoryFrom("src/main/prolog/basePlanner.pl")
+    .withTheoryFrom("src/main/prolog/plannerWithTiles.pl")
     .withInit(0, 0)
     .withGoal(2, 2)
     .withMaxMoves(5)
     .withTiles(List(
-      it.unibo.model.Tiling.Floor(it.unibo.model.Tiling.Position(0, 0)),
-      it.unibo.model.Tiling.Grass(it.unibo.model.Tiling.Position(0, 1)),
-      it.unibo.model.Tiling.Trap(it.unibo.model.Tiling.Position(1, 1)),
-      it.unibo.model.Tiling.Teleport(it.unibo.model.Tiling.Position(2, 2))
+      Floor(Position(0, 0)),
+      Grass(Position(0, 1)),
+      Floor(Position(1, 1)),
+     Floor(Position(2, 2))
     ))
     .run
 
