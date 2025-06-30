@@ -6,6 +6,17 @@ object Scenario:
   val nRows = 10
   val nCols = 10
 
+  import scala.util.Random
+  private val rand = Random(seed = 42)
+
+  def randomPosition: Position =
+    val positions: Seq[Position] = for
+      x <- 0 to nRows
+      y <- 0 to nCols
+    yield
+      Position(x, y)
+    positions(rand nextInt positions.size)
+
 class Agent(val initialPosition: Position):
   var pos: Position = initialPosition
   def x: Int = pos.x
