@@ -1,7 +1,11 @@
 package it.unibo.controller
 
+<<<<<<< Updated upstream
 import it.unibo.model.{Direction, DummyPlanner, DummyScenario, Planner, Scenario}
+=======
+>>>>>>> Stashed changes
 import it.unibo.view.View
+import it.unibo.model.{BasePlanner, Direction, DummyPlanner, DummyScenario, MazeScenario, Planner, Scenario}
 
 import scala.annotation.tailrec
 
@@ -24,7 +28,7 @@ trait ScenarioManager:
   def generateScenario(): Unit
 
 trait PlannerManager:
-  protected var planner: Option[Planner] = Some(DummyPlanner())
+  protected var planner: Option[Planner] = None
   protected var currentPlan: List[Direction] = List()
 
   def refreshPlan(): Unit = currentPlan = planner match
@@ -51,6 +55,8 @@ object SimulationControllerImpl extends SimulationController
   with PlannerManager
   with ViewAttachable
   with ControllableSimulation:
+
+  planner = Some(BasePlanner((0,0), (5,5), 15, scenario.tiles))
 
   override def pause(): Unit = ()
 
