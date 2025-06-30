@@ -19,6 +19,7 @@ object GameState:
 
 trait ScenarioManager:
   var scenario: Scenario = MazeScenario()
+  
 trait SimulationController:
   var scenario: Scenario = Terrain()
   protected var view: Option[View] = None
