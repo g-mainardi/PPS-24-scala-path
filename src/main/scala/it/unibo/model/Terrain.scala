@@ -4,10 +4,10 @@ import scala.math.*
 import Tiling.*
 
 object PerlinNoise:
-
-  private val permutation: Array[Int] =
+  
+  def randomPermutation: Array[Int] =
     val base = Array.tabulate(256)(identity)
-    val shuffled = scala.util.Random.shuffle(base.toSeq).toArray
+    val shuffled = Random.shuffle(base.toSeq).toArray
     shuffled ++ shuffled
 
   private def fade(t: Double): Double =
@@ -34,7 +34,7 @@ object PerlinNoise:
    * @param y
    * @return
    */
-  def getNoise(x: Int, y: Int, scale: Double): Double =
+  def getNoise(x: Int, y: Int, scale: Double, permutation: Array[Int]): Double =
     val X = floor(x * scale).toInt & 255
     val Y = floor(y * scale).toInt & 255
 
@@ -59,22 +59,19 @@ object PerlinNoise:
 class Terrain extends Scenario:
 
   private def getTileFromNoise(noise: Double)(position: Position): Tile =
-    if noise < 0.4 then
-      Water(position)
-    else if noise < 0.7 then
-      Grass(position)
-    else if noise < 0.9 then
-      Rock(position)
-    else
-      Lava(position)
+    if noise < 0.4 then Water(position)
+    else if noise < 0.7 then Grass(position)
+    else if noise < 0.9 then Rock(position)
+    else Lava(position)
 
 
   def initialPosition: Position = Position(0, 0)
 
   override def generateScenario(): Unit =
+    val permutation = PerlinNoise.randomPermutation
     tiles =
       (for
         x <- 0 until Scenario.nRows
         y <- 0 until Scenario.nCols
-      yield
-        getTileFromNoise(PerlinNoise.getNoise(x, y, 0.15))(Position(x, y))).toList
+      yield 
+        getTileFromNoise(PerlinNoise.getNoise(x, y, 0.15, permutation))(Position(x, y))).toList
