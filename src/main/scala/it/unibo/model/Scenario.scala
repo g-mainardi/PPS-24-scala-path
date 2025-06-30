@@ -3,8 +3,8 @@ package it.unibo.model
 import Tiling.*
 
 object Scenario:
-  val nRows = 5
-  val nCols = 5
+  val nRows = 60
+  val nCols = 30
 
   import scala.util.Random
   private val rand = Random(seed = 42)
@@ -32,6 +32,7 @@ trait Scenario:
   var tiles: List[Tile] = List()
   def generateScenario(): Unit
   def resetAgent(): Unit = agent = Agent(initialPosition)
+  override def toString: String = s"${getClass.getSimpleName}"
 
 class DummyScenario extends Scenario:
   def initialPosition: Position = Position(0, 0)

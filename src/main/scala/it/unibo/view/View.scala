@@ -6,7 +6,7 @@ import it.unibo.model.Tiling
 import java.awt.Color
 import java.awt.geom.{Ellipse2D, Rectangle2D}
 import scala.swing.*
-import scala.swing.event.{ButtonClicked, SelectionChanged}
+import scala.swing.event.{ButtonClicked, Event, SelectionChanged}
 
 object ViewUtilities:
   import Tiling.*
@@ -34,8 +34,7 @@ class View(controller: SimulationController) extends MainFrame:
   private val stepButton = new Button("Step")
   private val pauseResumeButton = new Button("Pause")
   private val generateScenarioButton = new Button("Generate scenario")
-  private val scenarios = Seq("Maze", "Map", "Trap")
-  private val scenarioDropdown = new ComboBox(scenarios)
+  private val scenarioDropdown = new ComboBox(controller.getScenarioNames)
 
 
   private val gridPanel: Panel = new Panel:
@@ -60,7 +59,7 @@ class View(controller: SimulationController) extends MainFrame:
     private def drawCells(size: Int, gridOffset: Int)(using g: Graphics2D): Unit =
       def makeCell(x: Int, y: Int): Rectangle2D =
         new Rectangle2D.Double(x * size + gridOffset, y * size + gridOffset, size, size)
-      println(controller.scenario.tiles)
+      //println(controller.scenario.tiles)
       controller.scenario.tiles foreach : t =>
         g setColor tileColor(t)
         g fill makeCell(t.x, t.y)
@@ -80,7 +79,7 @@ class View(controller: SimulationController) extends MainFrame:
     layout(gridPanel) = Position.Center
     layout(ControlPanel) = Position.North
 
-  listenTo(startButton, stepButton, resetButton, pauseResumeButton, scenarioDropdown, generateScenarioButton)
+  listenTo(startButton, stepButton, resetButton, pauseResumeButton, scenarioDropdown.selection, generateScenarioButton)
   reactions += {
     case ButtonClicked(`startButton`) => GameState set GameState.Running
     case ButtonClicked(`stepButton`) => GameState set GameState.Step
@@ -95,6 +94,6 @@ class View(controller: SimulationController) extends MainFrame:
         pauseResumeButton.text = "Pause"
     case SelectionChanged(`scenarioDropdown`) =>
       println(s"Selected scenario: ${scenarioDropdown.selection.item}")
-      controller.changeScenario(null)
+      GameState set GameState.ChangeScenario(scenarioDropdown.selection.index)
   }
     

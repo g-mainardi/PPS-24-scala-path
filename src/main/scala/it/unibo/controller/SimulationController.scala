@@ -1,7 +1,6 @@
 package it.unibo.controller
 
-import it.unibo.model.{BasePlanner, Direction, DummyPlanner, DummyScenario, Maze, Planner, PlannerWithTiles, Scenario}
-import it.unibo.model.{Direction, DummyPlanner, Planner, Scenario, Terrain}
+import it.unibo.model.{Direction, DummyPlanner, Maze, Planner, PlannerWithTiles, Scenario, Terrain}
 import it.unibo.view.View
 
 import scala.annotation.tailrec
@@ -13,14 +12,17 @@ object GameState:
     case Paused
     case Step
     case Empty
+    case ChangeScenario(scenarioIndex: Int)
   export State.*
   @volatile private var currentState: State = Empty
   def current: State = synchronized{currentState}
   def set(s: State): Unit = synchronized{currentState = s}
 
 trait ScenarioManager:
-  var scenario: Scenario = Maze()
+  var scenarios: List[Scenario] = Terrain() :: Maze() :: Nil
+  var scenario: Scenario = scenarios.head
 
+  def getScenarioNames: List[String] = scenarios.map(_.toString)
   def changeScenario(newScenario: Scenario): Unit = scenario = newScenario
   def generateScenario(): Unit
 
@@ -61,7 +63,10 @@ object SimulationControllerImpl extends SimulationController
 
   override def resume(): Unit = ()
 
-  override def generateScenario(): Unit = scenario.generateScenario()
+  override def generateScenario(): Unit = {
+    scenario.generateScenario()
+    updateView()
+  }
 
   override def initSimulation(): Unit =
     generateScenario()
@@ -100,6 +105,10 @@ object SimulationControllerImpl extends SimulationController
           Thread sleep 500
         else
           planOver()
+      case ChangeScenario(scenarioIndex) =>
+        changeScenario(scenarios(scenarioIndex))
+
+
     loop(GameState.current)
 
   override def step(): Unit =
