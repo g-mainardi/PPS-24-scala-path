@@ -11,7 +11,7 @@ object ScalaPath extends SimpleSwingApplication:
   SimulationControllerImpl attachView view
 
   val cellSize = 20
-  val gridSize = 9
+  val gridSize = 30
   val gridOffset = 50
 
   override def top: Frame = view

@@ -1,7 +1,7 @@
 package it.unibo.controller
 
+import it.unibo.model.{Direction, DummyPlanner, DummyScenario, MazeScenario, Planner, Scenario}
 import it.unibo.view.View
-import it.unibo.model.{BasePlanner, Direction, DummyPlanner, DummyScenario, Planner, Scenario}
 
 import scala.annotation.tailrec
 
@@ -18,7 +18,7 @@ object GameState:
   def set(s: State): Unit = synchronized{currentState = s}
 
 trait ScenarioManager:
-  var scenario: Scenario = DummyScenario()
+  var scenario: Scenario = MazeScenario()
 
   def changeScenario(newScenario: Scenario): Unit = scenario = newScenario
   def generateScenario(): Unit
@@ -103,6 +103,6 @@ object SimulationControllerImpl extends SimulationController
   private def planOver(): Unit =
     println("Plan terminated!")
     GameState set Reset
-  
+
   private def updateView(): Unit =
     view foreach {_.repaint()}
