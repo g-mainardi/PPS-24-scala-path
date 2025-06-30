@@ -21,7 +21,7 @@ object Tiling:
   case class Arrow(protected val pos: Position, direction: Direction) extends Passage
   
   sealed trait Obstacle extends Tile
-  case class Wall(protected val pos: Position, directions: Set[Cardinals]) extends Obstacle
+  case class Wall(protected val pos: Position) extends Obstacle
   case class Trap(protected val pos: Position) extends Obstacle
   case class Water(protected val pos: Position) extends Obstacle
   case class Lava(protected val pos: Position) extends Obstacle

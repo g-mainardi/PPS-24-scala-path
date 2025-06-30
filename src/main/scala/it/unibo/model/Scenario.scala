@@ -3,8 +3,8 @@ package it.unibo.model
 import Tiling.*
 
 object Scenario:
-  val nRows = 10
-  val nCols = 10
+  val nRows = 60
+  val nCols = 35
 
   import scala.util.Random
   private val rand = Random(seed = 42)
@@ -41,7 +41,3 @@ class DummyScenario extends Scenario:
       pos: Position = Position(ind, ind)
     yield
       tileType(pos)
-
-
-@main def TestScenario(): Unit =
-  println(DummyScenario().initialPosition)

@@ -1,6 +1,6 @@
 package it.unibo.controller
 
-import it.unibo.model.{Direction, DummyPlanner, DummyScenario, Planner, Scenario}
+import it.unibo.model.{Direction, DummyPlanner, Planner, Scenario, Terrain}
 import it.unibo.view.View
 
 import scala.annotation.tailrec
@@ -18,13 +18,13 @@ object GameState:
   def set(s: State): Unit = synchronized{currentState = s}
 
 trait ScenarioManager:
-  var scenario: Scenario = DummyScenario()
+  var scenario: Scenario = Terrain()
 
   def changeScenario(newScenario: Scenario): Unit = scenario = newScenario
   def generateScenario(): Unit
 
 trait PlannerManager:
-  protected var planner: Option[Planner] = Some(DummyPlanner())
+  protected var planner: Option[Planner] = None
   protected var currentPlan: List[Direction] = List()
 
   def refreshPlan(): Unit = currentPlan = planner match
@@ -51,6 +51,9 @@ object SimulationControllerImpl extends SimulationController
   with PlannerManager
   with ViewAttachable
   with ControllableSimulation:
+
+//  planner = Some(BasePlanner((0,0), (5,5), 15, scenario.tiles))
+  planner = Some(DummyPlanner())
 
   override def pause(): Unit = ()
 
@@ -101,6 +104,6 @@ object SimulationControllerImpl extends SimulationController
   private def planOver(): Unit =
     println("Plan terminated!")
     GameState set Reset
-  
+
   private def updateView(): Unit =
     view foreach {_.repaint()}
