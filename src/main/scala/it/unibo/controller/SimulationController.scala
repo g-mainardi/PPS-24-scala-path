@@ -1,11 +1,7 @@
 package it.unibo.controller
 
-<<<<<<< Updated upstream
-import it.unibo.model.{Direction, DummyPlanner, DummyScenario, Planner, Scenario}
-=======
->>>>>>> Stashed changes
 import it.unibo.view.View
-import it.unibo.model.{BasePlanner, Direction, DummyPlanner, DummyScenario, MazeScenario, Planner, Scenario}
+import it.unibo.model.{BasePlanner, Direction, DummyPlanner, DummyScenario, Planner, Scenario}
 
 import scala.annotation.tailrec
 

@@ -80,7 +80,6 @@ object PlannerBuilder:
     .withTiles(List(
       it.unibo.model.Tiling.Floor(it.unibo.model.Tiling.Position(0, 0)),
       it.unibo.model.Tiling.Grass(it.unibo.model.Tiling.Position(0, 1)),
-      it.unibo.model.Tiling.Wall(it.unibo.model.Tiling.Position(1, 0)),
       it.unibo.model.Tiling.Trap(it.unibo.model.Tiling.Position(1, 1)),
       it.unibo.model.Tiling.Teleport(it.unibo.model.Tiling.Position(2, 2))
     ))

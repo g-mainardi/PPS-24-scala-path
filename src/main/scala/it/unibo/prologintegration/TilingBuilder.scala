@@ -16,7 +16,6 @@ object TilingBuilder {
   val tiles = List(
     Floor(Position(0, 0)),
     Grass(Position(0, 1)),
-    Wall(Position(1, 0)),
     Trap(Position(1, 1)),
     Teleport(Position(2, 2))
   )
