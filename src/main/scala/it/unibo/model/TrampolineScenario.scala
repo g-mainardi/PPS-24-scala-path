@@ -1,0 +1,28 @@
+package it.unibo.model
+
+import it.unibo.model.Scenario.*
+import it.unibo.model.Tiling.*
+
+object TrampolinePos:
+  private var trampolines: Set[Position] = Set.empty
+  def set(p: Set[Position]): Unit = trampolines = p
+  def unapply(t: Tile): Option[Position] = t match
+    case TilePos(pos) => trampolines find (_ == pos)
+
+class TrampolineScenario extends Scenario:
+  val nTrampolines = 4
+
+  override def initialPosition: Position = Position(0, 0)
+
+  override def generateScenario(): Unit =
+    tiles = (for
+      x <- 0 to nRows
+      y <- 0 to nCols
+      pos: Position = Position(x, y)
+    yield
+      Floor(pos)).toList
+
+    TrampolinePos set randomPositions(nTrampolines)
+    tiles = tiles.map:
+      case TrampolinePos(p) => Teleport(p)
+      case t => t
