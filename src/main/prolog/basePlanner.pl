@@ -16,15 +16,15 @@ directions(D):- diagonals(D).
 % goal(s(5, 3)).
 
 % Transaction Rules: move(State, Direction, NewState)
-move(s(X,Y), up,         s(X, Y1)) :- Y1 is Y + 1.
-move(s(X,Y), down,       s(X, Y1)) :- Y1 is Y - 1.
-move(s(X,Y), left,       s(X1, Y)) :- X1 is X - 1.
-move(s(X,Y), right,      s(X1, Y)) :- X1 is X + 1.
+move(s(X,Y), up,         s(X, Y1)) :- Y1 is Y - 1.
+move(s(X,Y), down,       s(X, Y1)) :- Y1 is Y + 1.
+move(s(X,Y), left,       s(X1, Y)) :- X1 is X + 1.
+move(s(X,Y), right,      s(X1, Y)) :- X1 is X - 1.
 
-move(s(X,Y), rightDown,  s(X1, Y1)) :- X1 is X + 1, Y1 is Y - 1.
-move(s(X,Y), rightUp,    s(X1, Y1)) :- X1 is X + 1, Y1 is Y + 1.
-move(s(X,Y), leftUp,     s(X1, Y1)) :- X1 is X - 1, Y1 is Y + 1.
-move(s(X,Y), leftDown,   s(X1, Y1)) :- X1 is X - 1, Y1 is Y - 1.
+move(s(X,Y), rightDown,  s(X1, Y1)) :- X1 is X - 1, Y1 is Y + 1.
+move(s(X,Y), rightUp,    s(X1, Y1)) :- X1 is X - 1, Y1 is Y - 1.
+move(s(X,Y), leftUp,     s(X1, Y1)) :- X1 is X + 1, Y1 is Y - 1.
+move(s(X,Y), leftDown,   s(X1, Y1)) :- X1 is X + 1, Y1 is Y + 1.
 
 % Planner: find path from initial state to goal state
 plan(Path, MaxMoves) :-
@@ -32,7 +32,7 @@ plan(Path, MaxMoves) :-
     goal(Goal),
     planner(Init, Goal, [Init], Path, MaxMoves).
 
-% Caso base: già nel goal, nessuna mossa
+% Base case: at goal, no moves needed
 planner(State, State, _, [], _).
 
 % Recursive case: explore possible directions

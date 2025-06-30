@@ -1,6 +1,6 @@
 package it.unibo.controller
 
-import it.unibo.model.{Direction, DummyPlanner, DummyScenario, MazeScenario, Planner, Scenario}
+import it.unibo.model.{BasePlanner, Direction, DummyPlanner, DummyScenario, MazeScenario, Planner, PlannerWithTiles, Scenario}
 import it.unibo.view.View
 
 import scala.annotation.tailrec
@@ -52,7 +52,9 @@ object SimulationControllerImpl extends SimulationController
   with ViewAttachable
   with ControllableSimulation:
 
-  planner = Some(BasePlanner((0,0), (5,5), 15, scenario.tiles))
+ // planner = Some(PlannerWithTiles((0,0), (5,5), 100, scenario.tiles))
+  planner = Some(BasePlanner((0, 0), (10, 9), 50))
+
 
   override def pause(): Unit = ()
 
