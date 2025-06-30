@@ -10,84 +10,97 @@ object GameState:
     case Reset
     case Running
     case Paused
+    case Step
+    case Empty
   export State.*
-  @volatile private var current: State = Reset
-  def getCurrent: State = synchronized{current}
-  def setCurrent(s: State): Unit = synchronized{current = s}
+  @volatile private var currentState: State = Empty
+  def current: State = synchronized{currentState}
+  def set(s: State): Unit = synchronized{currentState = s}
 
-trait SimulationController:
-  def startSimulation(): Unit
-  def pauseSimulation(): Unit
-  def resumeSimulation(): Unit
+trait ScenarioManager:
+  var scenario: Scenario = MazeScenario()
+
+  def changeScenario(newScenario: Scenario): Unit = scenario = newScenario
+  def generateScenario(): Unit
+
+trait PlannerManager:
+  protected var planner: Option[Planner] = Some(DummyPlanner())
+  protected var currentPlan: List[Direction] = List()
+
+  def refreshPlan(): Unit = currentPlan = planner match
+    case Some(p) => p.plan getOrElse List()
+    case None    => List()
+
+trait ViewAttachable:
+  protected var view: Option[View] = None
+
+  final def attachView(v: View): Unit = view = Some(v)
+
+trait ControllableSimulation:
+  def pause(): Unit
+  def resume(): Unit
   def resetSimulation(): Unit
   def resetScenario(): Unit
-  def simulationStep(): Unit
-  def generateScenario(): Unit
-  def initSimulation(): Unit = scenario.generateScenario()
-  def attachView(view: View): Unit
-  def changeScenario(scenario: Scenario): Unit
-  var scenario: Scenario = MazeScenario()
-  protected var view: Option[View] = None
-  protected var planner: Planner = DummyPlanner()
-  protected var currentPlan: List[Direction] = planner.plan.get
 
-object SimulationControllerImpl extends SimulationController:
-  override def attachView(view: View): Unit =
-    this.view = Some(view)
+trait SimulationController extends ScenarioManager:
+  def step(): Unit
+  def initSimulation(): Unit
 
-  override def changeScenario(scenario: Scenario): Unit =
-    this.scenario = scenario
+object SimulationControllerImpl extends SimulationController
+  with ScenarioManager
+  with PlannerManager
+  with ViewAttachable
+  with ControllableSimulation:
 
-  /**
-   * <li> Start a simulation: init to goal
-   * <li> It can be paused/resume
-   * <li> Reset stops it and it has to be re-started
-   */
-  override def startSimulation(): Unit =
-    planner.plan foreach : p => 
-      p take 3 foreach : cmd =>
-        println(s"Executing... $cmd")
-        scenario.agent computeCommand cmd
-        view foreach {_.repaint()}
-    println("Plan executed")
+  override def pause(): Unit = ()
 
-  override def pauseSimulation(): Unit = ()
+  override def resume(): Unit = ()
 
-  override def resumeSimulation(): Unit = ()
-  override def generateScenario(): Unit = ()
+  override def generateScenario(): Unit = scenario.generateScenario()
 
   override def initSimulation(): Unit =
-    super.initSimulation()
-    loop(GameState.getCurrent)
+    generateScenario()
+    refreshPlan()
+    loop(GameState.current)
 
   override def resetSimulation(): Unit =
     scenario.resetAgent()
-  override def simulationStep(): Unit = ()
+    updateView()
+
   override def resetScenario(): Unit =
-    scenario.generateScenario()
-    view foreach(_.repaint())
+    generateScenario()
+    updateView()
     resetSimulation()
 
   import GameState.*
   @tailrec
   private def loop(s: State): Unit =
     s match
-      case Reset   => ()
+      case Empty => ()
+      case Reset   =>
+        resetSimulation()
+        GameState set Empty
       case Paused  => ()
+      case Step =>
+        step()
+        GameState set Paused
       case Running =>
         if currentPlan.nonEmpty
         then
           step()
+          Thread sleep 500
         else
           planOver()
-    loop(GameState.getCurrent)
+    loop(GameState.current)
 
-  private def step(): Unit =
+  override def step(): Unit =
     scenario.agent computeCommand currentPlan.head
     currentPlan = currentPlan.tail
-    view foreach {_.repaint()}
-    Thread sleep 500
+    updateView()
 
   private def planOver(): Unit =
     println("Plan terminated!")
-    GameState setCurrent Reset
+    GameState set Reset
+
+  private def updateView(): Unit =
+    view foreach {_.repaint()}
