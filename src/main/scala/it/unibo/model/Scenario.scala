@@ -3,8 +3,8 @@ package it.unibo.model
 import Tiling.*
 
 object Scenario:
-  val nRows = 5
-  val nCols = 5
+  val nRows = 60
+  val nCols = 35
 
 class Agent(val initialPosition: Position):
   var pos: Position = initialPosition
