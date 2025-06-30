@@ -9,6 +9,9 @@ object Tiling:
     def x: Int = pos.x
     def y: Int = pos.y
   
+  object TilePos:
+    def unapply(t: Tile): Option[Position] = Some(Position(t.x, t.y))
+
   sealed trait Passage extends Tile:
     def visited: Boolean = pos.visited
   
