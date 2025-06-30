@@ -21,7 +21,7 @@ class TestScenario extends AnyFlatSpec with Matchers:
     scenario.initialPosition.y should be(0)
 
   "A TrampolineScenario" should "have a maximum of traps" in :
-    val scenario: TrampolineScenario = TrampolineScenario()
+    val scenario: Traps = Traps()
     def countTrampoline(tiles: List[Tile]): Int = tiles count :
       case _: Teleport => true
       case _ => false

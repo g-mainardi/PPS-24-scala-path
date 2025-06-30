@@ -9,7 +9,7 @@ object TrampolinePos:
   def unapply(t: Tile): Option[Position] = t match
     case TilePos(pos) => trampolines find (_ == pos)
 
-class TrampolineScenario extends Scenario:
+class Traps extends Scenario:
   val nTrampolines = 4
 
   override def initialPosition: Position = Position(0, 0)
