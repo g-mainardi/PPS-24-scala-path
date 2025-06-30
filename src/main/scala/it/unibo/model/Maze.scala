@@ -10,8 +10,8 @@ class Maze extends Scenario:
   override def resetAgent(): Unit = agent = Agent(initialPosition)
 
   override def generateScenario(): Unit =
-    val logicalRows = Scenario.nRows
-    val logicalCols = Scenario.nCols
+    val logicalRows = Scenario.nRows / 2
+    val logicalCols = Scenario.nCols / 2
     val gridRows = 2 * logicalRows + 1
     val gridCols = 2 * logicalCols + 1
 
