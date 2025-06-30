@@ -42,8 +42,8 @@ class View(controller: SimulationController) extends MainFrame:
     override def paintComponent(g: Graphics2D): Unit =
       super.paintComponent(g)
       given Graphics2D = g
-      drawGrid(gridSize, cellSize, gridOffset)
       drawCells(cellSize, gridOffset)
+      drawGrid(gridSize, cellSize, gridOffset)
       drawAgent(gridOffset)
 
     private def drawAgent(gridOffset: Int)(using g: Graphics2D): Unit =
@@ -65,11 +65,14 @@ class View(controller: SimulationController) extends MainFrame:
         g fill makeCell(t.x, t.y)
 
     private def drawGrid(size: Int, cellSize: Int, offset: Int)(using g: Graphics2D): Unit =
-      List(0, size) foreach : i =>
-        val gOffset = offset - 1
-        val pos: Int = i * cellSize + gOffset
-        g drawLine(gOffset, pos, size * cellSize + gOffset, pos)
-        g drawLine(pos, gOffset, pos, size * cellSize + gOffset)
+      for t <- controller.scenario.tiles do
+        val rect = new Rectangle2D.Double(
+          t.x * cellSize + offset,
+          t.y * cellSize + offset,
+          cellSize, cellSize
+        )
+        g.setColor(Color(147, 153, 149))
+        g.draw(rect)
 
 
   private object ControlPanel extends FlowPanel(startButton, stepButton, resetButton, pauseResumeButton, scenarioDropdown, generateScenarioButton)
