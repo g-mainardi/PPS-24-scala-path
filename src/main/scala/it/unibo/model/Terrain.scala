@@ -64,9 +64,6 @@ class Terrain extends Scenario:
     else if noise < 0.9 then Rock(position)
     else Lava(position)
 
-
-  def initialPosition: Position = Position(0, 0)
-
   override def generate(): Unit =
     val permutation = PerlinNoise.randomPermutation
     tiles =

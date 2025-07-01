@@ -5,15 +5,19 @@ import scala.util.Random
 
 class Maze extends Scenario:
 
-  def initialPosition: Position = Position(1, 1, false)
+  private val logicalRows = Scenario.nRows / 2
+  private val logicalCols = Scenario.nCols / 2
+  private val gridRows = 2 * logicalRows + 1
+  private val gridCols = 2 * logicalCols + 1
+  private val exitX = gridRows - 1
+  private val exitY = gridCols - 2
+
+  override def initialPosition: Position = Position(1, 1, false)
+  override def goalPosition: Position = Position(exitX, exitY)
 
   override def resetAgent(): Unit = agent = Agent(initialPosition)
 
   override def generate(): Unit =
-    val logicalRows = Scenario.nRows / 2
-    val logicalCols = Scenario.nCols / 2
-    val gridRows = 2 * logicalRows + 1
-    val gridCols = 2 * logicalCols + 1
 
     val visited = Array.fill(logicalRows, logicalCols)(false)
     var mazeTiles: Map[Position, Tile] = Map()
@@ -52,8 +56,6 @@ class Maze extends Scenario:
     carve(0, 0)
 
     // add exit
-    val exitX = gridRows - 1
-    val exitY = gridCols - 2
     mazeTiles += Position(exitX, exitY) -> Floor(Position(exitX, exitY))
 
     println(s"exit at: (${exitX}, ${exitY})")

@@ -27,15 +27,16 @@ class Agent(val initialPosition: Position):
     pos = pos + direction.vector
 
 trait Scenario:
-  def initialPosition: Position
   var agent: Agent = Agent(initialPosition)
   var tiles: List[Tile] = List()
+
+  def initialPosition: Position = Position(0, 0)
+  def goalPosition: Position = Position(Scenario.nRows, Scenario.nCols)
   def generate(): Unit
   def resetAgent(): Unit = agent = Agent(initialPosition)
   override def toString: String = s"${getClass.getSimpleName}"
 
 class DummyScenario extends Scenario:
-  def initialPosition: Position = Position(0, 0)
   override def generate(): Unit =
     tiles = for
       (tileType, ind) <- List(Floor(_), Grass(_), Teleport(_), Trap(_), Water(_), Lava(_), Rock(_)).zipWithIndex
