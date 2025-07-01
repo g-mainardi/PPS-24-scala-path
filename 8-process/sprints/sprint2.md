@@ -8,7 +8,8 @@
 |    4     |   Design    |    Scenarios Mixin     |  Salman  |           6           |   6   |   6   |   4   |   2   |   0   |   0   |   0   |
 |    5     |   Planner   |     A* Search Algo     | Basigli  |           6           |   6   |   6   |   4   |   2   |   0   |   0   |   0   |
 |    6     |   Planner   |     Dj Search Algo     | Mainardi |           6           |   6   |   6   |   4   |   2   |   0   |   0   |   0   |
-|    4     | Integration | Planner Moves Refactor |  Salman  |           4           |   4   |   4   |   4   |   4   |   4   |   0   |   0   |
+|    7     | Integration | Planner Moves Refactor |  Salman  |           4           |   4   |   4   |   4   |   4   |   4   |   0   |   0   |
+|    8     |    Test     |       More Test        |   All    |           2           |   2   |   2   |   0   |   0   |   0   |   0   |   0   |
 
 
 ### Sprint Goal
