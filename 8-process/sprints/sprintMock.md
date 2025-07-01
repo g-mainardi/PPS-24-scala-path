@@ -6,14 +6,27 @@
 |    2     |     Project design      | Requirement Definition<br/>Architecture Definition |   Team   |        4<br/>2        |    4<br/>2    |    4<br/>2    |    4<br/>2    | 0<br/>2 | 0<br/>0 |   /   |   /   |
 |    3     | Documentation structure |                                                    |   Team   |           2           |       1       |       1       |       0       |    /    |    /    |   /   |   /   |
 
-# Sprint Goal
-This first sprint's goal is to define the project's main structure, defining the core elements, their expected use, functions and interactions.
-# Sprint Deadline
-This sprint's deadline is set for 22/06/2025.
-# Sprint Review
-An initial diagram was drawn for a more as-a-whole understanding of the project to be.
 
-A consensus was met for how code, documentation and resources should be written. 
+### Sprint Goal
+Start Date: 23/6
+<br/>
+End Date: 29/6
 
-# Sprint Retrospective
-This was a bumpy start, due to overlapping work this sprint's throughput has not been consistent, although it is expected since this first phase requires every member's participation.
+The aim of the sprint is first to set up the project repository, the build tool and the CI.
+Then, we aim to design the architecture and the model so that everyone is on the same page.
+Secondly, the sprint also aims to design a view and controller and a base planner that will be used as a common base.
+Lastly, the sprints aims to build the core logic of different scenarios generation.
+
+### Sprint Deadline
+End Date: 29/6
+We aim to have a functioning version of the program, with a dummy scenario and a base planner by the end of the sprint.
+
+### Sprint Review
+We have successfully set up the project repository, the build tool and the CI.
+We have done a lot of pair programming at start to design the model and the architecture, and then we have split the work in (i) controller, (ii) view, (iii) base planner.
+After that we had a common base for the scenarios generation, and we have split the work in (i) maze, (ii) terrain, (iii) traps.
+A basic working version of the controller and the view has been achieved, using a dummy scenario.
+Also a first version of the scala-prolog integration with a dummy planner has been achieved.
+
+
+### Sprint Retrospective
