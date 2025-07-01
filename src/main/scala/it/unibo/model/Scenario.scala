@@ -31,7 +31,7 @@ trait Scenario:
   var tiles: List[Tile] = List()
 
   def initialPosition: Position = Position(0, 0)
-  def goalPosition: Position = Position(Scenario.nRows, Scenario.nCols)
+  def goalPosition: Position = Position(Scenario.nRows - 1, Scenario.nCols - 1)
   def generate(): Unit
   def resetAgent(): Unit = agent = Agent(initialPosition)
   override def toString: String = s"${getClass.getSimpleName}"

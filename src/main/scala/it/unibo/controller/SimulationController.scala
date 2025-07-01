@@ -75,7 +75,7 @@ object SimulationControllerImpl extends SimulationController
   import it.unibo.prologintegration.Conversions.given
 
   def refreshPlanner(): Unit = planner =
-    Some(PlannerWithTiles(scenario.initialPosition, (4, 3), 10, scenario.tiles))
+    Some(PlannerWithTiles(scenario.initialPosition, scenario.goalPosition, 10, scenario.tiles))
 
   override def generateScenario(): Unit =
     scenario.generate()
@@ -83,7 +83,7 @@ object SimulationControllerImpl extends SimulationController
 
   override def initSimulation(): Unit =
     generateScenario()
-    planner = Some(PlannerWithTiles((0,0), (3,3), 5, scenario.tiles))
+    refreshPlanner()
     refreshPlan()
     loop(GameState.current)
 
