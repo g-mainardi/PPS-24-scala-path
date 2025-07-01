@@ -72,8 +72,10 @@ object SimulationControllerImpl extends SimulationController
 
   override def resume(): Unit = ()
 
+  import it.unibo.prologintegration.Conversions.given
+
   def refreshPlanner(): Unit = planner =
-    Some(PlannerWithTiles((1, 1), (4, 3), 10, scenario.tiles))
+    Some(PlannerWithTiles(scenario.initialPosition, (4, 3), 10, scenario.tiles))
 
   override def generateScenario(): Unit =
     scenario.generate()

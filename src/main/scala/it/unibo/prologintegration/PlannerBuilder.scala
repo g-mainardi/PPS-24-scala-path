@@ -14,6 +14,9 @@ object Conversions:
     def apply(s: String): Direction =
       Try(Cardinals.valueOf(s.capitalize)).getOrElse(Diagonals.valueOf(s.capitalize))
 
+  given Conversion[(Int, Int), Position] = Position(_, _)
+  given Conversion[Position, (Int, Int)] = p => (p.x, p.y)
+
 class PlannerBuilder:
   private var theoryStr: String = ""
   private var initPos: Option[(Int, Int)] = None
@@ -84,8 +87,9 @@ object PlannerBuilder:
   def apply(): PlannerBuilder = new PlannerBuilder()
 
 @main def testPlannerBuilder(): Unit =
+  import Conversions.given
   val pathOpt = PlannerBuilder()
-    .withTheoryFrom("src/main/prolog/plannerWithTiles.pl")
+    .withTheoryFrom("src/main/prolog/plannerWithMaxMoves.pl")
     .withInit(0, 0)
     .withGoal(2, 2)
     .withMaxMoves(5)

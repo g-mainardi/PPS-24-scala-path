@@ -24,7 +24,7 @@ class PlannerWithTiles(initPos:(Int, Int), goal:(Int, Int), maxMoves:Int, tiles:
     println(s"Tiles: $tiles")
     PlannerBuilder()
       .withTiles(tiles)
-      .withTheoryFrom("src/main/prolog/plannerWithTiles.pl")
+      .withTheoryFrom("src/main/prolog/plannerWithMaxMoves.pl")
       .withInit(initPos)
       .withGoal(goal)
       .withMaxMoves(maxMoves)
