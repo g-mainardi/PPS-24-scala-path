@@ -115,6 +115,7 @@ object SimulationControllerImpl extends SimulationController
           planOver()
       case ChangeScenario(scenarioIndex) =>
         changeScenario(scenarios(scenarioIndex))
+        GameState set Empty
 
     loop(GameState.current)
 
