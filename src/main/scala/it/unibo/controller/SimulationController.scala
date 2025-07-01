@@ -72,17 +72,17 @@ object SimulationControllerImpl extends SimulationController
 
   override def resume(): Unit = ()
 
+  def refreshPlanner(): Unit = planner =
+    Some(PlannerWithTiles((1, 1), (4, 3), 10, scenario.tiles))
+
   override def generateScenario(): Unit =
     scenario.generate()
     updateView()
 
   override def initSimulation(): Unit =
     generateScenario()
-    // planner = Some(BasePlanner((0,0), (2,2), 5))
-    planner = Some(PlannerWithTiles((0,0), (4,4), 7, scenario.tiles))
+    planner = Some(PlannerWithTiles((0,0), (3,3), 5, scenario.tiles))
     refreshPlan()
-    println("Current plan " + currentPlan)
-    println(currentPlan mkString " -> ")
     loop(GameState.current)
 
   override def resetSimulation(): Unit =
@@ -119,6 +119,10 @@ object SimulationControllerImpl extends SimulationController
           planOver()
       case ChangeScenario(scenarioIndex) =>
         changeScenario(scenarios(scenarioIndex))
+        refreshPlanner()
+        refreshPlan()
+        println("Current plan " + currentPlan)
+        println("Current tiles " + scenario.tiles)
         GameState set Empty
 
     loop(GameState.current)

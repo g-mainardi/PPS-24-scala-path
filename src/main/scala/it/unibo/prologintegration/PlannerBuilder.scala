@@ -21,7 +21,7 @@ class PlannerBuilder:
   private var maxMoves: Option[Int] = None
 
   def withTheoryFrom(path: String): PlannerBuilder =
-    this.theoryStr = Source.fromFile(path).mkString
+    this.theoryStr += Source.fromFile(path).mkString
     this
 
   def withInit(initPos: (Int, Int)): PlannerBuilder =
@@ -41,14 +41,14 @@ class PlannerBuilder:
       println("No tiles provided, skipping tile facts generation.")
       return this
 
-    val tileFacts =  tiles.map {
+    var tileFacts =  tiles.map {
       case p: Passage => s"passable(${p.x}, ${p.y})."
       case o: Obstacle => s"blocked(${o.x}, ${o.y})."
     }.mkString("\n")
+    tileFacts = tileFacts + "\n"
 
     // println(s"$tileFacts\n")
     this.theoryStr += s"\n$tileFacts"
-
     this
 
   def run: Option[List[Direction]] =
@@ -57,9 +57,9 @@ class PlannerBuilder:
         val initFact = s"init(s($ix, $iy))."
         val goalFact = s"goal(s($gx, $gy))."
 
-        // println(s"$initFact\n$goalFact\n$theoryStr\n")
+        println(s"$initFact\n$goalFact\n$theoryStr\n")
 
-        val fullTheory = new Theory(s"$theoryStr\n$initFact\n$goalFact")
+        val fullTheory = new Theory(s"$initFact\n$goalFact\n$theoryStr")
 
         val engine: Engine = mkPrologEngine(fullTheory)
         val goal = Term.createTerm(s"plan(P, $moves)")
@@ -67,8 +67,11 @@ class PlannerBuilder:
 
         val directions: Option[List[String]] = solutions.headOption.map { info =>
           val listTerm = extractTerm(info, "P")
+          println("Term list: " + listTerm)
           extractListFromTerm(listTerm).toList
         }
+
+        println("Directions list: " + directions)
 
         import Conversions.given
         directions.map(_.map(s => s: Direction))

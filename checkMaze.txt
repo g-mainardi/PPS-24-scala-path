@@ -1,0 +1,53 @@
+Wall(Position(1,4,false)),
+Wall(Position(2,2,false)),
+Wall(Position(0,2,false)),
+Wall(Position(4,1,false)),
+Wall(Position(0,0,false)),
+Wall(Position(3,4,false)),
+Wall(Position(2,0,false)),
+Wall(Position(1,0,false)),
+Wall(Position(0,4,false)),
+Wall(Position(0,1,false)),
+Wall(Position(4,2,false)),
+Wall(Position(2,4,false)),
+Wall(Position(4,0,false)),
+Wall(Position(3,0,false)),
+Wall(Position(0,3,false)),
+Wall(Position(1,2,false)),
+Wall(Position(4,4,false)))
+
+Floor(Position(2,3,false)),
+Floor(Position(1,1,false)),
+Floor(Position(3,3,false)),
+Floor(Position(3,2,false)),
+Floor(Position(2,1,false)),
+Floor(Position(3,1,false)),
+Floor(Position(4,3,false)),
+Floor(Position(1,3,false)),
+
+blocked(1, 4).
+blocked(2, 2).
+blocked(0, 2).
+blocked(4, 1).
+blocked(0, 0).
+blocked(3, 4).
+blocked(2, 0).
+blocked(1, 0).
+blocked(0, 4).
+blocked(0, 1).
+blocked(4, 2).
+blocked(2, 4).
+blocked(4, 0).
+blocked(3, 0).
+blocked(0, 3).
+blocked(1, 2).
+blocked(4, 4).
+
+passable(2, 3).
+passable(1, 1).
+passable(3, 3).
+passable(3, 2).
+passable(2, 1).
+passable(3, 1).
+passable(4, 3).
+passable(1, 3).

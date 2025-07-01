@@ -23,9 +23,9 @@ class PlannerWithTiles(initPos:(Int, Int), goal:(Int, Int), maxMoves:Int, tiles:
   override def plan: Option[List[Direction]] =
     println(s"Tiles: $tiles")
     PlannerBuilder()
+      .withTiles(tiles)
       .withTheoryFrom("src/main/prolog/plannerWithTiles.pl")
       .withInit(initPos)
       .withGoal(goal)
-      .withTiles(tiles)
       .withMaxMoves(maxMoves)
       .run
