@@ -12,8 +12,6 @@ object TrampolinePos:
 class Traps extends Scenario:
   val nTrampolines = 4
 
-  override def initialPosition: Position = Position(0, 0)
-
   override def generate(): Unit =
     tiles = (for
       x <- 0 to nRows
