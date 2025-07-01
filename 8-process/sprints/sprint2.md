@@ -1,5 +1,5 @@
-
 # Sprint 2
+
 | Priority |    Item    |       Tasks        | Assignee | Initial Size Estimate | Day 1 | Day 2 | Day 3 | Day 4 | Day 5 | Day 6 | Day 7 |
 |:--------:|:----------:|:------------------:|:--------:|:---------------------:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|
 |    4     | Controller | Controller Design  | Mainardi |           4           |   2   |   7   |   4   |   4   |   4   |   0   |   0   |

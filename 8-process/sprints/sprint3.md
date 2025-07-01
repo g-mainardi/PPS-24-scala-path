@@ -1,4 +1,5 @@
 # Sprint 3
+
 | Priority |         Item          |                         Tasks                         | Assignee | Initial Size Estimate | Day 1 | Day 2 | Day 3 | Day 4 | Day 5 | Day 6 | Day 7 |
 |:--------:|:---------------------:|:-----------------------------------------------------:|:--------:|:---------------------:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|
 |    1     | Project configuration | Repository Setup<br/>Dependencies<br/>CI<br/>GH Pages |   Team   |           3           |   0   |   0   |   0   |   0   |   0   |   0   |   0   |
