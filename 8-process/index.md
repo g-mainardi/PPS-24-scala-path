@@ -5,6 +5,6 @@
 - [Sprint 2](sprints/sprint2.md)
 - [Sprint 3](sprints/sprint3.md)
 - [Sprint 4](sprints/sprint4.md)
-
+- [Sprint mock](sprints/sprintMock.md)
 
 | [Previous Chapter](../7-testing/index.md) | [Index](../index.md) | [Next Chapter](../9-conclusion/index.md) |
