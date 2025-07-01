@@ -2,6 +2,8 @@
 
 [![Build](https://github.com/g-mainardi/PPS-24-scala-path/actions/workflows/build.yml/badge.svg)](https://github.com/g-mainardi/PPS-24-scala-path/actions/workflows/build.yml)
 
+[![Test coverage](https://github.com/g-mainardi/PPS-24-scala-path/actions/workflows/scoverage-test.yml/badge.svg)](https://github.com/g-mainardi/PPS-24-scala-path/actions/workflows/scoverage-test.yml)
+
 # ScalaPath
 Pathfinding engine in Scala and Prolog
 
