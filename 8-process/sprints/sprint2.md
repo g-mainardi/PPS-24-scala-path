@@ -1,15 +1,16 @@
 # Sprint 2
 
-| Priority |    Item     |         Tasks          | Assignee | Initial Size Estimate | Day 1 | Day 2 | Day 3 | Day 4 | Day 5 | Day 6 | Day 7 |
-|:--------:|:-----------:|:----------------------:|:--------:|:---------------------:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|
-|    1     | Controller  |   Controller Design    | Mainardi |           4           |   2   |   0   |   0   |   0   |   0   |   0   |   0   |
-|    2     |    View     |      View Design       | Basigli  |           4           |   2   |   0   |   0   |   0   |   0   |   0   |   0   |
-|    3     |   Planner   |   Planner with Tiles   |  Salman  |           4           |   2   |   0   |   0   |   0   |   0   |   0   |   0   |
-|    4     |   Design    |    Scenarios Mixin     |  Salman  |           6           |   6   |   6   |   4   |   2   |   0   |   0   |   0   |
-|    5     |   Planner   |     A* Search Algo     | Basigli  |           6           |   6   |   6   |   4   |   2   |   0   |   0   |   0   |
-|    6     |   Planner   |     Dj Search Algo     | Mainardi |           6           |   6   |   6   |   4   |   2   |   0   |   0   |   0   |
-|    7     | Integration | Planner Moves Refactor |  Salman  |           4           |   4   |   4   |   4   |   4   |   4   |   0   |   0   |
-|    8     |    Test     |       More Test        |   All    |           2           |   2   |   2   |   0   |   0   |   0   |   0   |   0   |
+| Priority |     Item      |         Tasks          | Assignee | Initial Size Estimate | Day 1 | Day 2 | Day 3 | Day 4 | Day 5 | Day 6 | Day 7 |
+|:--------:|:-------------:|:----------------------:|:--------:|:---------------------:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|
+|    1     |  Controller   |   Controller Design    | Mainardi |           4           |   2   |   0   |   0   |   0   |   0   |   0   |   0   |
+|    2     |     View      |      View Design       | Basigli  |           4           |   2   |   0   |   0   |   0   |   0   |   0   |   0   |
+|    3     |    Planner    |   Planner with Tiles   |  Salman  |           4           |   2   |   0   |   0   |   0   |   0   |   0   |   0   |
+|    4     |    Design     |    Scenarios Mixin     |  Salman  |           6           |   6   |   6   |   4   |   2   |   0   |   0   |   0   |
+|    5     |    Planner    |     A* Search Algo     | Basigli  |           6           |   6   |   6   |   4   |   2   |   0   |   0   |   0   |
+|    6     |    Planner    |     Dj Search Algo     | Mainardi |           6           |   6   |   6   |   4   |   2   |   0   |   0   |   0   |
+|    7     |  Integration  | Planner Moves Refactor |  Salman  |           4           |   4   |   4   |   4   |   4   |   4   |   0   |   0   |
+|    8     |     Test      |       More Test        |   All    |           2           |   2   |   2   |   0   |   0   |   0   |   0   |   0   |
+|    9     | Documentation |   More Documentation   |   All    |           2           |   2   |   2   |   2   |   0   |   0   |   0   |   0   |
 
 
 ### Sprint Goal
