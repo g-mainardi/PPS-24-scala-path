@@ -2,6 +2,7 @@ package it.unibo.view
 
 import it.unibo.controller.{GameState, SimulationController}
 import it.unibo.model.Tiling
+import it.unibo.model.Tiling.Position
 
 import java.awt.Color
 import java.awt.geom.{Ellipse2D, Rectangle2D}
@@ -30,13 +31,9 @@ class View(controller: SimulationController) extends MainFrame:
   import it.unibo.ScalaPath.{gridOffset, cellSize, gridSize}
   title = "Scala Path"
   preferredSize = new Dimension(800, 600)
-
-
-
-
   private val scenarioDropdown = new ComboBox(controller.getScenarioNames)
   private val generateScenarioButton = new Button("Generate scenario")
-  
+
   private class ScenarioListenerButton(label: String) extends Button(label):
     listenTo(scenarioDropdown.selection, generateScenarioButton)
     reactions += {
@@ -57,17 +54,18 @@ class View(controller: SimulationController) extends MainFrame:
       given Graphics2D = g
       drawCells(cellSize, gridOffset)
       drawGrid(gridSize, cellSize, gridOffset)
-      drawAgent(gridOffset)
+      drawCircle(controller.scenario.agent.x, controller.scenario.agent.y, Color.BLUE)
+      drawCircle(controller.scenario.goalPosition.x, controller.scenario.goalPosition.y, Color.RED)
 
-    private def drawAgent(gridOffset: Int)(using g: Graphics2D): Unit =
-      val agent = controller.scenario.agent
-      g setColor Color.BLUE
-      val agentRect = new Ellipse2D.Double(
-        agent.x * cellSize + gridOffset,
-        agent.y * cellSize + gridOffset,
+
+
+    private def drawCircle(x: Int, y: Int, color: Color)(using g: Graphics2D): Unit =
+      g setColor color
+      val entity = new Ellipse2D.Double(x * cellSize + gridOffset,
+        y * cellSize + gridOffset,
         cellSize, cellSize
       )
-      g fill agentRect
+      g fill entity
 
     private def drawCells(size: Int, gridOffset: Int)(using g: Graphics2D): Unit =
       def makeCell(x: Int, y: Int): Rectangle2D =
