@@ -2,12 +2,12 @@
 
 | Priority |    Item    |       Tasks        | Assignee | Initial Size Estimate | Day 1 | Day 2 | Day 3 | Day 4 | Day 5 | Day 6 | Day 7 |
 |:--------:|:----------:|:------------------:|:--------:|:---------------------:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|
-|    4     | Controller | Controller Design  | Mainardi |           4           |   2   |   7   |   4   |   4   |   4   |   0   |   0   |
-|    5     |    View    |    View Design     | Basigli  |           4           |   2   |   7   |   4   |   4   |   4   |   0   |   0   |
-|    6     |  Planner   | Planner with Tiles |  Salman  |           4           |   2   |   7   |   4   |   4   |   4   |   0   |   0   |
-|    7     |    Maze    |   Maze Variants    |  Salman  |           4           |   4   |   4   |   4   |   2   |   0   |   0   |   0   |
-|    8     |  Terrain   |  Terrain Variants  | Basigli  |           4           |   4   |   4   |   4   |   2   |   0   |   0   |   0   |
-|    9     |   Traps    |   Traps Variants   | Mainardi |           4           |   4   |   4   |   4   |   2   |   0   |   0   |   0   |
+|    1     | Controller | Controller Design  | Mainardi |           4           |   2   |   7   |   4   |   4   |   4   |   0   |   0   |
+|    2     |    View    |    View Design     | Basigli  |           4           |   2   |   7   |   4   |   4   |   4   |   0   |   0   |
+|    3     |  Planner   | Planner with Tiles |  Salman  |           4           |   2   |   7   |   4   |   4   |   4   |   0   |   0   |
+|    4     |    Maze    |   Maze Variants    |  Salman  |           4           |   4   |   4   |   4   |   2   |   0   |   0   |   0   |
+|    5     |  Terrain   |  Terrain Variants  | Basigli  |           4           |   4   |   4   |   4   |   2   |   0   |   0   |   0   |
+|    6     |   Traps    |   Traps Variants   | Mainardi |           4           |   4   |   4   |   4   |   2   |   0   |   0   |   0   |
 
 
 ### Sprint Goal
