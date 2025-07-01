@@ -8,6 +8,8 @@ import java.awt.geom.{Ellipse2D, Rectangle2D}
 import scala.swing.*
 import scala.swing.event.{ButtonClicked, Event, SelectionChanged}
 
+
+
 object ViewUtilities:
   import Tiling.*
   def tileColor(tile: Tile): Color =
@@ -28,13 +30,24 @@ class View(controller: SimulationController) extends MainFrame:
   import it.unibo.ScalaPath.{gridOffset, cellSize, gridSize}
   title = "Scala Path"
   preferredSize = new Dimension(800, 600)
-      
-  private val startButton = new Button("Start")
-  private val resetButton = new Button("Reset")
-  private val stepButton = new Button("Step")
-  private val pauseResumeButton = new Button("Pause")
-  private val generateScenarioButton = new Button("Generate scenario")
+
+
+
+
   private val scenarioDropdown = new ComboBox(controller.getScenarioNames)
+  private val generateScenarioButton = new Button("Generate scenario")
+  
+  private class ScenarioListenerButton(label: String) extends Button(label):
+    listenTo(scenarioDropdown.selection, generateScenarioButton)
+    reactions += {
+      case SelectionChanged(`scenarioDropdown`) => enabled = false
+      case ButtonClicked(`generateScenarioButton`) => enabled = true
+    }
+
+  private val startButton = new ScenarioListenerButton("Start")
+  private val resetButton = new ScenarioListenerButton("Reset")
+  private val stepButton = new ScenarioListenerButton("Step")
+  private val pauseResumeButton = new ScenarioListenerButton("Pause")
 
 
   private val gridPanel: Panel = new Panel:
