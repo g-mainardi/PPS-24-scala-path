@@ -12,3 +12,28 @@
 |    8     |        Terrain        |             Terrain Scenario Generation              | Basigli  |           4           |   4   |   4   |   4   |   2   |   0   |   0   |   0   |
 |    9     |         Traps         |              Traps Scenario Generation               | Mainardi |           4           |   4   |   4   |   4   |   2   |   0   |   0   |   0   |
 
+
+
+### Sprint Goal
+Start Date: 23/6
+<br/>
+End Date: 29/6
+
+The aim of the sprint is first to set up the project repository, the build tool and the CI.
+Then, we aim to design the architecture and the model so that everyone is on the same page.
+Secondly, the sprint also aims to design a view and controller and a base planner that will be used as a common base.
+Lastly, the sprints aims to build the core logic of different scenarios generation.
+
+### Sprint Deadline
+End Date: 29/6
+We aim to have a functioning version of the program, with a dummy scenario and a base planner by the end of the sprint.
+
+### Sprint Review
+We have successfully set up the project repository, the build tool and the CI.
+We have done a lot of pair programming at start to design the model and the architecture, and then we have split the work in (i) controller, (ii) view, (iii) base planner.
+After that we had a common base for the scenarios generation, and we have split the work in (i) maze, (ii) terrain, (iii) traps.
+A basic working version of the controller and the view has been achieved, using a dummy scenario.
+Also a first version of the scala-prolog integration with a dummy planner has been achieved.
+
+
+### Sprint Retrospective
