@@ -71,8 +71,8 @@ class View(controller: SimulationController) extends MainFrame:
           t.y * cellSize + offset,
           cellSize, cellSize
         )
-        g.setColor(Color(147, 153, 149))
-        g.draw(rect)
+        g setColor Color(147, 153, 149)
+        g draw rect
 
 
   private object ControlPanel extends FlowPanel(startButton, stepButton, resetButton, pauseResumeButton, scenarioDropdown, generateScenarioButton)
