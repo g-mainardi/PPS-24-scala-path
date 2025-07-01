@@ -24,14 +24,14 @@ trait ScenarioManager:
   var scenario: Scenario = scenarios.head
 
   def getScenarioNames: List[String] = scenarios.map(_.toString)
-  def changeScenario(newScenario: Scenario): Unit = scenario = newScenario
-  def generateScenario(): Unit
+  protected def changeScenario(newScenario: Scenario): Unit = scenario = newScenario
+  protected def generateScenario(): Unit
 
 trait PlannerManager:
   protected var planner: Option[Planner] = None
   protected var currentPlan: List[Direction] = List()
 
-  def refreshPlan(): Unit = currentPlan = planner match
+  protected def refreshPlan(): Unit = currentPlan = planner match
     case Some(p) => p.plan getOrElse List()
     case None    => List()
 
@@ -48,10 +48,10 @@ trait ViewAttachable:
   final def attachView(v: View): Unit = view = Some(v)
 
 trait ControllableSimulation:
-  def pause(): Unit
-  def resume(): Unit
-  def resetSimulation(): Unit
-  def resetScenario(): Unit
+  protected def pause(): Unit
+  protected def resume(): Unit
+  protected def resetSimulation(): Unit
+  protected def resetScenario(): Unit
 
 trait SimulationController extends ScenarioManager:
   def step(): Unit
@@ -89,6 +89,10 @@ object SimulationControllerImpl extends SimulationController
     scenario.resetAgent()
     resetPath()
     updateView()
+
+  override protected def changeScenario(newScenario: Scenario): Unit =
+    super.changeScenario(newScenario)
+    generateScenario()
 
   override def resetScenario(): Unit =
     generateScenario()

@@ -87,7 +87,7 @@ class View(controller: SimulationController) extends MainFrame:
     case ButtonClicked(`startButton`) => GameState set GameState.Running
     case ButtonClicked(`stepButton`) => GameState set GameState.Step
     case ButtonClicked(`resetButton`) => GameState set GameState.Reset
-    case ButtonClicked(`generateScenarioButton`) => controller.generateScenario()
+    case ButtonClicked(`generateScenarioButton`) => GameState set GameState.ChangeScenario(scenarioDropdown.selection.index)
     case ButtonClicked(`pauseResumeButton`) =>
       if pauseResumeButton.text == "Pause" then
         GameState set GameState.Paused
@@ -95,8 +95,6 @@ class View(controller: SimulationController) extends MainFrame:
       else
         GameState set GameState.Running
         pauseResumeButton.text = "Pause"
-    case SelectionChanged(`scenarioDropdown`) =>
-      println(s"Selected scenario: ${scenarioDropdown.selection.item}")
-      GameState set GameState.ChangeScenario(scenarioDropdown.selection.index)
+    case SelectionChanged(`scenarioDropdown`) => println(s"Selected scenario: ${scenarioDropdown.selection.item}")
   }
     
