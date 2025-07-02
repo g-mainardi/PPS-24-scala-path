@@ -4,7 +4,6 @@ import it.unibo.model.Tiling.{Floor, Position, Tile, Wall}
 import scala.util.Random
 
 class Maze extends Scenario:
-
   private val logicalRows = Scenario.nRows / 2
   private val logicalCols = Scenario.nCols / 2
   private val gridRows = 2 * logicalRows + 1
@@ -56,6 +55,6 @@ class Maze extends Scenario:
     // add exit
     mazeTiles += Position(exitX, exitY) -> Floor(Position(exitX, exitY))
 
-    println(s"exit at: (${exitX}, ${exitY})")
+    println(s"exit at: ($exitX, $exitY)")
 
     _tiles = mazeTiles.values.toList
