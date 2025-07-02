@@ -1,0 +1,29 @@
+codecov:
+  require_ci_to_pass: true
+
+coverage:
+  precision: 2  # Mostra la coverage con due decimali
+  round: down
+  range: "60...100"  # Range della colorazione nei report web
+
+  status:
+    project:  # Copertura complessiva del progetto
+      default:
+        target: 60%  # Coverage minima consigliata
+        threshold: 5%  # Tolleranza prima di fallire
+        informational: false  # Fallisce se sotto soglia
+    patch:  # Copertura solo del diff
+      default:
+        target: 50%  # Target sulla patch
+        threshold: 10%
+        informational: true  # Mostra ma non fallisce la build
+
+ignore:
+  - "**/target/**"        # Esclude cartella compilata
+  - "**/*.conf"           # Configurazioni non testabili
+  - "**/test/**"          # Se vuoi ignorare i test stessi nel report
+
+comment:
+  layout: "reach,diff,flags,files"
+  behavior: default
+  require_changes: false
