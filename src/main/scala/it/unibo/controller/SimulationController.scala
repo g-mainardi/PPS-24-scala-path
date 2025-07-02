@@ -43,9 +43,13 @@ trait PlannerManager:
 
   protected def noPlan: List[Direction] = List()
 
+  private object ValidPlanner:
+    def unapply(plannerOpt: Option[Planner]): Option[List[Direction]] = plannerOpt map(_.plan) map:
+      case SucceededPlan(directions, _) => directions
+
   protected def refreshPlan(): Unit = _currentPlan = planner match
-    case Some(p) => p.plan getOrElse noPlan
-    case None    => noPlan
+    case ValidPlanner(directions) => directions
+    case _                        => noPlan
 
   protected def refreshPlanner(): Unit
 
@@ -84,7 +88,7 @@ object ScalaPathController extends SimulationController
   import it.unibo.prologintegration.Conversions.given
 
   override def refreshPlanner(): Unit = planner =
-    Some(PlannerWithTiles(_scenario.initialPosition, _scenario.goalPosition, 10, _scenario.tiles))
+    Some(PlannerWithTiles(_scenario.initialPosition, _scenario.goalPosition, _scenario.tiles))
 
   override def generateScenario(): Unit =
     _scenario.generate()

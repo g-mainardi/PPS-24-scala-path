@@ -7,10 +7,9 @@ trait Planner:
   def plan: Plan
   
 class DummyPlanner extends Planner:
-  override def plan: Option[List[Direction]] =
-    Some(List.fill(5)(Cardinals.Down))
+  override def plan: Plan = SucceededPlan(List.fill(5)(Cardinals.Down), 5)
 
-class PlannerWithoutTiles(initPos:(Int, Int), goal:(Int, Int), maxMoves: Option[Int]) extends Planner:
+class PlannerWithoutTiles(initPos:(Int, Int), goal:(Int, Int), maxMoves: Option[Int] = None) extends Planner:
   override def plan: Plan =
     PlannerBuilder()
       .withTheoryFrom("src/main/prolog/plannerWithoutTiles.pl")
@@ -19,7 +18,7 @@ class PlannerWithoutTiles(initPos:(Int, Int), goal:(Int, Int), maxMoves: Option[
       .withMaxMoves(maxMoves)
       .run
 
-class PlannerWithTiles(initPos:(Int, Int), goal:(Int, Int), tiles: List[Tile], maxMoves: Option[Int]) extends Planner:
+class PlannerWithTiles(initPos:(Int, Int), goal:(Int, Int), tiles: List[Tile], maxMoves: Option[Int] = None) extends Planner:
   override def plan: Plan =
     println(s"Tiles: $tiles")
     PlannerBuilder()
