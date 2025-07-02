@@ -17,7 +17,6 @@ object Conversions:
   given Conversion[(Int, Int), Position] = Position(_, _)
   given Conversion[Position, (Int, Int)] = p => (p.x, p.y)
 
-
 class PlannerBuilder:
   private var theoryStr: String = ""
   private var initPos: Option[(Int, Int)] = None
@@ -36,10 +35,15 @@ class PlannerBuilder:
     this.goalPos = Some(goal)
     this
 
-  def withMaxMoves(maxMoves: Int): PlannerBuilder =
-    this.maxMoves = maxMoves
+  def withMaxMoves(maxMoves: Option[Int]): PlannerBuilder =
+    maxMoves match
+      case Some(moves) => this.maxMoves = Math.abs(moves)
+      case _ => this.maxMoves = 0
     this
 
+  // TO DO
+  def withGridSize(gridSize: (Int, Int)) = ???
+  
   def withTiles(tiles: List[Tile]): PlannerBuilder =
     val tileFacts = tiles.map {
       case p: Passage => s"passable(${p.x}, ${p.y})."
@@ -50,10 +54,9 @@ class PlannerBuilder:
 
   private object InitPos:
     def unapply(o: Option[(Int, Int)]): Option[String] = o map ((ix, iy) => s"init(s($ix, $iy)).")
-    
   private object Goal:
     def unapply(o: Option[(Int, Int)]): Option[String] = o map ((ix, iy) => s"goal(s($ix, $iy)).")
-  
+
   def run: Plan = (initPos, goalPos) match
     case (None, _) | (_, None) =>
       println("Planner not fully configured (missing init or goal)")
@@ -61,11 +64,12 @@ class PlannerBuilder:
     case (InitPos(initFact), Goal(goalFact)) =>
       val fullTheory = new Theory(s"$initFact\n$goalFact\n$theoryStr")
       val engine: Engine = mkPrologEngine(fullTheory)
+      val goal = maxMoves match
+        case 0 => Term.createTerm(s"plan(P, M)")
+        case _ => Term.createTerm(s"plan(P, $maxMoves)")
+      convertToPlan(engine(goal))
+      // val sols: LazyList[SolveInfo] = mkPrologEngine(fullTheory)(Term.createTerm(s"plan(P, M)"))
 
-      val goal = Term.createTerm(s"plan(P, M)")
-      val solutions: LazyList[SolveInfo] = engine(goal)
-      convertToPlan(solutions)
-  
   private def convertToPlan(solutions: LazyList[SolveInfo]): Plan =
     import Conversions.given
     solutions.headOption.get match
@@ -78,21 +82,3 @@ class PlannerBuilder:
 
 object PlannerBuilder:
   def apply(): PlannerBuilder = new PlannerBuilder()
-
-@main def testPlannerBuilder(): Unit =
-  import Conversions.given
-  val pathOpt = PlannerBuilder()
-    .withTheoryFrom("src/main/prolog/plannerWithMaxMoves.pl")
-    .withInit(0, 0)
-    .withGoal(2, 2)
-    .withTiles(List(
-      Floor(Position(0, 0)),
-      Grass(Position(0, 1)),
-      Floor(Position(1, 1)),
-      Floor(Position(2, 2))
-    ))
-    .run
-
-//  pathOpt match
-//    case Some(path) => println(s"Found path: ${path.mkString(" -> ")}")
-//    case None => println("No solution found.")
