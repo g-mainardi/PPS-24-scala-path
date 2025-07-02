@@ -54,11 +54,14 @@ class View(controller: DisplayableController) extends MainFrame:
       given Graphics2D = g
       drawCells(cellSize, gridOffset)
       drawGrid(gridSize, cellSize, gridOffset)
-      drawCircle(controller.scenario.agent.x, controller.scenario.agent.y, Color.BLUE)
       drawCircle(controller.scenario.goalPosition.x, controller.scenario.goalPosition.y, Color.RED)
+      drawCircle(controller.scenario.agent.x, controller.scenario.agent.y, Color.BLUE)
+      drawPath(controller.path)
+    
 
-
-
+    private def drawPath(positions: List[Position])(using g: Graphics2D): Unit =
+      positions.foreach(p => drawCircle(p.x, p.y, Color.BLUE))
+    
     private def drawCircle(x: Int, y: Int, color: Color)(using g: Graphics2D): Unit =
       g setColor color
       val entity = new Ellipse2D.Double(x * cellSize + gridOffset,
