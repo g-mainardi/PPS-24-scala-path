@@ -32,9 +32,10 @@ trait PlannerManager:
   protected var planner: Option[Planner] = None
   protected var _currentPlan: List[Direction] = List()
 
+  protected def noPlan: List[Direction] = List()
   protected def refreshPlan(): Unit = _currentPlan = planner match
-    case Some(p) => p.plan getOrElse List()
-    case None    => List()
+    case Some(p) => p.plan getOrElse noPlan
+    case None    => noPlan
   protected def refreshPlanner(): Unit
 
 trait PathManager:
@@ -50,6 +51,7 @@ trait ViewAttachable:
   protected var _view: Option[View] = None
 
   final def attachView(v: View): Unit = _view = Some(v)
+  protected def updateView(): Unit = _view foreach {_.repaint()}
 
 trait ControllableSimulation:
   protected def pause(): Unit
@@ -141,6 +143,3 @@ object SimulationControllerImpl extends SimulationController
   private def planOver(): Unit =
     println("Plan terminated!")
     GameState set Reset
-
-  private def updateView(): Unit =
-    _view foreach {_.repaint()}
