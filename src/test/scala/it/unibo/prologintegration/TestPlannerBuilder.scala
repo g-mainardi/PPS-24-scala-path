@@ -1,6 +1,6 @@
 package it.unibo.prologintegration
 
-import it.unibo.model.{FailedPlan, Plan}
+import it.unibo.model.{FailedPlan, Plan, SucceededPlan}
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should.Matchers
 
@@ -13,7 +13,7 @@ class TestPlannerBuilder extends AnyFlatSpec with Matchers {
       .withGoal((2,3))
       .withMaxMoves(Some(5))
       .run
-    plan.directions should not be Empty
+    plan shouldBe a [SucceededPlan]
 
   "PlannerBuilder" should "find a valid path without max moves" in :
     val plan: Plan = PlannerBuilder()
@@ -22,19 +22,19 @@ class TestPlannerBuilder extends AnyFlatSpec with Matchers {
       .withGoal((2,3))
       .withMaxMoves(None)
       .run
-    plan.directions should not be Empty
+    plan shouldBe a [SucceededPlan]
 
   "PlannerBuilder" should "return a configuration error (missing goal)" in :
     val plan: Plan = PlannerBuilder()
       .withTheoryFrom("src/main/prolog/plannerWithoutTiles.pl")
       .withInit((0,0))
       .run
-    plan shouldBe FailedPlan()
-  
+    plan shouldBe a [FailedPlan]
+
   "PlannerBuilder" should "return a configuration error (missing init)" in :
     val plan: Plan = PlannerBuilder()
       .withTheoryFrom("src/main/prolog/plannerWithoutTiles.pl")
       .withGoal((2,3))
       .run
-    plan shouldBe FailedPlan()
+    plan shouldBe a [FailedPlan]
 }
