@@ -28,16 +28,6 @@ trait ScenarioManager:
   protected def changeScenario(newScenario: Scenario): Unit = _scenario = newScenario
   protected def generateScenario(): Unit
 
-trait PlannerManager:
-  protected var planner: Option[Planner] = None
-  protected var _currentPlan: List[Direction] = List()
-
-  protected def noPlan: List[Direction] = List()
-  protected def refreshPlan(): Unit = _currentPlan = planner match
-    case Some(p) => p.plan getOrElse noPlan
-    case None    => noPlan
-  protected def refreshPlanner(): Unit
-
 trait PathManager:
   private var _path: List[Position] = List()
 
@@ -46,6 +36,18 @@ trait PathManager:
   def path: List[Position] = _path
 
 trait DisplayableController extends ScenarioManager with PathManager
+
+trait PlannerManager:
+  protected var planner: Option[Planner] = None
+  protected var _currentPlan: List[Direction] = List()
+
+  protected def noPlan: List[Direction] = List()
+
+  protected def refreshPlan(): Unit = _currentPlan = planner match
+    case Some(p) => p.plan getOrElse noPlan
+    case None    => noPlan
+
+  protected def refreshPlanner(): Unit
 
 trait ViewAttachable:
   protected var _view: Option[View] = None
@@ -59,11 +61,13 @@ trait ControllableSimulation:
   protected def resetSimulation(): Unit
   protected def resetScenario(): Unit
 
-trait SimulationController extends ScenarioManager:
+trait SimulationController:
+  def init(): Unit
+  def start(): Unit
   protected def step(): Unit
-  def initSimulation(): Unit
+  protected def over(): Unit
 
-object SimulationControllerImpl extends SimulationController
+object ScalaPathController extends SimulationController
   with DisplayableController
   with PlannerManager
   with ViewAttachable
@@ -79,18 +83,17 @@ object SimulationControllerImpl extends SimulationController
 
   import it.unibo.prologintegration.Conversions.given
 
-  def refreshPlanner(): Unit = planner =
-    Some(PlannerWithMoves(_scenario.initialPosition, _scenario.goalPosition, _scenario.tiles))
+  override def refreshPlanner(): Unit = planner =
+    Some(PlannerWithTiles(_scenario.initialPosition, _scenario.goalPosition, 10, _scenario.tiles))
 
   override def generateScenario(): Unit =
     _scenario.generate()
     updateView()
 
-  override def initSimulation(): Unit =
+  override def init(): Unit =
     generateScenario()
     refreshPlanner()
     refreshPlan()
-    loop(GameState.current)
 
   override def resetSimulation(): Unit =
     _scenario.resetAgent()
@@ -104,6 +107,8 @@ object SimulationControllerImpl extends SimulationController
   override def resetScenario(): Unit =
     generateScenario()
     resetSimulation()
+
+  override def start(): Unit = loop(GameState.current)
 
   import GameState.*
   @tailrec
@@ -123,7 +128,7 @@ object SimulationControllerImpl extends SimulationController
           step()
           Thread sleep 500
         else
-          planOver()
+          over()
       case ChangeScenario(scenarioIndex) =>
         changeScenario(_scenarios(scenarioIndex))
         refreshPlanner()
@@ -134,12 +139,12 @@ object SimulationControllerImpl extends SimulationController
 
     loop(GameState.current)
 
-  override def step(): Unit =
+  override protected def step(): Unit =
     addToPath(_scenario.agent.pos)
     _scenario.agent computeCommand _currentPlan.head
     _currentPlan = _currentPlan.tail
     updateView()
 
-  private def planOver(): Unit =
+  override protected def over(): Unit =
     println("Plan terminated!")
     GameState set Reset

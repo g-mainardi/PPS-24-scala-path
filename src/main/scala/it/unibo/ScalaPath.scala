@@ -1,14 +1,14 @@
 package it.unibo
 
-import it.unibo.controller.SimulationControllerImpl
+import it.unibo.controller.{GameState, ScalaPathController}
 import it.unibo.view.View
 
 import scala.swing.{Frame, SimpleSwingApplication}
 
 object ScalaPath extends SimpleSwingApplication:
-  val view: View = View(SimulationControllerImpl)
+  val view: View = View(ScalaPathController)
 
-  SimulationControllerImpl attachView view
+  ScalaPathController attachView view
 
   val cellSize = 20
   val gridSize = 10
@@ -18,4 +18,5 @@ object ScalaPath extends SimpleSwingApplication:
 
   override def main(args: Array[String]): Unit =
     super.main(args)
-    SimulationControllerImpl.initSimulation()
+    ScalaPathController.init()
+    ScalaPathController.start()
