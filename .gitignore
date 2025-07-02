@@ -1,3 +1,5 @@
 project/
-.*
+.bloop
+.bsp
+.idea
 target/
