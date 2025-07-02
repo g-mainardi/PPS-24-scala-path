@@ -10,31 +10,22 @@ class DummyPlanner extends Planner:
   override def plan: Option[List[Direction]] =
     Some(List.fill(5)(Cardinals.Down))
 
-class PlannerWithoutTiles(initPos:(Int, Int), goal:(Int, Int), maxMoves:Int) extends Planner:
+class PlannerWithoutTiles(initPos:(Int, Int), goal:(Int, Int), maxMoves: Option[Int]) extends Planner:
   override def plan: Plan =
     PlannerBuilder()
       .withTheoryFrom("src/main/prolog/plannerWithoutTiles.pl")
       .withInit(initPos)
       .withGoal(goal)
-      .run
-
-class PlannerWithMaxMoves(initPos:(Int, Int), goal:(Int, Int), maxMoves:Int, tiles: List[Tile]) extends Planner:
-  override def plan: Plan =
-    println(s"Tiles: $tiles")
-    PlannerBuilder()
-      .withTiles(tiles)
-      .withTheoryFrom("src/main/prolog/plannerWithMaxMoves.pl")
-      .withInit(initPos)
       .withMaxMoves(maxMoves)
-      .withGoal(goal)
       .run
 
-class PlannerWithMoves(initPos:(Int, Int), goal:(Int, Int), tiles: List[Tile]) extends Planner:
+class PlannerWithTiles(initPos:(Int, Int), goal:(Int, Int), tiles: List[Tile], maxMoves: Option[Int]) extends Planner:
   override def plan: Plan =
     println(s"Tiles: $tiles")
     PlannerBuilder()
       .withTiles(tiles)
-      .withTheoryFrom("src/main/prolog/plannerWithMoves.pl")
+      .withTheoryFrom("src/main/prolog/plannerWithTiles.pl")
       .withInit(initPos)
       .withGoal(goal)
+      .withMaxMoves(maxMoves)
       .run

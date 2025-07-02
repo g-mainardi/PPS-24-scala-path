@@ -27,19 +27,18 @@ move(s(X,Y), leftUp,     s(X1, Y1)) :- X1 is X - 1, Y1 is Y - 1.
 move(s(X,Y), leftDown,   s(X1, Y1)) :- X1 is X - 1, Y1 is Y + 1.
 
 % Planner: find path from initial state to goal state
-plan(Path, MaxMoves) :-
+plan(Path, Moves) :-
     init(Init),
     goal(Goal),
-    planner(Init, Goal, [Init], Path, MaxMoves).
+    planner(Init, Goal, [Init], Path, Moves).
 
 % Base case: at goal, no moves needed
-planner(State, State, _, [], _).
+planner(State, State, _, [], 0).
 
 % Recursive case: explore possible directions
-planner(State, Goal, Visited, [Dir|Rest], MovesLeft) :-
-    MovesLeft > 0,
+planner(State, Goal, Visited, [Dir|Rest], NewMoves) :-
     directions(Dir),
     move(State, Dir, NewState),
     \+ member(NewState, Visited),  % avoid cycles
-    NewMovesLeft is MovesLeft - 1,
-    planner(NewState, Goal, [NewState|Visited], Rest, NewMovesLeft).
+    planner(NewState, Goal, [NewState|Visited], Rest, Moves),
+  	NewMoves is Moves + 1.
