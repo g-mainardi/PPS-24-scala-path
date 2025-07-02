@@ -7,7 +7,7 @@ import it.unibo.prologintegration.Prolog2Scala.*
 
 import scala.util.Try
 import scala.io.Source
-import it.unibo.model.{Cardinals, Diagonals, Direction, FailedPlan, Plan, SucceededPlan}
+import it.unibo.model.{Cardinals, Diagonals, Direction, FailedPlan, Plan, SucceededPlan, SucceededPlanWithoutTiles}
 
 object Conversions:
   given Conversion[String, Direction] with
@@ -74,9 +74,12 @@ class PlannerBuilder:
   private def convertToPlan(solveInfo: SolveInfo): Plan =
     import Conversions.given
     val listTerm: Term = extractTerm(solveInfo, "P")
-    val movesTerm: Term = extractTerm(solveInfo, "M")
-    val directions: List[String] = extractListFromTerm(listTerm).toList
-    SucceededPlan(directions.map(s => s: Direction), movesTerm.toString.toInt)
+    val directions: List[Direction] = extractListFromTerm(listTerm).toList map(s => s: Direction)
+    maxMoves match
+      case 0 =>
+        val movesTerm: Term = extractTerm(solveInfo, "M")
+        SucceededPlan(directions, movesTerm.toString.toInt)
+      case _ => SucceededPlanWithoutTiles(directions)
 
 object PlannerBuilder:
   def apply(): PlannerBuilder = new PlannerBuilder()

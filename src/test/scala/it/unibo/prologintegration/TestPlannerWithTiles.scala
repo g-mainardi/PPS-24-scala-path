@@ -1,8 +1,7 @@
 package it.unibo.prologintegration
 
 import it.unibo.model.Tiling.*
-import it.unibo.model.{FailedPlan, Plan, SucceededPlan}
-import it.unibo.model.{PlannerWithTiles, PlannerWithoutTiles}
+import it.unibo.model.{FailedPlan, Plan, PlannerWithTiles, PlannerWithoutTiles, SucceededPlan, SucceededPlanWithoutTiles}
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should.Matchers
 
@@ -33,11 +32,11 @@ class TestPlannerWithTiles extends AnyFlatSpec with Matchers {
     val plan:Plan = PlannerWithTiles((0, 0), (10, 10), blockingTiles).plan
     plan shouldBe a [FailedPlan]
 
-  "PlannerWithTiles" should "find a valid path with max moves" in :
+  "PlannerWithoutTiles" should "find a valid path with max moves" in :
     val plan = PlannerWithoutTiles((0, 0), (2, 2), Some(5)).plan
-    plan shouldBe a [SucceededPlan]
+    plan shouldBe a [SucceededPlanWithoutTiles]
 
-  "PlannerWithTiles" should "not find a valid path with max moves" in:
+  "PlannerWithoutTiles" should "not find a valid path with max moves" in:
     val plan = PlannerWithoutTiles((0, 0), (10, 10), Some(3)).plan
     plan shouldBe a [FailedPlan]
 }
