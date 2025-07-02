@@ -1,5 +1,9 @@
 title: Scala-Path
 description: Relation for a Project in Scala for PPS course
+
 markdown: kramdown
 kramdown:
   input: GFM
+
+# (opzionale) se vuoi, puoi definire un permalink “pulito”:
+permalink: pretty
