@@ -1,13 +1,13 @@
 package it.unibo.prologintegration
 
-import alice.tuprolog.{Term, Theory}
+import alice.tuprolog.{SolveInfo, Term, Theory}
 import it.unibo.model.Tiling.*
 import it.unibo.prologintegration.Scala2Prolog.*
 import it.unibo.prologintegration.Prolog2Scala.*
 
 import scala.util.Try
 import scala.io.Source
-import it.unibo.model.{Cardinals, Diagonals, Direction}
+import it.unibo.model.{Cardinals, Diagonals, Direction, FailedPlan, Plan, SucceededPlan}
 
 object Conversions:
   given Conversion[String, Direction] with
@@ -17,11 +17,11 @@ object Conversions:
   given Conversion[(Int, Int), Position] = Position(_, _)
   given Conversion[Position, (Int, Int)] = p => (p.x, p.y)
 
+
 class PlannerBuilder:
   private var theoryStr: String = ""
   private var initPos: Option[(Int, Int)] = None
   private var goalPos: Option[(Int, Int)] = None
-  private var moves: Int = 0
   private var maxMoves: Int = 0
 
   def withTheoryFrom(path: String): PlannerBuilder =
@@ -41,54 +41,40 @@ class PlannerBuilder:
     this
 
   def withTiles(tiles: List[Tile]): PlannerBuilder =
-    if tiles.isEmpty then
-      println("No tiles provided, skipping tile facts generation.")
-      return this
-
-    var tileFacts =  tiles.map {
+    val tileFacts = tiles.map {
       case p: Passage => s"passable(${p.x}, ${p.y})."
       case o: Obstacle => s"blocked(${o.x}, ${o.y})."
     }.mkString("\n")
-    tileFacts = tileFacts + "\n"
-
-    // println(s"$tileFacts\n")
-    this.theoryStr += s"\n$tileFacts"
+    this.theoryStr += s"\n$tileFacts\n"
     this
 
-  def run: Option[List[Direction]] =
-    (initPos, goalPos) match
-      case (Some((ix, iy)), Some((gx, gy))) =>
-        val initFact = s"init(s($ix, $iy))."
-        val goalFact = s"goal(s($gx, $gy))."
+  private object InitPos:
+    def unapply(o: Option[(Int, Int)]): Option[String] = o map ((ix, iy) => s"init(s($ix, $iy)).")
+    
+  private object Goal:
+    def unapply(o: Option[(Int, Int)]): Option[String] = o map ((ix, iy) => s"goal(s($ix, $iy)).")
+  
+  def run: Plan = (initPos, goalPos) match
+    case (None, _) | (_, None) =>
+      println("Planner not fully configured (missing init or goal)")
+      FailedPlan()
+    case (InitPos(initFact), Goal(goalFact)) =>
+      val fullTheory = new Theory(s"$initFact\n$goalFact\n$theoryStr")
+      val engine: Engine = mkPrologEngine(fullTheory)
 
-        println(s"$initFact\n$goalFact\n$theoryStr\n")
-
-        val fullTheory = new Theory(s"$initFact\n$goalFact\n$theoryStr")
-
-        val engine: Engine = mkPrologEngine(fullTheory)
-
-        val goal = Term.createTerm(s"plan(P, M)")
-        val solutions = engine(goal)
-
-        val directions: Option[List[String]] = solutions.headOption.map { info =>
-          val listTerm = extractTerm(info, "P")
-          val movesTerm = extractTerm(info, "M")
-          // println("Term list: " + listTerm)
-          println("Moves Required: " + movesTerm)
-
-          moves = movesTerm.toString.toInt
-          extractListFromTerm(listTerm).toList
-        }
-
-
-        println("Directions list: " + directions)
-
-        import Conversions.given
-        directions.map(_.map(s => s: Direction))
-
-      case _ =>
-        println("Planner not fully configured (missing init, goal, or maxMoves)")
-        None
+      val goal = Term.createTerm(s"plan(P, M)")
+      val solutions: LazyList[SolveInfo] = engine(goal)
+      convertToPlan(solutions)
+  
+  private def convertToPlan(solutions: LazyList[SolveInfo]): Plan =
+    import Conversions.given
+    solutions.headOption.get match
+      case solveInfo if !solveInfo.isSuccess => FailedPlan()
+      case solveInfo if solveInfo.isSuccess =>
+        val listTerm: Term = extractTerm(solveInfo, "P")
+        val movesTerm: Term = extractTerm(solveInfo, "M")
+        val directions: List[String] = extractListFromTerm(listTerm).toList
+        SucceededPlan(directions.map(s => s: Direction), movesTerm.toString.toInt)
 
 object PlannerBuilder:
   def apply(): PlannerBuilder = new PlannerBuilder()
@@ -103,10 +89,10 @@ object PlannerBuilder:
       Floor(Position(0, 0)),
       Grass(Position(0, 1)),
       Floor(Position(1, 1)),
-     Floor(Position(2, 2))
+      Floor(Position(2, 2))
     ))
     .run
 
-  pathOpt match
-    case Some(path) => println(s"Found path: ${path.mkString(" -> ")}")
-    case None => println("No solution found.")
+//  pathOpt match
+//    case Some(path) => println(s"Found path: ${path.mkString(" -> ")}")
+//    case None => println("No solution found.")
