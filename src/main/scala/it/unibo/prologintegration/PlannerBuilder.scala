@@ -21,7 +21,8 @@ class PlannerBuilder:
   private var theoryStr: String = ""
   private var initPos: Option[(Int, Int)] = None
   private var goalPos: Option[(Int, Int)] = None
-  private var maxMoves: Option[Int] = None
+  private var moves: Int = 0
+  private var maxMoves: Int = 0
 
   def withTheoryFrom(path: String): PlannerBuilder =
     this.theoryStr += Source.fromFile(path).mkString
@@ -35,8 +36,8 @@ class PlannerBuilder:
     this.goalPos = Some(goal)
     this
 
-  def withMaxMoves(m: Int): PlannerBuilder =
-    this.maxMoves = Some(m)
+  def withMaxMoves(maxMoves: Int): PlannerBuilder =
+    this.maxMoves = maxMoves
     this
 
   def withTiles(tiles: List[Tile]): PlannerBuilder =
@@ -55,8 +56,8 @@ class PlannerBuilder:
     this
 
   def run: Option[List[Direction]] =
-    (initPos, goalPos, maxMoves) match
-      case (Some((ix, iy)), Some((gx, gy)), Some(moves)) =>
+    (initPos, goalPos) match
+      case (Some((ix, iy)), Some((gx, gy))) =>
         val initFact = s"init(s($ix, $iy))."
         val goalFact = s"goal(s($gx, $gy))."
 
@@ -65,14 +66,20 @@ class PlannerBuilder:
         val fullTheory = new Theory(s"$initFact\n$goalFact\n$theoryStr")
 
         val engine: Engine = mkPrologEngine(fullTheory)
-        val goal = Term.createTerm(s"plan(P, $moves)")
+
+        val goal = Term.createTerm(s"plan(P, M)")
         val solutions = engine(goal)
 
         val directions: Option[List[String]] = solutions.headOption.map { info =>
           val listTerm = extractTerm(info, "P")
-          println("Term list: " + listTerm)
+          val movesTerm = extractTerm(info, "M")
+          // println("Term list: " + listTerm)
+          println("Moves Required: " + movesTerm)
+
+          moves = movesTerm.toString.toInt
           extractListFromTerm(listTerm).toList
         }
+
 
         println("Directions list: " + directions)
 
@@ -92,7 +99,6 @@ object PlannerBuilder:
     .withTheoryFrom("src/main/prolog/plannerWithMaxMoves.pl")
     .withInit(0, 0)
     .withGoal(2, 2)
-    .withMaxMoves(5)
     .withTiles(List(
       Floor(Position(0, 0)),
       Grass(Position(0, 1)),

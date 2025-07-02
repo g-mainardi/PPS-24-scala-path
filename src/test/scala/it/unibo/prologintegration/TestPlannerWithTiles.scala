@@ -1,6 +1,6 @@
 package it.unibo.prologintegration
 
-import it.unibo.model.PlannerWithTiles
+import it.unibo.model.PlannerWithMaxMoves
 import it.unibo.model.Tiling.*
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should.Matchers
@@ -25,10 +25,10 @@ class TestPlannerWithTiles extends AnyFlatSpec with Matchers {
     Wall(Position(2, 2)))
 
   "PlannerWithTiles" should "find a valid path" in :
-    val pathOpt = PlannerWithTiles((0, 0), (2, 2), 5, passableTiles).plan
+    val pathOpt = PlannerWithMaxMoves((0, 0), (2, 2), 5, passableTiles).plan
     pathOpt should not be None
 
   "PlannerWithTiles" should "not find a valid path" in :
-    val pathOpt = PlannerWithTiles((0, 0), (10, 10), 3, blockingTiles).plan
+    val pathOpt = PlannerWithMaxMoves((0, 0), (10, 10), 3, blockingTiles).plan
     pathOpt shouldBe None
 }
