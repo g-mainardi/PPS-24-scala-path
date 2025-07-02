@@ -25,7 +25,16 @@ class TestScenario extends AnyFlatSpec with Matchers:
     def countTrampoline(tiles: List[Tile]): Int = tiles count :
       case _: Teleport => true
       case _ => false
-
     countTrampoline(scenario.tiles) should be (0)
     scenario.generate()
     countTrampoline(scenario.tiles) shouldEqual scenario.nTrampolines
+  
+  "A Maze Scenario" should "have initial position (1, 1)" in :
+    val scenario: Maze = Maze()
+    scenario.initialPosition.x should be(1)
+    scenario.initialPosition.y should be(1)
+
+  "A Maze Scenario" should "generate some tiling" in :
+    val scenario: Scenario = Maze()
+    scenario.generate()
+    scenario.tiles should not be empty
