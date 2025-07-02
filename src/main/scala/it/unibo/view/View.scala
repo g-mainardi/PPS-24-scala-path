@@ -1,6 +1,6 @@
 package it.unibo.view
 
-import it.unibo.controller.{GameState, SimulationController}
+import it.unibo.controller.{DisplayableController, GameState}
 import it.unibo.model.Tiling
 import it.unibo.model.Tiling.Position
 
@@ -26,12 +26,12 @@ object ViewUtilities:
       case _: Lava => ORANGE
       case _: Rock => GRAY
   
-class View(controller: SimulationController) extends MainFrame:
+class View(controller: DisplayableController) extends MainFrame:
   import ViewUtilities.*
   import it.unibo.ScalaPath.{gridOffset, cellSize, gridSize}
   title = "Scala Path"
   preferredSize = new Dimension(800, 600)
-  private val scenarioDropdown = new ComboBox(controller.getScenarioNames)
+  private val scenarioDropdown = new ComboBox(controller.scenariosNames)
   private val generateScenarioButton = new Button("Generate scenario")
 
   private class ScenarioListenerButton(label: String) extends Button(label):

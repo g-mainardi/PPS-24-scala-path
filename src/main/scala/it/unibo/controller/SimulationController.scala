@@ -15,37 +15,41 @@ object GameState:
     case Empty
     case ChangeScenario(scenarioIndex: Int)
   export State.*
-  @volatile private var currentState: State = Empty
-  def current: State = synchronized{currentState}
-  def set(s: State): Unit = synchronized{currentState = s}
+  @volatile private var _current: State = Empty
+  def current: State = synchronized{_current}
+  def set(s: State): Unit = synchronized{_current = s}
 
 trait ScenarioManager:
-  var scenarios: List[Scenario] = Terrain() :: Maze() :: Traps() :: Nil
-  var scenario: Scenario = scenarios.head
+  protected var _scenarios: List[Scenario] = Terrain() :: Maze() :: Traps() :: Nil
+  protected var _scenario: Scenario = _scenarios.head
 
-  def getScenarioNames: List[String] = scenarios.map(_.toString)
-  protected def changeScenario(newScenario: Scenario): Unit = scenario = newScenario
+  def scenariosNames: List[String] = _scenarios map(_.toString)
+  def scenario: Scenario = _scenario
+  protected def changeScenario(newScenario: Scenario): Unit = _scenario = newScenario
   protected def generateScenario(): Unit
 
 trait PlannerManager:
   protected var planner: Option[Planner] = None
-  protected var currentPlan: List[Direction] = List()
+  protected var _currentPlan: List[Direction] = List()
 
-  protected def refreshPlan(): Unit = currentPlan = planner match
+  protected def refreshPlan(): Unit = _currentPlan = planner match
     case Some(p) => p.plan getOrElse List()
     case None    => List()
+  protected def refreshPlanner(): Unit
 
 trait PathManager:
-  protected var path: List[Position] = List()
+  private var _path: List[Position] = List()
 
-  protected def addToPath(p: Position): Unit = path = path :+ p
-  protected def resetPath(): Unit = path = List()
-  def getPath: List[Position] = path
+  protected def addToPath(p: Position): Unit = _path = _path :+ p
+  protected def resetPath(): Unit = _path = List()
+  def path: List[Position] = _path
+
+trait DisplayableController extends ScenarioManager with PathManager
 
 trait ViewAttachable:
-  protected var view: Option[View] = None
+  protected var _view: Option[View] = None
 
-  final def attachView(v: View): Unit = view = Some(v)
+  final def attachView(v: View): Unit = _view = Some(v)
 
 trait ControllableSimulation:
   protected def pause(): Unit
@@ -54,13 +58,12 @@ trait ControllableSimulation:
   protected def resetScenario(): Unit
 
 trait SimulationController extends ScenarioManager:
-  def step(): Unit
+  protected def step(): Unit
   def initSimulation(): Unit
 
 object SimulationControllerImpl extends SimulationController
-  with ScenarioManager
+  with DisplayableController
   with PlannerManager
-  with PathManager
   with ViewAttachable
   with ControllableSimulation:
 
@@ -75,10 +78,10 @@ object SimulationControllerImpl extends SimulationController
   import it.unibo.prologintegration.Conversions.given
 
   def refreshPlanner(): Unit = planner =
-    Some(PlannerWithTiles(scenario.initialPosition, scenario.goalPosition, 10, scenario.tiles))
+    Some(PlannerWithTiles(_scenario.initialPosition, _scenario.goalPosition, 10, _scenario.tiles))
 
   override def generateScenario(): Unit =
-    scenario.generate()
+    _scenario.generate()
     updateView()
 
   override def initSimulation(): Unit =
@@ -88,7 +91,7 @@ object SimulationControllerImpl extends SimulationController
     loop(GameState.current)
 
   override def resetSimulation(): Unit =
-    scenario.resetAgent()
+    _scenario.resetAgent()
     resetPath()
     updateView()
 
@@ -113,26 +116,26 @@ object SimulationControllerImpl extends SimulationController
         step()
         GameState set Paused
       case Running =>
-        if currentPlan.nonEmpty
+        if _currentPlan.nonEmpty
         then
           step()
           Thread sleep 500
         else
           planOver()
       case ChangeScenario(scenarioIndex) =>
-        changeScenario(scenarios(scenarioIndex))
+        changeScenario(_scenarios(scenarioIndex))
         refreshPlanner()
         refreshPlan()
-        println("Current plan " + currentPlan)
-        println("Current tiles " + scenario.tiles)
+        println("Current plan " + _currentPlan)
+        println("Current tiles " + _scenario.tiles)
         GameState set Empty
 
     loop(GameState.current)
 
   override def step(): Unit =
-    addToPath(scenario.agent.pos)
-    scenario.agent computeCommand currentPlan.head
-    currentPlan = currentPlan.tail
+    addToPath(_scenario.agent.pos)
+    _scenario.agent computeCommand _currentPlan.head
+    _currentPlan = _currentPlan.tail
     updateView()
 
   private def planOver(): Unit =
@@ -140,4 +143,4 @@ object SimulationControllerImpl extends SimulationController
     GameState set Reset
 
   private def updateView(): Unit =
-    view foreach {_.repaint()}
+    _view foreach {_.repaint()}

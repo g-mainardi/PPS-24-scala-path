@@ -15,8 +15,6 @@ class Maze extends Scenario:
   override def initialPosition: Position = Position(1, 1, false)
   override def goalPosition: Position = Position(exitX, exitY)
 
-  override def resetAgent(): Unit = agent = Agent(initialPosition)
-
   override def generate(): Unit =
 
     val visited = Array.fill(logicalRows, logicalCols)(false)
@@ -60,4 +58,4 @@ class Maze extends Scenario:
 
     println(s"exit at: (${exitX}, ${exitY})")
 
-    tiles = mazeTiles.values.toList
+    _tiles = mazeTiles.values.toList

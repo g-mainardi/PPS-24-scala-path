@@ -13,7 +13,7 @@ class Traps extends Scenario:
   val nTrampolines = 4
 
   override def generate(): Unit =
-    tiles = (for
+    _tiles = (for
       x <- 0 to nRows
       y <- 0 to nCols
       pos: Position = Position(x, y)
@@ -21,6 +21,6 @@ class Traps extends Scenario:
       Floor(pos)).toList
 
     TrampolinePos set randomPositions(nTrampolines)
-    tiles = tiles.map:
+    _tiles = _tiles map:
       case TrampolinePos(p) => Teleport(p)
       case t => t

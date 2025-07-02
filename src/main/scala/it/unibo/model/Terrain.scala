@@ -66,7 +66,7 @@ class Terrain extends Scenario:
 
   override def generate(): Unit =
     val permutation = PerlinNoise.randomPermutation
-    tiles =
+    _tiles =
       (for
         x <- 0 until Scenario.nRows
         y <- 0 until Scenario.nCols
