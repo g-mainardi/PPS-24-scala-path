@@ -33,4 +33,4 @@ jobs:
           git remote set-url origin https://x-access-token:${TOKEN}@github.com/${{ github.repository }}
           git add index.md
           git diff --quiet && git diff --staged --quiet || git commit -m "🔄 Auto-update TOC"
-          git push origin HEAD
+          git push 
