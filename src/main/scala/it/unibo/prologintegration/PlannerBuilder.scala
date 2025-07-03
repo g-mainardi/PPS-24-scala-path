@@ -7,7 +7,8 @@ import it.unibo.prologintegration.Prolog2Scala.*
 
 import scala.util.Try
 import scala.io.Source
-import it.unibo.model.{Cardinals, Diagonals, Direction, FailedPlan, Plan, SucceededPlan, SucceededPlanWithoutTiles}
+import it.unibo.model.{Cardinals, Diagonals, Direction, Plan}
+import it.unibo.model.Plan.*
 
 object Conversions:
   given Conversion[String, Direction] with
@@ -15,7 +16,6 @@ object Conversions:
       Try(Cardinals.valueOf(s.capitalize)).getOrElse(Diagonals.valueOf(s.capitalize))
 
   given Conversion[(Int, Int), Position] = Position(_, _)
-
   given Conversion[Position, (Int, Int)] = p => (p.x, p.y)
 
 class PlannerBuilder:
@@ -52,7 +52,6 @@ class PlannerBuilder:
 
   private object InitPos:
     def unapply(o: Option[(Int, Int)]): Option[String] = o map ((ix, iy) => s"init(s($ix, $iy)).")
-
   private object Goal:
     def unapply(o: Option[(Int, Int)]): Option[String] = o map ((ix, iy) => s"goal(s($ix, $iy)).")
 
@@ -79,7 +78,7 @@ class PlannerBuilder:
       case 0 =>
         val movesTerm: Term = extractTerm(solveInfo, "M")
         SucceededPlan(directions, movesTerm.toString.toInt)
-      case _ => SucceededPlanWithoutTiles(directions)
+      case _ => SucceededPlanWithoutMaxMoves(directions)
 
 object PlannerBuilder:
   def apply(): PlannerBuilder = new PlannerBuilder()

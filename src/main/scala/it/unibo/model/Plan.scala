@@ -1,7 +1,6 @@
 package it.unibo.model
 
-trait Plan
-
-case class SucceededPlan(directions: List[Direction], numMoves: Int) extends Plan
-case class SucceededPlanWithoutTiles(directions: List[Direction]) extends Plan
-case class FailedPlan(errorMessage: String) extends Plan
+enum Plan:
+  case SucceededPlan(directions: List[Direction], numMoves: Int)
+  case SucceededPlanWithoutMaxMoves(directions: List[Direction])
+  case FailedPlan(errorMessage: String)

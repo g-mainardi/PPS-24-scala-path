@@ -3,6 +3,7 @@ package it.unibo.controller
 import it.unibo.model.*
 import it.unibo.view.View
 import Tiling.Position
+import it.unibo.model.Plan.*
 
 import scala.annotation.tailrec
 
@@ -46,6 +47,8 @@ trait PlannerManager:
   private object ValidPlanner:
     def unapply(plannerOpt: Option[Planner]): Option[List[Direction]] = plannerOpt map(_.plan) map:
       case SucceededPlan(directions, _) => directions
+      case SucceededPlanWithoutMaxMoves(directions) =>  directions
+      case FailedPlan(error) => println(error); List.empty
 
   protected def refreshPlan(): Unit = _currentPlan = planner match
     case ValidPlanner(directions) => directions
