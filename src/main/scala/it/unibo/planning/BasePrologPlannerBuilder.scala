@@ -22,21 +22,30 @@ object Conversions:
 class BasePrologPlannerBuilder extends PrologBuilder:
   private object InitPos:
     def unapply(o: Option[(Int, Int)]): Option[String] = o map ((ix, iy) => s"init(s($ix, $iy)).")
+
   private object Goal:
     def unapply(o: Option[(Int, Int)]): Option[String] = o map ((gx, gy) => s"goal(s($gx, $gy)).")
+
   private object Theory:
     def unapply(o: Option[String]): Option[String] = o map (theoryPath => Source.fromFile(theoryPath).mkString)
+
   private object Tiles:
     def unapply(o: Option[List[Tile]]): Option[String] = o map (tiles => tiles.map {
       case p: Passage => s"passable(${p.x}, ${p.y})."
       case o: Obstacle => s"blocked(${o.x}, ${o.y})."
     }.mkString("\n"))
 
+  object IncompletePlannerConfig:
+    def unapply(config :(Option[(Int, Int)], Option[(Int, Int)], Option[String], Option[List[Tile]])): Option[String] =
+      config match
+        case (None, _, _, _) => Some("missing init position")
+        case (_, None, _, _) => Some("missing goal")
+        case (_, _, None, _) => Some("missing theory")
+        case (_, _, _, None) => Some("missing environmental tiles")
+        case _ => None
+
   override def run: Plan = (initPos, goalPos, theoryPath, environmentTiles) match
-    case (None, _, _, _) => FailedPlan("Planner not fully configured, missing init position")
-    case (_, None, _, _) => FailedPlan("Planner not fully configured, missing goal")
-    case (_, _, None, _) => FailedPlan("Planner not fully configured, missing theory")
-    case (_, _, _, None) => FailedPlan("Planner not fully configured, missing environmental tiles")
+    case IncompletePlannerConfig(reason) => FailedPlan(s"Planner not fully configured, $reason")
     case (InitPos(initFact), Goal(goalFact), Theory(theoryString), Tiles(tileFacts)) =>
       val fullTheory = new Theory(s"$initFact\n$goalFact\n$tileFacts\n$theoryString")
       val engine: Engine = mkPrologEngine(fullTheory)
