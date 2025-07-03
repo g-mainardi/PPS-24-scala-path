@@ -18,7 +18,7 @@ Start Date: 30/6/25
 <br/>
 End Date: 6/7/25
 
-The aim of the sprint is to finalize the controller and view design, and to implement a planner that can handle obstacoles and tiles.
+The aim of the sprint is to finalize the controller and view design, and to implement a planner that can handle obstacles and tiles.
 Then we aim to add variability and flexibility to the scenarios generation, so that we can have different variants of the maze, terrain and traps scenarios.
 Secondly, we aim to add also two more major algorithm for pathfinding.
 
@@ -28,7 +28,7 @@ If possible we would like to achieve a more flexible design combining different 
 
 ### Sprint Review
 There were a bit of refactoring that we had to do to implement some core feature of the controller and the view in a more clean and concise way.
-We have found ourselves spending a lot of time discussing design choices, cleaner code and refactorings to achieve more concise code.
+We have found ourselves spending a lot of time discussing design choices, cleaner code and refactorings to achieve more conciseness.
+Overall, we have refined the code we have built in the first sprint. 
 
 ### Sprint Retrospective
-
