@@ -14,7 +14,7 @@ class TestPlannerWithoutTiles extends AnyFlatSpec with Matchers {
   "PlannerWithoutTiles" should "find a valid path" in :
     val plan = PlannerWithoutTiles((0, 0), (2, 2), Some(25)).plan
     plan match
-      case SucceededPlanWithoutMaxMoves(directions) =>
+      case SucceededPlan(directions) =>
         directions should not be empty
       case _ =>
         fail("Expected a SucceededPlan")
@@ -22,7 +22,7 @@ class TestPlannerWithoutTiles extends AnyFlatSpec with Matchers {
   "PlannerWithoutTiles" should "find a path > 0" in :
     val plan = PlannerWithoutTiles((0, 0), (2, 2)).plan
     plan match
-      case SucceededPlan(directions, moves) =>
+      case SucceededPlanWithMaxMoves(directions, moves) =>
         println(moves)
         moves should be > 0
       case _ =>
