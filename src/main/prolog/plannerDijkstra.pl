@@ -46,6 +46,29 @@ plan([], 0, _, [], _):- !, fail.
 plan([Cmd|Dirs], N, Pos, [Pos|Path], Visited):- 
 	move(Pos, Cmd, Posn),
 	\+ member(Posn, Visited),  % opzionale: evita cicli
-	checkSpecial(Posn, SpecialPos),
 	Nn is N - 1, 
 	plan(Dirs, Nn, Posn, Path, [Posn|Visited]).
+
+% Dijkstra algorithm
+
+% directions(Position, List of possibile directions)
+directions(Pos, Output):- validpos(Pos), findall(Dir, move(Pos, Dir, _), Output).
+
+% neighbour(Pos, One of possible Positions)
+reachable(Pos, Pos2):-
+	validpos(Pos),
+	move(Pos, _, Pos2). 
+
+% step(Node, Node+1)
+step(n(0, Pos), n(1, Pos2), [Pos]):-
+	init(Pos),
+	reachable(Pos, Pos2).
+	
+step(n(Dist, Pos), n(Dist2, Pos2), [Pos|Visited]):-
+	step(_, n(Dist, Pos), Visited),
+	reachable(Pos, Pos2),
+  \+ member(Pos2, Visited),  % evita visitati
+	Dist2 is Dist + 1.
+	
+
+
