@@ -1,9 +1,11 @@
 package it.unibo.prologintegration
 
 import it.unibo.model.Tiling.*
-import it.unibo.model.{FailedPlan, Plan, PlannerWithTiles, PlannerWithoutTiles, SucceededPlan, SucceededPlanWithoutTiles}
+import it.unibo.model.{Plan, PlannerWithTiles, PlannerWithoutTiles}
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should.Matchers
+import it.unibo.model.Plan.*
+
 
 class TestPlannerWithTiles extends AnyFlatSpec with Matchers {
   val passableTiles: List[Tile] = List(
@@ -23,20 +25,20 @@ class TestPlannerWithTiles extends AnyFlatSpec with Matchers {
     Wall(Position(1, 2)),
     Wall(Position(2, 1)),
     Wall(Position(2, 2)))
-  
+
   "PlannerWithTiles" should "find a valid path" in :
-    val plan:Plan = PlannerWithTiles((0, 0), (2, 2), passableTiles).plan
-    plan shouldBe a [SucceededPlan]
+    val plan: Plan = PlannerWithTiles((0, 0), (2, 2), passableTiles).plan
+    plan shouldBe a[SucceededPlan]
 
   "PlannerWithTiles" should "not find a valid path" in :
-    val plan:Plan = PlannerWithTiles((0, 0), (10, 10), blockingTiles).plan
-    plan shouldBe a [FailedPlan]
+    val plan: Plan = PlannerWithTiles((0, 0), (10, 10), blockingTiles).plan
+    plan shouldBe a[FailedPlan]
 
-  "PlannerWithoutTiles" should "find a valid path with max moves" in :
-    val plan = PlannerWithoutTiles((0, 0), (2, 2), Some(5)).plan
-    plan shouldBe a [SucceededPlanWithoutTiles]
+  "PlannerWithTiles" should "find a valid path with max moves" in :
+    val plan = PlannerWithTiles((0, 0), (2, 2), passableTiles, Some(5)).plan
+    plan shouldBe a[SucceededPlanWithoutMaxMoves]
 
-  "PlannerWithoutTiles" should "not find a valid path with max moves" in:
-    val plan = PlannerWithoutTiles((0, 0), (10, 10), Some(3)).plan
-    plan shouldBe a [FailedPlan]
+  "PlannerWithTiles" should "not find a valid path with max moves" in :
+    val plan = PlannerWithTiles((0, 0), (10, 10), blockingTiles, Some(3)).plan
+    plan shouldBe a[FailedPlan]
 }

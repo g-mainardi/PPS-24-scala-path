@@ -3,8 +3,8 @@ package it.unibo.model
 import Tiling.*
 
 object Scenario:
-  val nRows = 4
-  val nCols = 4
+  val nRows = 7
+  val nCols = 7
 
   import scala.util.Random
   private val rand = Random(seed = 42)
