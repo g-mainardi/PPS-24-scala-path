@@ -1,10 +1,10 @@
 package it.unibo.prologintegration
 
-import it.unibo.model.{Plan, PlannerWithoutTiles}
 import it.unibo.model.Tiling.*
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should.Matchers
-import it.unibo.model.Plan.*
+import it.unibo.planning.Plan.*
+import it.unibo.planning.{Plan, PlannerWithoutTiles}
 import org.scalatest.concurrent.TimeLimits.failAfter
 import org.scalatest.time.SpanSugar._
 

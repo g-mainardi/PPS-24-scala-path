@@ -1,14 +1,14 @@
-package it.unibo.prologintegration
+package it.unibo.planning
 
 import alice.tuprolog.{SolveInfo, Term, Theory}
+import Plan.*
 import it.unibo.model.Tiling.*
-import it.unibo.prologintegration.Scala2Prolog.*
+import it.unibo.model.{Cardinals, Diagonals, Direction}
 import it.unibo.prologintegration.Prolog2Scala.*
+import it.unibo.prologintegration.Scala2Prolog.*
 
-import scala.util.Try
 import scala.io.Source
-import it.unibo.model.{Cardinals, Diagonals, Direction, Plan}
-import it.unibo.model.Plan.*
+import scala.util.Try
 
 object Conversions:
   given Conversion[String, Direction] with
@@ -18,31 +18,12 @@ object Conversions:
   given Conversion[(Int, Int), Position] = Position(_, _)
   given Conversion[Position, (Int, Int)] = p => (p.x, p.y)
 
-class BasePlannerBuilder extends PlannerBuilder:
-  private var theoryStr: String = ""
-  private var initPos: Option[(Int, Int)] = None
-  private var goalPos: Option[(Int, Int)] = None
-  private var maxMoves: Int = 0
-
-  def withTheoryFrom(path: String): BasePlannerBuilder =
+class BasePrologPlannerBuilder extends PrologBuilder:
+  override def withTheoryFrom(path: String): BasePrologPlannerBuilder =
     this.theoryStr += Source.fromFile(path).mkString
     this
 
-  def withInit(initPos: (Int, Int)): BasePlannerBuilder =
-    this.initPos = Some(initPos)
-    this
-
-  def withGoal(goal: (Int, Int)): BasePlannerBuilder =
-    this.goalPos = Some(goal)
-    this
-
-  def withMaxMoves(maxMoves: Option[Int]): BasePlannerBuilder =
-    maxMoves match
-      case Some(moves) => this.maxMoves = Math.abs(moves)
-      case _ => this.maxMoves = 0
-    this
-
-  def withTiles(tiles: List[Tile]): BasePlannerBuilder =
+  override def withTiles(tiles: List[Tile]): BasePrologPlannerBuilder =
     val tileFacts = tiles.map {
       case p: Passage => s"passable(${p.x}, ${p.y})."
       case o: Obstacle => s"blocked(${o.x}, ${o.y})."
@@ -55,14 +36,14 @@ class BasePlannerBuilder extends PlannerBuilder:
   private object Goal:
     def unapply(o: Option[(Int, Int)]): Option[String] = o map ((ix, iy) => s"goal(s($ix, $iy)).")
 
-  def run: Plan = (initPos, goalPos) match
+  override def run: Plan = (initPos, goalPos) match
     case (None, _) | (_, None) => FailedPlan("Planner not fully configured (missing init or goal)")
     case (InitPos(initFact), Goal(goalFact)) =>
       val fullTheory = new Theory(s"$initFact\n$goalFact\n$theoryStr")
       val engine: Engine = mkPrologEngine(fullTheory)
       val goal = maxMoves match
-        case 0 => Term.createTerm(s"plan(P, M)")
-        case _ => Term.createTerm(s"plan(P, $maxMoves)")
+        case None => Term.createTerm(s"plan(P, M)")
+        case Some(moves) => Term.createTerm(s"plan(P, $moves)")
 
       checkSolutions(engine(goal))
 
@@ -75,10 +56,10 @@ class BasePlannerBuilder extends PlannerBuilder:
     val listTerm: Term = extractTerm(solveInfo, "P")
     val directions: List[Direction] = extractListFromTerm(listTerm).toList map(s => s: Direction)
     maxMoves match
-      case 0 =>
+      case None =>
         val movesTerm: Term = extractTerm(solveInfo, "M")
         SucceededPlan(directions, movesTerm.toString.toInt)
       case _ => SucceededPlanWithoutMaxMoves(directions)
 
-object BasePlannerBuilder:
-  def apply(): BasePlannerBuilder = new BasePlannerBuilder()
+object BasePrologPlannerBuilder:
+  def apply(): BasePrologPlannerBuilder = new BasePrologPlannerBuilder()

@@ -1,10 +1,10 @@
 package it.unibo.prologintegration
 
 import it.unibo.model.Tiling.*
-import it.unibo.model.{Plan, PlannerWithTiles, PlannerWithoutTiles}
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should.Matchers
-import it.unibo.model.Plan.*
+import it.unibo.planning.Plan.*
+import it.unibo.planning.{Plan, PlannerWithTiles, PlannerWithoutTiles}
 
 
 class TestPlannerWithTiles extends AnyFlatSpec with Matchers {

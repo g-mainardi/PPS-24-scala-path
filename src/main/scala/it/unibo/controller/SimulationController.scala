@@ -3,7 +3,8 @@ package it.unibo.controller
 import it.unibo.model.*
 import it.unibo.view.View
 import Tiling.Position
-import it.unibo.model.Plan.*
+import it.unibo.planning.Plan.*
+import it.unibo.planning.{Planner, PlannerWithTiles}
 
 import scala.annotation.tailrec
 
@@ -88,7 +89,7 @@ object ScalaPathController extends SimulationController
 
   override def resume(): Unit = ()
 
-  import it.unibo.prologintegration.Conversions.given
+  import it.unibo.planning.Conversions.given
 
   override def refreshPlanner(): Unit = planner =
     Some(PlannerWithTiles(_scenario.initialPosition, _scenario.goalPosition, _scenario.tiles))
