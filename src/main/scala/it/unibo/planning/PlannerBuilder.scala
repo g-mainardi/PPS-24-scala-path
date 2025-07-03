@@ -28,7 +28,7 @@ import it.unibo.model.Tiling.Tile
 trait PlannerBuilder:
   protected var initPos: Option[(Int, Int)] = None
   protected var goalPos: Option[(Int, Int)] = None
-  protected var environmentTiles: List[Tile] = List.empty
+  protected var environmentTiles: Option[List[Tile]] = None
   protected var maxMoves: Option[Int] = None
 
   def withInit(initPos: (Int, Int)): PlannerBuilder =
@@ -44,14 +44,16 @@ trait PlannerBuilder:
     this
 
   def withTiles(tiles: List[Tile]): PlannerBuilder =
-    this.environmentTiles = tiles
+    this.environmentTiles = Some(tiles)
     this
 
   def run: Plan
 
 trait PrologBuilder extends PlannerBuilder:
-  protected var theoryStr: String = ""
-  def withTheoryFrom(path: String): PlannerBuilder
+  protected var theoryPath: Option[String] = None
+  def withTheoryFrom(path: String): PlannerBuilder =
+    this.theoryPath = Some(path)
+    this
 
 trait ScalaBuilder extends PlannerBuilder:
   def withAlgorithm(algorithm: PathFindingAlgorithm): PlannerBuilder

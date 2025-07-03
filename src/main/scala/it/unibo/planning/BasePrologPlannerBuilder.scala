@@ -16,35 +16,33 @@ object Conversions:
       Try(Cardinals.valueOf(s.capitalize)).getOrElse(Diagonals.valueOf(s.capitalize))
 
   given Conversion[(Int, Int), Position] = Position(_, _)
+
   given Conversion[Position, (Int, Int)] = p => (p.x, p.y)
 
 class BasePrologPlannerBuilder extends PrologBuilder:
-  override def withTheoryFrom(path: String): BasePrologPlannerBuilder =
-    this.theoryStr += Source.fromFile(path).mkString
-    this
-
-  override def withTiles(tiles: List[Tile]): BasePrologPlannerBuilder =
-    val tileFacts = tiles.map {
-      case p: Passage => s"passable(${p.x}, ${p.y})."
-      case o: Obstacle => s"blocked(${o.x}, ${o.y})."
-    }.mkString("\n")
-    this.theoryStr += s"\n$tileFacts\n"
-    this
-
   private object InitPos:
     def unapply(o: Option[(Int, Int)]): Option[String] = o map ((ix, iy) => s"init(s($ix, $iy)).")
   private object Goal:
-    def unapply(o: Option[(Int, Int)]): Option[String] = o map ((ix, iy) => s"goal(s($ix, $iy)).")
+    def unapply(o: Option[(Int, Int)]): Option[String] = o map ((gx, gy) => s"goal(s($gx, $gy)).")
+  private object Theory:
+    def unapply(o: Option[String]): Option[String] = o map (theoryPath => Source.fromFile(theoryPath).mkString)
+  private object Tiles:
+    def unapply(o: Option[List[Tile]]): Option[String] = o map (tiles => tiles.map {
+      case p: Passage => s"passable(${p.x}, ${p.y})."
+      case o: Obstacle => s"blocked(${o.x}, ${o.y})."
+    }.mkString("\n"))
 
-  override def run: Plan = (initPos, goalPos) match
-    case (None, _) | (_, None) => FailedPlan("Planner not fully configured (missing init or goal)")
-    case (InitPos(initFact), Goal(goalFact)) =>
-      val fullTheory = new Theory(s"$initFact\n$goalFact\n$theoryStr")
+  override def run: Plan = (initPos, goalPos, theoryPath, environmentTiles) match
+    case (None, _, _, _) => FailedPlan("Planner not fully configured, missing init position")
+    case (_, None, _, _) => FailedPlan("Planner not fully configured, missing goal")
+    case (_, _, None, _) => FailedPlan("Planner not fully configured, missing theory")
+    case (_, _, _, None) => FailedPlan("Planner not fully configured, missing environmental tiles")
+    case (InitPos(initFact), Goal(goalFact), Theory(theoryString), Tiles(tileFacts)) =>
+      val fullTheory = new Theory(s"$initFact\n$goalFact\n$tileFacts\n$theoryString")
       val engine: Engine = mkPrologEngine(fullTheory)
       val goal = maxMoves match
         case None => Term.createTerm(s"plan(P, M)")
         case Some(moves) => Term.createTerm(s"plan(P, $moves)")
-
       checkSolutions(engine(goal))
 
   private def checkSolutions(solutions: LazyList[SolveInfo]): Plan = solutions match
@@ -54,12 +52,12 @@ class BasePrologPlannerBuilder extends PrologBuilder:
   private def convertToPlan(solveInfo: SolveInfo): Plan =
     import Conversions.given
     val listTerm: Term = extractTerm(solveInfo, "P")
-    val directions: List[Direction] = extractListFromTerm(listTerm).toList map(s => s: Direction)
+    val directions: List[Direction] = extractListFromTerm(listTerm).toList map (s => s: Direction)
     maxMoves match
       case None =>
         val movesTerm: Term = extractTerm(solveInfo, "M")
-        SucceededPlan(directions, movesTerm.toString.toInt)
-      case _ => SucceededPlanWithoutMaxMoves(directions)
+        SucceededPlanWithMaxMoves(directions, movesTerm.toString.toInt)
+      case _ => SucceededPlan(directions)
 
 object BasePrologPlannerBuilder:
   def apply(): BasePrologPlannerBuilder = new BasePrologPlannerBuilder()
