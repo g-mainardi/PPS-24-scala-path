@@ -9,16 +9,7 @@ trait Planner:
   def plan: Plan
   
 class DummyPlanner extends Planner:
-  override def plan: Plan = SucceededPlanWithMaxMoves(List.fill(5)(Cardinals.Down), 5)
-
-class PlannerWithoutTiles(initPos:(Int, Int), goal:(Int, Int), maxMoves: Option[Int] = None) extends Planner:
-  override def plan: Plan =
-    BasePrologPlannerBuilder()
-      .withTheoryFrom("src/main/prolog/plannerWithoutTilesOptimized.pl")
-      .withInit(initPos)
-      .withGoal(goal)
-      .withMaxMoves(maxMoves)
-      .run
+  override def plan: Plan = SucceededPlanWithMoves(List.fill(5)(Cardinals.Down), 5)
 
 class PlannerWithTiles(initPos:(Int, Int), goal:(Int, Int), tiles: List[Tile], maxMoves: Option[Int] = None) extends Planner:
   override def plan: Plan =
