@@ -1,7 +1,7 @@
 package it.unibo.model
 
 import it.unibo.model.Tiling.Tile
-import it.unibo.prologintegration.PlannerBuilder
+import it.unibo.prologintegration.BasePlannerBuilder
 import it.unibo.model.Plan.*
 
 trait Planner:
@@ -12,7 +12,7 @@ class DummyPlanner extends Planner:
 
 class PlannerWithoutTiles(initPos:(Int, Int), goal:(Int, Int), maxMoves: Option[Int] = None) extends Planner:
   override def plan: Plan =
-    PlannerBuilder()
+    BasePlannerBuilder()
       .withTheoryFrom("src/main/prolog/plannerWithoutTilesOptimized.pl")
       .withInit(initPos)
       .withGoal(goal)
@@ -22,7 +22,7 @@ class PlannerWithoutTiles(initPos:(Int, Int), goal:(Int, Int), maxMoves: Option[
 class PlannerWithTiles(initPos:(Int, Int), goal:(Int, Int), tiles: List[Tile], maxMoves: Option[Int] = None) extends Planner:
   override def plan: Plan =
     println(s"Tiles: $tiles")
-    PlannerBuilder()
+    BasePlannerBuilder()
       .withTiles(tiles)
       .withTheoryFrom("src/main/prolog/plannerWithTiles.pl")
       .withInit(initPos)
