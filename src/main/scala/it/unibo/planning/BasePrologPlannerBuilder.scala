@@ -48,6 +48,7 @@ class BasePrologPlannerBuilder extends PrologBuilder:
     case IncompletePlannerConfig(reason) => FailedPlan(s"Planner not fully configured, $reason")
     case (InitPos(initFact), Goal(goalFact), Theory(theoryString), Tiles(tileFacts)) =>
       val fullTheory = new Theory(s"$initFact\n$goalFact\n$tileFacts\n$theoryString")
+      println(s"\n$fullTheory\n")
       val engine: Engine = mkPrologEngine(fullTheory)
       val goal = maxMoves match
         case None => Term.createTerm(s"plan(P, M)")
@@ -65,7 +66,7 @@ class BasePrologPlannerBuilder extends PrologBuilder:
     maxMoves match
       case None =>
         val movesTerm: Term = extractTerm(solveInfo, "M")
-        SucceededPlanWithMaxMoves(directions, movesTerm.toString.toInt)
+        SucceededPlanWithMoves(directions, movesTerm.toString.toInt)
       case _ => SucceededPlan(directions)
 
 object BasePrologPlannerBuilder:

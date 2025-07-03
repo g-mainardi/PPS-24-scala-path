@@ -47,7 +47,7 @@ trait PlannerManager:
 
   private object ValidPlanner:
     def unapply(plannerOpt: Option[Planner]): Option[List[Direction]] = plannerOpt map(_.plan) map:
-      case SucceededPlanWithMaxMoves(directions, _) => directions
+      case SucceededPlanWithMoves(directions, _) => directions
       case SucceededPlan(directions) =>  directions
       case FailedPlan(error) => println(error); List.empty
 
