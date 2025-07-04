@@ -35,21 +35,44 @@ class BasePrologPlannerBuilder extends PrologBuilder:
       case o: Obstacle => s"blocked(${o.x}, ${o.y})."
     }.mkString("\n"))
 
+//  private object Directions:
+//    def unapply(o: Option[List[Direction]]): Option[String] = o map (direction => direction.map {
+//      case c: Cardinals => s"cardinals(${c.toString.toLowerCase})."
+//      case d: Diagonals => s"diagonals(${d.toString.toLowerCase})."
+//    }.mkString("\n"))
+
   private object Directions:
-    def unapply(o: Option[List[Direction]]): Option[String] = o map (direction => direction.map {
-      case c: Cardinals => s"cardinals(${c.toString.toLowerCase})."
-      case d: Diagonals => s"diagonals(${d.toString.toLowerCase})."
-    }.mkString("\n"))
+    def unapply(o: Option[List[Direction]]): Option[String] = o map { directions =>
+      val hasCardinals = directions.exists(_.isInstanceOf[Cardinals])
+      val hasDiagonals = directions.exists(_.isInstanceOf[Diagonals])
+      val facts = directions.map {
+        case c: Cardinals => s"cardinals(${c.toString.toLowerCase})."
+        case d: Diagonals => s"diagonals(${d.toString.toLowerCase})."
+      }
+      val header = Seq(
+        if (hasCardinals) Some("directions(D):- cardinals(D).") else None,
+        if (hasDiagonals) Some("directions(D):- diagonals(D).") else None
+      ).flatten
+      (facts ++ header).mkString("\n")
+    }
 
   object IncompletePlannerConfig:
     def unapply(config: (Option[(Int, Int)], Option[(Int, Int)], Option[String], Option[List[Tile]], Option[List[Direction]])): Option[String] =
-      config match
-        case (None, _, _, _, _) => Some("missing init position")
-        case (_, None, _, _, _) => Some("missing goal")
-        case (_, _, None, _, _) => Some("missing theory")
-        case (_, _, _, None, _) => Some("missing environmental tiles")
-        case (_, _, _, _, None) => Some("missing possible directions")
-        case _ => None
+      val labels = List("init position", "goal", "theory", "environmental tiles", "possible directions")
+      val options = config.toList
+      labels.zip(options).collectFirst {
+        case (label, None) => s"missing $label"
+      }
+
+//  object IncompletePlannerConfig:
+//    def unapply(config: (Option[(Int, Int)], Option[(Int, Int)], Option[String], Option[List[Tile]], Option[List[Direction]])): Option[String] =
+//      config match
+//        case (None, _, _, _, _) => Some("missing init position")
+//        case (_, None, _, _, _) => Some("missing goal")
+//        case (_, _, None, _, _) => Some("missing theory")
+//        case (_, _, _, None, _) => Some("missing environmental tiles")
+//        case (_, _, _, _, None) => Some("missing possible directions")
+//        case _ => None
 
   override def run: Plan = (initPos, goalPos, theoryPath, environmentTiles, directions) match
     case IncompletePlannerConfig(reason) => FailedPlan(s"Planner not fully configured, $reason")
