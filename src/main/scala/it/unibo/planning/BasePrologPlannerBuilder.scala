@@ -16,7 +16,6 @@ object Conversions:
       Try(Cardinals.valueOf(s.capitalize)).getOrElse(Diagonals.valueOf(s.capitalize))
 
   given Conversion[(Int, Int), Position] = Position(_, _)
-
   given Conversion[Position, (Int, Int)] = p => (p.x, p.y)
 
 class BasePrologPlannerBuilder extends PrologBuilder:
@@ -42,7 +41,7 @@ class BasePrologPlannerBuilder extends PrologBuilder:
         case (_, None, _, _) => Some("missing goal")
         case (_, _, None, _) => Some("missing theory")
         case (_, _, _, None) => Some("missing environmental tiles")
-        case _ => None
+        // case _ => None
 
   override def run: Plan = (initPos, goalPos, theoryPath, environmentTiles) match
     case IncompletePlannerConfig(reason) => FailedPlan(s"Planner not fully configured, $reason")
