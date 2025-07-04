@@ -1,7 +1,7 @@
 package it.unibo.planning.prologplanner
 
 import alice.tuprolog.{SolveInfo, Term, Theory}
-import it.unibo.model.{Direction}
+import it.unibo.model.Direction
 import it.unibo.model.Direction.{Cardinals, Diagonals}
 import it.unibo.model.Tiling.*
 import it.unibo.planning.Plan.{FailedPlan, SucceededPlan, SucceededPlanWithMoves}
@@ -34,7 +34,7 @@ class BasePrologPlannerBuilder extends PrologBuilder:
 
   private object Tiles:
     def unapply(o: Option[List[Tile]]): Option[String] = o map (tiles => tiles.map {
-      case s: Special => s"special(s(${s.x}, ${s.y}), s(${s.newPos.x}, ${s.newPos.y}))."
+      case s: Special => s"passable(${s.x}, ${s.y}).\nspecial(s(${s.x}, ${s.y}), s(${s.newPos.x}, ${s.newPos.y}))."
       case p: Passage => s"passable(${p.x}, ${p.y})."
       case o: Obstacle => s"blocked(${o.x}, ${o.y})."
     }.mkString("\n"))
