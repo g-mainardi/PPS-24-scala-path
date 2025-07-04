@@ -28,19 +28,4 @@ object Direction:
       case LeftUp    => Left.vector + Up.vector
       case LeftDown  => Left.vector + Down.vector
 
-  enum Specials extends Special:
-    case Teleport
-    override def vector: Position = this match
-      case Teleport => Position (Random nextInt (Scenario.nRows - 1), Random nextInt (Scenario.nCols - 1))
-
-  enum Arrows extends Special:
-    case ArrowUp, ArrowDown, ArrowRight, ArrowLeft
-    override def vector: Position = this match
-      case ArrowUp    => Position( 0, -2)
-      case ArrowDown  => Position( 0,  2)
-      case ArrowLeft  => Position(-2,  0)
-      case ArrowRight => Position( 2,  0)
-
-  val allNormals: List[Direction] = Cardinals.values.toList ++ Diagonals.values.toList
-  val allSpecials: List[Special] = Specials.values.toList ++ Arrows.values.toList
-  val allDirections: List[Direction] = allNormals ++ allSpecials
+  val allDirections: List[Direction] = Cardinals.values.toList ++ Diagonals.values.toList

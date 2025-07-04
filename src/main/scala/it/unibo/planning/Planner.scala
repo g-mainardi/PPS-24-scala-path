@@ -24,3 +24,15 @@ class PlannerWithTiles(initPos: (Int, Int), goal: (Int, Int), tiles: List[Tile],
       .withMaxMoves(maxMoves)
       .withDirections(allDirections)
       .run
+
+class PlannerWithSpecials(initPos: (Int, Int), goal: (Int, Int), tiles: List[Tile], maxMoves: Option[Int] = None) extends Planner:
+  override def plan: Plan =
+    println(s"Tiles: $tiles")
+    BasePrologPlannerBuilder()
+      .withTheoryFrom("src/main/prolog/plannerWithSpecials.pl")
+      .withTiles(tiles)
+      .withInit(initPos)
+      .withGoal(goal)
+      .withMaxMoves(maxMoves)
+      .withDirections(allDirections)
+      .run
