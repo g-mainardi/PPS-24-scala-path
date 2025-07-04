@@ -1,7 +1,7 @@
 % Initial and Goal States (specified by the user)
 ipos(s(0, 0)).
-gpos(s(1, 1)).
-gridsize(5).
+gpos(s(3, 3)).
+gridsize(6).
 
 % validcoord(?Coordinate) => {0,1,2,3,4,5}
 validcoord(C):- validcoord(0, C).
@@ -89,6 +89,23 @@ planD(N, [N|PathToGoal]):-
 	step(N, N2, _),
 	planD(N2, PathToGoal).
 
+% foldleft(+L, +Init, +BinaryOp, -Final)
+% where BinaryOp = op(E1, E2, O, BINARY_OP)
+% e.g.: BinaryOp = op(X, Y, A, A is X+Y)    => sum
+% e.g.: BinaryOp = op(X, _, A, A is X+1)    => size
+foldleft([], Acc, _, Acc).
+foldleft([H|T], Acc, BOp, F):-
+	 copy_term(BOp, op(Acc, H, NAcc, OP)), call(OP), foldleft(T, NAcc, BOp, F).
+
+% find_min(+NodeList, -MinNode)
+find_min([H|T], Min) :-
+    foldleft(T, H,
+    	op(
+    		Acc, N, Min,
+    		(Acc = n(C1, _), N = n(C2, _), C1 =< C2 -> Min = Acc; Min = N)
+  		),
+  		Min
+  	).
 
 
 
