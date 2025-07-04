@@ -2,8 +2,10 @@ package it.unibo.planning
 
 import it.unibo.planning.Plan.*
 import it.unibo.model.Tiling.Tile
-import it.unibo.model.{Cardinals, Diagonals}
-import it.unibo.planning.BasePrologPlannerBuilder
+import it.unibo.model.Direction.{Cardinals, Diagonals, allDirections}
+import it.unibo.planning.prologplanner.BasePrologPlannerBuilder
+
+// Cardinals.values.toList ++ Diagonals.values.toList
 
 trait Planner:
   def plan: Plan
@@ -20,5 +22,5 @@ class PlannerWithTiles(initPos: (Int, Int), goal: (Int, Int), tiles: List[Tile],
       .withInit(initPos)
       .withGoal(goal)
       .withMaxMoves(maxMoves)
-      .withDirections(Cardinals.values.toList ++ Diagonals.values.toList)
+      .withDirections(allDirections)
       .run

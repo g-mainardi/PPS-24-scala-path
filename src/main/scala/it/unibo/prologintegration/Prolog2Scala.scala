@@ -1,7 +1,8 @@
 package it.unibo.prologintegration
 
 import alice.tuprolog.{SolveInfo, Struct, Term, Theory, Var}
-import it.unibo.model.{Cardinals, Diagonals, Direction}
+import it.unibo.model.Direction
+import it.unibo.model.Direction.{Cardinals, Diagonals}
 import it.unibo.prologintegration.Scala2Prolog.Engine
 
 object Prolog2Scala:

@@ -89,7 +89,7 @@ object ScalaPathController extends SimulationController
 
   override def resume(): Unit = ()
 
-  import it.unibo.planning.Conversions.given
+  import it.unibo.planning.prologplanner.Conversions.given
 
   override def refreshPlanner(): Unit = planner =
     Some(PlannerWithTiles(_scenario.initialPosition, _scenario.goalPosition, _scenario.tiles))

@@ -1,9 +1,12 @@
-package it.unibo.planning
+package it.unibo.planning.prologplanner
 
 import alice.tuprolog.{SolveInfo, Term, Theory}
-import Plan.*
+import it.unibo.model.Direction
+import it.unibo.model.Direction.{Cardinals, Diagonals}
 import it.unibo.model.Tiling.*
-import it.unibo.model.{Cardinals, Diagonals, Direction}
+import it.unibo.planning.Plan.{FailedPlan, SucceededPlan, SucceededPlanWithMoves}
+import it.unibo.planning.prologplanner.MoveFactsGenerator.generateMoveRules
+import it.unibo.planning.{Plan, PrologBuilder}
 import it.unibo.prologintegration.Prolog2Scala.*
 import it.unibo.prologintegration.Scala2Prolog.*
 
@@ -35,11 +38,11 @@ class BasePrologPlannerBuilder extends PrologBuilder:
       case o: Obstacle => s"blocked(${o.x}, ${o.y})."
     }.mkString("\n"))
 
-//  private object Directions:
-//    def unapply(o: Option[List[Direction]]): Option[String] = o map (direction => direction.map {
-//      case c: Cardinals => s"cardinals(${c.toString.toLowerCase})."
-//      case d: Diagonals => s"diagonals(${d.toString.toLowerCase})."
-//    }.mkString("\n"))
+  //  private object Directions:
+  //    def unapply(o: Option[List[Direction]]): Option[String] = o map (direction => direction.map {
+  //      case c: Cardinals => s"cardinals(${c.toString.toLowerCase})."
+  //      case d: Diagonals => s"diagonals(${d.toString.toLowerCase})."
+  //    }.mkString("\n"))
 
   private object Directions:
     def unapply(o: Option[List[Direction]]): Option[String] = o map { directions =>
@@ -53,9 +56,17 @@ class BasePrologPlannerBuilder extends PrologBuilder:
         if (hasCardinals) Some("directions(D):- cardinals(D).") else None,
         if (hasDiagonals) Some("directions(D):- diagonals(D).") else None
       ).flatten
-      (facts ++ header).mkString("\n")
+      (facts ++ header).mkString("\n") + generateMoveRules(hasCardinals, hasDiagonals)
     }
-
+    
+    // extension Method per mappare ai blocchi moves salvati su file?
+    // oppure generazione dinamica a runtime, così non serve sapere a priori le dirs?
+    extension(direction: Direction)
+        def moveFact: String = direction match
+          case Cardinals.Down =>   """move(s(X,Y), down, s(X, Y1)) :-""" +
+                                    """    Y1 is Y + 1,""" +
+                                    """    passable(X, Y1)."""
+          
   object IncompletePlannerConfig:
     def unapply(config: (Option[(Int, Int)], Option[(Int, Int)], Option[String], Option[List[Tile]], Option[List[Direction]])): Option[String] =
       val labels = List("init position", "goal", "theory", "environmental tiles", "possible directions")
@@ -64,15 +75,15 @@ class BasePrologPlannerBuilder extends PrologBuilder:
         case (label, None) => s"missing $label"
       }
 
-//  object IncompletePlannerConfig:
-//    def unapply(config: (Option[(Int, Int)], Option[(Int, Int)], Option[String], Option[List[Tile]], Option[List[Direction]])): Option[String] =
-//      config match
-//        case (None, _, _, _, _) => Some("missing init position")
-//        case (_, None, _, _, _) => Some("missing goal")
-//        case (_, _, None, _, _) => Some("missing theory")
-//        case (_, _, _, None, _) => Some("missing environmental tiles")
-//        case (_, _, _, _, None) => Some("missing possible directions")
-//        case _ => None
+  //  object IncompletePlannerConfig:
+  //    def unapply(config: (Option[(Int, Int)], Option[(Int, Int)], Option[String], Option[List[Tile]], Option[List[Direction]])): Option[String] =
+  //      config match
+  //        case (None, _, _, _, _) => Some("missing init position")
+  //        case (_, None, _, _, _) => Some("missing goal")
+  //        case (_, _, None, _, _) => Some("missing theory")
+  //        case (_, _, _, None, _) => Some("missing environmental tiles")
+  //        case (_, _, _, _, None) => Some("missing possible directions")
+  //        case _ => None
 
   override def run: Plan = (initPos, goalPos, theoryPath, environmentTiles, directions) match
     case IncompletePlannerConfig(reason) => FailedPlan(s"Planner not fully configured, $reason")
