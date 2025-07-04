@@ -3,7 +3,8 @@ package it.unibo.prologintegration
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should.Matchers
 import it.unibo.planning.Plan.*
-import it.unibo.planning.{BasePrologPlannerBuilder, Plan}
+import it.unibo.planning.Plan
+import it.unibo.planning.prologplanner.BasePrologPlannerBuilder
 
 
 class TestPlannerBuilder extends AnyFlatSpec with Matchers with TestPlanner {
