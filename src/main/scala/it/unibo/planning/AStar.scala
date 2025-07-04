@@ -5,7 +5,7 @@ import it.unibo.model.Tiling.{Obstacle, Passage, Position, Tile}
 
 import scala.annotation.tailrec
 
-object AStar extends PathFindingAlgorithm:
+class AStar extends PathFindingAlgorithm:
 
   /**
    *
@@ -79,4 +79,3 @@ object AStar extends PathFindingAlgorithm:
         _run(newOpen, updatedCameFrom, updatedGScore, updatedQueue.sortBy(_._1))
 
     _run(Set(start), Map(), initG, List((initF, start)))
-  
