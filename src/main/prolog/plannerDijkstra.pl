@@ -1,6 +1,6 @@
 % Initial and Goal States (specified by the user)
-init(s(0, 0)).
-goal(s(2, 2)).
+ipos(s(0, 0)).
+gpos(s(1, 1)).
 gridsize(5).
 
 % validcoord(?Coordinate) => {0,1,2,3,4,5}
@@ -12,7 +12,7 @@ validcoord(A, X):- gridsize(B), A < B, A2 is A + 1, validcoord(A2, X).
 validpos(s(X, Y)):- validcoord(X), validcoord(Y).
 
 % freepos(?Pos) => {s(0,1), s(0,2), ..., s(4,5)}
-freepos(P):- validpos(P),	not(init(P)), not(goal(P)).
+freepos(P):- validpos(P),	not(ipos(P)), not(gpos(P)).
 
 % Transaction Rules: move(State, Direction, NewState)
 move(s(X,Y), up,         s(X, Y1)) :- Y > 0, Y1 is Y - 1, validcoord(X), validcoord(Y).
@@ -35,12 +35,12 @@ interval(A, B, X):-
 % Basic plan
 plan(Dirs):- plan(Dirs, _).
 plan(Dirs, N):- plan(Dirs, N, Path).
-plan(Dirs, N, Path):- number(N), !, init(Pos), plan(Dirs, N, Pos, Path, [Pos]).
+plan(Dirs, N, Path):- number(N), !, ipos(Pos), plan(Dirs, N, Pos, Path, [Pos]).
 plan(Dirs, N, Path):- 
 	gridsize(MaxMoves),
 	interval(1, MaxMoves, N),
 	plan(Dirs, N, Path).
-plan([], _, P, [P], _):- 	goal(P), !.
+plan([], _, P, [P], _):- 	gpos(P), !.
 plan([], 0, _, [], _):- !, fail.
 
 plan([Cmd|Dirs], N, Pos, [Pos|Path], Visited):- 
@@ -61,7 +61,7 @@ reachable(Pos, Pos2):-
 
 % step(Node, Node+1)
 step(n(0, Pos), n(1, Pos2), [Pos]):-
-	init(Pos),
+	ipos(Pos), !,
 	reachable(Pos, Pos2).
 	
 step(n(Dist, Pos), n(Dist2, Pos2), [Pos|Visited]):-
@@ -69,6 +69,23 @@ step(n(Dist, Pos), n(Dist2, Pos2), [Pos|Visited]):-
 	reachable(Pos, Pos2),
   \+ member(Pos2, Visited),  % evita visitati
 	Dist2 is Dist + 1.
-	
+
+init(n(0, s(0,0))).
+goal(n(_, s(2,2))).
+
+planD(PathToGoal):-
+	init(N),
+	planD(N, PathToGoal).
+
+planD(N, [N]):- goal(N), !.
+
+planD(N, [N|PathToGoal]):-
+	step(N, N2, _),
+	planD(N2, PathToGoal).
+
+
+
+
+
 
 
