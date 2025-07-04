@@ -1,5 +1,6 @@
 package it.unibo.model
 
+import it.unibo.model.Direction.Cardinals
 import it.unibo.model.Tiling.Position
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should.Matchers

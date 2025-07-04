@@ -62,4 +62,5 @@ trait PrologBuilder extends PlannerBuilder:
     this
 
 trait ScalaBuilder extends PlannerBuilder:
+  protected var algorithm: Option[PathFindingAlgorithm]
   def withAlgorithm(algorithm: PathFindingAlgorithm): PlannerBuilder
