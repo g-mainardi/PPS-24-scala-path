@@ -5,7 +5,7 @@ import org.scalatest.matchers.should.Matchers
 import it.unibo.planning.Plan.*
 import it.unibo.planning.Plan
 import it.unibo.planning.prologplanner.BasePrologPlannerBuilder
-
+import it.unibo.model.Direction.allDirections
 
 class TestPlannerBuilder extends AnyFlatSpec with Matchers with TestPlanner {
 
@@ -16,6 +16,7 @@ class TestPlannerBuilder extends AnyFlatSpec with Matchers with TestPlanner {
       .withGoal((2,2))
       .withTiles(passableTiles)
       .withMaxMoves(Some(5))
+      .withDirections(allDirections)
       .run
     plan shouldBe a [SucceededPlan]
 
@@ -25,6 +26,7 @@ class TestPlannerBuilder extends AnyFlatSpec with Matchers with TestPlanner {
       .withInit((0,0))
       .withGoal((2,2))
       .withTiles(passableTiles)
+      .withDirections(allDirections)
       .run
     plan shouldBe a [SucceededPlanWithMoves]
 
@@ -33,6 +35,7 @@ class TestPlannerBuilder extends AnyFlatSpec with Matchers with TestPlanner {
       .withTheoryFrom("src/main/prolog/plannerWithTiles.pl")
       .withInit((0,0))
       .withTiles(passableTiles)
+      .withDirections(allDirections)
       .run
     plan shouldBe a [FailedPlan]
 
@@ -41,6 +44,7 @@ class TestPlannerBuilder extends AnyFlatSpec with Matchers with TestPlanner {
       .withTheoryFrom("src/main/prolog/plannerWithTiles.pl")
       .withGoal((2,3))
       .withTiles(passableTiles)
+      .withDirections(allDirections)
       .run
     plan shouldBe a [FailedPlan]
 
@@ -49,6 +53,17 @@ class TestPlannerBuilder extends AnyFlatSpec with Matchers with TestPlanner {
       .withTheoryFrom("src/main/prolog/plannerWithTiles.pl")
       .withInit((0,0))
       .withGoal((2,3))
+      .withDirections(allDirections)
       .run
     plan shouldBe a [FailedPlan]
+
+  "PlannerBuilder" should "return a configuration error (missing directions)" in :
+    val plan: Plan = BasePrologPlannerBuilder()
+      .withTheoryFrom("src/main/prolog/plannerWithTiles.pl")
+      .withInit((0, 0))
+      .withGoal((2, 3))
+      .withTiles(passableTiles)
+      .withDirections(allDirections)
+      .run
+    plan shouldBe a[FailedPlan]
 }
