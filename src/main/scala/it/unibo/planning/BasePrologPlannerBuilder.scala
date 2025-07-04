@@ -13,9 +13,10 @@ import scala.util.Try
 object Conversions:
   given Conversion[String, Direction] with
     def apply(s: String): Direction =
-      Try(Cardinals.valueOf(s.capitalize)).getOrElse(Diagonals.valueOf(s.capitalize))
+      Try(Cardinals valueOf s.capitalize) getOrElse (Diagonals valueOf s.capitalize)
 
   given Conversion[(Int, Int), Position] = Position(_, _)
+
   given Conversion[Position, (Int, Int)] = p => (p.x, p.y)
 
 class BasePrologPlannerBuilder extends PrologBuilder:
@@ -34,19 +35,26 @@ class BasePrologPlannerBuilder extends PrologBuilder:
       case o: Obstacle => s"blocked(${o.x}, ${o.y})."
     }.mkString("\n"))
 
-  object IncompletePlannerConfig:
-    def unapply(config :(Option[(Int, Int)], Option[(Int, Int)], Option[String], Option[List[Tile]])): Option[String] =
-      config match
-        case (None, _, _, _) => Some("missing init position")
-        case (_, None, _, _) => Some("missing goal")
-        case (_, _, None, _) => Some("missing theory")
-        case (_, _, _, None) => Some("missing environmental tiles")
-        // case _ => None
+  private object Directions:
+    def unapply(o: Option[List[Direction]]): Option[String] = o map (direction => direction.map {
+      case c: Cardinals => s"cardinals(${c.toString.toLowerCase})."
+      case d: Diagonals => s"diagonals(${d.toString.toLowerCase})."
+    }.mkString("\n"))
 
-  override def run: Plan = (initPos, goalPos, theoryPath, environmentTiles) match
+  object IncompletePlannerConfig:
+    def unapply(config: (Option[(Int, Int)], Option[(Int, Int)], Option[String], Option[List[Tile]], Option[List[Direction]])): Option[String] =
+      config match
+        case (None, _, _, _, _) => Some("missing init position")
+        case (_, None, _, _, _) => Some("missing goal")
+        case (_, _, None, _, _) => Some("missing theory")
+        case (_, _, _, None, _) => Some("missing environmental tiles")
+        case (_, _, _, _, None) => Some("missing possible directions")
+        case _ => None
+
+  override def run: Plan = (initPos, goalPos, theoryPath, environmentTiles, directions) match
     case IncompletePlannerConfig(reason) => FailedPlan(s"Planner not fully configured, $reason")
-    case (InitPos(initFact), Goal(goalFact), Theory(theoryString), Tiles(tileFacts)) =>
-      val fullTheory = new Theory(s"$initFact\n$goalFact\n$tileFacts\n$theoryString")
+    case (InitPos(initFact), Goal(goalFact), Theory(theoryString), Tiles(tileFacts), Directions(directionsFact)) =>
+      val fullTheory = new Theory(s"$initFact\n$goalFact\n$directionsFact\n$tileFacts\n$theoryString")
       println(s"\n$fullTheory\n")
       val engine: Engine = mkPrologEngine(fullTheory)
       val goal = maxMoves match

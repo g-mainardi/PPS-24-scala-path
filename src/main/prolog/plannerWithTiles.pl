@@ -1,12 +1,3 @@
-cardinals(up).
-cardinals(down).
-cardinals(left).
-cardinals(right).
-
-diagonals(rightDown).
-diagonals(rightUp).
-diagonals(leftUp).
-diagonals(leftDown).
 
 directions(D):- cardinals(D).
 directions(D):- diagonals(D).
