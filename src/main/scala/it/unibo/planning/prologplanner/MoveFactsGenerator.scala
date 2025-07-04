@@ -1,13 +1,16 @@
 package it.unibo.planning.prologplanner
 
-import it.unibo.model.Direction
+import it.unibo.model.{Direction, Special}
 import it.unibo.model.Direction.{Cardinals, Diagonals}
 
 object MoveFactsGenerator {
-  def generateMoveRules(useCardinals: Boolean, useDiagonals: Boolean): String =
-    val selectedDirections: List[Direction] =
-      (if useCardinals then Cardinals.values.toList else Nil) ++
-        (if useDiagonals then Diagonals.values.toList else Nil)
+  def generateMoveRules(selectedDirections: List[Direction]): String =
+    def toMoveFact(direction: Direction): String =
+      direction match
+        case s: Special => factHeader(s)
+        case d: Direction => factHeader(d)
+//        case s: Special => toSpecialFact(factHeader(s))
+//        case d: Direction => toNormalFact(factHeader(d))
 
     def factHeader(direction: Direction): String =
       val dx = direction.vector.x
@@ -37,5 +40,7 @@ object MoveFactsGenerator {
 
     def toNormalFact(header: String): String = ???
 
-    selectedDirections.map(factHeader).mkString("% Transaction Rules: move(State, Direction, NewState)\n\n", "\n\n", "\n")
+    def toSpecialFact(header: String): String = ???
+
+    selectedDirections.map(toMoveFact).mkString("\n", "\n\n", "\n")
 }
