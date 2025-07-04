@@ -4,6 +4,9 @@
 
 *.iml
 *.pdf
+*.md
+
+!README.md
 
 bin
 out
