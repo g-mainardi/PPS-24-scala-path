@@ -3,7 +3,8 @@ package it.unibo.model
 object Tiling:
   case class Position(x: Int, y: Int, visited: Boolean = false):
     def +(vector: Position): Position = Position(x + vector.x, y + vector.y)
-  
+    def -(other: Position): Position = Position(x - other.x, y - other.y)
+    
   trait Tile:
     protected def pos: Position
     def x: Int = pos.x
