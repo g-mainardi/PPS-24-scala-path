@@ -37,3 +37,5 @@ Also a first version of the scala-prolog integration with a dummy planner has be
 
 
 ### Sprint Retrospective
+
+[Index](../index.md) | [Next Sprint](sprint2.md)

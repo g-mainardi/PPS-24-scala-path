@@ -23,3 +23,5 @@ End Date:
 ### Sprint Review
 
 ### Sprint Retrospective
+
+[Previous Sprint](sprint3.md) | [Index](../index.md)
