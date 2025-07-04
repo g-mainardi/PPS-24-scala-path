@@ -9,9 +9,8 @@
 |    5     |     Planner     |                     A* Search Algo                      | Basigli  |           8           |   8   |   8   |   6   |   4   |   4   |   0   |   0   |
 |    6     |     Planner     |                     Dj Search Algo                      | Mainardi |           8           |   8   |   8   |   6   |   4   |   4   |   0   |   0   |
 |    7     |   Integration   |       Planner MaxMove Refactor (Fully-Relational)       |  Salman  |           2           |   2   |   2   |   0   |   0   |   0   |   0   |   0   |
-|    8     |     Planner     |         Planner support for Special Moves/Tiles         |  Salman  |           2           |   2   |   2   |   2   |   2   |   0   |   0   |   0   |
-|    9     |      Test       |           Test for View, Controller, Planner            |   All    |           2           |   2   |   2   |   2   |   0   |   0   |   0   |   0   |
-|    10    |  Documentation  |          Documenting View, Controller, Planner          |   All    |           2           |   2   |   2   |   2   |   2   |   0   |   0   |   0   |
+|    8     |      Test       |           Test for View, Controller, Planner            |   All    |           2           |   2   |   2   |   2   |   0   |   0   |   0   |   0   |
+|    9     |  Documentation  |          Documenting View, Controller, Planner          |   All    |           2           |   2   |   2   |   2   |   2   |   0   |   0   |   0   |
 
 
 ### Sprint Goal

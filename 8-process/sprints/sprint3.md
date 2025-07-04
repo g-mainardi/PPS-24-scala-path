@@ -1,14 +1,15 @@
 # Sprint 3
 
-| Priority |     Item     |             Tasks              | Assignee | Initial Size Estimate | Day 1 | Day 2 | Day 3 | Day 4 | Day 5 | Day 6 | Day 7 |
-|:--------:|:------------:|:------------------------------:|:--------:|:---------------------:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|
-|    1     |   Planner    |         A* Search Algo         | Basigli  |           4           |   2   |   0   |   0   |   0   |   0   |   0   |   0   |
-|    2     |   Planner    |         Dj Search Algo         | Mainardi |           4           |   2   |   0   |   0   |   0   |   0   |   0   |   0   |
-|    3     | Domain Model |   Mixing Different Scenarios   |  Salman  |           4           |   2   |   0   |   0   |   0   |   0   |   0   |   0   |
-|    4     |  Controller  | Mixing different Special Tiles |  Salman  |           4           |   4   |   4   |   2   |   0   |   0   |   0   |   0   |
-|    5     |     View     |     DSL for Special Tiles      |   Team   |          10           |   8   |   6   |   4   |   2   |   0   |   0   |   0   |
-|    6     | Base Planner |           A* Builder           | Basigli  |           2           |   2   |   2   |   0   |   4   |   4   |   0   |   0   |
-|    7     |     Maze     |           Dj Builder           | Mainardi |           2           |   2   |   2   |   0   |   0   |   0   |   0   |   0   |
+| Priority |       Item        |                         Tasks                          | Assignee | Initial Size Estimate | Day 1 | Day 2 | Day 3 | Day 4 | Day 5 | Day 6 | Day 7 |
+|:--------:|:-----------------:|:------------------------------------------------------:|:--------:|:---------------------:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|
+|    1     |      Planner      |                     A* Search Algo                     | Basigli  |           4           |   2   |   0   |   0   |   0   |   0   |   0   |   0   |
+|    2     |      Planner      |                     Dj Search Algo                     | Mainardi |           4           |   2   |   0   |   0   |   0   |   0   |   0   |   0   |
+|    3     |      Planner      |        Planner support for Special Moves/Tiles         |  Salman  |           2           |   2   |   2   |   2   |   2   |   0   |   0   |   0   |
+|    4     |      Design       |               Mixing Different Scenarios               |  Salman  |           4           |   2   |   0   |   0   |   0   |   0   |   0   |   0   |
+|    5     |      Design       |             Mixing different Special Tiles             |  Salman  |           4           |   4   |   4   |   2   |   0   |   0   |   0   |   0   |
+|    6     |      Design       |                 DSL for Special Tiles                  |   Team   |          10           |   8   |   6   |   4   |   2   |   0   |   0   |   0   |
+|    7     |    Integration    |                       A* Builder                       | Basigli  |           2           |   2   |   2   |   0   |   4   |   4   |   0   |   0   |
+|    8     |    Integration    |                       Dj Builder                       | Mainardi |           2           |   2   |   2   |   0   |   0   |   0   |   0   |   0   |
 
 ### Sprint Goal
 Start Date: 7/7/25
