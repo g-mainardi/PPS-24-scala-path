@@ -8,6 +8,12 @@ validcoord(C):- validcoord(0, C).
 validcoord(A, A).
 validcoord(A, X):- gridsize(B), A < B, A2 is A + 1, validcoord(A2, X).
 
+% bounds
+notupperbound(N):-
+	validcoord(N),
+	gridsize(S),	N < S.
+notlowerbound(N):- validcoord(N), N > 0.
+
 % validpos(?Pos) => {s(0,0), s(0,1), ..., s(5,5)}
 validpos(s(X, Y)):- validcoord(X), validcoord(Y).
 
@@ -15,15 +21,15 @@ validpos(s(X, Y)):- validcoord(X), validcoord(Y).
 freepos(P):- validpos(P),	not(ipos(P)), not(gpos(P)).
 
 % Transaction Rules: move(State, Direction, NewState)
-move(s(X,Y), up,         s(X, Y1)) :- Y > 0, Y1 is Y - 1, validcoord(X), validcoord(Y).
-move(s(X,Y), down,       s(X, Y1)) :- gridsize(B), Y < B, Y1 is Y + 1, validcoord(X), validcoord(Y).
-move(s(X,Y), left,       s(X1, Y)) :- X > 0, X1 is X - 1, validcoord(X), validcoord(Y).
-move(s(X,Y), right,      s(X1, Y)) :- gridsize(B), X < B, X1 is X + 1, validcoord(X), validcoord(Y).
+move(s(X,Y), up,         s(X, Y1))  :-    validcoord(X), notlowerbound(Y), Y1 is Y - 1.
+move(s(X,Y), down,       s(X, Y1))  :-    validcoord(X), notupperbound(Y), Y1 is Y + 1.
+move(s(X,Y), left,       s(X1, Y))  :- notlowerbound(X),    validcoord(Y), X1 is X - 1.
+move(s(X,Y), right,      s(X1, Y))  :- notupperbound(X),    validcoord(Y), X1 is X + 1.
 
-move(s(X,Y), rightDown,  s(X1, Y1)) :- gridsize(B), X < B, Y < B, X1 is X + 1, Y1 is Y + 1, validcoord(X), validcoord(Y).
-move(s(X,Y), rightUp,    s(X1, Y1)) :- gridsize(B), X < B, Y > 0, X1 is X + 1, Y1 is Y - 1, validcoord(X), validcoord(Y).
-move(s(X,Y), leftUp,     s(X1, Y1)) :- gridsize(B), X > 0, Y > 0, X1 is X - 1, Y1 is Y - 1, validcoord(X), validcoord(Y).
-move(s(X,Y), leftDown,   s(X1, Y1)) :- gridsize(B), X > 0, Y < B, X1 is X - 1, Y1 is Y + 1, validcoord(X), validcoord(Y).
+move(s(X,Y), rightDown,  s(X1, Y1)) :- notupperbound(X), notupperbound(Y), X1 is X + 1, Y1 is Y + 1.
+move(s(X,Y), rightUp,    s(X1, Y1)) :- notupperbound(X), notlowerbound(Y), X1 is X + 1, Y1 is Y - 1.
+move(s(X,Y), leftUp,     s(X1, Y1)) :- notlowerbound(X), notlowerbound(Y), X1 is X - 1, Y1 is Y - 1.
+move(s(X,Y), leftDown,   s(X1, Y1)) :- notlowerbound(X), notupperbound(Y), X1 is X - 1, Y1 is Y + 1.
 
 % interval / range
 interval(A, B, A):- A < B.
