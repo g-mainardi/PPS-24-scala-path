@@ -19,7 +19,6 @@ object Conversions:
       Try(Cardinals valueOf s.capitalize) getOrElse (Diagonals valueOf s.capitalize)
 
   given Conversion[(Int, Int), Position] = Position(_, _)
-
   given Conversion[Position, (Int, Int)] = p => (p.x, p.y)
 
 class BasePrologPlannerBuilder extends PrologBuilder:
@@ -51,7 +50,7 @@ class BasePrologPlannerBuilder extends PrologBuilder:
       val hasDiagonals = directions.exists(_.isInstanceOf[Diagonals])
       val facts = directions.map {
         case c: Cardinals => s"cardinals(${c.toString.toLowerCase})."
-        case d: Diagonals => s"diagonals(${d.toString.toLowerCase})."
+        case d: Diagonals => s"diagonals(${d.toString.head.toLower + d.toString.tail})."
         case s: Special => s"special(${s.toString.toLowerCase})."
       }
       val header = Seq(
@@ -63,11 +62,17 @@ class BasePrologPlannerBuilder extends PrologBuilder:
 
     // extension Method per mappare ai blocchi moves salvati su file?
     // oppure generazione dinamica a runtime, così non serve sapere a priori le dirs?
+    // Tanto le dirs sono più statiche rispetto ai tiles
     extension(direction: Direction)
         def moveFact: String = direction match
-          case Cardinals.Down =>   """move(s(X,Y), down, s(X, Y1)) :-""" +
-                                    """    Y1 is Y + 1,""" +
-                                    """    passable(X, Y1)."""
+          case Cardinals.Down =>   Source.fromFile("src/main/prolog/moves/down.pl").mkString
+          case Cardinals.Up =>     Source.fromFile("src/main/prolog/moves/up.pl").mkString
+          case Cardinals.Left =>   Source.fromFile("src/main/prolog/moves/left.pl").mkString
+          case Cardinals.Right =>  Source.fromFile("src/main/prolog/moves/right.pl").mkString
+          case Diagonals.LeftDown => Source.fromFile("src/main/prolog/moves/downLeft.pl").mkString
+          case Diagonals.RightDown => Source.fromFile("src/main/prolog/moves/downRight.pl").mkString
+          case Diagonals.LeftUp => Source.fromFile("src/main/prolog/moves/upLeft.pl").mkString
+          case Diagonals.RightUp => Source.fromFile("src/main/prolog/moves/upRight.pl").mkString
 
   object IncompletePlannerConfig:
     def unapply(config: (Option[(Int, Int)], Option[(Int, Int)], Option[String], Option[List[Tile]], Option[List[Direction]])): Option[String] =
