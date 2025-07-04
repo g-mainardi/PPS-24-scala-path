@@ -7,7 +7,7 @@ object Scenario:
   val nCols = 6
 
   import scala.util.Random
-  private val rand = Random(seed = 42)
+  private val rand = Random(seed = 44)
 
   def randomPosition: Position =
     val positions: Seq[Position] = for

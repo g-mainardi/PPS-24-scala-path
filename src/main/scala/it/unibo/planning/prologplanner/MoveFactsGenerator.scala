@@ -6,18 +6,10 @@ import it.unibo.model.Direction.{Cardinals, Diagonals}
 object MoveFactsGenerator {
   def generateMoveRules(selectedDirections: List[Direction]): String =
     def toMoveFact(direction: Direction): String =
-      direction match
-        case s: Special => factHeader(s)
-        case d: Direction => factHeader(d)
-//        case s: Special => toSpecialFact(factHeader(s))
-//        case d: Direction => toNormalFact(factHeader(d))
-
-    def factHeader(direction: Direction): String =
       val dx = direction.vector.x
       val dy = direction.vector.y
       val directionName = direction.toString.head.toLower + direction.toString.tail // e.g. RightUp -> rightUp
 
-      // how to compute NewX/NewY
       val xExpr = dx match
         case 0 => "X"
         case dx if dx > 0 => s"X + $dx"
@@ -35,12 +27,7 @@ object MoveFactsGenerator {
 
       val bodyLines = List(xDecl, yDecl).filter(_.nonEmpty) :+ s"passable($xNew, $yNew)."
       val body = bodyLines.mkString(",\n    ")
-
       s"""move(s(X,Y), $directionName, s($xNew, $yNew)) :-\n    $body"""
-
-    def toNormalFact(header: String): String = ???
-
-    def toSpecialFact(header: String): String = ???
 
     selectedDirections.map(toMoveFact).mkString("\n", "\n\n", "\n")
 }

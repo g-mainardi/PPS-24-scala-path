@@ -19,12 +19,12 @@ object Tiling:
   case class Floor(protected val pos: Position) extends Passage
   case class Grass(protected val pos: Position) extends Passage
 
-  sealed trait Special extends Tile:
+  sealed trait Special extends Passage:
     def newPos: Position
 
   case class Teleport(protected val pos: Position) extends Special:
     val newPos: Position = Scenario.randomPosition
-  
+
   case class Arrow(protected val pos: Position, direction: Direction) extends Special:
     val newPos: Position = pos + direction.vector
   
