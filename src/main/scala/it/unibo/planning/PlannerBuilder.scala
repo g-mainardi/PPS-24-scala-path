@@ -1,5 +1,6 @@
 package it.unibo.planning
 
+import it.unibo.model.Direction
 import it.unibo.model.Tiling.Tile
 
 //trait BuilderInit:
@@ -30,6 +31,7 @@ trait PlannerBuilder:
   protected var goalPos: Option[(Int, Int)] = None
   protected var environmentTiles: Option[List[Tile]] = None
   protected var maxMoves: Option[Int] = None
+  protected var directions: Option[List[Direction]] = None
 
   def withInit(initPos: (Int, Int)): PlannerBuilder =
     this.initPos = Some(initPos)
@@ -45,6 +47,10 @@ trait PlannerBuilder:
 
   def withTiles(tiles: List[Tile]): PlannerBuilder =
     this.environmentTiles = Some(tiles)
+    this
+
+  def withDirections(directions: List[Direction]): PlannerBuilder =
+    this.directions = Some(directions)
     this
 
   def run: Plan
