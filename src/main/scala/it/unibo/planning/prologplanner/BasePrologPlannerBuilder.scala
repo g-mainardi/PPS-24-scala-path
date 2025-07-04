@@ -1,7 +1,7 @@
 package it.unibo.planning.prologplanner
 
 import alice.tuprolog.{SolveInfo, Term, Theory}
-import it.unibo.model.Direction
+import it.unibo.model.{Direction}
 import it.unibo.model.Direction.{Cardinals, Diagonals}
 import it.unibo.model.Tiling.*
 import it.unibo.planning.Plan.{FailedPlan, SucceededPlan, SucceededPlanWithMoves}
@@ -34,6 +34,7 @@ class BasePrologPlannerBuilder extends PrologBuilder:
 
   private object Tiles:
     def unapply(o: Option[List[Tile]]): Option[String] = o map (tiles => tiles.map {
+      case s: Special => s"special(s(${s.x}, ${s.y}), s(${s.newPos.x}, ${s.newPos.y}))."
       case p: Passage => s"passable(${p.x}, ${p.y})."
       case o: Obstacle => s"blocked(${o.x}, ${o.y})."
     }.mkString("\n"))
@@ -51,14 +52,15 @@ class BasePrologPlannerBuilder extends PrologBuilder:
       val facts = directions.map {
         case c: Cardinals => s"cardinals(${c.toString.toLowerCase})."
         case d: Diagonals => s"diagonals(${d.toString.toLowerCase})."
+        case s: Special => s"special(${s.toString.toLowerCase})."
       }
       val header = Seq(
         if (hasCardinals) Some("directions(D):- cardinals(D).") else None,
         if (hasDiagonals) Some("directions(D):- diagonals(D).") else None
       ).flatten
-      (facts ++ header).mkString("\n") + generateMoveRules(hasCardinals, hasDiagonals)
+      (facts ++ header).mkString("\n") + generateMoveRules(directions)
     }
-    
+
     // extension Method per mappare ai blocchi moves salvati su file?
     // oppure generazione dinamica a runtime, così non serve sapere a priori le dirs?
     extension(direction: Direction)
@@ -66,7 +68,7 @@ class BasePrologPlannerBuilder extends PrologBuilder:
           case Cardinals.Down =>   """move(s(X,Y), down, s(X, Y1)) :-""" +
                                     """    Y1 is Y + 1,""" +
                                     """    passable(X, Y1)."""
-          
+
   object IncompletePlannerConfig:
     def unapply(config: (Option[(Int, Int)], Option[(Int, Int)], Option[String], Option[List[Tile]], Option[List[Direction]])): Option[String] =
       val labels = List("init position", "goal", "theory", "environmental tiles", "possible directions")

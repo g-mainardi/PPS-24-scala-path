@@ -1,5 +1,7 @@
 package it.unibo.model
 
+import scala.util.Random
+
 object Tiling:
   case class Position(x: Int, y: Int, visited: Boolean = false):
     def +(vector: Position): Position = Position(x + vector.x, y + vector.y)
@@ -15,11 +17,17 @@ object Tiling:
 
   sealed trait Passage extends Tile:
     def visited: Boolean = pos.visited
-  
   case class Floor(protected val pos: Position) extends Passage
   case class Grass(protected val pos: Position) extends Passage
-  case class Teleport(protected val pos: Position) extends Passage
-  case class Arrow(protected val pos: Position, direction: Direction) extends Passage
+
+  sealed trait Special extends Tile:
+    def newPos: Position
+
+  case class Teleport(protected val pos: Position) extends Special:
+    val newPos: Position = Scenario.randomPosition
+  
+  case class Arrow(protected val pos: Position, direction: Direction) extends Special:
+    val newPos: Position = pos + direction.vector
   
   sealed trait Obstacle extends Tile
   case class Wall(protected val pos: Position) extends Obstacle
