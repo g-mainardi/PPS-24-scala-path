@@ -44,7 +44,7 @@ class AStar extends PathFindingAlgorithm:
     Direction.allDirections.map(dir => pos + dir.vector)
 
 
-  def run(start: Position, goal: Position, tiles: List[Tile]): Option[List[Direction]] =
+  override def run(start: Position, goal: Position, tiles: List[Tile]): Option[List[Direction]] =
     val initG = Map(start -> 0.0)
     val initF = heuristic(start, goal)
     val passable = (position: Position) =>

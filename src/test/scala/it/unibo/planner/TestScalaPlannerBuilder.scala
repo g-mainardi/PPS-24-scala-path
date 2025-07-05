@@ -18,5 +18,5 @@ class TestScalaPlannerBuilder extends AnyFlatSpec with Matchers with TestPlanner
       .withGoal((2, 2))
       .withTiles(passableTiles)
       .run
-    plan shouldBe a[SucceededPlanWithMoves]
+    plan shouldBe a[SucceededPlan]
 
