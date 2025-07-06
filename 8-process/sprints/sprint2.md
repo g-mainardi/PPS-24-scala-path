@@ -3,10 +3,10 @@
 | Priority |      Item       |                          Tasks                          | Assignee | Initial Size Estimate | Day 1 | Day 2 | Day 3 | Day 4 | Day 5 | Day 6 | Day 7 |
 |:--------:|:---------------:|:-------------------------------------------------------:|:--------:|:---------------------:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|
 |    1     |   Controller    |    Controller Design pt2 (Dividing State Management)    | Mainardi |           6           |   4   |   2   |   0   |   0   |   0   |   0   |   0   |
-|    2     |      View       | View Design (Handling different button press sequences) | Basigli  |           6           |   4   |   2   |   0   |   0   |   0   |   0   |   0   |
+|    2     |      View       | View Design (Handling different button press sequences) | Basigli  |           6           |   4   |   2   |   2   |   2   |   2   |   2   |   0   |
 |    3     |     Planner     |                   Planner with Tiles                    |  Salman  |           4           |   2   |   0   |   0   |   0   |   0   |   0   |   0   |
 |    4     |     Builder     |               Planner Builder Abstraction               |  Salman  |           2           |   2   |   2   |   2   |   2   |   0   |   0   |   0   |
-|    5     |     Planner     |                     A* Search Algo                      | Basigli  |           8           |   8   |   8   |   6   |   4   |   4   |   0   |   0   |
+|    5     |     Planner     |                     A* Search Algo                      | Basigli  |           8           |   8   |   8   |   6   |   4   |   4   |   2   |   0   |
 |    6     |     Planner     |                     Dj Search Algo                      | Mainardi |           8           |   8   |   8   |   6   |   4   |   4   |   0   |   0   |
 |    7     |   Integration   |       Planner MaxMove Refactor (Fully-Relational)       |  Salman  |           2           |   2   |   2   |   0   |   0   |   0   |   0   |   0   |
 |    8     |      Test       |           Test for View, Controller, Planner            |   All    |           2           |   2   |   2   |   2   |   0   |   0   |   0   |   0   |
