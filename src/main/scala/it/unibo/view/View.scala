@@ -46,6 +46,16 @@ class View(controller: DisplayableController) extends MainFrame:
   private val stepButton = new ScenarioListenerButton("Step")
   private val pauseResumeButton = new ScenarioListenerButton("Pause")
 
+  def enableStartButton(): Unit = startButton.enabled = true
+  def disableStartButton(): Unit = startButton.enabled = false
+  def enableStepButton(): Unit = stepButton.enabled = true
+  def disableStepButton(): Unit = stepButton.enabled = false
+  def enableResetButton(): Unit = resetButton.enabled = true
+  def disableResetButton(): Unit = resetButton.enabled = false
+  def enablePauseResumeButton(): Unit = pauseResumeButton.enabled = true
+  def disablePauseResumeButton(): Unit = pauseResumeButton.enabled = false
+  def enableGenerateScenarioButton(): Unit = generateScenarioButton.enabled = true
+  def disableGenerateScenarioButton(): Unit = generateScenarioButton.enabled = false
 
   private val gridPanel: Panel = new Panel:
     preferredSize = new Dimension(200, 100)
