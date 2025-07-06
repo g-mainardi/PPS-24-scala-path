@@ -19,7 +19,7 @@ class AStar extends PathFindingAlgorithm:
       cameFrom.get(pos) match
         case Some(prev) =>
           val delta = pos - prev
-          val dir = Direction.allDirections.find(_.vector == delta).get   // todo use a method instide Direction (like getFromVector)
+          val dir = Direction.allDirections.find(_.vector == delta).get   // todo use a method inside Direction (like getFromVector)
           _reconstructPath(prev, dir :: acc)
         case None => acc
 
