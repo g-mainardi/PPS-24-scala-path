@@ -50,8 +50,9 @@ class AStar extends PathFindingAlgorithm:
     val passable = (position: Position) =>
       val tile = tiles.find(t => t.x == position.x && t.y == position.y)
       tile match
-        case p: Passage => true
-        case o: Obstacle => false
+        case Some(_: Passage) => true
+        case Some(_: Obstacle) => false
+        case None => false
 
 
     given Ordering[(Double, Position)] = Ordering.by(-_._1)
