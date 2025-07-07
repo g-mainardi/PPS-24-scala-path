@@ -1,6 +1,6 @@
 % Initial and Goal States (specified by the user)
 ipos(s(0, 0)).
-gpos(s(3, 2)).
+gpos(s(2, 2)).
 gridsize(6).
 
 % validcoord(?Coordinate) => {0,1,2,3,4,5}
@@ -76,9 +76,63 @@ step(n(Dist, Pos), n(Dist2, Pos2), [Pos|Visited]):-
   \+ member(Pos2, Visited),  % evita visitati
 	Dist2 is Dist + 1.
 
-% Node(Weight, Pos)
-node(n(0, Pos)):- ipos(Pos).
-node(n(1, Pos)):- validpos(Pos), not(ipos(Pos)).
+% Passable with obstacles definition
+wall(s(1,0)).
+passable(Pos):- validpos(Pos), \+ wall(Pos).
+
+% Insert a node in a List mainting it ordered
+% insert_ord(+Node, +List, -NewList).
+insert_ord(N, [], [N]).
+insert_ord(n(D, P, Prev), [n(D2, P2, Prev2)|Rest], [n(D, P, Prev)|[n(D2, P2, Prev2)|Rest]]) :-
+    D =< D2, !.
+insert_ord(N, [H|T], [H|NT]) :- insert_ord(N, T, NT).
+    
+% Take current state (Neighbours, Node, Dist, Queue) and returns the New Queue 
+% add_neighbours(+Neighbours, +Node, +DistAcc, +Queue, -NewQueue).
+add_neighbours([], _, _, Queue, Queue).
+add_neighbours([V|Vs], From, D, Queue, NewQueue) :-
+    D1 is D + 1,  % uniform weigth = 1
+    insert_ord(n(D1, V, From), Queue, NewQueuePartial),
+    add_neighbours(Vs, From, D, NewQueuePartial, NewQueue).
+
+% Rebuild the path goal to start
+% rebuild_path(+Visited, +Pos, +AccPath, -Path).
+rebuild_path(_, Pos, Acc, Path) :-
+    ipos(Pos),
+    reverse(Acc, Path), !.
+
+rebuild_path(Visited, Pos, Acc, Path) :-
+    member(n(_, Pos, Prev), Visited),
+    rebuild_path(Visited, Prev, [Prev|Acc], Path).
+
+% Algorithm skeleton
+dijkstra(Path):- 
+	ipos(Pos),
+	dijkstra([n(0, Pos, none)], [], [], Path).
+
+% dijkstra(+QueueToVisit, +Visited, +PathAccumulator, -Path).
+dijkstra([n(D, Pos, Prev)|_], Visited, _, Visited):-    % case: goal reached → rebuild path to return
+    gpos(Pos), !,
+    write("case reached, Visited = "),
+    write(Visited).
+    %rebuild_path(Visited, n(D, Pos, Prev), [n(D, Pos, Prev)], Path).
+    %copy_term(Visited, Path).
+    %Path = Visited.
+
+dijkstra([n(D, Pos, Prev)|Queue], Visited, Acc, Path):-  % case: node already visited → recursive skip
+    member(Pos, Visited),
+    dijkstra(Queue, Visited, Acc, Path).
+
+dijkstra([n(D, Pos, Prev)|Queue], Visited, Acc, Path) :- % case: node visiting... → recursive to neighbours
+    findall(Neighbor,
+            (reachable(Pos, Neighbor),
+             passable(Neighbor),
+             \+ member(Neighbor, Visited)),
+            Neighbors),
+    add_neighbours(Neighbors, Pos, D, Queue, NewQueue),
+    dijkstra(NewQueue, [Pos|Visited], Acc, Path).
+
+% Old --------------------------------------
 
 % Dijkstra planner
 planD(PathToGoal, Cost):-
