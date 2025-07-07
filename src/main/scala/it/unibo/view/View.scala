@@ -32,6 +32,7 @@ class View(controller: DisplayableController) extends MainFrame:
   title = "Scala Path"
   preferredSize = new Dimension(800, 600)
   private val scenarioDropdown = new ComboBox(controller.scenariosNames)
+  private val algorithmDropdown = new ComboBox(controller.algorithmNames)
   private val generateScenarioButton = new Button("Generate scenario")
 
   private class ScenarioListenerButton(label: String) extends Button(label):
@@ -99,14 +100,17 @@ class View(controller: DisplayableController) extends MainFrame:
         g draw rect
 
 
-  private object ControlPanel extends FlowPanel(startButton, stepButton, resetButton, pauseResumeButton, scenarioDropdown, generateScenarioButton)
+  // private object ControlPanel extends FlowPanel(startButton, stepButton, resetButton, pauseResumeButton, scenarioDropdown, algorithmDropdown, generateScenarioButton)
+  private object ControlPanel extends FlowPanel(startButton, stepButton, resetButton, pauseResumeButton)
+  private object ScenarioSettingsPanel extends FlowPanel(scenarioDropdown, algorithmDropdown, generateScenarioButton)
 
   contents = new BorderPanel:
     import BorderPanel.Position
     layout(gridPanel) = Position.Center
-    layout(ControlPanel) = Position.North
+    layout(ControlPanel) = Position.South
+    layout(ScenarioSettingsPanel) = Position.North
 
-  listenTo(startButton, stepButton, resetButton, pauseResumeButton, scenarioDropdown.selection, generateScenarioButton)
+  listenTo(startButton, stepButton, resetButton, pauseResumeButton, scenarioDropdown.selection, algorithmDropdown.selection, generateScenarioButton)
   reactions += {
     case ButtonClicked(`startButton`) => GameState set GameState.Running
     case ButtonClicked(`stepButton`) => GameState set GameState.Step
@@ -120,5 +124,6 @@ class View(controller: DisplayableController) extends MainFrame:
         GameState set GameState.Running
         pauseResumeButton.text = "Pause"
     case SelectionChanged(`scenarioDropdown`) => println(s"Selected scenario: ${scenarioDropdown.selection.item}")
+    case SelectionChanged(`algorithmDropdown`) => GameState set GameState.ChangeAlgorithm(algorithmDropdown.selection.index)
   }
     

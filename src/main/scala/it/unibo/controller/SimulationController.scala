@@ -16,6 +16,7 @@ object GameState:
     case Step
     case Empty
     case ChangeScenario(scenarioIndex: Int)
+    case ChangeAlgorithm(algorithmIndex: Int)
   export State.*
   @volatile private var _current: State = Empty
   def current: State = synchronized{_current}
@@ -26,6 +27,7 @@ trait ScenarioManager:
   protected var _scenario: Scenario = _scenarios.head
 
   def scenariosNames: List[String] = _scenarios map(_.toString)
+  def algorithmNames: List[String] = List("Algorithm1", "Algorithm2", "Algorithm3") // placeholder please implement it
   def scenario: Scenario = _scenario
   protected def changeScenario(newScenario: Scenario): Unit = _scenario = newScenario
   protected def generateScenario(): Unit
