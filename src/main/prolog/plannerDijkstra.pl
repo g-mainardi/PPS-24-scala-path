@@ -1,6 +1,6 @@
 % Initial and Goal States (specified by the user)
 ipos(s(0, 0)).
-gpos(s(3, 3)).
+gpos(s(3, 2)).
 gridsize(6).
 
 % validcoord(?Coordinate) => {0,1,2,3,4,5}
@@ -76,18 +76,25 @@ step(n(Dist, Pos), n(Dist2, Pos2), [Pos|Visited]):-
   \+ member(Pos2, Visited),  % evita visitati
 	Dist2 is Dist + 1.
 
-init(n(0, s(0,0))).
-goal(n(_, s(2,2))).
+% Node(Weight, Pos)
+node(n(0, Pos)):- ipos(Pos).
+node(n(1, Pos)):- validpos(Pos), not(ipos(Pos)).
 
-planD(PathToGoal):-
-	init(N),
-	planD(N, PathToGoal).
+% Dijkstra planner
+planD(PathToGoal, Cost):-
+	ipos(Pos),
+	planD(n(0, Pos), PathToGoal, [Pos], Cost).
 
-planD(N, [N]):- goal(N), !.
+planD(N, [Pos], _, Cost):- node(N), N = n(Cost, Pos), gpos(Pos), !.
 
-planD(N, [N|PathToGoal]):-
-	step(N, N2, _),
-	planD(N2, PathToGoal).
+planD(N, [Pos|PathToGoal], Visited, Cost):-
+	node(N),
+	N = n(W, Pos),
+	write(Pos),
+	reachable(Pos, Pos2),
+	\+member(Pos2, Visited),
+	planD(n(_, Pos2), PathToGoal, [Pos2|Visited], Costm),
+	Cost is Costm + W.
 
 % foldleft(+L, +Init, +BinaryOp, -Final)
 % where BinaryOp = op(E1, E2, O, BINARY_OP)
