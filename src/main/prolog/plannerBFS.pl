@@ -8,16 +8,16 @@ interval(A, B, X):-
 % Basic plan
 plan(Dirs):- plan(Dirs, _).
 plan(Dirs, N):- plan(Dirs, N, Path).
-plan(Dirs, N, Path):- number(N), !, ipos(Pos), plan(Dirs, N, Pos, Path, [Pos]).
+plan(Dirs, N, Path):- number(N), !, init(Pos), plan(Dirs, N, Pos, Path, [Pos]).
 plan(Dirs, N, Path):-
-	gridsize(MaxMoves),
-	interval(1, MaxMoves, N),
+	maxmoves(M),
+	interval(1, M, N),
 	plan(Dirs, N, Path).
-plan([], _, P, [P], _):- 	gpos(P), !.
+plan([], _, P, [P], _):- 	goal(P), !.
 plan([], 0, _, [], _):- !, fail.
 
 plan([Cmd|Dirs], N, Pos, [Pos|Path], Visited):-
-	move(Pos, Cmd, Posn),
-	\+ member(Posn, Visited),  % opzionale: evita cicli
+	move(Pos, Cmd, Pos2),
+	\+ member(Pos2, Visited),
 	Nn is N - 1,
-	plan(Dirs, Nn, Posn, Path, [Posn|Visited]).
+	plan(Dirs, Nn, Pos2, Path, [Pos2|Visited]).
