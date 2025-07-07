@@ -12,7 +12,7 @@ checkSpecial(TempState, TempState).
 
 % Recursive case: explore possible directions
 planner(State, Goal, Visited, [Dir|Rest], NewMoves) :-
-    directions(Dir),
+    %% directions(Dir),
     move(State, Dir, TempState),
     \+ member(TempState, Visited),
     checkSpecial(TempState, NewState),
