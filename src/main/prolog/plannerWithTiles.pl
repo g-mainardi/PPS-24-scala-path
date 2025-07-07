@@ -9,7 +9,7 @@ planner(State, State, _, [], 0).
 
 % Recursive case: explore possible directions
 planner(State, Goal, Visited, [Dir|Rest], NewMoves) :-
-    directions(Dir),
+    %% directions(Dir),
     move(State, Dir, NewState),
     \+ member(NewState, Visited),  % avoid cycles
     planner(NewState, Goal, [NewState|Visited], Rest, Moves),
