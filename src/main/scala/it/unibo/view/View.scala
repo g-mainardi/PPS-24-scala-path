@@ -1,15 +1,13 @@
 package it.unibo.view
 
 import it.unibo.controller.{DisplayableController, GameState}
-import it.unibo.model.Tiling
+import it.unibo.model.{CustomSpecialTile, Tiling}
 import it.unibo.model.Tiling.Position
 
 import java.awt.Color
 import java.awt.geom.{Ellipse2D, Rectangle2D}
 import scala.swing.*
 import scala.swing.event.{ButtonClicked, Event, SelectionChanged}
-
-
 
 object ViewUtilities:
   import Tiling.*
@@ -25,6 +23,7 @@ object ViewUtilities:
       case _: Water => CYAN
       case _: Lava => ORANGE
       case _: Rock => GRAY
+      case _  => YELLOW
   
 class View(controller: DisplayableController) extends MainFrame:
   import ViewUtilities.*

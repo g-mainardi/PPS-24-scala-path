@@ -6,6 +6,7 @@ import Tiling.Position
 import it.unibo.planning.Plan.*
 import it.unibo.planning.{Planner, PlannerWithSpecials, PlannerWithTiles}
 
+import java.awt.Color
 import scala.annotation.tailrec
 
 object GameState:
@@ -23,7 +24,12 @@ object GameState:
   def set(s: State): Unit = synchronized{_current = s}
 
 trait ScenarioManager:
-  protected var _scenarios: List[Scenario] = Terrain() :: Maze() :: Traps() :: Nil
+  import SpecialTileDSL.*
+  define("Teleport")(_ => Scenario.randomPosition)
+  define("JumpDown")(pos => Position(pos.x + 2, pos.y))
+  define("StairsUp")(pos => Position(pos.x - 2, pos.y))
+
+  protected var _scenarios: List[Scenario] = Terrain() :: Maze() :: DSLDrivenScenario() :: Nil
   protected var _scenario: Scenario = _scenarios.head
 
   def scenariosNames: List[String] = _scenarios map(_.toString)
