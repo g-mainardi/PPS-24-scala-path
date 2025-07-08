@@ -60,10 +60,10 @@ trait PlannerManager:
     def unapply(plannerOpt: Option[Planner]): Option[List[Direction]] = plannerOpt map(_.plan) map:
       case SucceededPlanWithMoves(directions, _) => directions
       case SucceededPlan(directions) =>  directions
-      case FailedPlan(error) => println(error); handleNoPlan(); List.empty
+      case FailedPlan(error) => println(error); List.empty
 
   protected def refreshPlan(): Unit = _currentPlan = planner match
-    case ValidPlanner(directions) =>
+    case ValidPlanner(directions) if directions.nonEmpty =>
       handleValidPlan()
       directions
     case _                        =>
@@ -181,6 +181,7 @@ object ScalaPathController extends SimulationController
   override protected def over(): Unit =
     println("Plan terminated!")
     GameState set Reset
+    handleNoPlan()
 
   override protected def handleNoPlan(): Unit = SwingUtilities invokeLater: () =>
     _view foreach: v =>
