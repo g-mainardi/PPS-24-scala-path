@@ -2,13 +2,11 @@ package it.unibo.planning
 
 import alice.tuprolog.{SolveInfo, Term}
 import it.unibo.model.Direction
-
-import it.unibo.planning.{DFS, BFS}
+import it.unibo.planning.{BFS, DFS}
 import it.unibo.planning.Plan.*
-import it.unibo.planning.prologplanner.BasePrologPlannerConversions.*
 import it.unibo.model.Tiling.{Position, Tile}
 import it.unibo.model.Direction.{Cardinals, Diagonals, allDirections}
-import it.unibo.planning.prologplanner.{BasePrologPlannerBuilder, DFSBuilder}
+import it.unibo.planning.prologplanner.{PrologDFSBuilder, BasePrologBuilder, BasePrologPlanner}
 import it.unibo.prologintegration.Prolog2Scala.{extractListFromTerm, extractTerm}
 import it.unibo.prologintegration.Scala2Prolog.Engine
 
@@ -20,7 +18,7 @@ trait Planner:
 class DummyPlanner extends Planner:
   override def plan: Plan = SucceededPlanWithMoves(List.fill(5)(Cardinals.Down), 5)
 
-class PrologPlanner(engine: Engine, goal: Term, maxMoves: Option[Int]) extends Planner:
+class PrologPlanner(engine: Engine, goal: Term, maxMoves: Option[Int]) extends Planner, BasePrologPlanner:
   override def plan: Plan =
     checkSolutions(engine(goal), maxMoves)
 
@@ -33,18 +31,19 @@ class PlannerWithTiles(initPos: (Int, Int), goal: (Int, Int), tiles: List[Tile],
       .withMaxMoves(maxMoves)
       .withTiles(tiles)
       .withDirections(directions)
-      .withAlgorithm(new DFS())
-      .build()
+      .withAlgorithm(DFS)
+      .build
       .plan
 
 class PlannerWithSpecials(initPos: (Int, Int), goal: (Int, Int), tiles: List[Tile], maxMoves: Option[Int] = None, directions: List[Direction] = allDirections) extends Planner:
   override def plan: Plan =
     println(s"Tiles: $tiles")
-    DFSBuilder()
-      .withTheoryFrom("src/main/prolog/plannerWithSpecials.pl")
-      .withTiles(tiles)
+    PlannerBuilder()
       .withInit(initPos)
       .withGoal(goal)
       .withMaxMoves(maxMoves)
-      .withDirections(allDirections)
-      .run
+      .withTiles(tiles)
+      .withDirections(directions)
+      .withAlgorithm(BFS)
+      .build
+      .plan

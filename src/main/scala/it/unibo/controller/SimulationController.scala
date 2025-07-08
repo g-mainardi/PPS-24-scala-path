@@ -89,10 +89,6 @@ object ScalaPathController extends SimulationController
   with ViewAttachable
   with ControllableSimulation:
 
-  // planner = Some(DummyPlanner())
-  // planner = Some(BasePlanner((0,0), (2,2), 5))
-  // planner = Some(PlannerWithTiles((0,0), (5,5), 100, scenario.tiles))
-
   override def pause(): Unit = ()
 
   override def resume(): Unit = ()

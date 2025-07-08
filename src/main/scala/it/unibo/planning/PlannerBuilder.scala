@@ -3,8 +3,7 @@ package it.unibo.planning
 import it.unibo.model.Direction
 import it.unibo.model.Tiling.Tile
 import it.unibo.planning.{DFS, BFS}
-import it.unibo.planning.prologplanner.{BFSBuilder, DFSBuilder}
-import it.unibo.planning.scalaplanner.BaseScalaPlannerBuilder
+import it.unibo.planning.prologplanner.{PrologBFSBuilder, PrologDFSBuilder}
 
 object PlannerBuilder:
   def start: BuilderInit = new PlannerBuilder()
@@ -61,7 +60,7 @@ class PlannerBuilder extends BuilderInit, BuilderGoal, BuilderConstraints, Build
     this.algorithm = Some(algorithm)
     this
 
-  def build(): Planner =
+  def build: Planner =
     val configuration = Configuration(
       initPos,
       goalPos,
@@ -70,16 +69,16 @@ class PlannerBuilder extends BuilderInit, BuilderGoal, BuilderConstraints, Build
       directions)
 
     algorithm match
-    case DFS => new DFSBuilder().build(configuration)
-    case BFS => new BFSBuilder().build(configuration)
-    case AStar => new BaseScalaPlannerBuilder()
+      case Some(DFS) => new PrologDFSBuilder().build(configuration)
+      case Some(BFS) => new PrologBFSBuilder().build(configuration) 
+      //case Some(AStar) => new BaseScalaPlannerBuilder()
+      case _ => throw new IllegalArgumentException("No algorithm specified")
 
 class PrologBuilder
 class ScalaBuilder
 
 case class Configuration(initPos: Option[(Int, Int)],
                          goalPos: Option[(Int, Int)],
-                         // theoryPath: Option[String],
                          maxMoves: Option[Int],
                          environmentTiles: Option[List[Tile]],
                          directions: Option[List[Direction]])

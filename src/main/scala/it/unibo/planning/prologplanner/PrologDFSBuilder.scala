@@ -11,10 +11,11 @@ import it.unibo.prologintegration.Prolog2Scala.*
 import it.unibo.prologintegration.Scala2Prolog.*
 
 import scala.io.Source
+import scala.util.Using
 
-class DFSBuilder extends BasePrologPlannerBuilder {
-  val theoryString: String = Source.fromFile("src/main/prolog/plannerWithTiles.pl").mkString
-
+class PrologDFSBuilder extends BasePrologBuilder {
+  val theoryString: String = Using.resource(Source.fromFile("src/main/prolog/bfs.pl"))(_.mkString)
+  
   private object IncompletePlannerConfig:
     def unapply(config: (Option[(Int, Int)], Option[(Int, Int)], Option[List[Tile]], Option[List[Direction]])): Option[String] =
       val labels = List("init position", "goal", "environmental tiles", "possible directions")
@@ -23,9 +24,9 @@ class DFSBuilder extends BasePrologPlannerBuilder {
         case (label, None) => s"missing $label"
       }
 
-  // (initPos, goalPos, maxMoves, environmentTiles, directions) match
-  override def build(configuration: Configuration): Planner = configuration match
-    // case IncompletePlannerConfig(reason) => FailedPlan(s"Planner not fully configured, $reason")
+  // (initPos, goalPos, maxMoves, environmentTiles, directions) 
+  def build(configuration: Configuration): Planner = configuration match
+    //case IncompletePlannerConfig(reason) => throw new IllegalArgumentException(s"Planner not fully configured, $reason")
     case (InitPos(initFact), Goal(goalFact), Tiles(tileFacts), Directions(directionsFact)) =>
       val fullTheory = new Theory(s"$initFact\n$goalFact\n$directionsFact\n$tileFacts\n$theoryString")
       println(s"\n$fullTheory\n")
@@ -36,5 +37,5 @@ class DFSBuilder extends BasePrologPlannerBuilder {
       PrologPlanner(engine, goal, configuration.maxMoves)
 }
 
-object DFSPrologPlannerBuilder:
-  def apply(): DFSBuilder = new DFSBuilder()
+object PrologDFSBuilder:
+  def apply(): PrologDFSBuilder = new PrologDFSBuilder()

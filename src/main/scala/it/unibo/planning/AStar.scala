@@ -5,7 +5,7 @@ import it.unibo.model.Tiling.{Obstacle, Passage, Position, Tile}
 
 import scala.annotation.tailrec
 
-class AStar extends PathFindingAlgorithm:
+case object AStar extends PathFindingAlgorithm:
 
   /**
    *
@@ -44,7 +44,7 @@ class AStar extends PathFindingAlgorithm:
     Direction.allDirections.map(dir => pos + dir.vector)
 
 
-  override def run(start: Position, goal: Position, tiles: List[Tile]): Option[List[Direction]] =
+  def run(start: Position, goal: Position, tiles: List[Tile]): Option[List[Direction]] =
     val initG = Map(start -> 0.0)
     val initF = heuristic(start, goal)
     val passable = (position: Position) =>
