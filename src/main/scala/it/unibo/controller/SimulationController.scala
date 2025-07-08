@@ -52,17 +52,22 @@ trait PlannerManager:
   protected var planner: Option[Planner] = None
   protected var _currentPlan: List[Direction] = List()
 
-  protected def noPlan: List[Direction] = List()
+  protected def handleNoPlan(): Unit
+  protected def handleValidPlan(): Unit
 
   private object ValidPlanner:
     def unapply(plannerOpt: Option[Planner]): Option[List[Direction]] = plannerOpt map(_.plan) map:
       case SucceededPlanWithMoves(directions, _) => directions
       case SucceededPlan(directions) =>  directions
-      case FailedPlan(error) => println(error); List.empty
+      case FailedPlan(error) => println(error); handleNoPlan(); List.empty
 
   protected def refreshPlan(): Unit = _currentPlan = planner match
-    case ValidPlanner(directions) => directions
-    case _                        => noPlan
+    case ValidPlanner(directions) =>
+      handleValidPlan()
+      directions
+    case _                        =>
+      handleNoPlan()
+      List.empty
 
   protected def refreshPlanner(): Unit
 
@@ -161,12 +166,29 @@ object ScalaPathController extends SimulationController
 
     loop(GameState.current)
 
-  override protected def step(): Unit =
-    addToPath(_scenario.agent.pos)
-    _scenario.agent computeCommand _currentPlan.head
-    _currentPlan = _currentPlan.tail
-    updateView()
+  override protected def step(): Unit = _currentPlan match
+    case h :: t =>
+      addToPath(_scenario.agent.pos)
+      _scenario.agent computeCommand h
+      _currentPlan = t
+      updateView()
+    case _ =>
+      handleNoPlan()
 
   override protected def over(): Unit =
     println("Plan terminated!")
     GameState set Reset
+
+  override protected def handleNoPlan(): Unit =
+    _view foreach: v =>
+      v.disableStepButton()
+      v.disableResetButton()
+      v.disableStartButton()
+      v.disablePauseResumeButton()
+
+  override protected def handleValidPlan(): Unit =
+    _view foreach: v =>
+      v.enableStepButton()
+      v.enableStartButton()
+      v.enableResetButton()
+      v.enablePauseResumeButton()
