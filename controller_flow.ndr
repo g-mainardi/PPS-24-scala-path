@@ -1,0 +1,68 @@
+p 605.0 260.0 paused 0 n
+t 230.0 140.0 {change algorithm1} n 0 w n {} ne
+p 220.0 285.0 {no plan} 1 e
+t 1005.0 510.0 {plan found} n 0 w n {} ne
+t 100.0 400.0 {gen/switch scenario (and plan)1} n 0 w n {} ne
+t 290.0 395.0 {no plan found} n 0 w n {} ne
+t 85.0 230.0 {change scenario1} n 0 w n {} ne
+p 1005.0 260.0 {plan ready} 0 n
+p 220.0 510.0 {searching plan} 0 s
+t 1105.0 340.0 {change scenario2} n 0 w n {} ne
+t 1005.0 50.0 reset1 n 0 w n {} ne
+t 846.0 135.0 start1 n 0 w n {} ne
+t 845.0 205.0 step1 n 0 w n {} ne
+t 395.0 260.0 {plan ended2} n 0 w n {} ne
+t 400.0 50.0 {plan ended} n 0 w n {} ne
+p 620.0 50.0 simulating 0 n
+t 595.0 155.0 pause w 0 w n {} ne
+t 650.0 155.0 start2 e 0 w n {} ne
+t 750.0 260.0 reset2 s 0 w n {} ne
+t 455.0 350.0 {gen/switch scenario (and plan)3} s 0 w n {} ne
+t 605.0 380.0 {change algorithm3} s 0 w n {} ne
+t 720.0 360.0 {change scenario3} s 0 w n {} ne
+t 1165.0 260.0 {change algorithm2} n 0 w n {} ne
+t 830.0 465.0 {gen/switch scenario (and plan)2} n 0 w n {} ne
+t 500.0 205.0 step2 w 0 w n {} ne
+e {gen/switch scenario (and plan)3} {searching plan} 1 n
+e step2 0.8435835209 25.23885893 paused 0.4546837433 42.72001873 1 n
+e paused 0.3282738614 31.76476035 step2 0.9610104348 45.35416188 1 n
+e {change algorithm2} 0.520423276 62.51399843 {plan ready} 0.9815763483 86.57944329 1 n
+e {plan ready} 0.03648339529 61.6116872 {change algorithm2} 0.4636336307 88.29496017 1 n
+e {change scenario2} 0.423205624 47.41307836 {plan ready} 0.8701785984 46.69047012 1 n
+e {plan ready} 0.9262081912 44.72135955 {change scenario2} 0.3307072336 41.18252056 1 n
+e {change scenario3} 0.4081370061 51.31276644 paused 0.8524163824 60.0 1 n
+e {change algorithm3} 0.2963867896 41.76122604 paused 0.7057072336 43.68065934 1 n
+e {plan ended2} {no plan} 1 n
+e {plan ended} {no plan} 1 n
+e paused 0.929268486 46.5188134 {change scenario3} 0.2957222634 45.88027899 1 n
+e paused 0.8271070572 42.94182111 {change algorithm3} 0.1894405292 43.08131846 1 n
+e paused {gen/switch scenario (and plan)3} 1 n
+e paused {plan ended2} 1 n
+e simulating {plan ended} 1 n
+e start2 simulating 1 n
+e paused start2 1 n
+e step1 paused 1 n
+e {change scenario1} 0.8688022934 54.48853097 {no plan} 0.4968173255 50.009999 1 n
+e {no plan} 0.3869568582 65.94694838 {change scenario1} 0.9932315333 47.04253394 1 n
+e {no plan} 0.3251405473 52.77309921 {change algorithm1} 0.6452937765 55.6057551 1 n
+e {change algorithm1} 0.8326246707 64.49806209 {no plan} 0.1705265009 37.58989226 1 n
+e {gen/switch scenario (and plan)2} {searching plan} 1 n
+e {plan ready} {gen/switch scenario (and plan)2} 1 n
+e reset2 {plan ready} 1 n
+e paused reset2 1 n
+e reset1 {plan ready} 1 n
+e simulating reset1 1 n
+e pause paused 1 n
+e simulating pause 1 n
+e start1 simulating 1 n
+e {plan ready} step1 1 n
+e {plan ready} start1 1 n
+e {plan found} {plan ready} 1 n
+e {searching plan} {plan found} 1 n
+e {no plan found} {no plan} 1 n
+e {searching plan} {no plan found} 1 n
+e {gen/switch scenario (and plan)1} {searching plan} 1 n
+e {no plan} {gen/switch scenario (and plan)1} 1 n
+h gui_interaction
+
+
