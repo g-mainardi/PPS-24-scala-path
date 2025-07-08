@@ -32,7 +32,7 @@ class View(controller: DisplayableController) extends MainFrame:
   title = "Scala Path"
   preferredSize = new Dimension(800, 600)
   private val scenarioDropdown = new ComboBox(controller.scenariosNames)
-  private val algorithmDropdown = new ComboBox(controller.algorithmNames)
+  private val algorithmDropdown = new ComboBox(controller.algorithmsNames)
   private val generateScenarioButton = new Button("Generate scenario")
 
   private class ScenarioListenerButton(label: String) extends Button(label):

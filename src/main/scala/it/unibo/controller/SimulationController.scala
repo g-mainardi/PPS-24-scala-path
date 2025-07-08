@@ -4,7 +4,7 @@ import it.unibo.model.*
 import it.unibo.view.View
 import Tiling.Position
 import it.unibo.planning.Plan.*
-import it.unibo.planning.{Planner, PlannerWithSpecials, PlannerWithTiles}
+import it.unibo.planning.{AStar, PathFindingAlgorithm, Planner, PlannerWithSpecials, PlannerWithTiles}
 
 import scala.annotation.tailrec
 
@@ -27,10 +27,17 @@ trait ScenarioManager:
   protected var _scenario: Scenario = _scenarios.head
 
   def scenariosNames: List[String] = _scenarios map(_.toString)
-  def algorithmNames: List[String] = List("Algorithm1", "Algorithm2", "Algorithm3") // placeholder please implement it
   def scenario: Scenario = _scenario
   protected def changeScenario(newScenario: Scenario): Unit = _scenario = newScenario
   protected def generateScenario(): Unit
+
+trait AlgorithmManager:
+  protected var _algorithms: List[PathFindingAlgorithm] = AStar() :: Nil
+  protected var _algorithm: PathFindingAlgorithm = _algorithms.head
+
+  def algorithmsNames: List[String] = _algorithms map (_.toString)
+  def algorithm: PathFindingAlgorithm = _algorithm
+  protected def changeAlgorithm(newAlgorithm: PathFindingAlgorithm): Unit = _algorithm = newAlgorithm
 
 trait PathManager:
   private var _path: List[Position] = List()
@@ -39,7 +46,7 @@ trait PathManager:
   protected def resetPath(): Unit = _path = List()
   def path: List[Position] = _path
 
-trait DisplayableController extends ScenarioManager with PathManager
+trait DisplayableController extends ScenarioManager with PathManager with AlgorithmManager
 
 trait PlannerManager:
   protected var planner: Option[Planner] = None
@@ -145,6 +152,11 @@ object ScalaPathController extends SimulationController
         refreshPlan()
         println("Current plan " + _currentPlan)
         println("Current tiles " + _scenario.tiles)
+        GameState set Empty
+      case ChangeAlgorithm(algorithmIndex) =>
+        changeAlgorithm(_algorithms(algorithmIndex))
+        refreshPlanner()
+        refreshPlan()
         GameState set Empty
 
     loop(GameState.current)
