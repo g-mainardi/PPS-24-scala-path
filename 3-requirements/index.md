@@ -2,7 +2,7 @@
 
 ## 1. Requisiti di Business
 (a cosa serve questo software? Come possiamo giudicare se il progetto ha successo? Goal del progetto)
-- 1.1. L'applicazione deve fungere da strumento interattivo per imparare il comportamento di diversi algoritmi di pathfinding in diversi scenari
+- 1.1. L'applicazione deve fungere da strumento interattivo per osservare il comportamento di diversi algoritmi di pathfinding in diversi scenari
 - 
 ## 2. Modello di Dominio
 
