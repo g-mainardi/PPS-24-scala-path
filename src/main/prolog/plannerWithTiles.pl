@@ -8,6 +8,7 @@ plan(Path, Moves) :-
 planner(State, State, _, [], 0).
 
 % Recursive case: explore possible directions
+% planner(+CurrentState, +GoalState, +VisitedStates, -Path, -MoveCount)
 planner(State, Goal, Visited, [Dir|Rest], NewMoves) :-
     %% directions(Dir),
     move(State, Dir, NewState),
