@@ -22,6 +22,7 @@ object GameState:
   @volatile private var _current: State = Empty
   def current: State = synchronized{_current}
   def set(s: State): Unit = synchronized{_current = s}
+  def exec(action: => Unit): Unit = synchronized{action}
 
 trait ScenarioManager:
   protected var _scenarios: List[Scenario] = Terrain() :: Maze() :: Traps() :: Nil
@@ -139,32 +140,33 @@ object ScalaPathController extends SimulationController
   import GameState.*
   @tailrec
   private def loop(s: State): Unit =
-    s match
-      case Empty => ()
-      case Reset   =>
-        resetSimulation()
-        GameState set Empty
-      case Paused  => ()
-      case Step =>
-        step()
-        GameState set Paused
-      case Running =>
-        if _currentPlan.nonEmpty
-        then
+    GameState.exec:
+      s match
+        case Empty => ()
+        case Reset   =>
+          resetSimulation()
+          GameState set Empty
+        case Paused  => ()
+        case Step =>
           step()
-          Thread sleep 500
-        else
-          over()
-      case ChangeScenario(scenarioIndex) =>
-        changeScenario(_scenarios(scenarioIndex))
-        refresh()
-        println("Current plan " + _currentPlan)
-        println("Current tiles " + _scenario.tiles)
-        GameState set Empty
-      case ChangeAlgorithm(algorithmIndex) =>
-        changeAlgorithm(_algorithms(algorithmIndex))
-        refresh()
-        GameState set Empty
+          GameState set Paused
+        case Running =>
+          if _currentPlan.nonEmpty
+          then
+            step()
+            Thread sleep 500
+          else
+            over()
+        case ChangeScenario(scenarioIndex) =>
+          changeScenario(_scenarios(scenarioIndex))
+          refresh()
+          println("Current plan " + _currentPlan)
+          println("Current tiles " + _scenario.tiles)
+          GameState set Empty
+        case ChangeAlgorithm(algorithmIndex) =>
+          changeAlgorithm(_algorithms(algorithmIndex))
+          refresh()
+          GameState set Empty
 
     loop(GameState.current)
 
