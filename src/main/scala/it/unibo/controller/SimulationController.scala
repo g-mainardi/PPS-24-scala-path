@@ -91,6 +91,7 @@ trait SimulationController:
   def start(): Unit
   protected def step(): Unit
   protected def over(): Unit
+  protected def refresh():Unit
 
 object ScalaPathController extends SimulationController
   with DisplayableController
@@ -117,8 +118,7 @@ object ScalaPathController extends SimulationController
 
   override def init(): Unit =
     generateScenario()
-    refreshPlanner()
-    refreshPlan()
+    refresh()
 
   override def resetSimulation(): Unit =
     _scenario.resetAgent()
@@ -131,6 +131,7 @@ object ScalaPathController extends SimulationController
 
   override def resetAll(): Unit =
     generateScenario()
+    refresh()
     resetSimulation()
 
   override def start(): Unit = loop(GameState.current)
@@ -156,15 +157,13 @@ object ScalaPathController extends SimulationController
           over()
       case ChangeScenario(scenarioIndex) =>
         changeScenario(_scenarios(scenarioIndex))
-        refreshPlanner()
-        refreshPlan()
+        refresh()
         println("Current plan " + _currentPlan)
         println("Current tiles " + _scenario.tiles)
         GameState set Empty
       case ChangeAlgorithm(algorithmIndex) =>
         changeAlgorithm(_algorithms(algorithmIndex))
-        refreshPlanner()
-        refreshPlan()
+        refresh()
         GameState set Empty
 
     loop(GameState.current)
@@ -196,3 +195,7 @@ object ScalaPathController extends SimulationController
       v.enableStartButton()
       v.enableResetButton()
       v.enablePauseResumeButton()
+
+  override protected def refresh(): Unit =
+    refreshPlanner()
+    refreshPlan()
