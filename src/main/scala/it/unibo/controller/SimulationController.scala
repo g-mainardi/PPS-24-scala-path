@@ -6,6 +6,7 @@ import Tiling.Position
 import it.unibo.planning.Plan.*
 import it.unibo.planning.{AStar, PathFindingAlgorithm, Planner, PlannerWithSpecials, PlannerWithTiles}
 
+import javax.swing.SwingUtilities
 import scala.annotation.tailrec
 
 object GameState:
@@ -75,7 +76,9 @@ trait ViewAttachable:
   protected var _view: Option[View] = None
 
   final def attachView(v: View): Unit = _view = Some(v)
-  protected def updateView(): Unit = _view foreach {_.repaint()}
+  protected def updateView(): Unit =  SwingUtilities invokeLater: () =>
+    _view foreach : v => 
+      v.repaint()
 
 trait ControllableSimulation:
   protected def pause(): Unit
@@ -179,14 +182,14 @@ object ScalaPathController extends SimulationController
     println("Plan terminated!")
     GameState set Reset
 
-  override protected def handleNoPlan(): Unit =
+  override protected def handleNoPlan(): Unit = SwingUtilities invokeLater: () =>
     _view foreach: v =>
       v.disableStepButton()
       v.disableResetButton()
       v.disableStartButton()
       v.disablePauseResumeButton()
 
-  override protected def handleValidPlan(): Unit =
+  override protected def handleValidPlan(): Unit = SwingUtilities invokeLater: () =>
     _view foreach: v =>
       v.enableStepButton()
       v.enableStartButton()
