@@ -9,21 +9,6 @@ import it.unibo.planning.{AStar, PathFindingAlgorithm, Planner, PlannerWithSpeci
 import javax.swing.SwingUtilities
 import scala.annotation.tailrec
 
-object GameState:
-  enum State:
-    case Reset
-    case Running
-    case Paused
-    case Step
-    case Empty
-    case ChangeScenario(scenarioIndex: Int)
-    case ChangeAlgorithm(algorithmIndex: Int)
-  export State.*
-  @volatile private var _current: State = Empty
-  def current: State = synchronized{_current}
-  def set(s: State): Unit = synchronized{_current = s}
-  def exec(action: => Unit): Unit = synchronized{action}
-
 trait ScenarioManager:
   protected var _scenarios: List[Scenario] = Terrain() :: Maze() :: Traps() :: Nil
   protected var _scenario: Scenario = _scenarios.head
@@ -135,21 +120,21 @@ object ScalaPathController extends SimulationController
     refresh()
     resetSimulation()
 
-  override def start(): Unit = loop(GameState.current)
+  override def start(): Unit = loop(Simulation.current)
 
-  import GameState.*
+  import Simulation.*
   @tailrec
   private def loop(s: State): Unit =
-    GameState.exec:
+    Simulation.exec:
       s match
         case Empty => ()
         case Reset   =>
           resetSimulation()
-          GameState set Empty
+          Simulation set Empty
         case Paused  => ()
         case Step =>
           step()
-          GameState set Paused
+          Simulation set Paused
         case Running =>
           if _currentPlan.nonEmpty
           then
@@ -162,13 +147,13 @@ object ScalaPathController extends SimulationController
           refresh()
           println("Current plan " + _currentPlan)
           println("Current tiles " + _scenario.tiles)
-          GameState set Empty
+          Simulation set Empty
         case ChangeAlgorithm(algorithmIndex) =>
           changeAlgorithm(_algorithms(algorithmIndex))
           refresh()
-          GameState set Empty
+          Simulation set Empty
 
-    loop(GameState.current)
+    loop(Simulation.current)
 
   override protected def step(): Unit = _currentPlan match
     case h :: t =>
@@ -181,7 +166,7 @@ object ScalaPathController extends SimulationController
 
   override protected def over(): Unit =
     println("Plan terminated!")
-    GameState set Reset
+    Simulation set Reset
     handleNoPlan()
 
   override protected def handleNoPlan(): Unit = SwingUtilities invokeLater: () =>

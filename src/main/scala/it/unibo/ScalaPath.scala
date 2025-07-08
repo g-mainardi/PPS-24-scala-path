@@ -1,6 +1,6 @@
 package it.unibo
 
-import it.unibo.controller.{GameState, ScalaPathController}
+import it.unibo.controller.ScalaPathController
 import it.unibo.view.View
 
 import scala.swing.{Frame, SimpleSwingApplication}

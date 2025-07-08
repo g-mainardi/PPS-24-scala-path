@@ -1,6 +1,6 @@
 package it.unibo.view
 
-import it.unibo.controller.{DisplayableController, GameState}
+import it.unibo.controller.{DisplayableController, Simulation}
 import it.unibo.model.Tiling
 import it.unibo.model.Tiling.Position
 
@@ -112,18 +112,18 @@ class View(controller: DisplayableController) extends MainFrame:
 
   listenTo(startButton, stepButton, resetButton, pauseResumeButton, scenarioDropdown.selection, algorithmDropdown.selection, generateScenarioButton)
   reactions += {
-    case ButtonClicked(`startButton`) => GameState set GameState.Running
-    case ButtonClicked(`stepButton`) => GameState set GameState.Step
-    case ButtonClicked(`resetButton`) => GameState set GameState.Reset
-    case ButtonClicked(`generateScenarioButton`) => GameState set GameState.ChangeScenario(scenarioDropdown.selection.index)
+    case ButtonClicked(`startButton`) => Simulation set Simulation.Running
+    case ButtonClicked(`stepButton`) => Simulation set Simulation.Step
+    case ButtonClicked(`resetButton`) => Simulation set Simulation.Reset
+    case ButtonClicked(`generateScenarioButton`) => Simulation set Simulation.ChangeScenario(scenarioDropdown.selection.index)
     case ButtonClicked(`pauseResumeButton`) =>
       if pauseResumeButton.text == "Pause" then
-        GameState set GameState.Paused
+        Simulation set Simulation.Paused
         pauseResumeButton.text = "Resume"
       else
-        GameState set GameState.Running
+        Simulation set Simulation.Running
         pauseResumeButton.text = "Pause"
     case SelectionChanged(`scenarioDropdown`) => println(s"Selected scenario: ${scenarioDropdown.selection.item}")
-    case SelectionChanged(`algorithmDropdown`) => GameState set GameState.ChangeAlgorithm(algorithmDropdown.selection.index)
+    case SelectionChanged(`algorithmDropdown`) => Simulation set Simulation.ChangeAlgorithm(algorithmDropdown.selection.index)
   }
     
