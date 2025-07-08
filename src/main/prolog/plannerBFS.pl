@@ -1,5 +1,5 @@
 % interval / range
-interval(A, B, A):- A < B.
+interval(A, B, A):- A =< B.
 interval(A, B, X):-
     A < B,
     A2 is A + 1,
