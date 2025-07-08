@@ -3,36 +3,30 @@ package it.unibo.planning
 import it.unibo.model.Direction
 import it.unibo.model.Tiling.Tile
 
-//trait BuilderInit:
-//  protected var initPos: Option[(Int, Int)] = None
-//  protected var goalPos: Option[(Int, Int)] = None
-//
-//  def withInit(initPos: (Int, Int)): BuilderInit =
-//    this.initPos = Some(initPos)
-//    this
-//
-//  def withGoal(goal: (Int, Int)): BuilderInit =
-//    this.goalPos = Some(goal)
-//    this
-//
-//trait BuilderConstraints:
-//  protected var maxMoves: Int = 0
-//  def withMaxMoves(maxMoves: Option[Int]): PlannerBuilder
-//
-//trait BuilderEnvironment:
-//  protected var environmentTiles: List[Tile] = List.empty
-//  def withTiles(tiles: List[Tile]): PlannerBuilder
-
-//trait PlannerBuilder extends BuilderInit, BuilderConstraints, BuilderEnvironment:
-//  def run: Plan
-
-trait PlannerBuilder:
+trait BuilderInit:
   protected var initPos: Option[(Int, Int)] = None
-  protected var goalPos: Option[(Int, Int)] = None
-  protected var environmentTiles: Option[List[Tile]] = None
-  protected var maxMoves: Option[Int] = None
-  protected var directions: Option[List[Direction]] = None
+  def withInit(initPos: (Int, Int)): BuilderGoal
 
+trait BuilderGoal:
+  protected var goalPos: Option[(Int, Int)] = None
+  def withGoal(goal: (Int, Int)): BuilderConstraints
+
+trait BuilderConstraints:
+  protected var maxMoves: Option[Int] = None
+  def withMaxMoves(maxMoves: Option[Int]): BuilderEnvironment
+
+trait BuilderEnvironment:
+  protected var environmentTiles: Option[List[Tile]] = None
+  def withTiles(tiles: List[Tile]): BuilderDirections
+
+trait BuilderDirections:
+  protected var directions: Option[List[Direction]] = None
+  def withDirections(directions: List[Direction]): CompletePlanner
+
+trait CompletePlanner:
+  def run: Plan
+
+trait PlannerBuilder extends BuilderInit, BuilderGoal, BuilderConstraints, BuilderEnvironment, BuilderDirections, CompletePlanner:
   def withInit(initPos: (Int, Int)): PlannerBuilder =
     this.initPos = Some(initPos)
     this

@@ -4,7 +4,7 @@ import it.unibo.model.Direction
 import it.unibo.planning.Plan.*
 import it.unibo.model.Tiling.Tile
 import it.unibo.model.Direction.{Cardinals, allDirections}
-import it.unibo.planning.prologplanner.BasePrologPlannerBuilder
+import it.unibo.planning.prologplanner.{BasePrologPlannerBuilder, DFSBuilder}
 
 // Cardinals.values.toList ++ Diagonals.values.toList
 
@@ -17,7 +17,7 @@ class DummyPlanner extends Planner:
 class PlannerWithTiles(initPos: (Int, Int), goal: (Int, Int), tiles: List[Tile], maxMoves: Option[Int] = None, directions: List[Direction] = allDirections) extends Planner:
   override def plan: Plan =
     println(s"Tiles: $tiles")
-    BasePrologPlannerBuilder()
+    DFSBuilder()
       .withTheoryFrom("src/main/prolog/plannerWithTiles.pl")
       .withTiles(tiles)
       .withInit(initPos)
@@ -29,7 +29,7 @@ class PlannerWithTiles(initPos: (Int, Int), goal: (Int, Int), tiles: List[Tile],
 class PlannerWithSpecials(initPos: (Int, Int), goal: (Int, Int), tiles: List[Tile], maxMoves: Option[Int] = None, directions: List[Direction] = allDirections) extends Planner:
   override def plan: Plan =
     println(s"Tiles: $tiles")
-    BasePrologPlannerBuilder()
+    DFSBuilder()
       .withTheoryFrom("src/main/prolog/plannerWithSpecials.pl")
       .withTiles(tiles)
       .withInit(initPos)
