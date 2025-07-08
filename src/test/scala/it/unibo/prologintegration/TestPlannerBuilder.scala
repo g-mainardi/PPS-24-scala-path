@@ -10,15 +10,16 @@ import it.unibo.model.Direction.allDirections
 class TestPlannerBuilder extends AnyFlatSpec with Matchers with TestPlanner {
 
   "PlannerBuilder" should "find a valid path with max moves" in :
-    val plan: Plan = DFSBuilder()
+    val planner: Planner = PlannerBuilder()
       .withTheoryFrom("src/main/prolog/plannerWithTiles.pl")
       .withInit((0,0))
       .withGoal((2,2))
       .withTiles(passableTiles)
       .withMaxMoves(Some(5))
       .withDirections(allDirections)
-      .run
-    plan shouldBe a [SucceededPlan]
+      .withAlgorithms()
+      .build
+    planner.run shouldBe a [SucceededPlan]
 
   "PlannerBuilder" should "find a valid path without max moves" in :
     val plan: Plan = DFSBuilder()

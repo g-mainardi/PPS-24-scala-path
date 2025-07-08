@@ -8,4 +8,3 @@
 Pathfinding engine in Scala and Prolog
 
 https://g-mainardi.github.io/PPS-24-scala-path/
-
