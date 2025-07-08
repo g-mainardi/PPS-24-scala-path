@@ -1,6 +1,7 @@
 package it.unibo.model
 
 import Tiling.*
+import it.unibo.utils.PrettyPrint
 
 object Scenario:
   val nRows = 6
@@ -26,7 +27,7 @@ class Agent(val initialPosition: Position):
   def computeCommand(direction: Direction): Unit =
     pos = pos + direction.vector
 
-trait Scenario:
+trait Scenario extends PrettyPrint:
   private var _agent: Agent = Agent(initialPosition)
   protected var _tiles: List[Tile] = List()
 
@@ -36,7 +37,6 @@ trait Scenario:
   def goalPosition: Position = Position(Scenario.nRows - 1, Scenario.nCols - 1)
   def generate(): Unit
   def resetAgent(): Unit = _agent = Agent(initialPosition)
-  override def toString: String = s"${getClass.getSimpleName}"
 
 class DummyScenario extends Scenario:
   override def generate(): Unit =
