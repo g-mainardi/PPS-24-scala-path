@@ -81,7 +81,7 @@ trait ControllableSimulation:
   protected def pause(): Unit
   protected def resume(): Unit
   protected def resetSimulation(): Unit
-  protected def resetScenario(): Unit
+  protected def resetAll(): Unit
 
 trait SimulationController:
   def init(): Unit
@@ -124,9 +124,9 @@ object ScalaPathController extends SimulationController
 
   override protected def changeScenario(newScenario: Scenario): Unit =
     super.changeScenario(newScenario)
-    generateScenario()
+    resetAll()
 
-  override def resetScenario(): Unit =
+  override def resetAll(): Unit =
     generateScenario()
     resetSimulation()
 
