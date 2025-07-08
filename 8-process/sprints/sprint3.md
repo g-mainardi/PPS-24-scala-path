@@ -15,7 +15,7 @@
 |    10    | Documentation |      All implementations till now      |   Team   |           6           |   6   |   -   |   -   |   -   |   -   |   -   |   -   |
 |    11    |     View     |       Agent and algorithm chooser       | Basigli |           3           |   1   |   -   |   -   |   -   |   -   |   -   |   -   |
 |    12    |  Controller  |      Agent and algorithm switcher      | Mainardi |           3           |   3   |   -   |   -   |   -   |   -   |   -   |   -   |
-|    13    | Documentation |   Requirements and domain explanation   | Basigli |           4           |   4   |   -   |   -   |   -   |   -   |   -   |   -   |
+|    13    | Documentation |   Requirements and domain explanation   | Basigli |           4           |   4   |   2   |   -   |   -   |   -   |   -   |   -   |
 |    14    |    Builder    |      Refactor with multiple traits      |  Salman  |           2           |   1   |   -   |   -   |   -   |   -   |   -   |   -   |
 
 ### Sprint Goal
