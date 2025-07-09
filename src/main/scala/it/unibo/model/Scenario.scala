@@ -4,11 +4,11 @@ import Tiling.*
 import it.unibo.utils.PrettyPrint
 
 object Scenario:
-  val nRows = 6
-  val nCols = 6
+  val nRows = 10
+  val nCols = 10
 
   import scala.util.Random
-  private val rand = Random(seed = 44)
+  private val rand = Random(seed = 69)
 
   def randomPosition: Position =
     val positions: Seq[Position] = for
@@ -17,7 +17,7 @@ object Scenario:
     yield
       Position(x, y)
     positions(rand nextInt positions.size)
-  
+
   def randomPositions(size: Int): Set[Position] = Set.fill(size)(randomPosition)
 
 class Agent(val initialPosition: Position):

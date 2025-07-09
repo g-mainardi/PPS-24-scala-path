@@ -10,7 +10,12 @@ import javax.swing.SwingUtilities
 import scala.annotation.tailrec
 
 trait ScenarioManager:
-  protected var _scenarios: List[Scenario] = Terrain() :: Maze() :: Traps() :: Nil
+  import SpecialTileDSL.*
+  define("Teleport")(_ => Scenario.randomPosition)
+  define("JumpDown")(pos => Position(pos.x + 2, pos.y))
+  define("StairsUp")(pos => Position(pos.x - 2, pos.y))
+
+  protected var _scenarios: List[Scenario] = Terrain() :: Maze() :: DSLDrivenScenario() :: Nil
   protected var _scenario: Scenario = _scenarios.head
 
   def scenariosNames: List[String] = _scenarios map(_.toString)
@@ -87,18 +92,14 @@ object ScalaPathController extends SimulationController
   with ViewAttachable
   with ControllableSimulation:
 
-  // planner = Some(DummyPlanner())
-  // planner = Some(BasePlanner((0,0), (2,2), 5))
-  // planner = Some(PlannerWithTiles((0,0), (5,5), 100, scenario.tiles))
-
   override def pause(): Unit = ()
 
   override def resume(): Unit = ()
 
   import it.unibo.planning.prologplanner.Conversions.given
 
-  override def refreshPlanner(): Unit = planner =
-    Some(PlannerWithSpecials(_scenario.initialPosition, _scenario.goalPosition, _scenario.tiles))
+  override def refreshPlanner(): Unit = planner = ???
+    // Some(PlannerWithSpecials(_scenario.initialPosition, _scenario.goalPosition, _scenario.tiles))
 
   override def generateScenario(): Unit =
     _scenario.generate()

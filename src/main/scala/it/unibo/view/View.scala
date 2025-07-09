@@ -9,8 +9,6 @@ import java.awt.geom.{Ellipse2D, Rectangle2D}
 import scala.swing.*
 import scala.swing.event.{ButtonClicked, Event, SelectionChanged}
 
-
-
 object ViewUtilities:
   import Tiling.*
   def tileColor(tile: Tile): Color =
@@ -25,7 +23,8 @@ object ViewUtilities:
       case _: Water => CYAN
       case _: Lava => ORANGE
       case _: Rock => GRAY
-  
+      case _  => YELLOW
+
 class View(controller: DisplayableController) extends MainFrame:
   import ViewUtilities.*
   import it.unibo.ScalaPath.{gridOffset, cellSize, gridSize}
