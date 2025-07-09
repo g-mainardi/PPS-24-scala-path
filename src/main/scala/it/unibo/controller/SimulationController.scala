@@ -4,9 +4,8 @@ import it.unibo.model.*
 import it.unibo.view.View
 import Tiling.Position
 import it.unibo.model.Direction.allDirections
-import it.unibo.planning.Algorithm.DFS
 import it.unibo.planning.Plan.*
-import it.unibo.planning.{AStar, PathFindingAlgorithm, Planner, PlannerBuilder}
+import it.unibo.planning.{Algorithm, Planner, PlannerBuilder}
 
 import javax.swing.SwingUtilities
 import scala.annotation.tailrec
@@ -26,12 +25,12 @@ trait ScenarioManager:
   protected def generateScenario(): Unit
 
 trait AlgorithmManager:
-  protected var _algorithms: List[PathFindingAlgorithm] = AStar :: Nil
-  protected var _algorithm: PathFindingAlgorithm = _algorithms.head
+  protected var _algorithms: List[Algorithm] = Algorithm.values.toList
+  protected var _algorithm: Algorithm = _algorithms.head
 
   def algorithmsNames: List[String] = _algorithms map (_.toString)
-  def algorithm: PathFindingAlgorithm = _algorithm
-  protected def changeAlgorithm(newAlgorithm: PathFindingAlgorithm): Unit = _algorithm = newAlgorithm
+  def algorithm: Algorithm = _algorithm
+  protected def changeAlgorithm(newAlgorithm: Algorithm): Unit = _algorithm = newAlgorithm
 
 trait PathManager:
   private var _path: List[Position] = List()
@@ -108,7 +107,7 @@ object ScalaPathController extends SimulationController
       .withMaxMoves(None)
       .withTiles(_scenario.tiles)
       .withDirections(allDirections)  //todo implement GUI integration
-      .withAlgorithm(DFS)             //todo implement GUI integration
+      .withAlgorithm(_algorithm)
       .build
 
   override def generateScenario(): Unit =

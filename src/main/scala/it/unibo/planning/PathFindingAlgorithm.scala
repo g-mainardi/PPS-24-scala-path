@@ -8,6 +8,6 @@ trait PathFindingAlgorithm extends PrettyPrint:
   def run(start: Position, goal: Position, tiles: List[Tile]): Option[List[Direction]]
 
 enum Algorithm:
-  case AStar
-  case BFS
   case DFS
+  case BFS
+  case AStar
