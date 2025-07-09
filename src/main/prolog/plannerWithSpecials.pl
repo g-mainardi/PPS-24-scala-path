@@ -4,8 +4,6 @@ plan(Path, Moves) :-
     goal(Goal),
     planner(Init, Goal, [Init], Path, Moves).
 
-
-
 % Base case: at goal, no moves needed
 planner(State, State, _, [], 0).
 

@@ -25,7 +25,7 @@ object MoveFactsGenerator {
       val xNew = if dx != 0 then "X1" else "X"
       val yNew = if dy != 0 then "Y1" else "Y"
 
-      val bodyLines = List(xDecl, yDecl).filter(_.nonEmpty) :+ s"passable($xNew, $yNew)."
+      val bodyLines = List(xDecl, yDecl).filter(_.nonEmpty) :+ s"passable(s($xNew, $yNew))."
       val body = bodyLines.mkString(",\n    ")
       s"""move(s(X,Y), $directionName, s($xNew, $yNew)) :-\n    $body"""
 
