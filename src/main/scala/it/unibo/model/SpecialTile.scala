@@ -3,20 +3,20 @@ package it.unibo.model
 import it.unibo.model.Scenario.{nCols, nRows}
 import it.unibo.model.Tiling.{Floor, Position, TilePos}
 
-case class SpecialTileKind(name: String, computeNewPos: Position => Position)
+case class SpecialTile(name: String, computeNewPos: Position => Position)
 
-case class CustomSpecialTile(pos: Position, kind: SpecialTileKind) extends Tiling.Special:
+case class CustomSpecialTile(pos: Position, kind: SpecialTile) extends Tiling.Special:
   override val newPos: Position = kind.computeNewPos(pos)
 
-object SpecialTileDSL:
-  private var registry: Map[String, SpecialTileKind] = Map()
+object SpecialTileBuilder:
+  private var registry: Map[String, SpecialTile] = Map()
   def define(name: String)(compute: Position => Position): Unit =
-    registry += name -> SpecialTileKind(name, compute)
+    registry += name -> SpecialTile(name, compute)
 
-  def allKinds: Iterable[SpecialTileKind] = registry.values
+  def allKinds: Iterable[SpecialTile] = registry.values
   def clear(): Unit = registry = Map.empty
 
-class DSLDrivenScenario extends Scenario:
+class ScenarioWithSpecials extends Scenario:
   val tilesPerKind = 4
 
   override def generate(): Unit =
@@ -25,8 +25,8 @@ class DSLDrivenScenario extends Scenario:
       y <- 0 until nCols
     yield Floor(Position(x, y))).toList
 
-    val specialPositions: Map[SpecialTileKind, Set[Position]] =
-      SpecialTileDSL.allKinds.map { kind =>
+    val specialPositions: Map[SpecialTile, Set[Position]] =
+      SpecialTileBuilder.allKinds.map { kind =>
         kind -> Scenario.randomPositions(tilesPerKind)
       }.toMap
 
@@ -38,7 +38,7 @@ class DSLDrivenScenario extends Scenario:
         }.getOrElse(Floor(pos))
 
 @main def defineSpecialTiles(): Unit =
-  import SpecialTileDSL.*
+  import SpecialTileBuilder.*
   define("Teleport")(_ => Scenario.randomPosition)
   define("JumpDown")(pos => Position(pos.x + 2, pos.y))
   define("StairsUp")(pos => Position(pos.x - 2, pos.y))
