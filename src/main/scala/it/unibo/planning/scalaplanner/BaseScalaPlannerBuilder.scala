@@ -17,8 +17,17 @@ class BaseScalaPlannerBuilder extends ScalaBuilder:
   override def run: Plan =
     var start = this.initPos.get
     var goal = this.goalPos.get
+
+
     this.directions = this.algorithm.get.run(Position(start._1, start._2), Position(goal._1, goal._2), this.environmentTiles.get)
-    SucceededPlan(this.directions.get)
+    val path = this.directions.get
+    var actor = Position(start._1, start._2)
+    path.foreach(i => actor + i.vector)
+    if actor == Position(goal._1, goal._2) then
+      SucceededPlan(path)
+    else
+      FailedPlan("Impossible to reach the goal")
+
 
 
 

@@ -15,46 +15,42 @@ class Maze extends Scenario:
   override def goalPosition: Position = Position(exitX, exitY)
 
   override def generate(): Unit =
-
-    val visited = Array.fill(logicalRows, logicalCols)(false)
-    var mazeTiles: Map[Position, Tile] = Map()
-
-    // Initialize as walls
-    for
-      x <- 0 until gridRows
-      y <- 0 until gridCols
-    do
-      mazeTiles += Position(x, y) -> Wall(Position(x, y))
+    val allWalls: Map[Position, Tile] =
+      (for
+        x <- 0 until gridRows
+        y <- 0 until gridCols
+      yield Position(x, y) -> Wall(Position(x, y))
+        ).toMap
 
     def inBounds(row: Int, col: Int): Boolean =
       row >= 0 && col >= 0 && row < logicalRows && col < logicalCols
 
     def neighbors(row: Int, col: Int): List[(Int, Int, Int, Int)] =
       Random.shuffle(List(
-        (row - 1, col, -1, 0), // nord
-        (row + 1, col, 1, 0), // sud
-        (row, col - 1, 0, -1), // ovest
-        (row, col + 1, 0, 1) // est
-      )).filter((neighborRow, neighborCol, _, _) => inBounds(neighborRow, neighborCol) && !visited(neighborRow)(neighborCol))
+        (row - 1, col, -1, 0),
+        (row + 1, col, 1, 0),
+        (row, col - 1, 0, -1),
+        (row, col + 1, 0, 1)
+      ))
 
-    def carve(row: Int, col: Int): Unit =
-      visited(row)(col) = true
+    def carve(row: Int, col: Int, visited: Set[(Int, Int)], maze: Map[Position, Tile]): (Set[(Int, Int)], Map[Position, Tile]) =
+      val newVisited = visited + ((row, col))
       val x = 2 * row + 1
       val y = 2 * col + 1
-      mazeTiles += Position(x, y) -> Floor(Position(x, y)) // room
+      val mazeWithRoom = maze + (Position(x, y) -> Floor(Position(x, y)))
 
-      for (neighborRow, neighborCol, diffRow, diffCol) <- neighbors(row, col) do
-        if !visited(neighborRow)(neighborCol) then
-          val wallX = x + diffRow
-          val wallY = y + diffCol
-          mazeTiles += Position(wallX, wallY) -> Floor(Position(wallX, wallY))
-          carve(neighborRow, neighborCol)
+      neighbors(row, col).foldLeft((newVisited, mazeWithRoom)) {
+        case ((v, m), (nr, nc, dr, dc)) if inBounds(nr, nc) && !v.contains((nr, nc)) =>
+          val wallX = x + dr
+          val wallY = y + dc
+          val m1 = m + (Position(wallX, wallY) -> Floor(Position(wallX, wallY)))
+          val (v2, m2) = carve(nr, nc, v + ((nr, nc)), m1)
+          (v2, m2)
 
-    carve(0, 0)
+        case ((v, m), _) => (v, m)
+      }
 
-    // add exit
-    mazeTiles += Position(exitX, exitY) -> Floor(Position(exitX, exitY))
+    val (_, carvedMaze) = carve(0, 0, Set.empty, allWalls)
 
-    println(s"exit at: ($exitX, $exitY)")
-
-    _tiles = mazeTiles.values.toList
+    val finalMaze = carvedMaze + (Position(exitX, exitY) -> Floor(Position(exitX, exitY)))
+    _tiles = finalMaze.values.toList
