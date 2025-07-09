@@ -73,52 +73,39 @@ interval(A, B, X):-
     A2 is A + 1,
     interval(A2, B, X).
 
-count(N):-
-	findall(Pos, passable(Pos), List),
-	length(List, N).
-
-
-% Basic plan
-plan(Dirs, N):- plan(Dirs, N, _).
-plan(Dirs, N, Path):- number(N), !, init(Pos), plan(Dirs, N, Pos, Path, [Pos]).
-plan(Dirs, N, Path):-
-	maxmoves(M),
-	interval(1, M, N),
-	plan(Dirs, N, Path).
-
-% real algorithm
-plan([], _, P, [P], _):- 	goal(P), !.
-plan([], 0, _, [], _):- !, fail.
-plan([Cmd|Dirs], N, Pos, [Pos|Path], Visited):-
-	move(Pos, Cmd, Pos2),
-	\+ member(Pos2, Visited),
-	Nn is N - 1,
-	plan(Dirs, Nn, Pos2, Path, [Pos2|Visited]).
-
 % ---------------------------------
 
-plan_bfs(Moves, Path) :-
+plan(Dirs, Max) :-
   init(Init),
-  bfs([[Init]], Moves, Path).  % la queue contiene percorsi (lista di posizioni)
-  
-bfs([[Pos|T] | _], [], Path) :-
-  goal(Pos),
-  reverse([Pos|T], Path).
+  bfs([[c(Init, none)]], 0, Max, Dirs, _).  % la queue contiene percorsi (lista di posizioni)
 
-bfs([[Pos|RestPath] | Others], Moves, Path) :-
-	write("Pos") , write(Pos), nl,
-	write("Rest"), write(RestPath), nl,
-  findall(
-  	[Next,Pos|RestPath],
-    ( 
-    	move(Pos, _, Next),
-      \+ member(Next, [Pos|RestPath]),  % evita cicli
-      passable(Next)
-    ),
-    NewPaths
-  ),
-  append(Others, NewPaths, QueueNext),  % FIFO = append in fondo
-  bfs(QueueNext, MovesNext, Path).
-  %length([_ | RestPath], L),
-  %maxmoves(Max),
-  %(L >= Max -> MovesNext = []; MovesNext = [_ | Moves]).
+% bfs(+Queue, +LengthTillNow, ?MaxMoves, -Directions, -Path)
+bfs([[c(Pos, Dir) | Rest] | _], _, Max, Dirs, Path) :-
+    goal(Pos),
+    reverse([c(Pos, Dir) | Rest], Full),
+    extract_path(Full, Path),
+    extract_directions(Full, Dirs),
+    (var(Max) -> length(Dirs, Max); true).
+
+bfs([[c(Pos, Old) | Rest] | Others], _, Max, Dirs, Path) :-
+    (number(Max) -> length([c(Pos, Old) | Rest], L), L =< Max + 1 ; L=none),  % +1 perché la prima mossa è 'none'
+    findall([c(Next, Dir), c(Pos, Old) | Rest],
+        ( move(Pos, Dir, Next),
+          \+ member(c(Next, _), Rest),
+          passable(Next)
+        ),
+        NewPaths),
+    append(Others, NewPaths, QueueNext),
+    bfs(QueueNext, L, Max, Dirs, Path).
+    
+extract_path([], []).
+extract_path([c(P, _) | Rest], [P | Ps]) :-
+    extract_path(Rest, Ps).
+
+extract_directions([], []).
+extract_directions([c(_, none) | Rest], Dirs) :-
+    extract_directions(Rest, Dirs).
+extract_directions([c(_, M) | Rest], [M | Ms]) :-
+    M \= none,
+    extract_directions(Rest, Ms).
+
