@@ -5,7 +5,6 @@ import org.scalatest.matchers.should.Matchers
 import it.unibo.planning.Plan.*
 import it.unibo.planning.{AStar, Plan}
 // import it.unibo.planning.scalaplanner.BaseScalaPlannerBuilder
-import it.unibo.prologintegration.TestPlanner
 
 class TestScalaPlannerBuilder extends AnyFlatSpec with Matchers with TestPlanner
 

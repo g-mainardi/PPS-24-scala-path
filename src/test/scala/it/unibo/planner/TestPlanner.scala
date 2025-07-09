@@ -1,6 +1,6 @@
-package it.unibo.prologintegration
+package it.unibo.planner
 
-import it.unibo.model.Tiling.{Floor, Position, Teleport, Tile, Wall}
+import it.unibo.model.Tiling.*
 
 import scala.util.Random
 
