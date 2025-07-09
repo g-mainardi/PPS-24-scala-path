@@ -59,11 +59,13 @@ trait PlannerManager:
   protected def refreshPlanner(): Unit
 
 trait ViewAttachable:
-  protected var _view: Option[View] = None
+  private var _view: Option[View] = None
 
   final def attachView(v: View): Unit = _view = Some(v)
-  protected def updateView(): Unit =  SwingUtilities invokeLater: () =>
-    _view foreach : v => 
+  final protected def applyToView(viewAction: View => Unit): Unit = SwingUtilities invokeLater: () =>
+    _view foreach:
+      viewAction(_)
+  protected def updateView(): Unit = applyToView: v =>
       v.repaint()
 
 trait ControllableSimulation:
@@ -169,15 +171,15 @@ object ScalaPathController extends SimulationController
     Simulation set Reset
     handleNoPlan()
 
-  override protected def handleNoPlan(): Unit = SwingUtilities invokeLater: () =>
-    _view foreach: v =>
+  override protected def handleNoPlan(): Unit =
+    applyToView: v =>
       v.disableStepButton()
       v.disableResetButton()
       v.disableStartButton()
       v.disablePauseResumeButton()
 
-  override protected def handleValidPlan(): Unit = SwingUtilities invokeLater: () =>
-    _view foreach: v =>
+  override protected def handleValidPlan(): Unit =
+    applyToView: v =>
       v.enableStepButton()
       v.enableStartButton()
       v.enableResetButton()
