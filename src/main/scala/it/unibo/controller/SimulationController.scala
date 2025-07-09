@@ -43,12 +43,15 @@ trait PlannerManager:
   protected def handleValidPlan(): Unit
 
   private object ValidPlanner:
-    def unapply(plannerOpt: Option[Planner]): Option[List[Direction]] = plannerOpt map(_.plan) map:
-      case SucceededPlanWithMoves(directions, _) => directions
-      case SucceededPlan(directions) =>  directions
-      case FailedPlan(error) => println(error); List.empty
+    def unapply(plannerOpt: Option[Planner]): Option[List[Direction]] = plannerOpt map: p =>
+      p.plan match
+        case SucceededPlanWithMoves(directions, _) => directions
+        case SucceededPlan(directions) =>  directions
+        case FailedPlan(error) => println(error); List.empty
 
-  protected def refreshPlan(): Unit = _currentPlan = planner match
+  protected def refreshPlan(): Unit =
+    refreshPlanner()
+    _currentPlan = planner match
     case ValidPlanner(directions) if directions.nonEmpty =>
       handleValidPlan()
       directions
@@ -79,7 +82,6 @@ trait SimulationController:
   def start(): Unit
   protected def step(): Unit
   protected def over(): Unit
-  protected def refresh():Unit
 
 object ScalaPathController extends SimulationController
   with DisplayableController
@@ -106,7 +108,7 @@ object ScalaPathController extends SimulationController
 
   override def init(): Unit =
     generateScenario()
-    refresh()
+    refreshPlan()
 
   override def resetSimulation(): Unit =
     _scenario.resetAgent()
@@ -119,7 +121,7 @@ object ScalaPathController extends SimulationController
 
   override def resetAll(): Unit =
     generateScenario()
-    refresh()
+    refreshPlan()
     resetSimulation()
 
   override def start(): Unit = loop(Simulation.current)
@@ -146,13 +148,13 @@ object ScalaPathController extends SimulationController
             over()
         case ChangeScenario(scenarioIndex) =>
           changeScenario(_scenarios(scenarioIndex))
-          refresh()
+          refreshPlan()
           println("Current plan " + _currentPlan)
           println("Current tiles " + _scenario.tiles)
           Simulation set Empty
         case ChangeAlgorithm(algorithmIndex) =>
           changeAlgorithm(_algorithms(algorithmIndex))
-          refresh()
+          refreshPlan()
           Simulation set Empty
 
     loop(Simulation.current)
@@ -185,6 +187,3 @@ object ScalaPathController extends SimulationController
       v.enableResetButton()
       v.enablePauseResumeButton()
 
-  override protected def refresh(): Unit =
-    refreshPlanner()
-    refreshPlan()
