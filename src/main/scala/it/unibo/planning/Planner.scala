@@ -6,7 +6,8 @@ import it.unibo.planning.Algorithm.*
 import it.unibo.planning.Plan.*
 import it.unibo.model.Tiling.{Position, Tile}
 import it.unibo.model.Direction.{Cardinals, Diagonals, allDirections}
-import it.unibo.planning.prologplanner.{PrologDFSBuilder, BasePrologBuilder, BasePrologPlanner}
+import it.unibo.planning.prologplanner.{BasePrologBuilder, BasePrologPlanner, PrologDFSBuilder}
+import it.unibo.planning.scalaplanner.BaseScalaPlanner
 import it.unibo.prologintegration.Prolog2Scala.{extractListFromTerm, extractTerm}
 import it.unibo.prologintegration.Scala2Prolog.Engine
 
@@ -25,3 +26,4 @@ class PrologPlanner(engine: Engine, goal: Term, maxMoves: Option[Int]) extends P
 class ScalaPlanner() extends Planner, BaseScalaPlanner:
   override def plan: Plan =
     ???
+    
