@@ -1,23 +1,38 @@
-% interval / range
-interval(A, B, A):- A =< B.
-interval(A, B, X):-
-    A < B,
-    A2 is A + 1,
-    interval(A2, B, X).
+plan(Dirs, Max) :-
+  init(Init),
+  bfs([[c(Init, none)]], Max, Dirs, _).  % queue contains Steps (list of steps)
 
-% Basic plan
-plan(Dirs):- plan(Dirs, _).
-plan(Dirs, N):- plan(Dirs, N, Path).
-plan(Dirs, N, Path):- number(N), !, init(Pos), plan(Dirs, N, Pos, Path, [Pos]).
-plan(Dirs, N, Path):-
-	maxmoves(M),
-	interval(1, M, N),
-	plan(Dirs, N, Path).
-plan([], _, P, [P], _):- 	goal(P), !.
-plan([], 0, _, [], _):- !, fail.
+% bfs(+Queue, ?MaxMoves, -Directions, -Path)
 
-plan([Cmd|Dirs], N, Pos, [Pos|Path], Visited):-
-	move(Pos, Cmd, Pos2),
-	\+ member(Pos2, Visited),
-	Nn is N - 1,
-	plan(Dirs, Nn, Pos2, Path, [Pos2|Visited]).
+bfs([Steps | _], Max, Dirs, Path) :-    % case: goal reached
+	Steps = [c(P, D) | T],
+  goal(P),
+  % Prepare the outputs
+  reverse(Steps, Full),
+  extract(Full, Path, Dirs),
+  (var(Max) -> length(Dirs, Max); true).
+
+bfs([Steps|Others], Max, Dirs, Path) :- % case: recursion on queue
+	Steps = [c(P, _) | T],
+	% if Max is specified then I have to keep track of the lenght
+	% if not, I will calculate the lenght only at the end
+  (number(Max) -> length(Steps, L), L =< Max + 1 ; true),  % +1 because first move is 'none'
+  find_new_paths(Steps, NewPaths),
+  append(Others, NewPaths, QueueNext),
+  bfs(QueueNext, Max, Dirs, Path).
+
+% find_new_paths(+Steps, -NewPaths):-
+find_new_paths(Steps, NewPaths):-
+	Steps = [c(P, _) | T],
+  findall(
+  	[c(Next, Dir)| Steps],
+    (move(P, Dir, Next), \+ member(c(Next, _), T)),
+    NewPaths
+  ).
+
+% extract(+Queue, -Path, -Directions)
+extract([], [], []).
+extract([c(P, D) | T], [P | Ps], Dirs) :-
+	D == none -> 
+  	extract(T, Ps, Dirs); 
+  	Dirs = [D | Ds], extract(T, Ps, Ds).
