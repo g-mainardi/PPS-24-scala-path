@@ -94,3 +94,31 @@ plan([Cmd|Dirs], N, Pos, [Pos|Path], Visited):-
 	\+ member(Pos2, Visited),
 	Nn is N - 1,
 	plan(Dirs, Nn, Pos2, Path, [Pos2|Visited]).
+
+% ---------------------------------
+
+plan_bfs(Moves, Path) :-
+  init(Init),
+  bfs([[Init]], Moves, Path).  % la queue contiene percorsi (lista di posizioni)
+  
+bfs([[Pos|T] | _], [], Path) :-
+  goal(Pos),
+  reverse([Pos|T], Path).
+
+bfs([[Pos|RestPath] | Others], Moves, Path) :-
+	write("Pos") , write(Pos), nl,
+	write("Rest"), write(RestPath), nl,
+  findall(
+  	[Next,Pos|RestPath],
+    ( 
+    	move(Pos, _, Next),
+      \+ member(Next, [Pos|RestPath]),  % evita cicli
+      passable(Next)
+    ),
+    NewPaths
+  ),
+  append(Others, NewPaths, QueueNext),  % FIFO = append in fondo
+  bfs(QueueNext, MovesNext, Path).
+  %length([_ | RestPath], L),
+  %maxmoves(Max),
+  %(L >= Max -> MovesNext = []; MovesNext = [_ | Moves]).
