@@ -4,17 +4,17 @@
 | Priority |     Item     |                  Tasks                  | Assignee | Initial Size Estimate | Day 1 | Day 2 | Day 3 | Day 4 | Day 5 | Day 6 | Day 7 |
 | :------: | :-----------: | :-------------------------------------: | :------: | :-------------------: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
 |    1    |    Planner    |               A* Testing               | Basigli |           4           |   4   |   -   |   -   |   -   |   -   |   -   |   -   |
-|    2    |    Planner    |             BFS Search Algo             | Mainardi |           2           |   0   |   -   |   -   |   -   |   -   |   -   |   -   |
+|    2    |    Planner    |             BFS Search Algo             | Mainardi |           2           |   1   |   1   |   -   |   -   |   -   |   -   |   -   |
 |    3    |    Planner    | Planner support for Special Moves/Tiles |  Salman  |           2           |   2   |   -   |   -   |   -   |   -   |   -   |   -   |
 |    4    |    Design    |       Mixing Different Scenarios       |  Salman  |           4           |   4   |   -   |   -   |   -   |   -   |   -   |   -   |
 |    5    |    Design    |     Mixing different Special Tiles     |  Salman  |           4           |   4   |   -   |   -   |   -   |   -   |   -   |   -   |
-|    6    |    Design    |          DSL for Special Tiles          |   Team   |          10          |  10  |   -   |   -   |   -   |   -   |   -   |   -   |
+|    6    |    Design    |          DSL for Special Tiles          |   Team   |          10          |  10  |   10   |   -   |   -   |   -   |   -   |   -   |
 |    7    |  Integration  |               A* Builder               | Basigli |           2           |   2   |   -   |   -   |   -   |   -   |   -   |   -   |
-|    8    |  Integration  |               BFS Builder               | Mainardi |           4           |   4   |   -   |   -   |   -   |   -   |   -   |   -   |
-|    9    |  Controller  |             Buttons on/off             | Mainardi |           2           |   2   |   -   |   -   |   -   |   -   |   -   |   -   |
+|    8    |  Integration  |               BFS Builder               | Mainardi |           4           |   4   |   4   |   -   |   -   |   -   |   -   |   -   |
+|    9    |  Controller  |             Buttons on/off             | Mainardi |           2           |   2   |   1   |   -   |   -   |   -   |   -   |   -   |
 |    10    | Documentation |      All implementations till now      |   Team   |           6           |   6   |   -   |   -   |   -   |   -   |   -   |   -   |
 |    11    |     View     |       Agent and algorithm chooser       | Basigli |           3           |   1   |   -   |   -   |   -   |   -   |   -   |   -   |
-|    12    |  Controller  |      Agent and algorithm switcher      | Mainardi |           3           |   3   |   -   |   -   |   -   |   -   |   -   |   -   |
+|    12    |  Controller  |      Agent and algorithm switcher      | Mainardi |           3           |   3   |   1   |   -   |   -   |   -   |   -   |   -   |
 |    13    | Documentation |   Requirements and domain explanation   | Basigli |           4           |   4   |   2   |   -   |   -   |   -   |   -   |   -   |
 |    14    |    Builder    |      Refactor with multiple traits      |  Salman  |           2           |   1   |   -   |   -   |   -   |   -   |   -   |   -   |
 
