@@ -2,8 +2,10 @@ package it.unibo.planning
 
 import it.unibo.model.Direction
 import it.unibo.model.Tiling.Tile
-import it.unibo.planning.{DFS, BFS}
+import it.unibo.planning.Algorithm.*
 import it.unibo.planning.prologplanner.{PrologBFSBuilder, PrologDFSBuilder}
+
+// type Configuration = (Option[(Int, Int)], Option[(Int, Int)], Option[Int], Option[List[Tile]], Option[List[Direction]])
 
 object PlannerBuilder:
   def start: BuilderInit = new PlannerBuilder()
@@ -29,8 +31,8 @@ trait BuilderDirections:
   def withDirections(directions: List[Direction]): BuilderAlgorithm
 
 trait BuilderAlgorithm:
-  var algorithm: Option[PathFindingAlgorithm] = None
-  def withAlgorithm(algorithm: PathFindingAlgorithm): CompleteBuilder
+  var algorithm: Option[Algorithm] = None
+  def withAlgorithm(algorithm: Algorithm): CompleteBuilder
 
 trait CompleteBuilder:
   def build: Planner
@@ -56,12 +58,12 @@ class PlannerBuilder extends BuilderInit, BuilderGoal, BuilderConstraints, Build
     this.directions = Some(directions)
     this
 
-  def withAlgorithm(algorithm: PathFindingAlgorithm): PlannerBuilder =
+  def withAlgorithm(algorithm: Algorithm): PlannerBuilder =
     this.algorithm = Some(algorithm)
     this
 
   def build: Planner =
-    val configuration = Configuration(
+    val configuration: Configuration = Configuration (
       initPos,
       goalPos,
       maxMoves,
@@ -70,8 +72,8 @@ class PlannerBuilder extends BuilderInit, BuilderGoal, BuilderConstraints, Build
 
     algorithm match
       case Some(DFS) => new PrologDFSBuilder().build(configuration)
-      case Some(BFS) => new PrologBFSBuilder().build(configuration) 
-      //case Some(AStar) => new BaseScalaPlannerBuilder()
+      case Some(BFS) => new PrologBFSBuilder().build(configuration)
+      // case Some(AStar) => new BaseScalaPlannerBuilder().build(configuration)
       case _ => throw new IllegalArgumentException("No algorithm specified")
 
 class PrologBuilder

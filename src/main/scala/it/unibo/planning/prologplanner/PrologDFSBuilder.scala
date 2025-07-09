@@ -14,27 +14,33 @@ import scala.io.Source
 import scala.util.Using
 
 class PrologDFSBuilder extends BasePrologBuilder {
-  val theoryString: String = Using.resource(Source.fromFile("src/main/prolog/bfs.pl"))(_.mkString)
-  
+  val theoryString: String = Using.resource(Source.fromFile("src/main/prolog/plannerWithTiles.pl"))(_.mkString)
+
   private object IncompletePlannerConfig:
-    def unapply(config: (Option[(Int, Int)], Option[(Int, Int)], Option[List[Tile]], Option[List[Direction]])): Option[String] =
-      val labels = List("init position", "goal", "environmental tiles", "possible directions")
-      val options = config.toList
+    def unapply(config: Configuration): Option[String] =
+      val labels = List("init position", "goal", "max moves", "environmental tiles", "possible directions")
+      val options = List(config.initPos, config.goalPos, config.maxMoves, config.environmentTiles, config.directions)
       labels.zip(options).collectFirst {
         case (label, None) => s"missing $label"
       }
 
-  // (initPos, goalPos, maxMoves, environmentTiles, directions) 
+  private object MaxMoves:
+    def unapply(o: Option[Int]): Option[String] = o match
+      case Some(maxMoves) => Some(s"maxmoves($maxMoves).")
+      case None => Some("maxmoves(100).")
+
+  // (initPos, goalPos, maxMoves, environmentTiles, directions)
   def build(configuration: Configuration): Planner = configuration match
-    //case IncompletePlannerConfig(reason) => throw new IllegalArgumentException(s"Planner not fully configured, $reason")
-    case (InitPos(initFact), Goal(goalFact), Tiles(tileFacts), Directions(directionsFact)) =>
+    // case IncompletePlannerConfig(reason) => throw new IllegalArgumentException(s"Planner not fully configured, $reason")
+    case Configuration(InitPos(initFact), Goal(goalFact), MaxMoves(maxMovesFact), Tiles(tileFacts), Directions(directionsFact)) =>
       val fullTheory = new Theory(s"$initFact\n$goalFact\n$directionsFact\n$tileFacts\n$theoryString")
       println(s"\n$fullTheory\n")
       val engine: Engine = mkPrologEngine(fullTheory)
-      val goal = configuration.maxMoves match
+      val maxMoves = configuration._3
+      val goal = maxMoves match
         case None => Term.createTerm(s"plan(P, M)")
         case Some(moves) => Term.createTerm(s"plan(P, $moves)")
-      PrologPlanner(engine, goal, configuration.maxMoves)
+      PrologPlanner(engine, goal, maxMoves)
 }
 
 object PrologDFSBuilder:

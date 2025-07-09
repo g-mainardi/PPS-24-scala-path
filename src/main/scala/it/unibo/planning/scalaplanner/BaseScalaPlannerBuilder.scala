@@ -7,12 +7,12 @@ import it.unibo.planning.{PathFindingAlgorithm, Plan, PlannerBuilder, ScalaBuild
 
 //class BaseScalaPlannerBuilder extends ScalaBuilder:
 //  protected var algorithm: Option[PathFindingAlgorithm] = None
-//  
-//  
-//  override def withAlgorithm(algorithm: PathFindingAlgorithm): PlannerBuilder =  
+//
+//
+//  override def withAlgorithm(algorithm: PathFindingAlgorithm): PlannerBuilder =
 //    this.algorithm = Some(algorithm)
 //    this
-//  
+//
 //
 //  override def run: Plan =
 //    var start = this.initPos.get

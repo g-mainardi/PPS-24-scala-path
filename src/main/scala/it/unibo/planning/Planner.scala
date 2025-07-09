@@ -2,7 +2,7 @@ package it.unibo.planning
 
 import alice.tuprolog.{SolveInfo, Term}
 import it.unibo.model.Direction
-import it.unibo.planning.{BFS, DFS}
+import it.unibo.planning.Algorithm.*
 import it.unibo.planning.Plan.*
 import it.unibo.model.Tiling.{Position, Tile}
 import it.unibo.model.Direction.{Cardinals, Diagonals, allDirections}
