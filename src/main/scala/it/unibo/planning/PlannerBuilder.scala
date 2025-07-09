@@ -11,33 +11,33 @@ object PlannerBuilder:
   def start: BuilderInit = new PlannerBuilder()
 
 trait BuilderInit:
-  var initPos: Option[(Int, Int)] = None
+  protected var initPos: Option[(Int, Int)] = None
   def withInit(initPos: (Int, Int)): BuilderGoal
 
 trait BuilderGoal:
-  var goalPos: Option[(Int, Int)] = None
+  protected var goalPos: Option[(Int, Int)] = None
   def withGoal(goal: (Int, Int)): BuilderConstraints
 
 trait BuilderConstraints:
-  var maxMoves: Option[Int] = None
+  protected var maxMoves: Option[Int] = None
   def withMaxMoves(maxMoves: Option[Int]): BuilderEnvironment
 
 trait BuilderEnvironment:
-  var environmentTiles: Option[List[Tile]] = None
+  protected var environmentTiles: Option[List[Tile]] = None
   def withTiles(tiles: List[Tile]): BuilderDirections
 
 trait BuilderDirections:
-  var directions: Option[List[Direction]] = None
+  protected var directions: Option[List[Direction]] = None
   def withDirections(directions: List[Direction]): BuilderAlgorithm
 
 trait BuilderAlgorithm:
-  var algorithm: Option[Algorithm] = None
+  protected var algorithm: Option[Algorithm] = None
   def withAlgorithm(algorithm: Algorithm): CompleteBuilder
 
 trait CompleteBuilder:
   def build: Planner
 
-class PlannerBuilder extends BuilderInit, BuilderGoal, BuilderConstraints, BuilderEnvironment, BuilderDirections, BuilderAlgorithm, CompleteBuilder:
+private class PlannerBuilder extends BuilderInit, BuilderGoal, BuilderConstraints, BuilderEnvironment, BuilderDirections, BuilderAlgorithm, CompleteBuilder:
   def withInit(initPos: (Int, Int)): PlannerBuilder =
     this.initPos = Some(initPos)
     this

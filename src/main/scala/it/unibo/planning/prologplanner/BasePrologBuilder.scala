@@ -29,10 +29,10 @@ trait BasePrologBuilder:
     def unapply(o: Option[String]): Option[String] = o map (theoryPath => Source.fromFile(theoryPath).mkString)
 
   protected object Tiles:
-    def unapply(o: Option[List[Tile]]): Option[String] = o map (tiles => tiles.map {
+    def unapply(o: Option[List[Tile]]): Option[String] = o map (tiles => tiles.collect {
       case s: Special => s"passable(s(${s.x}, ${s.y})).\nspecial(s(${s.x}, ${s.y}), s(${s.newPos.x}, ${s.newPos.y}))."
       case p: Passage => s"passable(s(${p.x}, ${p.y}))."
-      case o: Obstacle => "" // s"blocked(${o.x}, ${o.y})."
+      // case o: Obstacle => "" // s"blocked(${o.x}, ${o.y})."
     }.mkString("\n"))
 
   protected object Directions:
