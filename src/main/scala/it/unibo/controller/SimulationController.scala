@@ -75,7 +75,6 @@ trait ControllableSimulation:
   protected def pause(): Unit
   protected def resume(): Unit
   protected def resetSimulation(): Unit
-  protected def resetAll(): Unit
 
 trait SimulationController:
   def init(): Unit
@@ -103,6 +102,12 @@ object ScalaPathController extends SimulationController
     Some(PlannerWithSpecials(_scenario.initialPosition, _scenario.goalPosition, _scenario.tiles))
 
   override def generateScenario(): Unit =
+    applyToView: v =>
+      v.disableGenerateScenarioButton()
+      v.disableStepButton()
+      v.disableResetButton()
+      v.disableStartButton()
+      v.disablePauseResumeButton()
     _scenario.generate()
     updateView()
 
@@ -117,11 +122,7 @@ object ScalaPathController extends SimulationController
 
   override protected def changeScenario(newScenario: Scenario): Unit =
     super.changeScenario(newScenario)
-    resetAll()
-
-  override def resetAll(): Unit =
     generateScenario()
-    refreshPlan()
     resetSimulation()
 
   override def start(): Unit = loop(Simulation.current)
@@ -133,22 +134,29 @@ object ScalaPathController extends SimulationController
       s match
         case Empty => ()
         case Reset   =>
+          applyToView: v =>
+            v.disableResetButton()
+            v.enableStartButton()
+            v.enableStepButton()
           resetSimulation()
           Simulation set Empty
         case Paused  => ()
         case Step =>
+          applyToView: v =>
+            v.enableResetButton()
           step()
           Simulation set Paused
         case Running =>
-          if _currentPlan.nonEmpty
-          then
-            step()
-            Thread sleep 500
-          else
-            over()
+          applyToView: v =>
+            v.enablePauseResumeButton()
+            v.enableResetButton()
+          step()
+          if _currentPlan.isEmpty
+          then Simulation set Paused
+          else Thread sleep 500
+
         case ChangeScenario(scenarioIndex) =>
           changeScenario(_scenarios(scenarioIndex))
-          refreshPlan()
           println("Current plan " + _currentPlan)
           println("Current tiles " + _scenario.tiles)
           Simulation set Empty
@@ -165,25 +173,24 @@ object ScalaPathController extends SimulationController
       _scenario.agent computeCommand h
       _currentPlan = t
       updateView()
+      if t.isEmpty then over()
     case _ =>
-      handleNoPlan()
+      over()
 
   override protected def over(): Unit =
     println("Plan terminated!")
-    Simulation set Reset
-    handleNoPlan()
+    applyToView: v =>
+      v.disableStepButton()
+      v.disableStartButton()
+      v.disablePauseResumeButton()
+    Thread sleep 1000
 
   override protected def handleNoPlan(): Unit =
     applyToView: v =>
-      v.disableStepButton()
-      v.disableResetButton()
-      v.disableStartButton()
-      v.disablePauseResumeButton()
+      v.enableGenerateScenarioButton()
 
   override protected def handleValidPlan(): Unit =
     applyToView: v =>
       v.enableStepButton()
       v.enableStartButton()
-      v.enableResetButton()
-      v.enablePauseResumeButton()
-
+      v.enableGenerateScenarioButton()
