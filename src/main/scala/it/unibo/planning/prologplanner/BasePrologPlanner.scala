@@ -7,7 +7,6 @@ import it.unibo.model.Tiling.Position
 import it.unibo.planning.Plan
 import it.unibo.planning.Plan.{FailedPlan, SucceededPlan, SucceededPlanWithMoves}
 import it.unibo.prologintegration.Prolog2Scala.{extractListFromTerm, extractTerm}
-
 import scala.util.Try
 
 trait BasePrologPlanner:
@@ -15,7 +14,7 @@ trait BasePrologPlanner:
     case solveInfo #:: _ if solveInfo.isSuccess => convertToPlan(solveInfo, maxMoves)
     case _ => FailedPlan("No valid plan found")
 
-  def convertToPlan(solveInfo: SolveInfo, maxMoves: Option[Int]): Plan =
+  private def convertToPlan(solveInfo: SolveInfo, maxMoves: Option[Int]): Plan =
     import Conversions.given
     val listTerm: Term = extractTerm(solveInfo, "P")
     val directions: List[Direction] = extractListFromTerm(listTerm).toList map (s => s: Direction)

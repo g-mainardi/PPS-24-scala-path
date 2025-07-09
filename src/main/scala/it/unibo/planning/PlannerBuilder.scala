@@ -76,9 +76,6 @@ class PlannerBuilder extends BuilderInit, BuilderGoal, BuilderConstraints, Build
       // case Some(AStar) => new BaseScalaPlannerBuilder().build(configuration)
       case _ => throw new IllegalArgumentException("No algorithm specified")
 
-class PrologBuilder
-class ScalaBuilder
-
 case class Configuration(initPos: Option[(Int, Int)],
                          goalPos: Option[(Int, Int)],
                          maxMoves: Option[Int],

@@ -21,29 +21,3 @@ class DummyPlanner extends Planner:
 class PrologPlanner(engine: Engine, goal: Term, maxMoves: Option[Int]) extends Planner, BasePrologPlanner:
   override def plan: Plan =
     checkSolutions(engine(goal), maxMoves)
-
-class PlannerWithTiles(initPos: (Int, Int), goal: (Int, Int), tiles: List[Tile], maxMoves: Option[Int] = None, directions: List[Direction] = allDirections) extends Planner:
-  override def plan: Plan =
-    println(s"Tiles: $tiles")
-    PlannerBuilder()
-      .withInit(initPos)
-      .withGoal(goal)
-      .withMaxMoves(maxMoves)
-      .withTiles(tiles)
-      .withDirections(directions)
-      .withAlgorithm(DFS)
-      .build
-      .plan
-
-class PlannerWithSpecials(initPos: (Int, Int), goal: (Int, Int), tiles: List[Tile], maxMoves: Option[Int] = None, directions: List[Direction] = allDirections) extends Planner:
-  override def plan: Plan =
-    println(s"Tiles: $tiles")
-    PlannerBuilder()
-      .withInit(initPos)
-      .withGoal(goal)
-      .withMaxMoves(maxMoves)
-      .withTiles(tiles)
-      .withDirections(directions)
-      .withAlgorithm(BFS)
-      .build
-      .plan

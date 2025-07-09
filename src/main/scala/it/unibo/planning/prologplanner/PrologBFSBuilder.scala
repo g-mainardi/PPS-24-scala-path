@@ -7,7 +7,7 @@ import it.unibo.model.Direction.{Cardinals, Diagonals}
 import it.unibo.model.Tiling.*
 import it.unibo.planning.Plan.{FailedPlan, SucceededPlan, SucceededPlanWithMoves}
 import it.unibo.planning.prologplanner.MoveFactsGenerator.generateMoveRules
-import it.unibo.planning.{Configuration, Plan, Planner, PrologBuilder, PrologPlanner}
+import it.unibo.planning.{Configuration, Plan, Planner, PrologPlanner}
 import it.unibo.prologintegration.Prolog2Scala.*
 import it.unibo.prologintegration.Scala2Prolog.*
 
@@ -25,14 +25,9 @@ class PrologBFSBuilder extends BasePrologBuilder {
         case (label, None) => s"missing $label"
       }
 
-  private object MaxMoves:
-    def unapply(o: Option[Int]): Option[String] = o match
-      case Some(maxMoves) => Some(s"maxmoves($maxMoves).")
-      case None => Some("maxmoves(100).") 
-
   // (initPos, goalPos, maxMoves, environmentTiles, directions)
   def build(configuration: Configuration): Planner = configuration match
-    // case IncompletePlannerConfig(reason) => throw new IllegalArgumentException(s"Planner not fully configured, $reason")
+    case IncompletePlannerConfig(reason) => throw new IllegalArgumentException(s"Planner not fully configured, $reason")
     case Configuration(InitPos(initFact), Goal(goalFact), MaxMoves(maxMovesFact), Tiles(tileFacts), Directions(directionsFact)) =>
       val fullTheory = new Theory(s"$initFact\n$goalFact\n$directionsFact\n$tileFacts\n$maxMovesFact\n$theoryString")
       println(s"\n$fullTheory\n")
