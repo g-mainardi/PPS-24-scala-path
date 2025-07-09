@@ -32,20 +32,16 @@ class View(controller: DisplayableController) extends MainFrame:
   preferredSize = new Dimension(800, 600)
   private val scenarioDropdown = new ComboBox(controller.scenariosNames)
   private val algorithmDropdown = new ComboBox(controller.algorithmsNames)
-  private val generateScenarioButton = new Button("Generate scenario"){enabled = false}
+  private val generateScenarioButton = new DefaultDisabledButton("Generate scenario"){enabled = false}
 
-  private class ScenarioListenerButton(label: String) extends Button(label):
-//    listenTo(scenarioDropdown.selection, generateScenarioButton)
-//    reactions += {
-//      case SelectionChanged(`scenarioDropdown`) => enabled = false
-//      case ButtonClicked(`generateScenarioButton`) => enabled = true
-//    }
+  private class DefaultDisabledButton(label: String) extends Button(label):
     enabled = false
 
-  private val startButton = new ScenarioListenerButton("Start")
-  private val resetButton = new ScenarioListenerButton("Reset")
-  private val stepButton = new ScenarioListenerButton("Step")
-  private val pauseResumeButton = new ScenarioListenerButton("Pause")
+
+  private val startButton = new DefaultDisabledButton("Start")
+  private val resetButton = new DefaultDisabledButton("Reset")
+  private val stepButton = new DefaultDisabledButton("Step")
+  private val pauseResumeButton = new DefaultDisabledButton("Pause")
 
   def enableStartButton(): Unit = startButton.enabled = true
   def disableStartButton(): Unit = startButton.enabled = false

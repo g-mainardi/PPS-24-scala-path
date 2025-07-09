@@ -11,12 +11,12 @@ import javax.swing.SwingUtilities
 import scala.annotation.tailrec
 
 trait ScenarioManager:
-  import SpecialTileDSL.*
+  import SpecialTileBuilder.*
   define("Teleport")(_ => Scenario.randomPosition)
   define("JumpDown")(pos => Position(pos.x + 2, pos.y))
   define("StairsUp")(pos => Position(pos.x - 2, pos.y))
 
-  protected var _scenarios: List[Scenario] = Terrain() :: Maze() :: DSLDrivenScenario() :: Nil
+  protected var _scenarios: List[Scenario] = Terrain() :: Maze() :: ScenarioWithSpecials() :: Nil
   protected var _scenario: Scenario = _scenarios.head
 
   def scenariosNames: List[String] = _scenarios map(_.toString)

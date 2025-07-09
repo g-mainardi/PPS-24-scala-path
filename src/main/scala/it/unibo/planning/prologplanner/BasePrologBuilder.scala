@@ -1,17 +1,10 @@
 package it.unibo.planning.prologplanner
 
-import alice.tuprolog.{SolveInfo, Term, Theory}
 import it.unibo.model.Direction
-import it.unibo.model.Direction.{Cardinals, Diagonals}
 import it.unibo.model.Tiling.*
-import it.unibo.planning.Plan.{FailedPlan, SucceededPlan, SucceededPlanWithMoves}
 import it.unibo.planning.prologplanner.MoveFactsGenerator.generateMoveRules
-import it.unibo.planning.{Plan}
-import it.unibo.prologintegration.Prolog2Scala.*
-import it.unibo.prologintegration.Scala2Prolog.*
 
 import scala.io.Source
-import scala.util.Try
 
 trait BasePrologBuilder:
   protected object InitPos:
