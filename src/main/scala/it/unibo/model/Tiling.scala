@@ -8,8 +8,8 @@ object Tiling:
     def -(other: Position): Position = Position(x - other.x, y - other.y)
     override def equals(obj: Any): Boolean = obj match
       case that: Position => this.x == that.x && this.y == that.y && this.visited == that.visited
-      case _ => false 
-      
+      case _ => false
+
   trait Tile:
     protected def pos: Position
     def x: Int = pos.x
@@ -23,7 +23,7 @@ object Tiling:
   case class Floor(protected val pos: Position) extends Passage
   case class Grass(protected val pos: Position) extends Passage
 
-  sealed trait Special extends Passage:
+   trait Special extends Passage:
     def newPos: Position
 
   case class Teleport(protected val pos: Position) extends Special:

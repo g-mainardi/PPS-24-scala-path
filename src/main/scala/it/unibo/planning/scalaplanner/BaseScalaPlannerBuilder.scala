@@ -2,7 +2,7 @@ package it.unibo.planning.scalaplanner
 
 import it.unibo.model.Tiling.Position
 import it.unibo.planning.Plan.*
-import it.unibo.planning.{PathFindingAlgorithm, Plan, PlannerBuilder, ScalaBuilder}
+import it.unibo.planning.{PathFindingAlgorithm, Plan, PlannerBuilder}
 
 
 class BaseScalaPlannerBuilder extends ScalaBuilder:
