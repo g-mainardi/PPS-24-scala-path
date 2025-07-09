@@ -31,5 +31,5 @@ import it.unibo.planning.{PathFindingAlgorithm, Plan, PlannerBuilder}
 
 
 
-object BaseScalaPlannerBuilder
+trait BaseScalaBuilder
 //  def apply(): BaseScalaPlannerBuilder = new BaseScalaPlannerBuilder()

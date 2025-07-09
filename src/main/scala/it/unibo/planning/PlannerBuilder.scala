@@ -4,6 +4,7 @@ import it.unibo.model.Direction
 import it.unibo.model.Tiling.Tile
 import it.unibo.planning.Algorithm.*
 import it.unibo.planning.prologplanner.{PrologBFSBuilder, PrologDFSBuilder}
+import it.unibo.planning.scalaplanner.ScalaAStarBuilder
 
 // type Configuration = (Option[(Int, Int)], Option[(Int, Int)], Option[Int], Option[List[Tile]], Option[List[Direction]])
 
@@ -73,7 +74,7 @@ private class PlannerBuilder extends BuilderInit, BuilderGoal, BuilderConstraint
     algorithm match
       case Some(DFS) => new PrologDFSBuilder().build(configuration)
       case Some(BFS) => new PrologBFSBuilder().build(configuration)
-      // case Some(AStar) => new BaseScalaPlannerBuilder().build(configuration)
+      case Some(AStar) => new ScalaAStarBuilder().build(configuration)
       case _ => throw new IllegalArgumentException("No algorithm specified")
 
 case class Configuration(initPos: Option[(Int, Int)],
