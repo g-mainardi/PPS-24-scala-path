@@ -8,6 +8,8 @@ import java.awt.Color
 import java.awt.geom.{Ellipse2D, Rectangle2D}
 import scala.swing.*
 import scala.swing.event.{ButtonClicked, Event, SelectionChanged}
+import java.awt.Image
+import javax.swing.ImageIcon
 
 object ViewUtilities:
   import Tiling.*
@@ -66,7 +68,21 @@ class View(controller: DisplayableController) extends MainFrame:
   private class DefaultDisabledButton(label: String) extends Button(label):
     enabled = false
 
-  private val generateScenarioButton = new DefaultDisabledButton("Generate scenario")
+  private def scaledIcon(path: String, width: Int, height: Int): ImageIcon = {
+    val url = getClass.getResource(path)
+    val icon = new ImageIcon(url)
+    val scaledImg = icon.getImage.getScaledInstance(width, height, Image.SCALE_SMOOTH)
+    new ImageIcon(scaledImg)
+  }
+
+
+
+  private val refreshScenarioButton = new Button(){
+    icon = scaledIcon("/icons/refreshIcon.png", 14, 14)
+    borderPainted = false
+    contentAreaFilled = false
+    focusPainted = false
+  }
   private val startButton = new DefaultDisabledButton("Start")
   private val resetButton = new DefaultDisabledButton("Reset")
   private val stepButton = new DefaultDisabledButton("Step")
@@ -85,8 +101,8 @@ class View(controller: DisplayableController) extends MainFrame:
   def disableResetButton(): Unit = resetButton.enabled = false
   def enablePauseResumeButton(): Unit = pauseResumeButton.enabled = true
   def disablePauseResumeButton(): Unit = pauseResumeButton.enabled = false
-  def enableGenerateScenarioButton(): Unit = generateScenarioButton.enabled = true
-  def disableGenerateScenarioButton(): Unit = generateScenarioButton.enabled = false
+  def enableGenerateScenarioButton(): Unit = refreshScenarioButton.enabled = true
+  def disableGenerateScenarioButton(): Unit = refreshScenarioButton.enabled = false
 
   private val gridPanel: Panel = new Panel:
     preferredSize = new Dimension(200, 100)
@@ -130,9 +146,9 @@ class View(controller: DisplayableController) extends MainFrame:
         g draw rect
 
 
-  // private object ControlPanel extends FlowPanel(startButton, stepButton, resetButton, pauseResumeButton, scenarioDropdown, algorithmDropdown, generateScenarioButton)
+  // private object ControlPanel extends FlowPanel(startButton, stepButton, resetButton, pauseResumeButton, scenarioDropdown, algorithmDropdown, refreshScenarioButton)
   private object ControlPanel extends FlowPanel(startButton, stepButton, resetButton, pauseResumeButton)
-  private object ScenarioSettingsPanel extends FlowPanel(scenarioDropdown, algorithmDropdown, generateScenarioButton)
+  private object ScenarioSettingsPanel extends FlowPanel(scenarioDropdown, algorithmDropdown, refreshScenarioButton)
 
   contents = new BorderPanel:
     import BorderPanel.Position
@@ -140,12 +156,12 @@ class View(controller: DisplayableController) extends MainFrame:
     layout(ControlPanel) = Position.South
     layout(ScenarioSettingsPanel) = Position.North
 
-  listenTo(startButton, stepButton, resetButton, pauseResumeButton, scenarioDropdown.selection, algorithmDropdown.selection, generateScenarioButton)
+  listenTo(startButton, stepButton, resetButton, pauseResumeButton, scenarioDropdown.selection, algorithmDropdown.selection, refreshScenarioButton)
   reactions += {
     case ButtonClicked(`startButton`) => Simulation set Simulation.Running
     case ButtonClicked(`stepButton`) => Simulation set Simulation.Step
     case ButtonClicked(`resetButton`) => Simulation set Simulation.Empty
-    case ButtonClicked(`generateScenarioButton`) => Simulation set Simulation.ChangeScenario(scenarioDropdown.selection.index)
+    case ButtonClicked(`refreshScenarioButton`) => Simulation set Simulation.ChangeScenario(scenarioDropdown.selection.index)
     case SelectionChanged(`scenarioDropdown`) => Simulation set Simulation.ChangeScenario(scenarioDropdown.selection.index)
     case SelectionChanged(`algorithmDropdown`) => Simulation set Simulation.ChangeAlgorithm(algorithmDropdown.selection.index)
   }
