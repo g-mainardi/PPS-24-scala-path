@@ -16,7 +16,7 @@ trait ScenarioManager:
   define("JumpDown")(pos => Position(pos.x + 2, pos.y))
   define("StairsUp")(pos => Position(pos.x - 2, pos.y))
 
-  protected var _scenarios: List[Scenario] = Terrain() :: Maze() :: ScenarioWithSpecials() :: Nil
+  protected var _scenarios: List[Scenario] =  Terrain() :: Maze() :: Specials() :: Nil
   protected var _scenario: Scenario = _scenarios.head
 
   def scenariosNames: List[String] = _scenarios map(_.toString)

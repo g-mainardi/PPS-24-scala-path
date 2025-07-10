@@ -34,4 +34,19 @@ trait BasePrologBuilder:
     }.mkString("\n"))
 
   protected object Directions:
-    def unapply(directions: List[Direction]): Option[String] = Some(generateMoveRules(directions))
+    def unapply(directions: List[Direction]): Option[String] =
+      Some(generateDeltaClauses(directions))
+      //Some(generateMoveRules(directions))
+
+  private def toCamelCase(name: String): String =
+    name.head.toLower + name.tail
+
+  private def generateDeltaClauses(directions: List[Direction]): String =
+    val deltaClauses = directions.map {
+      case d =>
+        val Position(dx, dy, visited) = d.vector
+        val name = toCamelCase(d.toString)
+        s"delta($name, $dx, $dy)."
+    }.distinct.mkString("\n")
+    val moveClause = Using(Source.fromFile("src/main/prolog/moveClause.pl"))(_.mkString).get
+    s"$deltaClauses\n\n$moveClause"
