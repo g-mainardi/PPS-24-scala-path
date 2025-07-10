@@ -18,5 +18,4 @@ object ScalaPath extends SimpleSwingApplication:
 
   override def main(args: Array[String]): Unit =
     super.main(args)
-    ScalaPathController.init()
     ScalaPathController.start()

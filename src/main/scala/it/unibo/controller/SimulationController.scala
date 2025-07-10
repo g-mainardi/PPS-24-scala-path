@@ -101,7 +101,6 @@ trait SimulationController:
   val stepDelay = 500
   protected var shouldSleep: Boolean = false
 
-  def init(): Unit
   def start(): Unit
   protected def step(): Unit
   protected def over(): Unit
@@ -131,10 +130,6 @@ object ScalaPathController extends SimulationController
   override def generateScenario(): Unit =
     _scenario.generate()
     updateView()
-
-  override def init(): Unit =
-    generateScenario()
-    refreshPlan()
 
   override def resetSimulation(): Unit =
     _scenario.resetAgent()
