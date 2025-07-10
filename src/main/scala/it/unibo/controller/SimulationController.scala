@@ -44,9 +44,15 @@ trait DisplayableController extends ScenarioManager with PathManager with Algori
 trait PlannerManager:
   protected var planner: Option[Planner] = None
   protected var _currentPlan: List[Direction] = List()
+  private var _planIndex: Int = 0
 
   protected def handleNoPlan(): Unit
   protected def handleValidPlan(): Unit
+  protected def planOver: Boolean = _planIndex >= _currentPlan.length
+  protected def nextDirection: Direction =
+    try _currentPlan(_planIndex)
+    finally _planIndex += 1
+  protected def resetPlan(): Unit = _planIndex = 0
 
   private object ValidPlanner:
     def unapply(plannerOpt: Option[Planner]): Option[List[Direction]] = plannerOpt map: p =>
@@ -57,6 +63,7 @@ trait PlannerManager:
 
   protected def refreshPlan(): Unit =
     refreshPlanner()
+    resetPlan()
     println("Planner built! Now searching a plan...")
     _currentPlan = planner match
     case ValidPlanner(directions) if directions.nonEmpty =>
@@ -156,6 +163,7 @@ object ScalaPathController extends SimulationController
             v.enableStartButton()
             v.enableStepButton()
           resetSimulation()
+          resetPlan()
           Simulation set Empty
         case Paused  => ()
         case Step =>
@@ -184,15 +192,13 @@ object ScalaPathController extends SimulationController
 
     loop(Simulation.current)
 
-  override protected def step(): Unit = _currentPlan match
-    case h :: t =>
+  override protected def step(): Unit =
+    if planOver then over()
+    else
       addToPath(_scenario.agent.pos)
-      _scenario.agent computeCommand h
-      _currentPlan = t
+      _scenario.agent computeCommand nextDirection
       updateView()
-      if t.isEmpty then over()
-    case _ =>
-      over()
+      if planOver then over()
 
   override protected def over(): Unit =
     println("Plan terminated!")
