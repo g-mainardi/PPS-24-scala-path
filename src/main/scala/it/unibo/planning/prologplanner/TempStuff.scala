@@ -2,6 +2,36 @@ package it.unibo.planning.prologplanner
 
 class TempStuff {
 
+  //    val moveClause =
+  //      """|
+  //           |move(s(X,Y), Dir, s(X1,Y1)) :-
+  //         |    delta(Dir, DX, DY),
+  //         |    X1 is X + DX,
+  //         |    Y1 is Y + DY,
+  //         |    passable(s(X1,Y1)).""".stripMargin
+
+  // ------- List instead of Facts
+//  protected object Tiles:
+//    def unapply(tiles: List[Tile]): Option[String] =
+//      val passablePositions = tiles.collect {
+//        case s: Special => s"s(${s.x}, ${s.y})"
+//        case p: Passage => s"s(${p.x}, ${p.y})"
+//      }
+//
+//      val specialClauses = tiles.collect {
+//        case s: Special => s"special(s(${s.x}, ${s.y}), s(${s.newPos.x}, ${s.newPos.y}))."
+//      }
+//
+//      val passableClause =
+//        s"passable_positions([\n  ${passablePositions.mkString(",\n  ")}\n])."
+//
+//      val memberClause =
+//        """|
+//           |passable(Pos) :-
+//           |  passable_positions(List),
+//           |  member(Pos, List).""".stripMargin
+//      Some((List(passableClause, memberClause) ++ specialClauses).mkString("\n\n"))
+
   // extension Method per mappare ai blocchi moves salvati su file?
   // oppure generazione dinamica a runtime, così non serve sapere a priori le dirs?
   // Tanto le dirs sono più statiche rispetto ai tiles
