@@ -98,6 +98,9 @@ trait ControllableSimulation:
   protected def resetSimulation(): Unit
 
 trait SimulationController:
+  val stepDelay = 500
+  protected var shouldSleep: Boolean = false
+
   def init(): Unit
   def start(): Unit
   protected def step(): Unit
@@ -165,7 +168,9 @@ object ScalaPathController extends SimulationController
           resetSimulation()
           resetPlan()
           Simulation set Empty
-        case Paused  => ()
+        case Paused  =>
+          applyToView: v =>
+            v.enableStepButton()
         case Step =>
           applyToView: v =>
             v.enableResetButton()
@@ -175,10 +180,11 @@ object ScalaPathController extends SimulationController
           applyToView: v =>
             v.enablePauseResumeButton()
             v.enableResetButton()
+            v.disableStepButton()
           step()
-          if _currentPlan.isEmpty
-          then Simulation set Paused
-          else Thread sleep 500
+          if planOver
+          then Simulation set Empty
+          else shouldSleep = true
         case ChangeScenario(scenarioIndex) =>
           changeScenario(_scenarios(scenarioIndex))
           refreshPlan()
@@ -189,7 +195,9 @@ object ScalaPathController extends SimulationController
           changeAlgorithm(_algorithms(algorithmIndex))
           refreshPlan()
           Simulation set Empty
-
+    if shouldSleep then
+      shouldSleep = false
+      Thread sleep stepDelay
     loop(Simulation.current)
 
   override protected def step(): Unit =
@@ -206,7 +214,6 @@ object ScalaPathController extends SimulationController
       v.disableStepButton()
       v.disableStartButton()
       v.disablePauseResumeButton()
-    Thread sleep 1000
 
   override protected def handleNoPlan(): Unit =
     applyToView: v =>
