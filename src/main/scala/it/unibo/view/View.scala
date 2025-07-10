@@ -44,6 +44,19 @@ class View(controller: DisplayableController) extends MainFrame:
         }
     }
 
+  private class TwoStateButton(label1: String, label2: String, onState1: => Unit, onState2: => Unit) extends Button(label1):
+    private var state = true // true: label1, false: label2
+    reactions += {
+      case ButtonClicked(_) =>
+        if state then
+          onState1
+          text = label2
+        else
+          onState2
+          text = label1
+        state = !state
+    }
+
 
   private val scenarioDropdown = new ComboBoxWithPlaceholder("Select scenario...", controller.scenariosNames)
   private val algorithmDropdown = new ComboBoxWithPlaceholder("Select algorithm", controller.algorithmsNames)
@@ -57,8 +70,13 @@ class View(controller: DisplayableController) extends MainFrame:
   private val startButton = new DefaultDisabledButton("Start")
   private val resetButton = new DefaultDisabledButton("Reset")
   private val stepButton = new DefaultDisabledButton("Step")
-  private val pauseResumeButton = new DefaultDisabledButton("Pause")
-
+  private val pauseResumeButton = new TwoStateButton(
+    "Pause",
+    "Resume",
+    Simulation set Simulation.Paused,
+    Simulation set Simulation.Running
+  ){enabled = false}
+  
   def enableStartButton(): Unit = startButton.enabled = true
   def disableStartButton(): Unit = startButton.enabled = false
   def enableStepButton(): Unit = stepButton.enabled = true
