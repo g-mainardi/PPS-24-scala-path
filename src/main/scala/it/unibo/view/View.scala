@@ -73,10 +73,10 @@ class View(controller: DisplayableController) extends MainFrame:
   private val pauseResumeButton = new TwoStateButton(
     "Pause",
     "Resume",
-    Simulation set Simulation.Paused,
+    Simulation set Simulation.Paused(fromUser = true),
     Simulation set Simulation.Running
   ){enabled = false}
-  
+
   def enableStartButton(): Unit = startButton.enabled = true
   def disableStartButton(): Unit = startButton.enabled = false
   def enableStepButton(): Unit = stepButton.enabled = true
@@ -146,14 +146,7 @@ class View(controller: DisplayableController) extends MainFrame:
     case ButtonClicked(`stepButton`) => Simulation set Simulation.Step
     case ButtonClicked(`resetButton`) => Simulation set Simulation.Reset
     case ButtonClicked(`generateScenarioButton`) => Simulation set Simulation.ChangeScenario(scenarioDropdown.selection.index)
-    case ButtonClicked(`pauseResumeButton`) =>
-      if pauseResumeButton.text == "Pause" then
-        Simulation set Simulation.Paused
-        pauseResumeButton.text = "Resume"
-      else
-        Simulation set Simulation.Running
-        pauseResumeButton.text = "Pause"
-    case SelectionChanged(`scenarioDropdown`) => println(s"Selected scenario: ${scenarioDropdown.selection.item}")
+    case SelectionChanged(`scenarioDropdown`) => Simulation set Simulation.ChangeScenario(scenarioDropdown.selection.index)
     case SelectionChanged(`algorithmDropdown`) => Simulation set Simulation.ChangeAlgorithm(algorithmDropdown.selection.index)
   }
     
