@@ -43,7 +43,7 @@ trait DisplayableController extends ScenarioManager with PathManager with Algori
 
 trait PlannerManager:
   protected var planner: Option[Planner] = None
-  protected var _currentPlan: List[Direction] = List()
+  private var _currentPlan: List[Direction] = List()
   private var _planIndex: Int = 0
 
   protected def handleNoPlan(): Unit
@@ -129,7 +129,6 @@ object ScalaPathController extends SimulationController
       .build
 
   override def generateScenario(): Unit =
-    disableControls()
     _scenario.generate()
     updateView()
 
@@ -154,51 +153,60 @@ object ScalaPathController extends SimulationController
 
   override def start(): Unit = loop(Simulation.current)
 
+  private def reset(): Unit =
+    resetPlan()
+    applyToView: v =>
+      v.disableResetButton()
+      v.enableStartButton()
+      v.enableStepButton()
+    resetSimulation()
+
   import Simulation.*
+  private def handleTransition(from: State, to: State): Unit = (from, to) match
+    case (Paused(_), Running) => // resume
+      applyToView: v =>
+        v.enablePauseResumeButton()
+        v.enableResetButton()
+        v.disableStepButton()
+    case (Running, Paused(fromUser)) =>
+      if fromUser then applyToView: v =>
+          v.enableStepButton()
+    case (Empty, Step) =>
+      applyToView: v =>
+        v.enableResetButton()
+      step()
+      Simulation set Paused()
+    case (Paused(_), Step) =>
+      step()
+      Simulation set Paused()
+    case (Running | Paused(_), Empty) => reset()
+    case (_, ChangeScenario(scenario)) =>
+      changeScenario(_scenarios(scenario))
+      Simulation set Empty
+    case (_, ChangeAlgorithm(algorithm)) =>
+      changeAlgorithm(_algorithms(algorithm))
+      refreshPlan()
+      Simulation set Empty
+    case _ => ()
+
+  private def handleState(state: State): Unit = current match
+    case Running =>
+      step()
+      if planOver
+      then Simulation set Paused()
+      else shouldSleep = true
+    case _ => ()
+
   @tailrec
-  private def loop(s: State): Unit =
+  private def loop(previous: State): Unit =
+    val current = Simulation.current
     Simulation.exec:
-      s match
-        case Empty => ()
-        case Reset   =>
-          applyToView: v =>
-            v.disableResetButton()
-            v.enableStartButton()
-            v.enableStepButton()
-          resetSimulation()
-          resetPlan()
-          Simulation set Empty
-        case Paused  =>
-          applyToView: v =>
-            v.enableStepButton()
-        case Step =>
-          applyToView: v =>
-            v.enableResetButton()
-          step()
-          Simulation set Paused
-        case Running =>
-          applyToView: v =>
-            v.enablePauseResumeButton()
-            v.enableResetButton()
-            v.disableStepButton()
-          step()
-          if planOver
-          then Simulation set Empty
-          else shouldSleep = true
-        case ChangeScenario(scenarioIndex) =>
-          changeScenario(_scenarios(scenarioIndex))
-          refreshPlan()
-          println("Current plan " + _currentPlan)
-          println("Current tiles " + _scenario.tiles)
-          Simulation set Empty
-        case ChangeAlgorithm(algorithmIndex) =>
-          changeAlgorithm(_algorithms(algorithmIndex))
-          refreshPlan()
-          Simulation set Empty
+      handleTransition(previous, current)
+      handleState(current)
     if shouldSleep then
       shouldSleep = false
       Thread sleep stepDelay
-    loop(Simulation.current)
+    loop(current)
 
   override protected def step(): Unit =
     if planOver then over()

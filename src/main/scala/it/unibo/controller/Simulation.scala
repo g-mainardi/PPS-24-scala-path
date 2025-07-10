@@ -2,9 +2,8 @@ package it.unibo.controller
 
 object Simulation:
   enum State:
-    case Reset
     case Running
-    case Paused
+    case Paused(fromUser: Boolean = false)
     case Step
     case Empty
     case ChangeScenario(scenarioIndex: Int)
