@@ -86,7 +86,6 @@ trait ViewAttachable:
   protected def updateView(): Unit = applyToView: v =>
       v.repaint()
   protected def disableControls(): Unit = applyToView: v =>
-    v.disableGenerateScenarioButton()
     v.disableStepButton()
     v.disableResetButton()
     v.disableStartButton()
@@ -111,9 +110,15 @@ object ScalaPathController extends SimulationController
   with ViewAttachable
   with ControllableSimulation:
 
-  override def pause(): Unit = ()
+  override def pause(): Unit =
+    applyToView: v =>
+      v.enableStepButton()
 
-  override def resume(): Unit = ()
+  override def resume(): Unit =
+    applyToView: v =>
+      v.enablePauseResumeButton()
+      v.enableResetButton()
+      v.disableStepButton()
 
   import it.unibo.planning.prologplanner.Conversions.given
 
@@ -139,11 +144,16 @@ object ScalaPathController extends SimulationController
   override protected def changeScenario(newScenario: Scenario): Unit =
     super.changeScenario(newScenario)
     generateScenario()
+    disableControls()
+    applyToView: v =>
+      v.enableGenerateScenarioButton()
     resetSimulation()
 
   override protected def changeAlgorithm(newAlgorithm: Algorithm): Unit =
     super.changeAlgorithm(newAlgorithm)
     disableControls()
+    applyToView: v =>
+      v.disableGenerateScenarioButton()
     resetSimulation()
 
   override def start(): Unit = loop(Simulation.current)
@@ -151,6 +161,7 @@ object ScalaPathController extends SimulationController
   private def reset(): Unit =
     resetPlan()
     applyToView: v =>
+      v.disablePauseResumeButton()
       v.disableResetButton()
       v.enableStartButton()
       v.enableStepButton()
@@ -158,33 +169,25 @@ object ScalaPathController extends SimulationController
 
   import Simulation.*
   private def handleTransition(from: State, to: State): Unit = (from, to) match
-    case (Paused(_), Running) => // resume
-      applyToView: v =>
-        v.enablePauseResumeButton()
-        v.enableResetButton()
-        v.disableStepButton()
-    case (Running, Paused(fromUser)) =>
-      if fromUser then applyToView: v =>
-          v.enableStepButton()
+    case (Empty | Paused(_), Running) => resume()
+    case (Running, Paused(true)) => pause()
     case (Empty, Step) =>
       applyToView: v =>
         v.enableResetButton()
-      step()
-      Simulation set Paused()
-    case (Paused(_), Step) =>
+    case (Step, Step) =>
       step()
       Simulation set Paused()
     case (Running | Paused(_), Empty) => reset()
-    case (_, ChangeScenario(scenario)) =>
-      changeScenario(_scenarios(scenario))
-      Simulation set Empty
-    case (_, ChangeAlgorithm(algorithm)) =>
-      changeAlgorithm(_algorithms(algorithm))
-      refreshPlan()
-      Simulation set Empty
     case _ => ()
 
   private def handleState(state: State): Unit = current match
+    case ChangeScenario(scenario) =>
+      changeScenario(_scenarios(scenario))
+      Simulation set Empty
+    case ChangeAlgorithm(algorithm) =>
+      changeAlgorithm(_algorithms(algorithm))
+      refreshPlan()
+      Simulation set Empty
     case Running =>
       step()
       if planOver
