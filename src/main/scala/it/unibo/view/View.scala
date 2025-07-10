@@ -30,14 +30,28 @@ class View(controller: DisplayableController) extends MainFrame:
   import it.unibo.ScalaPath.{gridOffset, cellSize, gridSize}
   title = "Scala Path"
   preferredSize = new Dimension(800, 600)
-  private val scenarioDropdown = new ComboBox(controller.scenariosNames)
-  private val algorithmDropdown = new ComboBox(controller.algorithmsNames)
-  private val generateScenarioButton = new DefaultDisabledButton("Generate scenario"){enabled = false}
+
+  private class ComboBoxWithPlaceholder[A](placeholder: String, items: Seq[A]) extends ComboBox(Seq(placeholder) ++ items):
+    selection.index = 0
+    listenTo(selection)
+    reactions += {
+      case SelectionChanged(_) =>
+        if selection.index > 0 && peer.getItemAt(0) == placeholder then {
+          peer.setModel(ComboBox.newConstantModel(items))
+          selection.index = selection.index - 1
+        }
+    }
+
+
+  private val scenarioDropdown = new ComboBoxWithPlaceholder("Select scenario...", controller.scenariosNames)
+  private val algorithmDropdown = new ComboBoxWithPlaceholder("Select algorithm", controller.algorithmsNames)
+
+
 
   private class DefaultDisabledButton(label: String) extends Button(label):
     enabled = false
 
-
+  private val generateScenarioButton = new DefaultDisabledButton("Generate scenario")
   private val startButton = new DefaultDisabledButton("Start")
   private val resetButton = new DefaultDisabledButton("Reset")
   private val stepButton = new DefaultDisabledButton("Step")

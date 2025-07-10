@@ -18,6 +18,14 @@ class TempStuff {
 
 }
 
+//private object IncompletePlannerConfig:
+//  def unapply(config: Configuration): Option[String] =
+//    val labels = List("init position", "goal", "environmental tiles", "possible directions", "theory path")
+//    val options = List(config.initPos, config.goalPos, config.environmentTiles, config.directions, config.theoryPath)
+//    labels.zip(options).collectFirst {
+//      case (label, None) => s"missing $label"
+//    }
+
 //  private object Directions:
 //    def unapply(o: Option[List[Direction]]): Option[String] = o map (direction => direction.map {
 //      case c: Cardinals => s"cardinals(${c.toString.toLowerCase})."
