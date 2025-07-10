@@ -75,7 +75,7 @@ private class PlannerBuilder extends BuilderInit, BuilderGoal, BuilderConstraint
       case Some(DFS) => new PrologDFSBuilder().build(configuration)
       case Some(BFS) => new PrologBFSBuilder().build(configuration)
       case Some(AStar) => new ScalaAStarBuilder().build(configuration)
-      case _ => throw new IllegalArgumentException("No algorithm specified")
+      case _ => throw new IllegalArgumentException("None or unknown algorithm")
 
 case class Configuration(initPos: Option[(Int, Int)],
                          goalPos: Option[(Int, Int)],
