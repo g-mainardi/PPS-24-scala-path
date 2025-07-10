@@ -144,7 +144,7 @@ class View(controller: DisplayableController) extends MainFrame:
   reactions += {
     case ButtonClicked(`startButton`) => Simulation set Simulation.Running
     case ButtonClicked(`stepButton`) => Simulation set Simulation.Step
-    case ButtonClicked(`resetButton`) => Simulation set Simulation.Reset
+    case ButtonClicked(`resetButton`) => Simulation set Simulation.Empty
     case ButtonClicked(`generateScenarioButton`) => Simulation set Simulation.ChangeScenario(scenarioDropdown.selection.index)
     case SelectionChanged(`scenarioDropdown`) => Simulation set Simulation.ChangeScenario(scenarioDropdown.selection.index)
     case SelectionChanged(`algorithmDropdown`) => Simulation set Simulation.ChangeAlgorithm(algorithmDropdown.selection.index)
