@@ -23,7 +23,7 @@ class PrologPlanner(engine: Engine, goal: Term, maxMoves: Option[Int]) extends P
   override def plan: Plan =
     checkSolutions(engine(goal), maxMoves)
 
-class ScalaPlanner() extends Planner, BaseScalaPlanner:
+class ScalaPlanner extends Planner, BaseScalaPlanner:
   override def plan: Plan =
     ???
     

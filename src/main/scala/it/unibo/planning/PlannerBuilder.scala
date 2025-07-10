@@ -6,17 +6,15 @@ import it.unibo.planning.Algorithm.*
 import it.unibo.planning.prologplanner.PrologBuilder
 import it.unibo.planning.scalaplanner.ScalaAStarBuilder
 
-// type Configuration = (Option[(Int, Int)], Option[(Int, Int)], Option[Int], Option[List[Tile]], Option[List[Direction]])
-
 object PlannerBuilder:
   def start: BuilderInit = new PlannerBuilder()
 
 trait BuilderInit:
-  protected var initPos: Option[(Int, Int)] = None
+  protected var initPos: (Int, Int) = (0, 0)
   def withInit(initPos: (Int, Int)): BuilderGoal
 
 trait BuilderGoal:
-  protected var goalPos: Option[(Int, Int)] = None
+  protected var goalPos: (Int, Int) = (0,0)
   def withGoal(goal: (Int, Int)): BuilderConstraints
 
 trait BuilderConstraints:
@@ -24,15 +22,15 @@ trait BuilderConstraints:
   def withMaxMoves(maxMoves: Option[Int]): BuilderEnvironment
 
 trait BuilderEnvironment:
-  protected var environmentTiles: Option[List[Tile]] = None
+  protected var environmentTiles: List[Tile] = List.empty
   def withTiles(tiles: List[Tile]): BuilderDirections
 
 trait BuilderDirections:
-  protected var directions: Option[List[Direction]] = None
+  protected var directions: List[Direction] = List.empty
   def withDirections(directions: List[Direction]): BuilderAlgorithm
 
 trait BuilderAlgorithm:
-  protected var algorithm: Option[Algorithm] = None
+  protected var algorithm: Algorithm = BFS
   def withAlgorithm(algorithm: Algorithm): CompleteBuilder
 
 trait CompleteBuilder:
@@ -45,11 +43,11 @@ private class PlannerBuilder extends BuilderInit, BuilderGoal, BuilderConstraint
   )
 
   def withInit(initPos: (Int, Int)): PlannerBuilder =
-    this.initPos = Some(initPos)
+    this.initPos = initPos
     this
 
   def withGoal(goal: (Int, Int)): PlannerBuilder =
-    this.goalPos = Some(goal)
+    this.goalPos = goal
     this
 
   def withMaxMoves(maxMoves: Option[Int]): PlannerBuilder =
@@ -57,15 +55,15 @@ private class PlannerBuilder extends BuilderInit, BuilderGoal, BuilderConstraint
     this
 
   def withTiles(tiles: List[Tile]): PlannerBuilder =
-    this.environmentTiles = Some(tiles)
+    this.environmentTiles = tiles
     this
 
   def withDirections(directions: List[Direction]): PlannerBuilder =
-    this.directions = Some(directions)
+    this.directions = directions
     this
 
   def withAlgorithm(algorithm: Algorithm): PlannerBuilder =
-    this.algorithm = Some(algorithm)
+    this.algorithm = algorithm
     this
 
   def build: Planner =
@@ -77,15 +75,14 @@ private class PlannerBuilder extends BuilderInit, BuilderGoal, BuilderConstraint
       directions)
 
     algorithm match
-      case Some(DFS) => new PrologBuilder().build(configuration.copy(theoryPath = Some(theoryPaths(DFS))))
-      case Some(BFS) => new PrologBuilder().build(configuration.copy(theoryPath = Some(theoryPaths(BFS))))
-      case Some(AStar) => new ScalaAStarBuilder().build(configuration)
-      case _ => throw new IllegalArgumentException("None or unknown algorithm")
+      case DFS => new PrologBuilder(configuration.copy(theoryPath = Some(theoryPaths(DFS)))).build()
+      case BFS => new PrologBuilder(configuration.copy(theoryPath = Some(theoryPaths(BFS)))).build()
+      case AStar => new ScalaAStarBuilder().build(configuration)
 
-case class Configuration(initPos: Option[(Int, Int)],
-                         goalPos: Option[(Int, Int)],
-                         maxMoves: Option[Int],
-                         environmentTiles: Option[List[Tile]],
-                         directions: Option[List[Direction]],
+case class Configuration(initPos: (Int, Int),
+                         goalPos: (Int, Int),
+                         maxMoves: Option[Int] = None,
+                         environmentTiles: List[Tile],
+                         directions: List[Direction],
                          theoryPath: Option[String] = None
                         )

@@ -11,8 +11,8 @@ import scala.util.Try
 
 trait BasePrologPlanner:
   def checkSolutions(solutions: LazyList[SolveInfo], maxMoves: Option[Int]): Plan = solutions match
-    case solveInfo #:: _ if solveInfo.isSuccess => convertToPlan(solveInfo, maxMoves)
-    case _ => FailedPlan("No valid plan found")
+      case solveInfo #:: _ if solveInfo.isSuccess => convertToPlan(solveInfo, maxMoves)
+      case _ => FailedPlan("No valid plan found")
 
   private def convertToPlan(solveInfo: SolveInfo, maxMoves: Option[Int]): Plan =
     import Conversions.given
