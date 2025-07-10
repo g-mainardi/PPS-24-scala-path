@@ -3,7 +3,7 @@ package it.unibo.planning
 import it.unibo.model.Direction
 import it.unibo.model.Tiling.Tile
 import it.unibo.planning.Algorithm.*
-import it.unibo.planning.prologplanner.{PrologBFSBuilder, PrologDFSBuilder}
+import it.unibo.planning.prologplanner.PrologBuilder
 import it.unibo.planning.scalaplanner.ScalaAStarBuilder
 
 // type Configuration = (Option[(Int, Int)], Option[(Int, Int)], Option[Int], Option[List[Tile]], Option[List[Direction]])
@@ -39,6 +39,11 @@ trait CompleteBuilder:
   def build: Planner
 
 private class PlannerBuilder extends BuilderInit, BuilderGoal, BuilderConstraints, BuilderEnvironment, BuilderDirections, BuilderAlgorithm, CompleteBuilder:
+  private val theoryPaths: Map[Algorithm, String] = Map(
+    DFS -> "src/main/prolog/dfs.pl",
+    BFS -> "src/main/prolog/bfs.pl"
+  )
+
   def withInit(initPos: (Int, Int)): PlannerBuilder =
     this.initPos = Some(initPos)
     this
@@ -72,8 +77,8 @@ private class PlannerBuilder extends BuilderInit, BuilderGoal, BuilderConstraint
       directions)
 
     algorithm match
-      case Some(DFS) => new PrologDFSBuilder().build(configuration)
-      case Some(BFS) => new PrologBFSBuilder().build(configuration)
+      case Some(DFS) => new PrologBuilder().build(configuration.copy(theoryPath = Some(theoryPaths(DFS))))
+      case Some(BFS) => new PrologBuilder().build(configuration.copy(theoryPath = Some(theoryPaths(BFS))))
       case Some(AStar) => new ScalaAStarBuilder().build(configuration)
       case _ => throw new IllegalArgumentException("None or unknown algorithm")
 
@@ -81,4 +86,6 @@ case class Configuration(initPos: Option[(Int, Int)],
                          goalPos: Option[(Int, Int)],
                          maxMoves: Option[Int],
                          environmentTiles: Option[List[Tile]],
-                         directions: Option[List[Direction]])
+                         directions: Option[List[Direction]],
+                         theoryPath: Option[String] = None
+                        )
