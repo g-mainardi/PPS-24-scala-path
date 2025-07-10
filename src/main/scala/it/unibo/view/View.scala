@@ -37,8 +37,10 @@ class View(controller: DisplayableController) extends MainFrame:
     reactions += {
       case SelectionChanged(_) =>
         if selection.index > 0 && peer.getItemAt(0) == placeholder then {
+          val selected = selection.item
           peer.setModel(ComboBox.newConstantModel(items))
           selection.index = selection.index - 1
+          selection.item = selected
         }
     }
 

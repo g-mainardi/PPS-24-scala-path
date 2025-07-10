@@ -16,7 +16,7 @@ object SpecialTileBuilder:
   def allKinds: Iterable[SpecialTile] = registry.values
   def clear(): Unit = registry = Map.empty
 
-class ScenarioWithSpecials extends Scenario:
+class Specials extends Scenario:
   val tilesPerKind = 4
 
   override def generate(): Unit =
