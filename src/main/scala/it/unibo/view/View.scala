@@ -33,17 +33,17 @@ class View(controller: DisplayableController) extends MainFrame:
   title = "Scala Path"
   preferredSize = new Dimension(800, 600)
 
-  private class ComboBoxWithPlaceholder[A](placeholder: String, items: Seq[A]) extends ComboBox(Seq(placeholder) ++ items):
+  private class ComboBoxWithPlaceholder[A](placeholder: String, items: Seq[A], onSelect: Int => Unit) extends ComboBox(Seq(placeholder) ++ items):
     selection.index = 0
     listenTo(selection)
     reactions += {
       case SelectionChanged(_) =>
-        if selection.index > 0 && peer.getItemAt(0) == placeholder then {
+        if selection.index > 0 && peer.getItemAt(0) == placeholder then
           val selected = selection.item
-          peer.setModel(ComboBox.newConstantModel(items))
           selection.index = selection.index - 1
+          peer.setModel(ComboBox.newConstantModel(items))
           selection.item = selected
-        }
+        onSelect(selection.index)
     }
 
   private class TwoStateButton(label1: String, label2: String, onState1: => Unit, onState2: => Unit) extends Button(label1):
@@ -60,8 +60,8 @@ class View(controller: DisplayableController) extends MainFrame:
     }
 
 
-  private val scenarioDropdown = new ComboBoxWithPlaceholder("Select scenario...", controller.scenariosNames)
-  private val algorithmDropdown = new ComboBoxWithPlaceholder("Select algorithm", controller.algorithmsNames)
+  private val algorithmDropdown = new ComboBoxWithPlaceholder("Select algorithm", controller.algorithmsNames, Simulation set Simulation.ChangeAlgorithm(_))
+  private val scenarioDropdown = new ComboBoxWithPlaceholder("Select scenario...", controller.scenariosNames, Simulation set Simulation.ChangeScenario(_))
 
 
 
@@ -148,7 +148,7 @@ class View(controller: DisplayableController) extends MainFrame:
 
   // private object ControlPanel extends FlowPanel(startButton, stepButton, resetButton, pauseResumeButton, scenarioDropdown, algorithmDropdown, refreshScenarioButton)
   private object ControlPanel extends FlowPanel(startButton, stepButton, resetButton, pauseResumeButton)
-  private object ScenarioSettingsPanel extends FlowPanel(scenarioDropdown, algorithmDropdown, refreshScenarioButton)
+  private object ScenarioSettingsPanel extends FlowPanel(algorithmDropdown, scenarioDropdown, refreshScenarioButton)
 
   contents = new BorderPanel:
     import BorderPanel.Position
@@ -162,7 +162,5 @@ class View(controller: DisplayableController) extends MainFrame:
     case ButtonClicked(`stepButton`) => Simulation set Simulation.Step
     case ButtonClicked(`resetButton`) => Simulation set Simulation.Empty
     case ButtonClicked(`refreshScenarioButton`) => Simulation set Simulation.ChangeScenario(scenarioDropdown.selection.index)
-    case SelectionChanged(`scenarioDropdown`) => Simulation set Simulation.ChangeScenario(scenarioDropdown.selection.index)
-    case SelectionChanged(`algorithmDropdown`) => Simulation set Simulation.ChangeAlgorithm(algorithmDropdown.selection.index)
   }
     
