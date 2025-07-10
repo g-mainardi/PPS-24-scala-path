@@ -57,9 +57,11 @@ trait PlannerManager:
 
   protected def refreshPlan(): Unit =
     refreshPlanner()
+    println("Planner built! Now searching a plan...")
     _currentPlan = planner match
     case ValidPlanner(directions) if directions.nonEmpty =>
       handleValidPlan()
+      println("Plan found!")
       directions
     case _                        =>
       handleNoPlan()
@@ -76,6 +78,12 @@ trait ViewAttachable:
       viewAction(_)
   protected def updateView(): Unit = applyToView: v =>
       v.repaint()
+  protected def disableControls(): Unit = applyToView: v =>
+    v.disableGenerateScenarioButton()
+    v.disableStepButton()
+    v.disableResetButton()
+    v.disableStartButton()
+    v.disablePauseResumeButton()
 
 trait ControllableSimulation:
   protected def pause(): Unit
@@ -111,12 +119,7 @@ object ScalaPathController extends SimulationController
       .build
 
   override def generateScenario(): Unit =
-    applyToView: v =>
-      v.disableGenerateScenarioButton()
-      v.disableStepButton()
-      v.disableResetButton()
-      v.disableStartButton()
-      v.disablePauseResumeButton()
+    disableControls()
     _scenario.generate()
     updateView()
 
@@ -132,6 +135,11 @@ object ScalaPathController extends SimulationController
   override protected def changeScenario(newScenario: Scenario): Unit =
     super.changeScenario(newScenario)
     generateScenario()
+    resetSimulation()
+
+  override protected def changeAlgorithm(newAlgorithm: Algorithm): Unit =
+    super.changeAlgorithm(newAlgorithm)
+    disableControls()
     resetSimulation()
 
   override def start(): Unit = loop(Simulation.current)
@@ -163,9 +171,9 @@ object ScalaPathController extends SimulationController
           if _currentPlan.isEmpty
           then Simulation set Paused
           else Thread sleep 500
-
         case ChangeScenario(scenarioIndex) =>
           changeScenario(_scenarios(scenarioIndex))
+          refreshPlan()
           println("Current plan " + _currentPlan)
           println("Current tiles " + _scenario.tiles)
           Simulation set Empty
