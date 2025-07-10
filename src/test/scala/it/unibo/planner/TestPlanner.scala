@@ -5,7 +5,6 @@ import it.unibo.model.Tiling.*
 import scala.util.Random
 
 trait TestPlanner {
-
   val gridrows: Int = 3
   val gridcols: Int = 3
 
