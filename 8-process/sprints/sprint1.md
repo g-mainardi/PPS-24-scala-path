@@ -37,5 +37,7 @@ Also a first version of the scala-prolog integration with a dummy planner has be
 
 
 ### Sprint Retrospective
+We have experienced pair programming, and we have found it very useful when starting a project. We know we are on the same page so far.
+We were also able to better divide the work and responsibilities having a common base.
 
 [Index](../index.md) | [Next Sprint](sprint2.md)

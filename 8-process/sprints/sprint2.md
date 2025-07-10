@@ -33,6 +33,8 @@ Overall, we have refined the code we have built in the first sprint, creating a 
 We have achieved an extended and modular planner builder, and we have added a partial implementation of two more algorithms for pathfinding: A* and Dijkstra.
 
 ### Sprint Retrospective
+We have discovered that code can always become more clean and elegant, and design can always become more modular and flexible, 
+therefore improvement and refactoring are a never ending process.
 
 
 [Previous Sprint](sprint1.md) | [Index](../index.md) | [Next Sprint](sprint3.md)
