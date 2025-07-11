@@ -9,6 +9,9 @@ object Tiling:
     override def equals(obj: Any): Boolean = obj match
       case that: Position => this.x == that.x && this.y == that.y && this.visited == that.visited
       case _ => false
+  
+  object Position:
+    def apply(tuple: (Int, Int)): Position = Position(tuple._1, tuple._2)
 
   trait Tile:
     protected def pos: Position
