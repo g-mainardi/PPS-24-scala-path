@@ -75,9 +75,9 @@ private class PlannerBuilder extends BuilderInit, BuilderGoal, BuilderConstraint
       directions)
 
     algorithm match
-      case DFS => new PrologBuilder(configuration.copy(theoryPath = Some(theoryPaths(DFS)))).build()
-      case BFS => new PrologBuilder(configuration.copy(theoryPath = Some(theoryPaths(BFS)))).build()
-      case AStar => new ScalaAStarBuilder().build(configuration)
+      case DFS => new PrologBuilder(configuration.copy(theoryPath = Some(theoryPaths(DFS)))).build
+      case BFS => new PrologBuilder(configuration.copy(theoryPath = Some(theoryPaths(BFS)))).build
+      case AStar => new ScalaAStarBuilder(configuration).build
 
 case class Configuration(initPos: (Int, Int),
                          goalPos: (Int, Int),
