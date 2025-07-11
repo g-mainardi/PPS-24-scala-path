@@ -1,3 +1,12 @@
 package it.unibo.planning.scalaplanner
 
-trait BaseScalaPlanner
+import it.unibo.model.Direction
+import it.unibo.planning.Plan
+import it.unibo.planning.Plan.{FailedPlan, SucceededPlan}
+
+trait BaseScalaPlanner:
+  def checkSolution(directions: Option[List[Direction]]): Plan =
+    if directions.nonEmpty then
+      SucceededPlan(directions.get)
+    else
+      FailedPlan("No valid plan found")

@@ -24,14 +24,5 @@ class PrologPlanner(engine: Engine, goal: Term, maxMoves: Option[Int]) extends P
     checkSolutions(engine(goal), maxMoves)
 
 class ScalaPlanner(start: Position, goal: Position, tiles: List[Tile], algorithm: PathFindingAlgorithm) extends Planner, BaseScalaPlanner:
-  override def plan: Plan = {
-    val directions = algorithm.run(start, goal, tiles)
-    if directions.nonEmpty then
-      SucceededPlan(directions.get)
-    else
-      FailedPlan("No plan")
-  }
-
-
-
-    
+  override def plan: Plan =
+    checkSolution(algorithm.run(start, goal, tiles))
