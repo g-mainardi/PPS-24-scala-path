@@ -5,6 +5,7 @@ import it.unibo.model.Tiling.Tile
 import it.unibo.planning.Algorithm.*
 import it.unibo.planning.prologplanner.PrologBuilder
 import it.unibo.planning.scalaplanner.ScalaAStarBuilder
+import it.unibo.planning.AStarAlgorithm
 
 object PlannerBuilder:
   def start: BuilderInit = new PlannerBuilder()
@@ -77,12 +78,13 @@ private class PlannerBuilder extends BuilderInit, BuilderGoal, BuilderConstraint
     algorithm match
       case DFS => new PrologBuilder(configuration.copy(theoryPath = Some(theoryPaths(DFS)))).build
       case BFS => new PrologBuilder(configuration.copy(theoryPath = Some(theoryPaths(BFS)))).build
-      case AStar => new ScalaAStarBuilder(configuration).build
+      case AStar => new ScalaAStarBuilder(configuration.copy(algorithm = Some(AStarAlgorithm))).build
 
 case class Configuration(initPos: (Int, Int),
                          goalPos: (Int, Int),
                          maxMoves: Option[Int] = None,
                          environmentTiles: List[Tile],
                          directions: List[Direction],
-                         theoryPath: Option[String] = None
+                         theoryPath: Option[String] = None,
+                         algorithm: Option[PathFindingAlgorithm] = None
                         )

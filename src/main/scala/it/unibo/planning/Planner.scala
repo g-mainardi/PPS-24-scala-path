@@ -11,7 +11,7 @@ import it.unibo.planning.scalaplanner.BaseScalaPlanner
 import it.unibo.prologintegration.Prolog2Scala.{extractListFromTerm, extractTerm}
 import it.unibo.prologintegration.Scala2Prolog.Engine
 import scala.util.Try
-import it.unibo.planning.AStar
+import it.unibo.planning.AStarAlgorithm
 
 trait Planner:
   def plan: Plan
@@ -23,7 +23,15 @@ class PrologPlanner(engine: Engine, goal: Term, maxMoves: Option[Int]) extends P
   override def plan: Plan =
     checkSolutions(engine(goal), maxMoves)
 
-class ScalaPlanner(start: Position, goal: Position, tiles: List[Tile]) extends Planner, BaseScalaPlanner:
-  override def plan: Plan =
-    SucceededPlan(AStar.run(start, goal, tiles).get)
+class ScalaPlanner(start: Position, goal: Position, tiles: List[Tile], algorithm: PathFindingAlgorithm) extends Planner, BaseScalaPlanner:
+  override def plan: Plan = {
+    val directions = algorithm.run(start, goal, tiles)
+    if directions.nonEmpty then
+      SucceededPlan(directions.get)
+    else
+      FailedPlan("No plan")
+  }
+
+
+
     

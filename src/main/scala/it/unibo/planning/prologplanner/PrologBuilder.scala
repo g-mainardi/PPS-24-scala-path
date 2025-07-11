@@ -6,7 +6,7 @@ import it.unibo.prologintegration.Scala2Prolog.*
 
 class PrologBuilder(configuration: Configuration) extends BasePrologBuilder:
   def build: Planner = configuration match
-      case Configuration(InitPos(initFact), Goal(goalFact), MaxMoves(goalTerm), Tiles(tileFacts), Directions(directionsFact), Theory(theoryString)) =>
+      case Configuration(InitPos(initFact), Goal(goalFact), MaxMoves(goalTerm), Tiles(tileFacts), Directions(directionsFact), Theory(theoryString), _) =>
         val fullTheory = new Theory(s"$initFact\n$goalFact\n$directionsFact\n$tileFacts\n$theoryString")
         println(s"\n$fullTheory\n")
         val engine: Engine = mkPrologEngine(fullTheory)
