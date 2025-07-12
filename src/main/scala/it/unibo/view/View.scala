@@ -106,6 +106,20 @@ class View(controller: DisplayableController) extends MainFrame:
   def enableGenerateScenarioButton(): Unit = refreshScenarioButton.enabled = true
   def disableGenerateScenarioButton(): Unit = refreshScenarioButton.enabled = false
 
+  def showInfoMessage(message: String, title: String): Unit =
+    showPopupMessage(message, title, Dialog.Message.Info)
+
+  def showErrorMessage(message: String, title: String): Unit =
+    showPopupMessage(message, title, Dialog.Message.Error)
+
+
+  def showPopupMessage(message: String, title: String, messageType:  Dialog.Message.Value): Unit =
+    Dialog.showMessage(
+      message = message,
+      title = title,
+      messageType = messageType
+    )
+
   private val gridPanel: Panel = new Panel:
     preferredSize = new Dimension(200, 100)
     override def paintComponent(g: Graphics2D): Unit =
