@@ -9,12 +9,17 @@ import java.awt.geom.{Ellipse2D, Rectangle2D}
 import scala.swing.*
 import scala.swing.event.{ButtonClicked, Event, SelectionChanged}
 import java.awt.Image
+import java.awt.image.BufferedImage
 import javax.swing.ImageIcon
+import javax.imageio.ImageIO
+
+
 
 object ViewUtilities:
   import Tiling.*
   private val colorList: List[Color] = List(Color.YELLOW, Color.CYAN, Color.MAGENTA, Color.ORANGE, Color.PINK, Color.LIGHT_GRAY)
   private val specialTileColors: Map[String, Color] = SpecialTileBuilder.allKinds.map(_.name).zip(colorList).toMap
+
 
   def tileColor(tile: Tile): Color =
     import java.awt.Color.*
@@ -68,11 +73,17 @@ class View(controller: DisplayableController) extends MainFrame:
   private class DefaultDisabledButton(label: String) extends Button(label):
     enabled = false
 
-  private def scaledIcon(path: String, width: Int, height: Int): ImageIcon = {
+  private def scaledIcon(path: String, width: Int, height: Int, rotationDegrees: Double = 0): ImageIcon = {
     val url = getClass.getResource(path)
-    val icon = new ImageIcon(url)
-    val scaledImg = icon.getImage.getScaledInstance(width, height, Image.SCALE_SMOOTH)
-    new ImageIcon(scaledImg)
+    val original = ImageIO.read(url)
+    val scaled = original.getScaledInstance(width, height, Image.SCALE_SMOOTH)
+    val buffered = new BufferedImage(width, height, java.awt.image.BufferedImage.TYPE_INT_ARGB)
+    val g2d = buffered.createGraphics()
+    val theta = Math.toRadians(rotationDegrees)
+    g2d.rotate(theta, width / 2.0, height / 2.0)
+    g2d.drawImage(scaled, 0, 0, null)
+    g2d.dispose()
+    new ImageIcon(buffered)
   }
 
 
@@ -113,7 +124,7 @@ class View(controller: DisplayableController) extends MainFrame:
     showPopupMessage(message, title, Dialog.Message.Error)
 
 
-  def showPopupMessage(message: String, title: String, messageType:  Dialog.Message.Value): Unit =
+  private def showPopupMessage(message: String, title: String, messageType:  Dialog.Message.Value): Unit =
     Dialog.showMessage(
       message = message,
       title = title,
