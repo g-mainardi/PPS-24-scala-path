@@ -7,8 +7,8 @@ import it.unibo.model.Direction.allDirections
 import it.unibo.planning.Plan.*
 import it.unibo.planning.{Algorithm, Planner, PlannerBuilder}
 
-import javax.swing.SwingUtilities
 import scala.annotation.tailrec
+import scala.swing.Swing.onEDT
 
 trait ScenarioManager:
   import SpecialTileBuilder.*
@@ -80,9 +80,8 @@ trait ViewAttachable:
   private var _view: Option[View] = None
 
   final def attachView(v: View): Unit = _view = Some(v)
-  final protected def applyToView(viewAction: View => Unit): Unit = SwingUtilities invokeLater: () =>
-    _view foreach:
-      viewAction(_)
+  final protected def applyToView(viewAction: View => Unit): Unit = onEDT:
+    _view foreach viewAction
   protected def updateView(): Unit = applyToView: v =>
       v.repaint()
   protected def disableControls(): Unit = applyToView: v =>
