@@ -133,14 +133,17 @@ object ScalaPathController extends SimulationController
       v.disablePauseResumeButton()
       v.showInfoMessage("Plan terminated! You can restart it or generate a new Scenario.", "End of plan")
 
-  protected def handleNoPlan(): Unit =
+  protected def handleNoPlan(errorMessage: String): Unit =
     applyToView: v =>
       v.enableGenerateScenarioButton()
-      v.showErrorMessage("No valid plan found! Try to generate a new Scenario.", "No plan found")
+      v.showErrorMessage(s"Error: $errorMessage!\nTry to generate some parameters.", "No plan found")
 
-  protected def handleValidPlan(): Unit =
+  protected def handleValidPlan(nMoves: Option[Int]): Unit =
+    val withResult: String = nMoves match
+      case Some(nMoves) => s"with $nMoves moves"
+      case None         => s"within _ moves" //todo max moves inserted
     applyToView: v =>
       v.enableStepButton()
       v.enableStartButton()
       v.enableGenerateScenarioButton()
-      v.showInfoMessage("Plan found! Now you can execute it.", "Plan found")
+      v.showInfoMessage(s"Plan found $withResult! Now you can execute it.", "Plan found")

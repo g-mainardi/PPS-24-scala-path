@@ -13,10 +13,11 @@ trait ScenarioManager:
   val scenarios: List[Scenario] =  Terrain() :: Maze() :: Specials() :: Nil
   protected var _scenario: Scenario = scenarios.head //todo correctly encapsulates with private
 
+  protected def generateScenario(): Unit
+  
   def scenariosNames: List[String] = scenarios map(_.toString)
   def scenario: Scenario = _scenario
   protected def changeScenario(newScenario: Scenario): Unit = _scenario = newScenario
-  protected def generateScenario(): Unit
 
 trait AlgorithmManager:
   val algorithms: List[Algorithm] = Algorithm.values.toList
@@ -29,8 +30,8 @@ trait AlgorithmManager:
 trait PathManager:
   private var _path: List[Position] = List()
 
+  def path: List[Position] = _path
   protected def addToPath(p: Position): Unit = _path = _path :+ p
   protected def resetPath(): Unit = _path = List()
-  def path: List[Position] = _path
 
 trait DisplayableController extends ScenarioManager with PathManager with AlgorithmManager
