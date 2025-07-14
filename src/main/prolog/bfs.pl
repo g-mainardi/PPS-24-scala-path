@@ -1,3 +1,8 @@
+
+% checkSpecial(+NextPosition, -SubstitutePosition)
+checkSpecial(Next, Sub) :- special(Next, Sub), !.
+checkSpecial(Next, Next).
+
 plan(Dirs, Max) :-
   init(Init),
   bfs([[c(Init, none)]], Max, Dirs, _).  % queue contains Steps (list of steps)
@@ -32,10 +37,11 @@ find_new_paths(Steps, Others, NewPaths):-
   ).
 
 % search_next(+Position, +Visited, +OtherPaths, -NextPosition, -ChoosenDirection)
-search_next(Src, Trace, Others, Next, Dir):-
+search_next(Src, Trace, Others, Out, Dir):-
   move(Src, Dir, Next),
   \+ member(c(Next, _), Trace),
-  \+ member([c(Next, _)|_], Others).
+  \+ member([c(Next, _)|_], Others),
+  checkSpecial(Next, Out).
 
 % extract(+Queue, -Path, -Directions)
 extract([], [], []).
