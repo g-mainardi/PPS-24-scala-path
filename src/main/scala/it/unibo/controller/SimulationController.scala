@@ -136,7 +136,7 @@ object ScalaPathController extends SimulationController
   protected def handleNoPlan(errorMessage: String): Unit =
     applyToView: v =>
       v.enableGenerateScenarioButton()
-      v.showErrorMessage(s"Error: $errorMessage!\nTry to generate some parameters.", "No plan found")
+      v.showErrorMessage(s"Error: $errorMessage!\nTry to modify some parameters.", "No plan found")
 
   protected def handleValidPlan(nMoves: Option[Int]): Unit =
     val withResult: String = nMoves match

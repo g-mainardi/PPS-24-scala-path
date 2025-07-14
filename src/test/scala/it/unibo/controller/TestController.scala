@@ -1,5 +1,7 @@
 package it.unibo.controller
 
+import it.unibo.model.Direction
+import it.unibo.model.Direction.Cardinals
 import it.unibo.model.Tiling.Position
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should.Matchers
@@ -17,7 +19,7 @@ class TestController extends AnyFlatSpec with Matchers:
 
   "A PathManager" should "correctly collect and reset positions" in :
     object TestPathManager extends PathManager:
-      def testAdd(x: Int, y: Int): Unit = addToPath(Position(x, y))
+      def testAdd(x: Int, y: Int, dir: Direction): Unit = addToPath(Position(x, y), dir)
       def testReset(): Unit = resetPath()
 
     // Initial state
@@ -29,7 +31,7 @@ class TestController extends AnyFlatSpec with Matchers:
       x <- 0 until dim
       y <- 0 until dim
     do
-      TestPathManager testAdd (x, y)
+      TestPathManager testAdd (x, y, Cardinals.Up)
       TestPathManager.path.last should be (Position(x, y))
     TestPathManager.path should have size dim * dim
 
