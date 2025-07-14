@@ -20,13 +20,9 @@ Start Date: 23/6
 End Date: 29/6
 
 The aim of the sprint is first to set up the project repository, the build tool and the CI.
-Then, we aim to design the architecture and the model so that everyone is on the same page.
+Then, we aim to design architecture and model so that everyone is on the same page.
 Secondly, the sprint also aims to design a view and controller and a base planner that will be used as a common base.
-Lastly, the sprints aims to build the core logic of different scenarios generation.
-
-### Sprint Deadline
-End Date: 29/6
-We aim to have a functioning version of the program, with a dummy scenario and a base planner by the end of the sprint.
+Lastly, the sprints aims to build the core logic of different scenario generation.
 
 ### Sprint Review
 We have successfully set up the project repository, the build tool and the CI.

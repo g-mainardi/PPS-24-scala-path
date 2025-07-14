@@ -17,30 +17,23 @@
 |    14    |    Builder    |    Refactor with multiple traits    |  Salman  |           6           |   6   |   6   |   4   |   2   |   0   |   -   |   -   |
 
 ### Sprint Goal
-
 Start Date: 7/7/25
 <br/>
 End Date: 13/7/25
 
 In this sprint we aim to complete the two major algorithms for pathfinding: A* and BFS.
+We should also start discussing how to structure different agents and how to integrate their behavior.
+We plan to expand the concept of special tiles and add the possibility to create custom specials.
 We also aim to add variability and flexibility to the scenarios generation or in the planner configuration,
 so that we can have different variants of the same scenario of different configurations for the same planning algorithm.
-We should also start discussing how to structure different agents and how to integrate their behavior.
-
-### Sprint Deadline
-
-For the end of the sprint we aim to have different planning algorithms working for all scenarios.
-We should also have created more combinations of scenarios or planning algorithms.
 
 ### Sprint Review
-
-We actually spent most of the time redesign and refactor code, to make it more modular and flexible, so that new features are easier to implement.
+We actually spent most of the time redesign and refactor code, to make it more modular and flexible, so that new features are easier to implement. 
 We have spent time fixing bugs in the controller-view interaction after adding more buttons and dropdown menu.
 The Planner builder has been completely refactored to enforce an order in which methods can be called, and to improve modularity when creating child builders.
 The BFS algorithm was re-designed to have the same interface of the DFS algorithm, with a fully-relational parameter.
 
 ### Sprint Retrospective
-
 Time really flies when you do serious refactors.
 
 [Previous Sprint](sprint2.md) | [Index](../index.md) | [Next Sprint](sprint4.md)
