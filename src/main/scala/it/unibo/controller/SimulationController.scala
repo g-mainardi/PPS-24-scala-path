@@ -216,16 +216,19 @@ object ScalaPathController extends SimulationController
   override protected def over(): Unit =
     println("Plan terminated!")
     applyToView: v =>
+      v.showInfoMessage("Plan terminated! You can restart it or generate a new Scenario.", "End of plan")
       v.disableStepButton()
       v.disableStartButton()
       v.disablePauseResumeButton()
 
   override protected def handleNoPlan(): Unit =
     applyToView: v =>
+      v.showErrorMessage("No valid plan found! Try to generate a new Scenario.", "No plan found")
       v.enableGenerateScenarioButton()
 
   override protected def handleValidPlan(): Unit =
     applyToView: v =>
+      v.showInfoMessage("Plan found! Now you can execute it.", "Plan found")
       v.enableStepButton()
       v.enableStartButton()
       v.enableGenerateScenarioButton()
