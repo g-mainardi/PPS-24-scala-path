@@ -121,7 +121,7 @@ object ScalaPathController extends SimulationController
   protected def step(): Unit =
     if planOver then over()
     else
-      addToPath(_scenario.agent.pos)
+      addToPath(_scenario.agent.pos, currentDirection)
       _scenario.agent computeCommand nextDirection
       updateView()
       if planOver then over()

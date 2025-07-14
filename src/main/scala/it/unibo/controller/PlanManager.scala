@@ -13,6 +13,8 @@ trait PlanManager:
   protected def handleValidPlan(nMoves: Option[Int] = None): Unit
   protected def refreshPlanner(): Unit
 
+  protected def currentDirection: Direction = _currentPlan(_planIndex)
+
   protected def planOver: Boolean = _planIndex >= _currentPlan.length
 
   protected def nextDirection: Direction =

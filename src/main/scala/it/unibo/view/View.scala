@@ -1,7 +1,7 @@
 package it.unibo.view
 
 import it.unibo.controller.{DisplayableController, Simulation}
-import it.unibo.model.{CustomSpecialTile, SpecialTile, SpecialTileBuilder, Tiling}
+import it.unibo.model.{CustomSpecialTile, Direction, SpecialTile, SpecialTileBuilder, Tiling}
 import it.unibo.model.Tiling.Position
 
 import java.awt.Color
@@ -143,8 +143,8 @@ class View(controller: DisplayableController) extends MainFrame:
       drawPath(controller.path)
     
 
-    private def drawPath(positions: List[Position])(using g: Graphics2D): Unit =
-      positions.foreach(p => drawCircle(p.x, p.y, Color.BLUE))
+    private def drawPath(positions: List[(Position, Direction)])(using g: Graphics2D): Unit =
+      positions.foreach((p, d) => drawCircle(p.x, p.y, Color.BLUE))
     
     private def drawCircle(x: Int, y: Int, color: Color)(using g: Graphics2D): Unit =
       g setColor color
