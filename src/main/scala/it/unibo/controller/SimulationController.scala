@@ -64,13 +64,12 @@ trait PlannerManager:
   protected def refreshPlan(): Unit =
     refreshPlanner()
     resetPlan()
-    println("Planner built! Now searching a plan...")
+    println("Planner built! Now searching a plan...") //todo change with loading screen
     _currentPlan = planner match
     case ValidPlanner(directions) if directions.nonEmpty =>
       handleValidPlan()
-      println("Plan found!")
       directions
-    case _                        =>
+    case _ =>
       handleNoPlan()
       List.empty
 
@@ -214,21 +213,20 @@ object ScalaPathController extends SimulationController
       if planOver then over()
 
   override protected def over(): Unit =
-    println("Plan terminated!")
     applyToView: v =>
-      v.showInfoMessage("Plan terminated! You can restart it or generate a new Scenario.", "End of plan")
       v.disableStepButton()
       v.disableStartButton()
       v.disablePauseResumeButton()
+      v.showInfoMessage("Plan terminated! You can restart it or generate a new Scenario.", "End of plan")
 
   override protected def handleNoPlan(): Unit =
     applyToView: v =>
-      v.showErrorMessage("No valid plan found! Try to generate a new Scenario.", "No plan found")
       v.enableGenerateScenarioButton()
+      v.showErrorMessage("No valid plan found! Try to generate a new Scenario.", "No plan found")
 
   override protected def handleValidPlan(): Unit =
     applyToView: v =>
-      v.showInfoMessage("Plan found! Now you can execute it.", "Plan found")
       v.enableStepButton()
       v.enableStartButton()
       v.enableGenerateScenarioButton()
+      v.showInfoMessage("Plan found! Now you can execute it.", "Plan found")
