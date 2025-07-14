@@ -4,8 +4,8 @@ import Tiling.*
 import it.unibo.utils.PrettyPrint
 
 object Scenario:
-  val nRows = 5
-  val nCols = 5
+  val nRows = 7
+  val nCols = 7
 
   import scala.util.Random
   private val rand = Random(seed = 42)
@@ -29,7 +29,7 @@ class Agent(val initialPosition: Position, getTileAt: Position => Option[Tile]):
     pos = pos + direction.vector
     checkSpecial()
 
-  def checkSpecial(): Unit =
+  private def checkSpecial(): Unit =
     getTileAt(pos) match
       case Some(special: Special) => pos = special.newPos
       case _ =>
