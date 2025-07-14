@@ -1,5 +1,7 @@
 package it.unibo.controller
 
+import it.unibo.model.Direction
+
 object Simulation:
   enum State:
     case Running
@@ -8,6 +10,7 @@ object Simulation:
     case Empty
     case ChangeScenario(scenarioIndex: Int)
     case ChangeAlgorithm(algorithmIndex: Int)
+    case DirectionsChoice(directions: List[Direction])
   export State.*
   @volatile private var _current: State = Empty
   def current: State = synchronized{_current}
