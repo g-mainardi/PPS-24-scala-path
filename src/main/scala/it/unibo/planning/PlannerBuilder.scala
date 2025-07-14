@@ -39,7 +39,7 @@ trait CompleteBuilder:
 
 private class PlannerBuilder extends BuilderInit, BuilderGoal, BuilderConstraints, BuilderEnvironment, BuilderDirections, BuilderAlgorithm, CompleteBuilder:
   private val theoryPaths: Map[Algorithm, String] = Map(
-    DFS -> "src/main/prolog/dfs.pl",
+    DFS -> "src/main/prolog/dfsWithSpecials.pl",
     BFS -> "src/main/prolog/bfs.pl"
   )
 

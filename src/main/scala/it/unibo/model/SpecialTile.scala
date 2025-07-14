@@ -6,7 +6,9 @@ import it.unibo.model.Tiling.{Floor, Position, TilePos}
 case class SpecialTile(name: String, computeNewPos: Position => Position)
 
 case class CustomSpecialTile(pos: Position, kind: SpecialTile) extends Tiling.Special:
-  override val newPos: Position = kind.computeNewPos(pos)
+  override val newPos: Position =
+    val computed = kind.computeNewPos(pos)
+    Position(computed.x % nRows, computed.y % nCols)
 
 object SpecialTileBuilder:
   private var registry: Map[String, SpecialTile] = Map()
@@ -17,7 +19,7 @@ object SpecialTileBuilder:
   def clear(): Unit = registry = Map.empty
 
 class Specials extends Scenario:
-  val tilesPerKind = 4
+  private val tilesPerKind = 4
 
   override def generate(): Unit =
     val baseTiles = (for
@@ -36,6 +38,7 @@ class Specials extends Scenario:
           case (kind, positions) if positions.contains(pos) =>
             CustomSpecialTile(pos, kind)
         }.getOrElse(Floor(pos))
+      case other => other
 
 @main def defineSpecialTiles(): Unit =
   import SpecialTileBuilder.*
