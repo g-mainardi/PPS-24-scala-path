@@ -1,7 +1,7 @@
 package it.unibo.view
 
 import it.unibo.controller.{DisplayableController, Simulation}
-import it.unibo.model.Tiling
+import it.unibo.model.{CustomSpecialTile, SpecialTile, SpecialTileBuilder, Tiling}
 import it.unibo.model.Tiling.Position
 
 import java.awt.Color
@@ -13,19 +13,19 @@ import javax.swing.ImageIcon
 
 object ViewUtilities:
   import Tiling.*
+  private val colorList: List[Color] = List(Color.YELLOW, Color.CYAN, Color.MAGENTA, Color.ORANGE, Color.PINK, Color.LIGHT_GRAY)
+  private val specialTileColors: Map[String, Color] = SpecialTileBuilder.allKinds.map(_.name).zip(colorList).toMap
+
   def tileColor(tile: Tile): Color =
     import java.awt.Color.*
     tile match
       case _: Floor => WHITE
       case _: Grass => GREEN
-      case _: Teleport => PINK
-      case _: Arrow => YELLOW
       case _: Wall => BLACK
-      case _: Trap => RED
       case _: Water => CYAN
       case _: Lava => ORANGE
       case _: Rock => GRAY
-      case _  => YELLOW
+      case special : CustomSpecialTile  =>  specialTileColors.getOrElse(special.kind.name, Color.PINK)
 
 class View(controller: DisplayableController) extends MainFrame:
   import ViewUtilities.*
