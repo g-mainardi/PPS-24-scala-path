@@ -27,13 +27,15 @@ object AStarAlgorithm extends PathFindingAlgorithm:
 
 
   /**
-   * Computes the Chebyshev distance between two points on a 2D grid.
+   * Computes the distance between two points on a 2D grid.
    * @param start
    * @param target
-   * @return the Chebyshev distance as a Double
+   * @return the distance as a Double
    */
   private def heuristic(start: Position, target: Position): Double =
-    (start.x - target.x).abs max (start.y - target.y).abs
+    //(start.x - target.x).abs max (start.y - target.y).abs
+    (start.x - target.x)*(start.x - target.x) + (start.y - target.y)*(start.y - target.y)
+
 
   /**
    * Maybe this function will become a parameter in the future

@@ -86,6 +86,8 @@ class View(controller: DisplayableController) extends MainFrame:
   private val startButton = new DefaultDisabledButton("Start")
   private val resetButton = new DefaultDisabledButton("Reset")
   private val stepButton = new DefaultDisabledButton("Step")
+  private val searchWithLabel = new Label("Search with: ")
+
   private val pauseResumeButton = new TwoStateButton(
     "Pause",
     "Resume",
@@ -103,6 +105,20 @@ class View(controller: DisplayableController) extends MainFrame:
   def disablePauseResumeButton(): Unit = pauseResumeButton.enabled = false
   def enableGenerateScenarioButton(): Unit = refreshScenarioButton.enabled = true
   def disableGenerateScenarioButton(): Unit = refreshScenarioButton.enabled = false
+
+  def showInfoMessage(message: String, title: String): Unit =
+    showPopupMessage(message, title, Dialog.Message.Info)
+
+  def showErrorMessage(message: String, title: String): Unit =
+    showPopupMessage(message, title, Dialog.Message.Error)
+
+
+  def showPopupMessage(message: String, title: String, messageType:  Dialog.Message.Value): Unit =
+    Dialog.showMessage(
+      message = message,
+      title = title,
+      messageType = messageType
+    )
 
   private val gridPanel: Panel = new Panel:
     preferredSize = new Dimension(200, 100)
@@ -148,7 +164,7 @@ class View(controller: DisplayableController) extends MainFrame:
 
   // private object ControlPanel extends FlowPanel(startButton, stepButton, resetButton, pauseResumeButton, scenarioDropdown, algorithmDropdown, refreshScenarioButton)
   private object ControlPanel extends FlowPanel(startButton, stepButton, resetButton, pauseResumeButton)
-  private object ScenarioSettingsPanel extends FlowPanel(algorithmDropdown, scenarioDropdown, refreshScenarioButton)
+  private object ScenarioSettingsPanel extends FlowPanel(searchWithLabel, scenarioDropdown, refreshScenarioButton, algorithmDropdown)
 
   contents = new BorderPanel:
     import BorderPanel.Position
