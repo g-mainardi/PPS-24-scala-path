@@ -77,6 +77,8 @@ object ViewUtilities:
         state = !state
     }
 
+
+
   def scaledIcon(path: String, width: Int, height: Int, rotationDegrees: Double = 0): ImageIcon =
     val url = getClass.getResource(path)
     val original = ImageIO.read(url)

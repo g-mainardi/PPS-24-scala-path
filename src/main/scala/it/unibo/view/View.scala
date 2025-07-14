@@ -12,6 +12,8 @@ import java.awt.Image
 import java.awt.image.BufferedImage
 import javax.swing.ImageIcon
 import javax.imageio.ImageIO
+import it.unibo.model.Direction.Cardinals.*
+import it.unibo.model.Direction.Diagonals.*
 
 
 class View(controller: DisplayableController) extends MainFrame:
@@ -22,6 +24,28 @@ class View(controller: DisplayableController) extends MainFrame:
   private val algorithmDropdown = new ComboBoxWithPlaceholder("Select algorithm", controller.algorithmsNames, Simulation set Simulation.ChangeAlgorithm(_))
   private val scenarioDropdown = new ComboBoxWithPlaceholder("Select scenario...", controller.scenariosNames, Simulation set Simulation.ChangeScenario(_))
 
+  class DirectionGrid(onDirectionSelected: Option[it.unibo.model.Direction] => Unit) extends GridPanel(3, 3):
+    private val directions: Vector[Option[Direction]] = Vector(
+      Some(LeftUp), Some(Up), Some(RightUp),
+      Some(Left), None, Some(Right),
+      Some(LeftDown), Some(Down), Some(RightDown)
+    )
+    private val buttonSize = new Dimension(40, 40)
+    contents ++= directions.zipWithIndex.map { case (dirOpt, idx) =>
+      val btn = new Button() {
+        preferredSize = buttonSize
+        minimumSize = buttonSize
+        maximumSize = buttonSize
+        enabled = dirOpt.isDefined
+        if enabled then
+          icon = getArrowIconFromDirection(dirOpt.get)
+      }
+      listenTo(btn)
+      reactions += {
+        case ButtonClicked(`btn`) => onDirectionSelected(dirOpt)
+      }
+      btn
+    }
 
   private val refreshScenarioButton = new Button(){
     icon = scaledIcon("/icons/refreshIcon.png", 14, 14)
@@ -34,6 +58,13 @@ class View(controller: DisplayableController) extends MainFrame:
   private val stepButton = new DefaultDisabledButton("Step")
   private val searchWithLabel = new Label("Search with: ")
 
+
+  private val directionGrid = new FlowPanel {
+    contents += new DirectionGrid(_ => println("hello"))
+    preferredSize = new Dimension(40*3, 40*3) // adatta alle tue esigenze
+    maximumSize = preferredSize
+    minimumSize = preferredSize
+  }
   private val pauseResumeButton = new TwoStateButton(
     "Pause",
     "Resume",
@@ -57,7 +88,6 @@ class View(controller: DisplayableController) extends MainFrame:
 
   def showErrorMessage(message: String, title: String): Unit =
     showPopupMessage(message, title, Dialog.Message.Error)
-
 
   private val gridPanel: Panel = new Panel:
     preferredSize = new Dimension(200, 100)
@@ -113,6 +143,7 @@ class View(controller: DisplayableController) extends MainFrame:
     layout(gridPanel) = Position.Center
     layout(ControlPanel) = Position.South
     layout(ScenarioSettingsPanel) = Position.North
+    layout(directionGrid) = Position.East
 
   listenTo(startButton, stepButton, resetButton, pauseResumeButton, scenarioDropdown.selection, algorithmDropdown.selection, refreshScenarioButton)
   reactions += {
