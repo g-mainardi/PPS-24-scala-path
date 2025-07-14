@@ -9,7 +9,7 @@ class TestController extends AnyFlatSpec with Matchers:
   "A ScenarioManager" should "correctly switch Scenario and give names" in :
     object TestScenarioManager extends ScenarioManager:
       override protected def generateScenario(): Unit = ()
-      def testScenarioChanging(index: Int): Unit = changeScenario(_scenarios(index))
+      def testScenarioChanging(index: Int): Unit = changeScenario(scenarios(index))
 
     TestScenarioManager.scenariosNames.zipWithIndex foreach: (name, index) =>
       TestScenarioManager testScenarioChanging index
