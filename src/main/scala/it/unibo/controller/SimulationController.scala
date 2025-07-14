@@ -98,7 +98,7 @@ object ScalaPathController extends SimulationController
       Simulation set Empty
     case ChangeAlgorithm(algorithm) =>
       changeAlgorithm(algorithms(algorithm))
-      refreshPlan()
+      searchPlan()
       Simulation set Empty
     case Running =>
       step()

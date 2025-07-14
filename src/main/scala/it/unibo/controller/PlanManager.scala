@@ -23,7 +23,7 @@ trait PlanManager:
 
   protected def resetPlan(): Unit = _planIndex = 0
 
-  protected def refreshPlan(): Unit =
+  protected def searchPlan(): Unit =
     refreshPlanner()
     resetPlan()
     println("Planner built! Now searching a plan...") //todo change with loading screen

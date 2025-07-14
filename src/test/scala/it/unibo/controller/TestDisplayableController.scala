@@ -1,12 +1,12 @@
 package it.unibo.controller
 
 import it.unibo.model.Direction
-import it.unibo.model.Direction.Cardinals
+import it.unibo.model.Direction.allDirections
 import it.unibo.model.Tiling.Position
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should.Matchers
 
-class TestController extends AnyFlatSpec with Matchers:
+class TestDisplayableController extends AnyFlatSpec with Matchers:
 
   "A ScenarioManager" should "correctly switch Scenario and give names" in :
     object TestScenarioManager extends ScenarioManager:
@@ -17,6 +17,14 @@ class TestController extends AnyFlatSpec with Matchers:
       TestScenarioManager testScenarioChanging index
       TestScenarioManager.scenario.toString should be (name)
 
+  "An AlgorithmManager" should "correctly switch Algorithm and give names" in :
+    object TestAlgorithmManager extends AlgorithmManager:
+      def testAlgorithmChanging(index: Int): Unit = changeAlgorithm(algorithms(index))
+
+    TestAlgorithmManager.algorithmsNames.zipWithIndex foreach : (name, index) =>
+      TestAlgorithmManager testAlgorithmChanging index
+      TestAlgorithmManager.algorithm.toString should be(name)
+  
   "A PathManager" should "correctly collect and reset positions" in :
     object TestPathManager extends PathManager:
       def testAdd(x: Int, y: Int, dir: Direction): Unit = addToPath(Position(x, y), dir)
@@ -30,9 +38,10 @@ class TestController extends AnyFlatSpec with Matchers:
     for
       x <- 0 until dim
       y <- 0 until dim
+      dir = allDirections((x + y) % allDirections.length)
     do
-      TestPathManager testAdd (x, y, Cardinals.Up)
-      TestPathManager.path.last should be (Position(x, y))
+      TestPathManager testAdd (x, y, dir)
+      TestPathManager.path.last should be (Position(x, y), dir)
     TestPathManager.path should have size dim * dim
 
     // Resetting
