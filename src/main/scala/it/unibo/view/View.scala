@@ -72,7 +72,10 @@ class View(controller: DisplayableController) extends MainFrame:
     
 
     private def drawPath(positions: List[(Position, Direction)])(using g: Graphics2D): Unit =
-      positions.foreach((p, d) => drawCircle(p.x, p.y, Color.BLUE))
+      positions.foreach((p, d) =>
+        val px = p.x * cellSize + gridOffset
+        val py = p.y * cellSize + gridOffset
+        g.drawImage(getArrowIconFromDirection(d, cellSize).getImage, px, py, null))
     
     private def drawCircle(x: Int, y: Int, color: Color)(using g: Graphics2D): Unit =
       g setColor color

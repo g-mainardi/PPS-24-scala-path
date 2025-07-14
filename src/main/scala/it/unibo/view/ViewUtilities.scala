@@ -1,6 +1,8 @@
 package it.unibo.view
 
 import it.unibo.controller.{DisplayableController, Simulation}
+import it.unibo.model.Direction.Cardinals.*
+import it.unibo.model.Direction.Diagonals.*
 import it.unibo.model.{CustomSpecialTile, Direction, SpecialTile, SpecialTileBuilder, Tiling}
 import it.unibo.model.Tiling.Position
 
@@ -31,6 +33,21 @@ object ViewUtilities:
       case _: Rock => GRAY
       case special: CustomSpecialTile => specialTileColors.getOrElse(special.kind.name, Color.PINK)
 
+  def getArrowIconFromDirection(direction: Direction, diameter: Int = 14): ImageIcon =
+    val path = "/icons/arrow.png"
+    direction match
+      case Up => scaledIcon(path, diameter, diameter)
+      case RightUp => scaledIcon(path, diameter, diameter, 45)
+      case Right => scaledIcon(path, diameter, diameter, 90)
+      case RightDown => scaledIcon(path, diameter, diameter, 135)
+      case Down => scaledIcon(path, diameter, diameter, 180)
+      case LeftDown => scaledIcon(path, diameter, diameter, 225)
+      case Left => scaledIcon(path, diameter, diameter, 270)
+      case LeftUp => scaledIcon(path, diameter, diameter, 315)
+
+
+
+
   class ComboBoxWithPlaceholder[A](placeholder: String, items: Seq[A], onSelect: Int => Unit) extends ComboBox(Seq(placeholder) ++ items):
     selection.index = 0
     listenTo(selection)
@@ -59,7 +76,7 @@ object ViewUtilities:
           text = label1
         state = !state
     }
-  
+
   def scaledIcon(path: String, width: Int, height: Int, rotationDegrees: Double = 0): ImageIcon =
     val url = getClass.getResource(path)
     val original = ImageIO.read(url)
