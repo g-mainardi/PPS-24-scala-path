@@ -55,4 +55,9 @@ trait PathManager:
   protected def addToPath(p: Position, d: Direction): Unit = _path = _path :+ (p, d)
   protected def resetPath(): Unit = _path = List()
 
-trait DisplayableController extends ScenarioManager with PathManager with AlgorithmManager with DirectionManager
+trait DisplayableController 
+  extends ScenarioManager 
+  with PathManager 
+  with AlgorithmManager 
+  with DirectionManager
+  with AgentManager

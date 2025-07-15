@@ -22,7 +22,7 @@ trait SimulationController:
 
 object ScalaPathController extends SimulationController
   with DisplayableController
-  with PlanManager
+  with AgentManager
   with ViewAttachable:
 
   def pause(): Unit =
@@ -35,13 +35,13 @@ object ScalaPathController extends SimulationController
       v.enableResetButton()
       v.disableStepButton()
 
-  def refreshPlanner(): Unit = setPlanner:
+  def assembleAgent(): Unit = agent = 
     import it.unibo.planning.prologplanner.Conversions.given
     PlannerBuilder.start
       .withInit(init)
       .withGoal(goal)
       .withMaxMoves(None)
-      .withTiles(_scenario.tiles)
+      .withTiles(scenario)
       .withDirections(directions)
       .withAlgorithm(algorithm)
       .build
@@ -51,7 +51,7 @@ object ScalaPathController extends SimulationController
     updateView()
 
   def resetSimulation(): Unit =
-    _scenario.resetAgent()
+    resetPosition()
     resetPath()
     updateView()
 
@@ -104,8 +104,8 @@ object ScalaPathController extends SimulationController
     case DirectionsChoice(directions) =>
       setDirections(directions)
       Simulation set Empty
-    case SetPosition(Goal(pos)) => init = Position(pos); updateView()
-    case SetPosition(Init(pos)) => goal = Position(pos); updateView()
+    case SetPosition(Goal(pos)) => goal = Position(pos); updateView()
+    case SetPosition(Init(pos)) => init = Position(pos); updateView()
     case Running =>
       step()
       if planOver
@@ -127,8 +127,9 @@ object ScalaPathController extends SimulationController
   protected def step(): Unit =
     if planOver then over()
     else
-      addToPath(_scenario.agent.pos, currentDirection)
-      _scenario.agent computeCommand nextDirection
+      // todo dangerous access => move path manager in agent? 
+      addToPath(agent.get.pos, currentDirection)
+      stepAgent()
       updateView()
       if planOver then over()
 

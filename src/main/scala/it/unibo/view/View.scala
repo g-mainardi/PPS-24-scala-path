@@ -128,7 +128,7 @@ class View(controller: DisplayableController) extends MainFrame:
       drawCells(cellSize, gridOffset)
       drawGrid(gridSize, cellSize, gridOffset)
       drawCircle(controller.goal.x, controller.goal.y, Color.RED)
-      drawCircle(controller.scenario.agent.x, controller.scenario.agent.y, Color.BLUE)
+      drawCircle(controller.init.x, controller.init.y, Color.BLUE)
       drawPath(controller.path)
 
     private def drawPath(positions: List[(Position, Direction)])(using g: Graphics2D): Unit =
