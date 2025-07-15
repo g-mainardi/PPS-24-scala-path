@@ -1,5 +1,6 @@
 package it.unibo.controller
 
+import it.unibo.model.Direction.allDirections
 import it.unibo.model.{Direction, Maze, Scenario, SpecialTileBuilder, Specials, Terrain}
 import it.unibo.model.Tiling.Position
 import it.unibo.planning.Algorithm
@@ -27,6 +28,12 @@ trait AlgorithmManager:
   def algorithm: Algorithm = _algorithm
   protected def changeAlgorithm(newAlgorithm: Algorithm): Unit = _algorithm = newAlgorithm
 
+trait DirectionManager:
+  private var _directions: List[Direction] = allDirections
+
+  def directions: List[Direction] = _directions
+  protected def setDirections(directions: List[Direction]): Unit = _directions = directions
+
 trait PathManager:
   private var _path: List[(Position, Direction)] = List()
 
@@ -34,4 +41,4 @@ trait PathManager:
   protected def addToPath(p: Position, d: Direction): Unit = _path = _path :+ (p, d)
   protected def resetPath(): Unit = _path = List()
 
-trait DisplayableController extends ScenarioManager with PathManager with AlgorithmManager
+trait DisplayableController extends ScenarioManager with PathManager with AlgorithmManager with DirectionManager

@@ -40,7 +40,7 @@ object ScalaPathController extends SimulationController
       .withGoal(_scenario.goalPosition)
       .withMaxMoves(None)
       .withTiles(_scenario.tiles)
-      .withDirections(allDirections)
+      .withDirections(directions)
       .withAlgorithm(algorithm)
       .build
 
@@ -99,6 +99,9 @@ object ScalaPathController extends SimulationController
     case ChangeAlgorithm(algorithm) =>
       changeAlgorithm(algorithms(algorithm))
       searchPlan()
+      Simulation set Empty
+    case DirectionsChoice(directions) =>
+      setDirections(directions)
       Simulation set Empty
     case Running =>
       step()
