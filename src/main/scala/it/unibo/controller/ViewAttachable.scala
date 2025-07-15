@@ -18,5 +18,4 @@ trait ViewAttachable:
   protected def disableControls(): Unit = applyToView: v =>
     v.disableStepButton()
     v.disableResetButton()
-    v.disableStartButton()
-    v.disablePauseResumeButton()
+    v.disableStartStopButton()

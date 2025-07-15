@@ -29,7 +29,7 @@ object ScalaPathController extends SimulationController
 
   def resume(): Unit =
     applyToView: v =>
-      v.enablePauseResumeButton()
+      v.enableStartStopButton()
       v.enableResetButton()
       v.disableStepButton()
 
@@ -73,9 +73,8 @@ object ScalaPathController extends SimulationController
   def reset(): Unit =
     resetPlan()
     applyToView: v =>
-      v.disablePauseResumeButton()
       v.disableResetButton()
-      v.enableStartButton()
+      v.enableStartStopButton()
       v.enableStepButton()
     resetSimulation()
 
@@ -132,8 +131,7 @@ object ScalaPathController extends SimulationController
   protected def over(): Unit =
     applyToView: v =>
       v.disableStepButton()
-      v.disableStartButton()
-      v.disablePauseResumeButton()
+      v.disableStartStopButton()
       v.showInfoMessage("Plan terminated! You can restart it or generate a new Scenario.", "End of plan")
 
   protected def handleNoPlan(errorMessage: String): Unit =
@@ -147,6 +145,6 @@ object ScalaPathController extends SimulationController
       case None         => s"within _ moves" //todo max moves inserted
     applyToView: v =>
       v.enableStepButton()
-      v.enableStartButton()
+      v.enableStartStopButton()
       v.enableGenerateScenarioButton()
       v.showInfoMessage(s"Plan found $withResult! Now you can execute it.", "Plan found")

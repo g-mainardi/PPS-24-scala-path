@@ -30,19 +30,19 @@ class View(controller: DisplayableController) extends MainFrame:
       Some(Left), None, Some(Right),
       Some(LeftDown), Some(Down), Some(RightDown)
     )
-    var selectedDirections: List[Direction] = List()
+    var selectedDirections: List[Direction] = Direction.allDirections
     private val buttonSize = new Dimension(40, 40)
     contents ++= directions.zipWithIndex.map { case (dirOpt, idx) =>
-      val onSelection: () => Unit = dirOpt.map { d => () =>
+      val onDeselection: () => Unit = dirOpt.map { d => () =>
         selectedDirections = selectedDirections :+ d
         Simulation set Simulation.DirectionsChoice(selectedDirections)
-        println("called onSelection, selectedDirections: " + selectedDirections)
+        println("called onDeselection, selectedDirections: " + selectedDirections)
       }.getOrElse(() => {})
 
-      val onDeselection: () => Unit = dirOpt.map { d => () =>
+      val onSelection: () => Unit = dirOpt.map { d => () =>
         selectedDirections = selectedDirections.filterNot(_ == d)
         Simulation set Simulation.DirectionsChoice(selectedDirections)
-        println("called onDeselection, selectedDirections: " + selectedDirections)
+        println("called onSelection, selectedDirections: " + selectedDirections)
       }.getOrElse(() => {})
 
       val btn = new SelectionButton(
@@ -66,7 +66,6 @@ class View(controller: DisplayableController) extends MainFrame:
     contentAreaFilled = false
     focusPainted = false
   }
-  private val startButton = new DefaultDisabledButton("Start")
   private val resetButton = new DefaultDisabledButton("Reset")
   private val stepButton = new DefaultDisabledButton("Step")
   private val searchWithLabel = new Label("Search with: ")
@@ -78,21 +77,20 @@ class View(controller: DisplayableController) extends MainFrame:
     maximumSize = preferredSize
     minimumSize = preferredSize
   }
-  private val pauseResumeButton = new TwoStateButton(
-    "Pause",
-    "Resume",
-    Simulation set Simulation.Paused(fromUser = true),
-    Simulation set Simulation.Running
+  private val startStopButton = new TwoStateButton(
+    "Start",
+    "Stop",
+    Simulation set Simulation.Running,
+    Simulation set Simulation.Paused(fromUser = true)
   ){enabled = false}
 
-  def enableStartButton(): Unit = startButton.enabled = true
-  def disableStartButton(): Unit = startButton.enabled = false
+
   def enableStepButton(): Unit = stepButton.enabled = true
   def disableStepButton(): Unit = stepButton.enabled = false
   def enableResetButton(): Unit = resetButton.enabled = true
   def disableResetButton(): Unit = resetButton.enabled = false
-  def enablePauseResumeButton(): Unit = pauseResumeButton.enabled = true
-  def disablePauseResumeButton(): Unit = pauseResumeButton.enabled = false
+  def enableStartStopButton(): Unit = startStopButton.enabled = true
+  def disableStartStopButton(): Unit = startStopButton.enabled = false
   def enableGenerateScenarioButton(): Unit = refreshScenarioButton.enabled = true
   def disableGenerateScenarioButton(): Unit = refreshScenarioButton.enabled = false
   def resetAlgorithmDropdown(): Unit = algorithmDropdown.reset()
@@ -149,8 +147,8 @@ class View(controller: DisplayableController) extends MainFrame:
         g draw rect
 
 
-  // private object ControlPanel extends FlowPanel(startButton, stepButton, resetButton, pauseResumeButton, scenarioDropdown, algorithmDropdown, refreshScenarioButton)
-  private object ControlPanel extends FlowPanel(startButton, stepButton, resetButton, pauseResumeButton)
+  // private object ControlPanel extends FlowPanel(startButton, stepButton, resetButton, startStopButton, scenarioDropdown, algorithmDropdown, refreshScenarioButton)
+  private object ControlPanel extends FlowPanel(startStopButton, stepButton, resetButton)
   private object ScenarioSettingsPanel extends FlowPanel(searchWithLabel, scenarioDropdown, refreshScenarioButton, algorithmDropdown)
 
   contents = new BorderPanel:
@@ -160,9 +158,8 @@ class View(controller: DisplayableController) extends MainFrame:
     layout(ScenarioSettingsPanel) = Position.North
     layout(directionGrid) = Position.West
 
-  listenTo(startButton, stepButton, resetButton, pauseResumeButton, scenarioDropdown.selection, algorithmDropdown.selection, refreshScenarioButton)
+  listenTo(stepButton, resetButton, scenarioDropdown.selection, algorithmDropdown.selection, refreshScenarioButton)
   reactions += {
-    case ButtonClicked(`startButton`) => Simulation set Simulation.Running
     case ButtonClicked(`stepButton`) => Simulation set Simulation.Step
     case ButtonClicked(`resetButton`) => Simulation set Simulation.Empty
     case ButtonClicked(`refreshScenarioButton`) => Simulation set Simulation.ChangeScenario(scenarioDropdown.selection.index)
