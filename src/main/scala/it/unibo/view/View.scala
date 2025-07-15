@@ -33,7 +33,7 @@ class View(controller: DisplayableController) extends MainFrame:
     )
     var selectedDirections: List[Direction] = Direction.allDirections
     private val buttonSize = new Dimension(40, 40)
-    contents ++= directions.zipWithIndex.map { case (dirOpt, idx) =>
+    contents ++= directions.map { dirOpt =>
       val onDeselection: () => Unit = dirOpt.map { d => () =>
         selectedDirections = selectedDirections :+ d
         Simulation set Simulation.DirectionsChoice(selectedDirections)
@@ -119,11 +119,11 @@ class View(controller: DisplayableController) extends MainFrame:
         //println(s"[DEBUG]: x= $x, y= $y, gridSize= $gridSize")
         if x >= 0 && y >= 0 && x < gridSize && y < gridSize then
           //println("here")
-          if moveGoalRadio.selected then
-            // controller.setGoalPosition(x, y)
+          if moveGoalRadio.selected then {
+            Simulation set Simulation.SetPosition(Simulation.SettablePosition.Goal(x, y))
             println(s"goal in ($x, $y)")
-          else if moveStartRadio.selected then
-            // controller.setStartPosition(x, y)
+          } else if moveStartRadio.selected then
+            Simulation set Simulation.SetPosition(Simulation.SettablePosition.Init(x, y))
             println(s"start in ($x, $y)")
           repaint()
     }
