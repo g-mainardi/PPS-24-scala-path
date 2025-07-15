@@ -8,6 +8,14 @@ import it.unibo.planning.Algorithm
 trait ScenarioManager:
   import Scenario.{nRows, nCols}
   val builder = new SpecialTileBuilder
+  private var _init: Position = Position(0, 0)
+  private var _goal: Position = Position(nRows - 1, nCols - 1)
+  
+  def init: Position = _init
+  def goal: Position = _goal
+  def init_=(pos: Position): Unit = _init = pos
+  def goal_=(pos: Position): Unit = _goal = pos
+
   builder tile "Teleport" does (_ => Scenario.randomPosition)
   builder tile "JumpDown" does (pos => Position(pos.x + 2, pos.y))
   builder tile "StairsUp" does (pos => Position(pos.x - 2, pos.y))

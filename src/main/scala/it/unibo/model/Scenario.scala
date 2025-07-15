@@ -35,15 +35,13 @@ class Agent(val initialPosition: Position, getTileAt: Position => Option[Tile]):
       case _ =>
 
 trait Scenario(nRows: Int, nCols: Int) extends PrettyPrint:
-  private var _agent: Agent = Agent(initialPosition, getTileAt)
+  private var _agent: Agent = Agent(Position(0, 0), getTileAt) // todo hardcoded position
   protected var _tiles: List[Tile] = List()
 
   def agent: Agent = _agent
   def tiles: List[Tile] = _tiles
-  def initialPosition: Position = Position(0, 0)
-  def goalPosition: Position = Position(Scenario.nRows - 1, Scenario.nCols - 1)
   def generate(): Unit
-  def resetAgent(): Unit = _agent = Agent(initialPosition, getTileAt)
+  def resetAgent(): Unit = _agent = Agent(Position(0, 0), getTileAt) // todo hardcoded position + to move in agent
   def getTileAt(position: Position): Option[Tile] = tiles.find(tile => tile.x == position.x && tile.y == position.y)
 
 class DummyScenario(nRows: Int, nCols: Int) extends Scenario(nRows, nCols):

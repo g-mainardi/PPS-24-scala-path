@@ -11,9 +11,6 @@ class Maze(nRows: Int, nCols: Int) extends Scenario(nRows, nCols):
   private val exitX = gridRows - 1
   private val exitY = gridCols - 2
 
-  override def initialPosition: Position = Position(1, 1, false)
-  override def goalPosition: Position = Position(exitX, exitY)
-
   override def generate(): Unit =
     val allWalls: Map[Position, Tile] =
       (for

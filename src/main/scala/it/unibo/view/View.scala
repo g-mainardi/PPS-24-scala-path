@@ -132,7 +132,7 @@ class View(controller: DisplayableController) extends MainFrame:
       given Graphics2D = g
       drawCells(cellSize, gridOffset)
       drawGrid(gridSize, cellSize, gridOffset)
-      drawCircle(controller.scenario.goalPosition.x, controller.scenario.goalPosition.y, Color.RED)
+      drawCircle(controller.goal.x, controller.goal.y, Color.RED)
       drawCircle(controller.scenario.agent.x, controller.scenario.agent.y, Color.BLUE)
       drawPath(controller.path)
 

@@ -1,7 +1,9 @@
 package it.unibo.controller
 
+import it.unibo.controller.Simulation.SettablePosition.{Goal, Init}
 import it.unibo.model.*
 import it.unibo.model.Direction.allDirections
+import it.unibo.model.Tiling.Position
 import it.unibo.planning.{Algorithm, PlannerBuilder}
 
 import scala.annotation.tailrec
@@ -36,8 +38,8 @@ object ScalaPathController extends SimulationController
   def refreshPlanner(): Unit = setPlanner:
     import it.unibo.planning.prologplanner.Conversions.given
     PlannerBuilder.start
-      .withInit(_scenario.initialPosition)
-      .withGoal(_scenario.goalPosition)
+      .withInit(init)
+      .withGoal(goal)
       .withMaxMoves(None)
       .withTiles(_scenario.tiles)
       .withDirections(directions)
@@ -102,6 +104,8 @@ object ScalaPathController extends SimulationController
     case DirectionsChoice(directions) =>
       setDirections(directions)
       Simulation set Empty
+    case SetPosition(Goal(pos)) => init = Position(pos); updateView()
+    case SetPosition(Init(pos)) => goal = Position(pos); updateView()
     case Running =>
       step()
       if planOver
