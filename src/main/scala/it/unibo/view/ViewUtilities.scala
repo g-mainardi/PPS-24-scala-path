@@ -64,7 +64,7 @@ object ViewUtilities:
   class DefaultDisabledButton(label: String) extends Button(label):
     enabled = false
 
-  class TwoStateButton(label1: String, label2: String, onState1: => Unit, onState2: => Unit) extends Button(label1):
+  class TwoStateButton(label1: String = "", label2: String = "", onState1: => Unit = {}, onState2: => Unit = {}) extends Button(label1):
     private var state = true // true: label1, false: label2
     reactions += {
       case ButtonClicked(_) =>
@@ -74,6 +74,21 @@ object ViewUtilities:
         else
           onState2
           text = label1
+        state = !state
+    }
+
+  class SelectionButton(label1: String = "", label2: String = "", onState1: => Unit = {}, onState2: => Unit = {}) extends Button(label1):
+    private var state = true // true: label1, false: label2
+    reactions += {
+      case ButtonClicked(_) =>
+        if state then
+          onState1
+          text = label2
+          background = Color.LIGHT_GRAY
+        else
+          onState2
+          text = label1
+          background = Color.GREEN
         state = !state
     }
 
