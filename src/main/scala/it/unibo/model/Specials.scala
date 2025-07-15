@@ -25,7 +25,7 @@ class SpecialTileBuilder:
   def does(compute: Position => Position): Unit =
     SpecialTileRegistry.registry += name -> SpecialKind(name, compute)
 
-class Specials extends Scenario:
+class Specials(nrows: Int, ncols: Int) extends Scenario(nrows: Int, ncols: Int):
   private val tilesPerKind = 4
 
   override def generate(): Unit =

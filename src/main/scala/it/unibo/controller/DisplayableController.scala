@@ -11,7 +11,7 @@ trait ScenarioManager:
   builder tile "JumpDown" does (pos => Position(pos.x + 2, pos.y))
   builder tile "StairsUp" does (pos => Position(pos.x - 2, pos.y))
 
-  val scenarios: List[Scenario] =  Terrain() :: Maze() :: Specials() :: Nil
+  val scenarios: List[Scenario] =  Terrain(7,7) :: Maze(7,7) :: Specials(7,7) :: Nil
   protected var _scenario: Scenario = scenarios.head //todo correctly encapsulates with private
 
   protected def generateScenario(): Unit
