@@ -8,10 +8,17 @@ class Agent(val initialPosition: Position, plan: => Plan, getTileAt: Position =>
   private var _currentPlan: List[Direction] = List.empty
   private var _planIndex: Int = 0
   private var _pos: Position = initialPosition
+  private var _path: List[(Position, Direction)] = List()
   
   def pos: Position = _pos
   def x: Int = _pos.x
   def y: Int = _pos.y
+  
+  def path: List[(Position, Direction)] = _path
+
+  private def addToPath(p: Position, d: Direction): Unit = _path = _path :+ (p, d)
+
+  def resetPath(): Unit = _path = List()
 
   def computeCommand(direction: Direction): Unit =
     _pos = _pos + direction.vector
@@ -19,7 +26,7 @@ class Agent(val initialPosition: Position, plan: => Plan, getTileAt: Position =>
 
   def resetPosition(): Unit = _pos = initialPosition
 
-  def currentDirection: Direction = _currentPlan(_planIndex)
+  private def currentDirection: Direction = _currentPlan(_planIndex)
 
   def planOver: Boolean = _planIndex >= _currentPlan.length
 
@@ -29,7 +36,9 @@ class Agent(val initialPosition: Position, plan: => Plan, getTileAt: Position =>
 
   def resetPlan(): Unit = _planIndex = 0
   
-  def step(): Unit = this computeCommand nextDirection
+  def step(): Unit = 
+    addToPath(_pos, currentDirection)
+    this computeCommand nextDirection
   
   def searchPlan: Option[Int] = plan match
     case SucceededPlanWithMoves(directions, nMoves) =>

@@ -51,8 +51,7 @@ object ScalaPathController extends SimulationController
     updateView()
 
   def resetSimulation(): Unit =
-    resetPosition()
-    resetPath()
+    resetAgent()
     updateView()
 
   override protected def changeScenario(newScenario: Scenario): Unit =
@@ -73,7 +72,6 @@ object ScalaPathController extends SimulationController
   def start(): Unit = loop(Simulation.current)
 
   def reset(): Unit =
-    resetPlan()
     applyToView: v =>
       v.disableResetButton()
       v.enableStartStopButton()
@@ -127,8 +125,6 @@ object ScalaPathController extends SimulationController
   protected def step(): Unit =
     if planOver then over()
     else
-      // todo dangerous access => move path manager in agent? 
-      addToPath(agent.get.pos, currentDirection)
       stepAgent()
       updateView()
       if planOver then over()

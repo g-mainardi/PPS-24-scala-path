@@ -48,16 +48,8 @@ trait DirectionManager:
   def directions: List[Direction] = _directions
   protected def setDirections(directions: List[Direction]): Unit = _directions = directions
 
-trait PathManager:
-  private var _path: List[(Position, Direction)] = List()
-
-  def path: List[(Position, Direction)] = _path
-  protected def addToPath(p: Position, d: Direction): Unit = _path = _path :+ (p, d)
-  protected def resetPath(): Unit = _path = List()
-
 trait DisplayableController 
   extends ScenarioManager 
-  with PathManager 
   with AlgorithmManager 
   with DirectionManager
   with AgentManager

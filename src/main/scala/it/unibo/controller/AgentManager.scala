@@ -13,21 +13,19 @@ trait AgentManager:
   protected def handleValidPlan(nMoves: Option[Int] = None): Unit
   protected def assembleAgent(): Unit
 
-  protected def currentDirection: Direction = _agent.get.currentDirection
-
   protected def planOver: Boolean = _agent match
     case Some(a) => a.planOver
     case None    => true
 
-  protected def resetPlan(): Unit = _agent foreach (_.resetPlan())
-  
-  protected def resetPosition(): Unit = _agent foreach (_.resetPosition())
+  protected def resetAgent(): Unit = _agent foreach: agent =>
+    agent.resetPosition()
+    agent.resetPlan()
+    agent.resetPath()
   
   protected def stepAgent(): Unit = _agent foreach (_.step())
 
   protected def searchPlan(): Unit =
     assembleAgent()
-    resetPlan()
     println("Agent assembled! Now searching a plan...") //todo change with loading screen
     _agent match 
       case Some(agent) =>

@@ -129,7 +129,9 @@ class View(controller: DisplayableController) extends MainFrame:
       drawGrid(gridSize, cellSize, gridOffset)
       drawCircle(controller.goal.x, controller.goal.y, Color.RED)
       drawCircle(controller.init.x, controller.init.y, Color.BLUE)
-      drawPath(controller.path)
+      controller.agent foreach: agent =>
+        drawCircle(agent.x, agent.y, Color.YELLOW)
+        drawPath(agent.path)
 
     private def drawPath(positions: List[(Position, Direction)])(using g: Graphics2D): Unit =
       positions.foreach((p, d) =>
