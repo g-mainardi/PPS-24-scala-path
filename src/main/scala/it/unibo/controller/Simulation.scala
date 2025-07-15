@@ -11,8 +11,18 @@ object Simulation:
     case ChangeScenario(scenarioIndex: Int)
     case ChangeAlgorithm(algorithmIndex: Int)
     case DirectionsChoice(directions: List[Direction])
+    case SetPosition(toSet: SettablePosition)
+
+  enum SettablePosition:
+    case Init(pos: (Int, Int))
+    case Goal(pos: (Int, Int))
+  
   export State.*
+
   @volatile private var _current: State = Empty
+
   def current: State = synchronized{_current}
+
   def set(s: State): Unit = synchronized{_current = s}
+
   def exec(action: => Unit): Unit = synchronized{action}
