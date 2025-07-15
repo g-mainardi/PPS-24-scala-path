@@ -1,6 +1,7 @@
 package it.unibo.model
 
 import Tiling.*
+import it.unibo.planning.Plan
 import it.unibo.utils.PrettyPrint
 
 object Scenario:
@@ -20,7 +21,7 @@ object Scenario:
 
   def randomPositions(size: Int): Set[Position] = Set.fill(size)(randomPosition)
 
-class Agent(val initialPosition: Position, getTileAt: Position => Option[Tile]):
+class Agent(val initialPosition: Position, plan: Plan, getTileAt: Position => Option[Tile]):
   var pos: Position = initialPosition
   def x: Int = pos.x
   def y: Int = pos.y
@@ -35,14 +36,14 @@ class Agent(val initialPosition: Position, getTileAt: Position => Option[Tile]):
       case _ =>
 
 trait Scenario(nRows: Int, nCols: Int) extends PrettyPrint:
-  private var _agent: Agent = Agent(Position(0, 0), getTileAt) // todo hardcoded position
+  private var _agent: Agent = Agent(Position(0, 0), checkSpecial) // todo hardcoded position
   protected var _tiles: List[Tile] = List()
 
   def agent: Agent = _agent
   def tiles: List[Tile] = _tiles
   def generate(): Unit
-  def resetAgent(): Unit = _agent = Agent(Position(0, 0), getTileAt) // todo hardcoded position + to move in agent
-  def getTileAt(position: Position): Option[Tile] = tiles.find(tile => tile.x == position.x && tile.y == position.y)
+  def resetAgent(): Unit = _agent = Agent(Position(0, 0), checkSpecial) // todo hardcoded position + to move in agent
+  def checkSpecial(position: Position): Option[Tile] = tiles.find(tile => tile.x == position.x && tile.y == position.y)
 
 class DummyScenario(nRows: Int, nCols: Int) extends Scenario(nRows, nCols):
   override def generate(): Unit =

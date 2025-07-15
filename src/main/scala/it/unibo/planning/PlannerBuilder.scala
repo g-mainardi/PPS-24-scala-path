@@ -1,6 +1,6 @@
 package it.unibo.planning
 
-import it.unibo.model.Direction
+import it.unibo.model.{Agent, Direction, Scenario}
 import it.unibo.model.Tiling.Tile
 import it.unibo.planning.Algorithm.*
 import it.unibo.planning.prologplanner.PrologBuilder
@@ -23,8 +23,8 @@ trait BuilderConstraints:
   def withMaxMoves(maxMoves: Option[Int]): BuilderEnvironment
 
 trait BuilderEnvironment:
-  protected var environmentTiles: List[Tile] = List.empty
-  def withTiles(tiles: List[Tile]): BuilderDirections
+  protected var environmentTiles: Scenario
+  def withTiles(scenario: Scenario): BuilderDirections
 
 trait BuilderDirections:
   protected var directions: List[Direction] = List.empty
@@ -35,7 +35,7 @@ trait BuilderAlgorithm:
   def withAlgorithm(algorithm: Algorithm): CompleteBuilder
 
 trait CompleteBuilder:
-  def build: Planner
+  def build: Agent
 
 private class PlannerBuilder extends BuilderInit, BuilderGoal, BuilderConstraints, BuilderEnvironment, BuilderDirections, BuilderAlgorithm, CompleteBuilder:
   private val theoryPaths: Map[Algorithm, String] = Map(
@@ -55,8 +55,8 @@ private class PlannerBuilder extends BuilderInit, BuilderGoal, BuilderConstraint
     this.maxMoves = maxMoves
     this
 
-  def withTiles(tiles: List[Tile]): PlannerBuilder =
-    this.environmentTiles = tiles
+  def withTiles(scenario: Scenario): PlannerBuilder =
+    this.environmentTiles = scenario
     this
 
   def withDirections(directions: List[Direction]): PlannerBuilder =
@@ -67,7 +67,7 @@ private class PlannerBuilder extends BuilderInit, BuilderGoal, BuilderConstraint
     this.algorithm = algorithm
     this
 
-  def build: Planner =
+  def build: Agent =
     val configuration: Configuration = Configuration (
       initPos,
       goalPos,
@@ -83,7 +83,7 @@ private class PlannerBuilder extends BuilderInit, BuilderGoal, BuilderConstraint
 case class Configuration(initPos: (Int, Int),
                          goalPos: (Int, Int),
                          maxMoves: Option[Int] = None,
-                         environmentTiles: List[Tile],
+                         environmentTiles: Scenario,
                          directions: List[Direction],
                          theoryPath: Option[String] = None,
                          algorithm: Option[PathFindingAlgorithm] = None
