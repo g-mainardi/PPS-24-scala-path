@@ -2,7 +2,7 @@
 
 ## 1. Requisiti di Business
 (a cosa serve questo software? Come possiamo giudicare se il progetto ha successo? Goal del progetto)
-- 1.1. L'applicazione deve fungere da strumento interattivo per osservare il comportamento di diversi algoritmi di pathfinding in diversi scenari
+- 1.1. L'applicazione deve fungere da strumento interattivo per osservare il comportamento di diversi algoritmi di pathfinding in diversi scenari.
 - 
 ## 2. Modello di Dominio
 ### Glossario
@@ -22,24 +22,36 @@
 
 ### 3.1. Utente 
 (Validati da acceptance tests)
-- 3.1.1. L’utente deve poter scegliere quale algoritmo di ricerca utilizzare tramite una dropdown list (Dijkstra, A*, Greedy Best‑first, ecc.)
-- 3.1.2. L'utente deve poter visualizzare la griglia di celle della simulazione 
-- 3.1.3. L'utente deve poter selezionare quale metodologia di generazione dello scenario l'applicazione deve utilizzare, tramite una dropdown list (Terrain, Maze, Trap)
-- 3.1.4. L'applicazione deve avere un pannello che consente all'utente di far partire la simulazione, interrompere la simulazione, resettare il percorso trovato e rigenerare lo scenario
-- 3.1.5. L'utente deve poter scegliere tipologie diverse di agenti, ad esempio agente "normale" o agente che permette di saltare due caselle alla volta, agente che capace di spostarsi anche in diagonale, ecc
-- 3.1.6. Sulla griglia devono essere presenti il punto di partenza e il goal
-- 3.1.7. Alla pressione del tasto "Step" un nuovo punto del path deve comparire sulla griglia
+- 3.1.1. L’utente deve poter scegliere quale algoritmo di ricerca utilizzare tramite una dropdown list (Dijkstra, A*, Greedy Best‑first, ecc.).
+- 3.1.2. L'utente deve poter visualizzare la griglia di celle della simulazione.
+- 3.1.3. Sulla griglia devono essere presenti il punto di partenza e il goal.
+- 3.1.4. L'utente deve poter selezionare quale metodologia di generazione dello scenario l'applicazione deve utilizzare, tramite una dropdown list (Terrain, Maze, Trap).
+- 3.1.5. L’utente deve poter generare un nuovo scenario casuale tramite un pulsante di refresh.
+- 3.1.6. L’utente deve poter avviare o mettere in pausa la simulazione tramite un pulsante “Start/Stop”.
+- 3.1.7. L’utente deve poter avanzare di un singolo passo nella simulazione tramite un pulsante “Step”.
+- 3.1.8. L’utente deve poter resettare la simulazione allo stato iniziale tramite un pulsante “Reset”.
+- 3.1.9. L’utente deve poter abilitare o disabilitare singole direzioni di movimento (cardinali e diagonali).
+- 3.1.10. L’utente deve poter spostare interattivamente la posizione iniziale (“start”) o la destinazione (“goal”) cliccando sulla griglia, selezionando prima l’opzione “Change start” o “Change goal”.
+- 3.1.11. L’utente deve ricevere popup informative o di errore in caso di eventi significativi o anomalie.
+- 3.1.12. L'utente deve poter scegliere tipologie diverse di agenti, ad esempio agente "normale" o agente che permette di saltare due caselle alla volta, agente che capace di spostarsi anche in diagonale, ecc
 
 ### 3.2. Di sistema
 (validati da set automatici)
-- 3.2.1. L'applicazione deve implementare funzioni di controllo della simulazione come start, stop, reset, clear, ecc
-- 3.2.2. L'applicazione deve implementare diversi algoritmi di ricerca del percorso (Dijkstra, A*, Greedy Best‑first, ecc.)
-- 3.2.3. L'applicazione deve essere in grado di generare uno scenario in base alla tipologia di generazione scelta dall'utente
-- 3.2.4. L'applicazione deve tener conto, durante la ricerca del percoso, della tipologia di agente selezionato dall'utente
-- 3.2.5. 
+- 3.2.1. L’applicazione deve implementare funzioni di controllo della simulazione come “Start”, “Stop”, “Reset”, “Clear”, ecc.
+- 3.2.2. L’applicazione deve implementare diversi algoritmi di ricerca del percorso (Dijkstra, A*, Greedy Best‑first, ecc.).
+- 3.2.3. L’applicazione deve essere in grado di generare uno scenario in base alla tipologia di generazione scelta dall’utente.
+- 3.2.4. Il sistema deve disegnare la griglia con le celle colorate in base al tipo di tile (Passage, Obstacle, Special).
+- 3.2.5. Il sistema deve visualizzare l’agente e il goal come cerchi colorati (blu per l’agente, rosso per il goal).
+- 3.2.6. Il sistema deve sovrapporre al pannello di disegno la sequenza di frecce che rappresentano il percorso calcolato dal planner.
+- 3.2.7. Il sistema deve permettere soltanto i movimenti nelle direzioni abilitate dall’utente e sui tile attraversabili.
+- 3.2.8. Il sistema deve gestire correttamente gli stati della simulazione (Running, Paused, Step, Reset, ChangeScenario, ChangeAlgorithm).
+- 3.2.9. Il sistema deve invocare il controller per calcolare un nuovo piano ogni volta che l’utente cambia scenario o algoritmo.
+- 3.2.10. Il sistema deve abilitare o disabilitare i pulsanti “Step”, “Reset”, “Start/Stop” e “Refresh Scenario” in base allo stato corrente della simulazione.
+- 3.2.11. Il sistema deve intercettare e processare tutti gli eventi GUI (click su pulsanti, selezione dropdown, click sulla griglia) senza bloccare il thread dell’interfaccia.
+- 3.2.12. L’applicazione deve tener conto, durante la ricerca del percorso, della tipologia di agente selezionato dall’utente.
 
 ## 4. Requisiti non Funzionali
-- 4.1. Il sistema deve garantire una code coverage di almeno 50%
+- 4.1. Il sistema deve garantire una code coverage di almeno 50%.
 - 4.2. I test devono essere eseguiti automaticamente all’interno della pipeline CI/CD.
 - 4.3. L’esecuzione automatica dei test non deve superare i 5 minuti.
 - 4.4. Il sistema deve fallire la build in caso di fallimento di uno o più test.
