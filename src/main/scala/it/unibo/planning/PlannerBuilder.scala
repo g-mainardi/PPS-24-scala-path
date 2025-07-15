@@ -35,7 +35,7 @@ trait BuilderAlgorithm:
   def withAlgorithm(algorithm: Algorithm): CompleteBuilder
 
 trait CompleteBuilder:
-  def build: Planner
+  def build: Agent
 
 private class PlannerBuilder extends BuilderInit, BuilderGoal, BuilderConstraints, BuilderEnvironment, BuilderDirections, BuilderAlgorithm, CompleteBuilder:
   private val theoryPaths: Map[Algorithm, String] = Map(
