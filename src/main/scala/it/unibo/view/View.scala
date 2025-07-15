@@ -1,7 +1,7 @@
 package it.unibo.view
 
 import it.unibo.controller.{DisplayableController, Simulation}
-import it.unibo.model.{CustomSpecialTile, Direction, SpecialTile, SpecialTileBuilder, Tiling}
+import it.unibo.model.{SpecialTile, Direction, SpecialKind, SpecialTileBuilder, Tiling}
 import it.unibo.model.Tiling.Position
 
 import java.awt.Color
