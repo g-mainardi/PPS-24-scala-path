@@ -60,6 +60,9 @@ object ViewUtilities:
           selection.item = selected
         onSelect(selection.index)
     }
+    def reset(): Unit =
+      peer.setModel(ComboBox.newConstantModel(Seq(placeholder) ++ items))
+      selection.index = 0
 
   class DefaultDisabledButton(label: String) extends Button(label):
     enabled = false
