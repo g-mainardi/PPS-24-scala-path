@@ -55,7 +55,7 @@ object PerlinNoise:
     (lerp(v, x1, x2) + 1) / 2.0
 
 
-class Terrain(nrows: Int, ncols: Int) extends Scenario(nrows: Int, ncols: Int):
+class Terrain(nRows: Int, nCols: Int) extends Scenario(nRows, nCols):
 
   private def getTileFromNoise(noise: Double)(position: Position): Tile =
     if noise < 0.4 then Water(position)

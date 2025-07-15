@@ -34,7 +34,7 @@ class Agent(val initialPosition: Position, getTileAt: Position => Option[Tile]):
       case Some(special: Special) => pos = special.newPos
       case _ =>
 
-trait Scenario(nrows: Int, ncols: Int) extends PrettyPrint:
+trait Scenario(nRows: Int, nCols: Int) extends PrettyPrint:
   private var _agent: Agent = Agent(initialPosition, getTileAt)
   protected var _tiles: List[Tile] = List()
 
@@ -46,7 +46,7 @@ trait Scenario(nrows: Int, ncols: Int) extends PrettyPrint:
   def resetAgent(): Unit = _agent = Agent(initialPosition, getTileAt)
   def getTileAt(position: Position): Option[Tile] = tiles.find(tile => tile.x == position.x && tile.y == position.y)
 
-class DummyScenario(nrows: Int, ncols: Int) extends Scenario(nrows, ncols):
+class DummyScenario(nRows: Int, nCols: Int) extends Scenario(nRows, nCols):
   override def generate(): Unit =
     _tiles = for
       (tileType, ind) <- List(Floor(_), Grass(_), Teleport(_), Trap(_), Water(_), Lava(_), Rock(_)).zipWithIndex

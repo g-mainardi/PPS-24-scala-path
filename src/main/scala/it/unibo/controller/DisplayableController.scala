@@ -6,12 +6,18 @@ import it.unibo.model.Tiling.Position
 import it.unibo.planning.Algorithm
 
 trait ScenarioManager:
+  import Scenario.{nRows, nCols}
   val builder = new SpecialTileBuilder
   builder tile "Teleport" does (_ => Scenario.randomPosition)
   builder tile "JumpDown" does (pos => Position(pos.x + 2, pos.y))
   builder tile "StairsUp" does (pos => Position(pos.x - 2, pos.y))
 
-  val scenarios: List[Scenario] =  Terrain(7,7) :: Maze(7,7) :: Specials(7,7) :: Nil
+  val scenarios: List[Scenario] =
+    for
+      scenarioType <- Terrain.apply _ :: Maze.apply _ :: Specials.apply _ :: Nil
+    yield
+      scenarioType(nRows, nCols)
+
   protected var _scenario: Scenario = scenarios.head //todo correctly encapsulates with private
 
   protected def generateScenario(): Unit
