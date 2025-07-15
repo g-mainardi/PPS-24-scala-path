@@ -40,7 +40,7 @@ object ScalaPathController extends SimulationController
       .withGoal(_scenario.goalPosition)
       .withMaxMoves(None)
       .withTiles(_scenario.tiles)
-      .withDirections(allDirections)  //todo implement GUI integration
+      .withDirections(allDirections)
       .withAlgorithm(algorithm)
       .build
 

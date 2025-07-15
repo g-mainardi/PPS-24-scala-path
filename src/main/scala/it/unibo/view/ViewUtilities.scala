@@ -88,7 +88,7 @@ object ViewUtilities:
         else
           onState2()
           text = label1
-          background = Color.GREEN
+          background = null
         state = !state
     }
 

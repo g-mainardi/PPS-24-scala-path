@@ -24,25 +24,38 @@ class View(controller: DisplayableController) extends MainFrame:
   private val algorithmDropdown = new ComboBoxWithPlaceholder("Select algorithm", controller.algorithmsNames, Simulation set Simulation.ChangeAlgorithm(_))
   private val scenarioDropdown = new ComboBoxWithPlaceholder("Select scenario...", controller.scenariosNames, Simulation set Simulation.ChangeScenario(_))
 
-  class DirectionGrid(onDirectionSelected: Option[it.unibo.model.Direction] => Unit) extends GridPanel(3, 3):
-    private val directions: Vector[Option[Direction]] = Vector(
+  class DirectionGrid() extends GridPanel(3, 3):
+    private val directions: List[Option[Direction]] = List(
       Some(LeftUp), Some(Up), Some(RightUp),
       Some(Left), None, Some(Right),
       Some(LeftDown), Some(Down), Some(RightDown)
     )
+    var selectedDirections: List[Direction] = List()
     private val buttonSize = new Dimension(40, 40)
     contents ++= directions.zipWithIndex.map { case (dirOpt, idx) =>
-      val btn = new Button() {
+      val onSelection: () => Unit = dirOpt.map { d => () =>
+        selectedDirections = selectedDirections :+ d
+        Simulation set Simulation.DirectionsChoice(selectedDirections)
+        println("called onSelection, selectedDirections: " + selectedDirections)
+      }.getOrElse(() => {})
+
+      val onDeselection: () => Unit = dirOpt.map { d => () =>
+        selectedDirections = selectedDirections.filterNot(_ == d)
+        Simulation set Simulation.DirectionsChoice(selectedDirections)
+        println("called onDeselection, selectedDirections: " + selectedDirections)
+      }.getOrElse(() => {})
+
+      val btn = new SelectionButton(
+        onState1 = onSelection,
+        onState2 = onDeselection
+      ) {
         preferredSize = buttonSize
         minimumSize = buttonSize
         maximumSize = buttonSize
         enabled = dirOpt.isDefined
         if enabled then
           icon = getArrowIconFromDirection(dirOpt.get)
-      }
-      listenTo(btn)
-      reactions += {
-        case ButtonClicked(`btn`) => onDirectionSelected(dirOpt)
+        selected = false
       }
       btn
     }
@@ -60,8 +73,8 @@ class View(controller: DisplayableController) extends MainFrame:
 
 
   private val directionGrid = new FlowPanel {
-    contents += new DirectionGrid(_ => println("hello"))
-    preferredSize = new Dimension(40*3, 40*3) // adatta alle tue esigenze
+    contents += new DirectionGrid()
+    preferredSize = new Dimension(40*3, 40*3)
     maximumSize = preferredSize
     minimumSize = preferredSize
   }
@@ -143,7 +156,7 @@ class View(controller: DisplayableController) extends MainFrame:
     layout(gridPanel) = Position.Center
     layout(ControlPanel) = Position.South
     layout(ScenarioSettingsPanel) = Position.North
-    layout(directionGrid) = Position.East
+    layout(directionGrid) = Position.West
 
   listenTo(startButton, stepButton, resetButton, pauseResumeButton, scenarioDropdown.selection, algorithmDropdown.selection, refreshScenarioButton)
   reactions += {
