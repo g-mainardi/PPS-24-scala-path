@@ -95,6 +95,8 @@ class View(controller: DisplayableController) extends MainFrame:
   def disablePauseResumeButton(): Unit = pauseResumeButton.enabled = false
   def enableGenerateScenarioButton(): Unit = refreshScenarioButton.enabled = true
   def disableGenerateScenarioButton(): Unit = refreshScenarioButton.enabled = false
+  def resetAlgorithmDropdown(): Unit = algorithmDropdown.reset()
+
 
   def showInfoMessage(message: String, title: String): Unit =
     showPopupMessage(message, title, Dialog.Message.Info)
