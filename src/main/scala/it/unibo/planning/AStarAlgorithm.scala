@@ -42,11 +42,11 @@ object AStarAlgorithm extends PathFindingAlgorithm:
    * @param pos
    * @return
    */
-  def neighbors(pos: Position): List[Position] =
-    Direction.allDirections.map(dir => pos + dir.vector)
+  def neighbors(pos: Position, directions: List[Direction]): List[Position] =
+    directions.map(dir => pos + dir.vector)
 
 
-  override def run(start: Position, goal: Position, tiles: List[Tile]): Option[List[Direction]] =
+  override def run(start: Position, goal: Position, tiles: List[Tile], directions: List[Direction]): Option[List[Direction]] =
     val initG = Map(start -> 0.0)
     val initF = heuristic(start, goal)
     val passable = (position: Position) =>
@@ -68,7 +68,7 @@ object AStarAlgorithm extends PathFindingAlgorithm:
         var updatedGScore = gScore
         var updatedQueue = rest
 
-        for neighbor <- neighbors(current).filter(passable) do
+        for neighbor <- neighbors(current, directions).filter(passable) do
           val tentativeG = gScore(current) + 1
           val currentG = gScore.getOrElse(neighbor, Double.PositiveInfinity)
 

@@ -23,6 +23,6 @@ class PrologPlanner(engine: Engine, goal: Term, maxMoves: Option[Int]) extends P
   override def plan: Plan =
     checkSolutions(engine(goal), maxMoves)
 
-class ScalaPlanner(start: Position, goal: Position, tiles: List[Tile], algorithm: PathFindingAlgorithm) extends Planner, BaseScalaPlanner:
+class ScalaPlanner(start: Position, goal: Position, tiles: List[Tile], directions: List[Direction], algorithm: PathFindingAlgorithm) extends Planner, BaseScalaPlanner:
   override def plan: Plan =
-    checkSolution(algorithm.run(start, goal, tiles))
+    checkSolution(algorithm.run(start, goal, tiles, directions))
