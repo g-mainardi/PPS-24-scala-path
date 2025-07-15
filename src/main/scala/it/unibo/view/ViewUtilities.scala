@@ -3,7 +3,7 @@ package it.unibo.view
 import it.unibo.controller.{DisplayableController, Simulation}
 import it.unibo.model.Direction.Cardinals.*
 import it.unibo.model.Direction.Diagonals.*
-import it.unibo.model.{CustomSpecialTile, Direction, SpecialTile, SpecialTileBuilder, Tiling}
+import it.unibo.model.{Direction, SpecialKind, SpecialTile, SpecialTileBuilder, SpecialTileRegistry, Tiling}
 import it.unibo.model.Tiling.Position
 
 import java.awt.Color
@@ -19,7 +19,7 @@ object ViewUtilities:
   import it.unibo.model.Tiling.*
 
   private val colorList: List[Color] = List(Color.YELLOW, Color.CYAN, Color.MAGENTA, Color.ORANGE, Color.PINK, Color.LIGHT_GRAY)
-  private val specialTileColors: Map[String, Color] = SpecialTileBuilder.allKinds.map(_.name).zip(colorList).toMap
+  private val specialTileColors: Map[String, Color] = SpecialTileRegistry.allKinds.map(_.name).zip(colorList).toMap
 
 
   def tileColor(tile: Tile): Color =
@@ -31,7 +31,7 @@ object ViewUtilities:
       case _: Water => CYAN
       case _: Lava => ORANGE
       case _: Rock => GRAY
-      case special: CustomSpecialTile => specialTileColors.getOrElse(special.kind.name, Color.PINK)
+      case special: SpecialTile => specialTileColors.getOrElse(special.kind.name, Color.PINK)
 
   def getArrowIconFromDirection(direction: Direction, diameter: Int = 14): ImageIcon =
     val path = "/icons/arrow.png"
