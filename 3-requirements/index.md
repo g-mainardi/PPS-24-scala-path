@@ -5,7 +5,18 @@
 - 1.1. L'applicazione deve fungere da strumento interattivo per osservare il comportamento di diversi algoritmi di pathfinding in diversi scenari
 - 
 ## 2. Modello di Dominio
-
+### Glossario
+- **Agent**: Entità che si muove all'interno della griglia seguendo un piano (`plan`) per raggiungere un obiettivo (`goal`).
+- **Goal**: Cella obiettivo che l'agente deve raggiungere all'interno della griglia.
+- **Grid**: Rappresentazione bidimensionale dello spazio, suddivisa in celle (`tiles`), su cui si muove l’agente.
+- **Obstacle**: Tipo di tile non attraversabile dall’agente (esempi: Wall, Trap, Water, Lava, Rock).
+- **Passage**: Tipo di tile attraversabile liberamente dall’agente (esempi: Floor, Grass).
+- **Pathfinding**: Processo mediante il quale viene calcolato un percorso ottimale da uno stato iniziale al `goal`, utilizzando algoritmi specifici.
+- **Plan**: Sequenza di azioni o direzioni che l’agente deve seguire per raggiungere il `goal`.
+- **Planner**: Entità che si occupa di calcolare il `plan`, ovvero il percorso ottimale per l’agente.
+- **Scenario**: Contesto completo della simulazione, che comprende la griglia (`grid`), la posizione iniziale dell’agente e il `goal`.
+- **Special**: Tipo di tile attraversabile con effetti particolari (esempi: Teleport, Arrow).
+- **Tile**: Unità base della griglia. Ogni tile può appartenere a una delle seguenti categorie: `Passage`, `Obstacle` o `Special`.
 
 ## 3. Requisiti Funzionali
 
