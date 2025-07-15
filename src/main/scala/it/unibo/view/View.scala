@@ -116,16 +116,11 @@ class View(controller: DisplayableController) extends MainFrame:
       case e: event.MouseClicked =>
         val x = (e.point.x - gridOffset) / cellSize
         val y = (e.point.y - gridOffset) / cellSize
-        //println(s"[DEBUG]: x= $x, y= $y, gridSize= $gridSize")
         if x >= 0 && y >= 0 && x < gridSize && y < gridSize then
-          //println("here")
           if moveGoalRadio.selected then {
             Simulation set Simulation.SetPosition(Simulation.SettablePosition.Goal(x, y))
-            println(s"goal in ($x, $y)")
           } else if moveStartRadio.selected then
             Simulation set Simulation.SetPosition(Simulation.SettablePosition.Init(x, y))
-            println(s"start in ($x, $y)")
-          repaint()
     }
     override def paintComponent(g: Graphics2D): Unit =
       super.paintComponent(g)
@@ -135,8 +130,6 @@ class View(controller: DisplayableController) extends MainFrame:
       drawCircle(controller.goal.x, controller.goal.y, Color.RED)
       drawCircle(controller.scenario.agent.x, controller.scenario.agent.y, Color.BLUE)
       drawPath(controller.path)
-
-    
 
     private def drawPath(positions: List[(Position, Direction)])(using g: Graphics2D): Unit =
       positions.foreach((p, d) =>
@@ -155,7 +148,6 @@ class View(controller: DisplayableController) extends MainFrame:
     private def drawCells(size: Int, gridOffset: Int)(using g: Graphics2D): Unit =
       def makeCell(x: Int, y: Int): Rectangle2D =
         new Rectangle2D.Double(x * size + gridOffset, y * size + gridOffset, size, size)
-      //println(controller.scenario.tiles)
       controller.scenario.tiles foreach : t =>
         g setColor tileColor(t)
         g fill makeCell(t.x, t.y)
