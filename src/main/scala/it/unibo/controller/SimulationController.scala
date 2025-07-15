@@ -102,8 +102,14 @@ object ScalaPathController extends SimulationController
     case DirectionsChoice(directions) =>
       setDirections(directions)
       Simulation set Empty
-    case SetPosition(Goal(pos)) => goal = Position(pos); updateView()
-    case SetPosition(Init(pos)) => init = Position(pos); updateView()
+    case SetPosition(Goal(pos)) => 
+      goal = Position(pos)
+      updateView()
+      Simulation set Empty
+    case SetPosition(Init(pos)) => 
+      init = Position(pos)
+      updateView()
+      Simulation set Empty
     case Running =>
       step()
       if planOver
