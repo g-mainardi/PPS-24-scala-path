@@ -5,4 +5,5 @@ import it.unibo.planning.{Configuration, Planner, ScalaPlanner}
 
 class ScalaAStarBuilder(configuration: Configuration) extends BaseScalaBuilder:
   def build: Planner =
-    ScalaPlanner(Position(configuration.initPos), Position(configuration.goalPos), configuration.environmentTiles, configuration.directions, configuration.algorithm.get)
+    //todo
+    ScalaPlanner(Position(configuration.initPos), Position(configuration.goalPos), ???, configuration.directions, configuration.algorithm.get)

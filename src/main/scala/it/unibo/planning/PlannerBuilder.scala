@@ -1,6 +1,6 @@
 package it.unibo.planning
 
-import it.unibo.model.{Agent, Direction, Scenario}
+import it.unibo.model.{Agent, Direction, DummyScenario, Scenario}
 import it.unibo.model.Tiling.Tile
 import it.unibo.planning.Algorithm.*
 import it.unibo.planning.prologplanner.PrologBuilder
@@ -23,7 +23,7 @@ trait BuilderConstraints:
   def withMaxMoves(maxMoves: Option[Int]): BuilderEnvironment
 
 trait BuilderEnvironment:
-  protected var environmentTiles: Scenario
+  protected var environmentTiles: Scenario = _
   def withTiles(scenario: Scenario): BuilderDirections
 
 trait BuilderDirections:
@@ -78,8 +78,8 @@ private class PlannerBuilder extends BuilderInit, BuilderGoal, BuilderConstraint
     algorithm match
       case DFS => new PrologBuilder(configuration.copy(theoryPath = Some(theoryPaths(DFS)))).build
       case BFS => new PrologBuilder(configuration.copy(theoryPath = Some(theoryPaths(BFS)))).build
-      case AStar => new ScalaAStarBuilder(configuration.copy(algorithm = Some(AStarAlgorithm))).build
-
+      //todo
+      case AStar => ???//new ScalaAStarBuilder(configuration.copy(algorithm = Some(AStarAlgorithm))).build
 case class Configuration(initPos: (Int, Int),
                          goalPos: (Int, Int),
                          maxMoves: Option[Int] = None,
