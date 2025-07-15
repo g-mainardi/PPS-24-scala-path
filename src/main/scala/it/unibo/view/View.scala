@@ -7,13 +7,14 @@ import it.unibo.model.Tiling.Position
 import java.awt.Color
 import java.awt.geom.{Ellipse2D, Rectangle2D}
 import scala.swing.*
-import scala.swing.event.{ButtonClicked, Event, SelectionChanged}
+import scala.swing.event.{ButtonClicked, Event, MouseEvent, SelectionChanged}
 import java.awt.Image
 import java.awt.image.BufferedImage
 import javax.swing.ImageIcon
 import javax.imageio.ImageIO
 import it.unibo.model.Direction.Cardinals.*
 import it.unibo.model.Direction.Diagonals.*
+import java.awt.event.MouseAdapter
 
 
 class View(controller: DisplayableController) extends MainFrame:
@@ -102,8 +103,30 @@ class View(controller: DisplayableController) extends MainFrame:
   def showErrorMessage(message: String, title: String): Unit =
     showPopupMessage(message, title, Dialog.Message.Error)
 
+  private val moveGoalRadio = new RadioButton("Change goal") { selected = true }
+  private val moveStartRadio = new RadioButton("Change start")
+  private val moveGroup = new ButtonGroup(moveGoalRadio, moveStartRadio)
+
+  private val movePanel = new FlowPanel(moveGoalRadio, moveStartRadio)
+
   private val gridPanel: Panel = new Panel:
     preferredSize = new Dimension(200, 100)
+    listenTo(mouse.clicks)
+    reactions += {
+      case e: event.MouseClicked =>
+        val x = (e.point.x - gridOffset) / cellSize
+        val y = (e.point.y - gridOffset) / cellSize
+        //println(s"[DEBUG]: x= $x, y= $y, gridSize= $gridSize")
+        if x >= 0 && y >= 0 && x < gridSize && y < gridSize then
+          //println("here")
+          if moveGoalRadio.selected then
+            // controller.setGoalPosition(x, y)
+            println(s"goal in ($x, $y)")
+          else if moveStartRadio.selected then
+            // controller.setStartPosition(x, y)
+            println(s"start in ($x, $y)")
+          repaint()
+    }
     override def paintComponent(g: Graphics2D): Unit =
       super.paintComponent(g)
       given Graphics2D = g
@@ -112,6 +135,7 @@ class View(controller: DisplayableController) extends MainFrame:
       drawCircle(controller.scenario.goalPosition.x, controller.scenario.goalPosition.y, Color.RED)
       drawCircle(controller.scenario.agent.x, controller.scenario.agent.y, Color.BLUE)
       drawPath(controller.path)
+
     
 
     private def drawPath(positions: List[(Position, Direction)])(using g: Graphics2D): Unit =
@@ -149,7 +173,7 @@ class View(controller: DisplayableController) extends MainFrame:
 
   // private object ControlPanel extends FlowPanel(startButton, stepButton, resetButton, startStopButton, scenarioDropdown, algorithmDropdown, refreshScenarioButton)
   private object ControlPanel extends FlowPanel(startStopButton, stepButton, resetButton)
-  private object ScenarioSettingsPanel extends FlowPanel(searchWithLabel, scenarioDropdown, refreshScenarioButton, algorithmDropdown)
+  private object ScenarioSettingsPanel extends FlowPanel(searchWithLabel, scenarioDropdown, refreshScenarioButton, movePanel, algorithmDropdown)
 
   contents = new BorderPanel:
     import BorderPanel.Position
