@@ -182,7 +182,7 @@ class View(controller: DisplayableController, gridOffset: Int, cellSize: Int) ex
 
   // private object ControlPanel extends FlowPanel(startButton, stepButton, resetButton, startStopButton, scenarioDropdown, algorithmDropdown, refreshScenarioButton)
   private object ControlPanel extends FlowPanel(startStopButton, stepButton, new Label("Remaining steps: "), remainingSteps, resetButton, new Label("Animation speed: "), speedSlider)
-  private object ScenarioSettingsPanel extends FlowPanel(new Label("Dimensions: "), colsInput, new Label(" x "), rowsInput, new Label("Search with: "), scenarioDropdown, refreshScenarioButton, movePanel, algorithmDropdown)
+  private object ScenarioSettingsPanel extends FlowPanel(new Label("Dimensions: "), colsInput, new Label("x"), rowsInput, new Label("Search with: "), scenarioDropdown, refreshScenarioButton, movePanel, algorithmDropdown)
 
   contents = new BorderPanel:
     import BorderPanel.Position
