@@ -70,8 +70,8 @@ class View(controller: DisplayableController, gridOffset: Int, cellSize: Int) ex
   private val resetButton = new DefaultDisabledButton("Reset")
   private val stepButton = new DefaultDisabledButton("Step")
   private val remainingSteps = new Label()
-  private val colsInput = new IntegerTextField()
-  colsInput.columns = 2
+  private val colsInput = new IntegerTextField() {columns = 2}
+  private val rowsInput = new IntegerTextField() {columns = 2}
 
   private val directionGrid = new FlowPanel {
     contents += new DirectionGrid()
@@ -182,7 +182,7 @@ class View(controller: DisplayableController, gridOffset: Int, cellSize: Int) ex
 
   // private object ControlPanel extends FlowPanel(startButton, stepButton, resetButton, startStopButton, scenarioDropdown, algorithmDropdown, refreshScenarioButton)
   private object ControlPanel extends FlowPanel(startStopButton, stepButton, new Label("Remaining steps: "), remainingSteps, resetButton, new Label("Animation speed: "), speedSlider)
-  private object ScenarioSettingsPanel extends FlowPanel(colsInput, new Label("Search with: "), scenarioDropdown, refreshScenarioButton, movePanel, algorithmDropdown)
+  private object ScenarioSettingsPanel extends FlowPanel(new Label("Dimensions: "), colsInput, new Label(" x "), rowsInput, new Label("Search with: "), scenarioDropdown, refreshScenarioButton, movePanel, algorithmDropdown)
 
   contents = new BorderPanel:
     import BorderPanel.Position
@@ -191,7 +191,7 @@ class View(controller: DisplayableController, gridOffset: Int, cellSize: Int) ex
     layout(ScenarioSettingsPanel) = Position.North
     layout(directionGrid) = Position.West
 
-  listenTo(stepButton, resetButton, scenarioDropdown.selection, algorithmDropdown.selection, refreshScenarioButton, speedSlider, colsInput)
+  listenTo(stepButton, resetButton, scenarioDropdown.selection, algorithmDropdown.selection, refreshScenarioButton, speedSlider, colsInput, rowsInput)
   reactions += {
     case ButtonClicked(`stepButton`) => Simulation set Simulation.Step
     case ButtonClicked(`resetButton`) => Simulation set Simulation.Empty
@@ -199,6 +199,16 @@ class View(controller: DisplayableController, gridOffset: Int, cellSize: Int) ex
     case ValueChanged(`speedSlider`) =>
       val speed = speedSlider.value / 10.0
       Simulation set Simulation.SetAnimationSpeed(1 / speed)
-    case event.EditDone(`colsInput`) => println(s"Value: ${colsInput.text}")
+    case event.EditDone(`colsInput`) => onDimensionChange()
+    case event.EditDone(`rowsInput`) => onDimensionChange()
   }
-    
+
+  private def onDimensionChange(): Unit =
+    val maybeRows = rowsInput.text.toIntOption
+    val maybeCols = colsInput.text.toIntOption
+
+    (maybeRows, maybeCols) match
+      case (Some(rows), Some(cols)) if rows > 0 && cols > 0 =>
+        Simulation set Simulation.SetScenarioSize(rows, cols)
+        println(s"passing ($rows $cols)")
+      case _ => None
