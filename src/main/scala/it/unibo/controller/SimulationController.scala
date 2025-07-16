@@ -94,6 +94,10 @@ object ScalaPathController extends SimulationController
       step()
       Simulation set Paused()
     case (Running | Paused(_), Empty) => reset()
+//    case (_, SetPosition(pos)) =>
+//      dropAgent()
+//      disableControls()
+      //clearScenario()
     case _ => ()
 
   private def handleState(state: State): Unit = state match
@@ -107,12 +111,16 @@ object ScalaPathController extends SimulationController
     case DirectionsChoice(selections) =>
       directions = selections
       Simulation set Empty
-    case SetPosition(Goal(pos)) => 
+    case SetPosition(Goal(pos)) if pos.isAvailable =>
       goal = Position(pos)
+      dropAgent()
+      disableControls()
       updateView()
       Simulation set Empty
-    case SetPosition(Init(pos)) => 
+    case SetPosition(Init(pos)) if pos.isAvailable =>
       init = Position(pos)
+      dropAgent()
+      disableControls()
       updateView()
       Simulation set Empty
     case SetScenarioSize(r, c) if r != nRows || c != nCols =>

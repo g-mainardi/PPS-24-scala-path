@@ -30,5 +30,6 @@ trait Scenario(val nRows: Int, val nCols: Int) extends PrettyPrint:
 
   def checkSpecial(position: Position): Option[Tile] = tiles.find(tile => tile.x == position.x && tile.y == position.y)
   
-  def randomPosition: Option[Position] = 
-    (tiles collect {case pass: Passage => Position(pass.x, pass.y)}).getRandomElement
+  def freePositions: List[Position] = tiles collect {case pass: Passage => Position(pass.x, pass.y)}
+  
+  def randomPosition: Option[Position] = freePositions.getRandomElement

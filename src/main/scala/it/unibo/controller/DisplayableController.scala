@@ -47,6 +47,9 @@ trait ScenarioManager:
     case Some(pos) => pos
     case None => throw IllegalStateException("Scenario has no valid tiles")
 
+  extension (p: (Int, Int))
+    def isAvailable: Boolean = _scenario.freePositions contains Position(p)
+
 trait AlgorithmManager:
   val algorithms: List[Algorithm] = Algorithm.values.toList
   private var _algorithm: Algorithm = algorithms.head
