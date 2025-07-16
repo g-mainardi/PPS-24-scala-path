@@ -18,7 +18,7 @@ class TestPlannerAStar extends AnyFlatSpec with Matchers with TestPlanner:
       .withTiles(TestScenarioWithPassableTiles(3, 3))
       .withDirections(allDirections)
       .withAlgorithm(AStar)
-      .build
+      .build.toAgent
 
     noException should be thrownBy
       agent.searchPlan
