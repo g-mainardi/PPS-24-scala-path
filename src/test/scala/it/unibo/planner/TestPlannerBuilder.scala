@@ -22,3 +22,4 @@ class TestPlannerBuilder extends AnyFlatSpec with Matchers with TestPlanner:
 
 //  "PlannerBuilder" should "return a configuration error (missing theory)" in:
 //    an [IllegalArgumentException] should be thrownBy PrologBuilder().build(configuration.copy(theoryPath = None))
+//    
