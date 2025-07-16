@@ -52,6 +52,7 @@ object ScalaPathController extends SimulationController
     super.generateScenario()
     init = randomPosition
     goal = randomPosition
+    dropAgent()
     updateView()
 
   def resetSimulation(): Unit =

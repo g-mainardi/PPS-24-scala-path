@@ -23,6 +23,8 @@ trait AgentManager:
     agent.resetPath()
   
   protected def stepAgent(): Unit = _agent foreach (_.step())
+  
+  protected def dropAgent(): Unit = _agent = None
 
   protected def searchPlan(): Unit =
     assembleAgent()
