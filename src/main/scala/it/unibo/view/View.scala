@@ -1,19 +1,20 @@
 package it.unibo.view
 
 import it.unibo.controller.{DisplayableController, Simulation}
-import it.unibo.model.{SpecialTile, Direction, SpecialKind, SpecialTileBuilder, Tiling}
+import it.unibo.model.{Direction, SpecialKind, SpecialTile, SpecialTileBuilder, Tiling}
 import it.unibo.model.Tiling.Position
 
 import java.awt.Color
 import java.awt.geom.{Ellipse2D, Rectangle2D}
 import scala.swing.*
-import scala.swing.event.{ButtonClicked, Event, MouseEvent, SelectionChanged}
+import scala.swing.event.{ButtonClicked, Event, MouseEvent, SelectionChanged, ValueChanged}
 import java.awt.Image
 import java.awt.image.BufferedImage
 import javax.swing.ImageIcon
 import javax.imageio.ImageIO
 import it.unibo.model.Direction.Cardinals.*
 import it.unibo.model.Direction.Diagonals.*
+
 import java.awt.event.MouseAdapter
 
 
@@ -85,6 +86,19 @@ class View(controller: DisplayableController) extends MainFrame:
     Simulation set Simulation.Paused(fromUser = true)
   ){enabled = false}
 
+  val speedSlider = new Slider {
+    min = 1
+    max = 31
+    value = 10
+    majorTickSpacing = 10
+    minorTickSpacing = 1
+    paintTicks = true
+    paintLabels = true
+    orientation = Orientation.Horizontal
+    preferredSize = new Dimension(200, 40)
+    labels = (min to max by majorTickSpacing).map(i => i -> new Label(f"${i / 10.0}%.1fx")).toMap
+    tooltip = "Animation speed (0.1 - 3.0)"
+  }
 
   def enableStepButton(): Unit = stepButton.enabled = true
   def disableStepButton(): Unit = stepButton.enabled = false
@@ -166,7 +180,7 @@ class View(controller: DisplayableController) extends MainFrame:
 
 
   // private object ControlPanel extends FlowPanel(startButton, stepButton, resetButton, startStopButton, scenarioDropdown, algorithmDropdown, refreshScenarioButton)
-  private object ControlPanel extends FlowPanel(startStopButton, stepButton, resetButton)
+  private object ControlPanel extends FlowPanel(startStopButton, stepButton, resetButton, new Label("Animation speed:"), speedSlider)
   private object ScenarioSettingsPanel extends FlowPanel(searchWithLabel, scenarioDropdown, refreshScenarioButton, movePanel, algorithmDropdown)
 
   contents = new BorderPanel:
@@ -176,10 +190,13 @@ class View(controller: DisplayableController) extends MainFrame:
     layout(ScenarioSettingsPanel) = Position.North
     layout(directionGrid) = Position.West
 
-  listenTo(stepButton, resetButton, scenarioDropdown.selection, algorithmDropdown.selection, refreshScenarioButton)
+  listenTo(stepButton, resetButton, scenarioDropdown.selection, algorithmDropdown.selection, refreshScenarioButton, speedSlider)
   reactions += {
     case ButtonClicked(`stepButton`) => Simulation set Simulation.Step
     case ButtonClicked(`resetButton`) => Simulation set Simulation.Empty
     case ButtonClicked(`refreshScenarioButton`) => Simulation set Simulation.ChangeScenario(scenarioDropdown.selection.index)
+    case ValueChanged(`speedSlider`) =>
+      val delay = speedSlider.value   // from 1 to 31
+      // Simulation set Simulation.ChangeSpeed(delay)
   }
     
