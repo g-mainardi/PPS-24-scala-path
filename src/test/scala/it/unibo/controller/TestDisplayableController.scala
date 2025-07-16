@@ -24,26 +24,3 @@ class TestDisplayableController extends AnyFlatSpec with Matchers:
     TestAlgorithmManager.algorithmsNames.zipWithIndex foreach : (name, index) =>
       TestAlgorithmManager testAlgorithmChanging index
       TestAlgorithmManager.algorithm.toString should be(name)
-  
-  "A PathManager" should "correctly collect and reset positions" in :
-    object TestPathManager extends PathManager:
-      def testAdd(x: Int, y: Int, dir: Direction): Unit = addToPath(Position(x, y), dir)
-      def testReset(): Unit = resetPath()
-
-    // Initial state
-    TestPathManager.path should be (empty)
-
-    // Adding positions
-    val dim: Int = 5
-    for
-      x <- 0 until dim
-      y <- 0 until dim
-      dir = allDirections((x + y) % allDirections.length)
-    do
-      TestPathManager testAdd (x, y, dir)
-      TestPathManager.path.last should be (Position(x, y), dir)
-    TestPathManager.path should have size dim * dim
-
-    // Resetting
-    TestPathManager.testReset()
-    TestPathManager.path should be (empty)

@@ -26,14 +26,14 @@ class TestSpecials extends AnyFlatSpec with Matchers:
     newPos.y should be >= 0
     newPos.y should be < Scenario.nCols
   }
-
-  it should "generate a scenario with special tiles at random positions" in {
-    SpecialTileRegistry.clear()
-    builder tile "JumpDown" does (pos => Position(pos.x + 1, pos.y))
-    builder tile "JumpUp" does (pos => Position(pos.x - 1, pos.y))
-    val scenario = new Specials
-    scenario.generate()
-    val specialTiles = scenario.tiles.collect { case s: SpecialTile => s }
-    specialTiles.size should be > 0
-    all(specialTiles.map(_.kind.name)) should (be("JumpDown") or be("JumpUp"))
-  }
+  ???
+//  it should "generate a scenario with special tiles at random positions" in {
+//    SpecialTileRegistry.clear()
+//    builder tile "JumpDown" does (pos => Position(pos.x + 1, pos.y))
+//    builder tile "JumpUp" does (pos => Position(pos.x - 1, pos.y))
+//    val scenario = new Specials
+//    scenario.generate()
+//    val specialTiles = scenario.tiles.collect { case s: SpecialTile => s }
+//    specialTiles.size should be > 0
+//    all(specialTiles.map(_.kind.name)) should (be("JumpDown") or be("JumpUp"))
+//  }

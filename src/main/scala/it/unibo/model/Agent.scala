@@ -16,7 +16,7 @@ class Agent(val initialPosition: Position, plan: () => Plan, getTileAt: Position
   
   def path: List[(Position, Direction)] = _path
 
-  private def addToPath(p: Position, d: Direction): Unit = _path = _path :+ (p, d)
+  protected def addToPath(p: Position, d: Direction): Unit = _path = _path :+ (p, d)
 
   def resetPath(): Unit = _path = List()
 
