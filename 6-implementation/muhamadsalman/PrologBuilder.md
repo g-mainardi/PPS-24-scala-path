@@ -50,13 +50,14 @@ Infine il dato MaxMoves è fully-relational in Prolog, quindi determina come vie
 ```
 Alla fine il Builder assembra la teoria utilizando tutte queste unapply: 
 ```Scala
-  def build: Planner = configuration match
-    case Configuration(InitPos(initFact), Goal(goalFact), MaxMoves(goalTerm), Tiles(tileFacts), Directions(directionsFact), Theory(theoryString), _) =>
-      val fullTheory = new Theory(s"$initFact\n$goalFact\n$directionsFact\n$tileFacts\n$theoryString")
-      println(s"\n$fullTheory\n")
-      val engine: Engine = mkPrologEngine(fullTheory)
-      PrologPlanner(engine, goalTerm, configuration.maxMoves)
-    case _ => throw FailedPlannerBuildException
+class PrologBuilder(using configuration: Configuration):
+    def build: Planner = configuration match
+        case Configuration(InitPos(initFact), Goal(goalFact), MaxMoves(goalTerm), Tiles(tileFacts), Directions(directionsFact), Theory(theoryString), _) =>
+            val fullTheory = new Theory(s"$initFact\n$goalFact\n$directionsFact\n$tileFacts\n$theoryString")
+            println(s"\n$fullTheory\n")
+            val engine: Engine = mkPrologEngine(fullTheory)
+            PrologPlanner(engine, goalTerm)
+        case _ => throw FailedPlannerBuildException
 ```
 
 [Index](../index.md)

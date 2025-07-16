@@ -7,9 +7,9 @@ Utilizza invece delle given per convertire le mosse prodotte da Prolog in oggett
 
 Prima di tutto controllare se Prolog ha effettivamente trovato un piano: 
 ```scala
-  def checkSolutions(solutions: LazyList[SolveInfo], maxMoves: Option[Int]): Plan = solutions match
-      case solveInfo #:: _ if solveInfo.isSuccess => convertToPlan(solveInfo, maxMoves)
-      case _ => FailedPlan("No valid plan found")
+def checkSolutions(solutions: LazyList[SolveInfo])(using configuration: Configuration): Plan = solutions match
+    case solveInfo #:: _ if solveInfo.isSuccess => convertToPlan(solveInfo, configuration.maxMoves)
+    case _ => FailedPlan("No valid plan found")
 ```
 
 Dopodiché fa il parsing del risultato per trasformarlo in una lista di Directions, 

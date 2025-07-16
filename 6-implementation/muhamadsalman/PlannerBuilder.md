@@ -40,31 +40,27 @@ trait BuilderAlgorithm:
     def withAlgorithm(algorithm: Algorithm): CompleteBuilder
 
 trait CompleteBuilder:
-    def build: Agent
+    def build: Planner
 ```
 
 Alla fine la creazione del Planner con la configurazione concreta viene delegata ad un Builder specifico, 
 come `PrologBuilder` o `ScalaBuilder`, che implementano il metodo `build`.
 ```Scala
-case class Configuration(initPos: (Int, Int),
-                         goalPos: (Int, Int),
-                         maxMoves: Option[Int] = None,
-                         environmentTiles: Scenario,
-                         directions: List[Direction],
-                         theoryPath: Option[String] = None,
-                         algorithm: Option[PathFindingAlgorithm] = None)
 def build: Planner =
     val configuration: Configuration = Configuration (
-    initPos,
-    goalPos,
-    maxMoves,
-    environmentTiles,
-    directions)
-
-    algorithm match
-      case DFS => new PrologBuilder(configuration.copy(theoryPath = Some(theoryPaths(DFS)))).build
-      case BFS => new PrologBuilder(configuration.copy(theoryPath = Some(theoryPaths(BFS)))).build
-      case AStar => new ScalaBuilder(configuration.copy(algorithm = Some(AStarAlgorithm))).build
+      initPos,
+      goalPos,
+      maxMoves,
+      environmentTiles,
+      directions)
+    
+  algorithm match
+    case DFS | BFS =>
+        given Configuration = configuration.copy(theoryPath = Some(theoryPaths(algorithm)))
+        new PrologBuilder().build
+    case AStar =>
+        given Configuration = configuration.copy(algorithm = Some(AStarAlgorithm))
+        new ScalaBuilder().build
 ```
 
 [Index](../index.md)
