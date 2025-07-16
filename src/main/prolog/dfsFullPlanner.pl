@@ -1,49 +1,21 @@
-% Directions
-cardinals(up).
-cardinals(down).
-cardinals(left).
-cardinals(right).
+init(s(0, 0)).
+goal(s(4, 4)).
 
-diagonals(rightDown).
-diagonals(rightUp).
-diagonals(leftUp).
-diagonals(leftDown).
+delta(up, 0, -1).
+delta(down, 0, 1).
+delta(left, -1, 0).
+delta(right, 1, 0).
 
-directions(D):- cardinals(D).
-directions(D):- diagonals(D).
+delta(rightUp, 1, -1).
+delta(rightDown, 1, 1).
+delta(leftUp, -1, -1).
+delta(leftDown, -1, 1).
 
-% Transaction Rules: move(State, Direction, NewState)
-move(s(X,Y), up, s(X, Y1)) :-
-    Y1 is Y - 1,
-    passable(X, Y1).
-
-move(s(X,Y), down, s(X, Y1)) :-
-    Y1 is Y + 1,
-    passable(X, Y1).
-
-move(s(X,Y), left, s(X1, Y)) :-
-    X1 is X - 1,
-    passable(X1, Y).
-
-move(s(X,Y), right, s(X1, Y)) :-
-    X1 is X + 1,
-    passable(X1, Y).
-
-move(s(X,Y), rightDown, s(X1, Y1)) :-
-    X1 is X + 1, Y1 is Y + 1,
-    passable(X1, Y1).
-
-move(s(X,Y), rightUp, s(X1, Y1)) :-
-    X1 is X + 1, Y1 is Y - 1,
-    passable(X1, Y1).
-
-move(s(X,Y), leftUp, s(X1, Y1)) :-
-    X1 is X - 1, Y1 is Y - 1,
-    passable(X1, Y1).
-
-move(s(X,Y), leftDown, s(X1, Y1)) :-
-    X1 is X - 1, Y1 is Y + 1,
-    passable(X1, Y1).
+move(s(X,Y), Dir, s(X1,Y1)) :-
+    delta(Dir, DX, DY),
+    X1 is X + DX,
+    Y1 is Y + DY,
+    passable(s(X1,Y1)).
 
 % Planner: find path from initial state to goal state
 plan(Path, Moves) :-
@@ -54,10 +26,14 @@ plan(Path, Moves) :-
 % Base case: at goal, no moves needed
 planner(State, State, _, [], 0).
 
+checkSpecial(TempState, NewState) :- special(TempState, NewState), !.
+checkSpecial(TempState, TempState).
+
 % Recursive case: explore possible directions
+% planner(+CurrentState, +GoalState, +VisitedStates, -Path, -MoveCount)
 planner(State, Goal, Visited, [Dir|Rest], NewMoves) :-
-    directions(Dir),
-    move(State, Dir, NewState),
-    \+ member(NewState, Visited),  % avoid cycles
+    move(State, Dir, TempState),
+    checkSpecial(TempState, NewState),
+    \+ member(NewState, Visited),
     planner(NewState, Goal, [NewState|Visited], Rest, Moves),
   	NewMoves is Moves + 1.

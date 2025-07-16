@@ -1,9 +1,11 @@
 init(s(0, 0)).
 goal(s(4, 4)).
+
 delta(up, 0, -1).
 delta(down, 0, 1).
 delta(left, -1, 0).
 delta(right, 1, 0).
+
 delta(rightUp, 1, -1).
 delta(rightDown, 1, 1).
 delta(leftUp, -1, -1).
