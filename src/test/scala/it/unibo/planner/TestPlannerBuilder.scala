@@ -12,7 +12,7 @@ class TestPlannerBuilder extends AnyFlatSpec with Matchers with TestPlanner:
     (1,1),
     (2,2),
     Some(5),
-    passableTiles,
+    TestScenarioWithPassableTiles(3, 3),
     allDirections)
 
   private val theoryPaths: Map[Algorithm, String] = Map(

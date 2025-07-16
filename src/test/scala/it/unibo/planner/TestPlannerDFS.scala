@@ -14,7 +14,7 @@ class TestPlannerDFS extends AnyFlatSpec with Matchers with TestPlanner {
       .withInit((0,0))
       .withGoal((2,2))
       .withMaxMoves(Some(5))
-      .withTiles(passableTiles)
+      .withTiles(TestScenarioWithPassableTiles(3, 3))
       .withDirections(allDirections)
       .withAlgorithm(DFS)
       .build
@@ -25,7 +25,7 @@ class TestPlannerDFS extends AnyFlatSpec with Matchers with TestPlanner {
       .withInit((0,0))
       .withGoal((2,2))
       .withMaxMoves(None)
-      .withTiles(passableTiles)
+      .withTiles(TestScenarioWithPassableTiles(3, 3))
       .withDirections(allDirections)
       .withAlgorithm(DFS)
       .build
@@ -36,7 +36,7 @@ class TestPlannerDFS extends AnyFlatSpec with Matchers with TestPlanner {
       .withInit((0,0))
       .withGoal((2,2))
       .withMaxMoves(None)
-      .withTiles(blockingTiles)
+      .withTiles(TestScenarioWithBlockingTiles(3, 3))
       .withDirections(allDirections)
       .withAlgorithm(DFS)
       .build

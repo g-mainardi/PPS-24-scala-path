@@ -8,7 +8,7 @@ import scala.util.Random
 trait TestPlanner {
   val gridrows: Int = 3
   val gridcols: Int = 3
-  
+
   val passableTiles: List[Tile] = (
     for {
       x <- 0 to gridrows
@@ -39,3 +39,8 @@ class TestScenarioWithPassableTiles(val gridrows: Int, val gridcols: Int)
   extends Scenario(gridrows, gridcols) with TestPlanner:
   override def generate(): Unit =
     _tiles = passableTiles
+
+class TestScenarioWithBlockingTiles(val gridrows: Int, val gridcols: Int)
+  extends Scenario(gridrows, gridcols) with TestPlanner:
+  override def generate(): Unit =
+    _tiles = blockingTiles
