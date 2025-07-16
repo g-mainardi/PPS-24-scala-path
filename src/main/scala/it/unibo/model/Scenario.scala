@@ -1,7 +1,6 @@
 package it.unibo.model
 
 import Tiling.*
-import it.unibo.planning.Plan
 import it.unibo.utils.PrettyPrint
 
 object Scenario:
@@ -27,11 +26,3 @@ trait Scenario(val nRows: Int, val nCols: Int) extends PrettyPrint:
   def tiles: List[Tile] = _tiles
   def generate(): Unit
   def checkSpecial(position: Position): Option[Tile] = tiles.find(tile => tile.x == position.x && tile.y == position.y)
-
-class DummyScenario(nRows: Int, nCols: Int) extends Scenario(nRows, nCols):
-  override def generate(): Unit =
-    _tiles = for
-      (tileType, ind) <- List(Floor(_), Grass(_), Teleport(_), Trap(_), Water(_), Lava(_), Rock(_)).zipWithIndex
-      pos: Position = Position(ind, ind)
-    yield
-      tileType(pos)

@@ -1,6 +1,6 @@
 package it.unibo.planning
 
-import it.unibo.model.{Agent, Direction, DummyScenario, Scenario}
+import it.unibo.model.{Agent, Direction, Scenario}
 import it.unibo.model.Tiling.Tile
 import it.unibo.planning.Algorithm.*
 import it.unibo.planning.prologplanner.PrologBuilder
