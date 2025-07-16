@@ -7,11 +7,9 @@ import it.unibo.planning.prologplanner.Conversions.given_Conversion_Int_Int_Posi
 
 class ScalaBuilder(configuration: Configuration):
   def build: Agent =
-    val plan: Plan = ScalaPlanner(configuration.initPos, configuration.goalPos, configuration.environmentTiles.tiles, configuration.directions, configuration.algorithm.get).plan
-    
     new Agent(
       configuration.initPos,
-      plan,
+      () => ScalaPlanner(configuration.initPos, configuration.goalPos, configuration.environmentTiles.tiles, configuration.directions, configuration.algorithm.get).plan,
       configuration.environmentTiles.checkSpecial,
     )
     

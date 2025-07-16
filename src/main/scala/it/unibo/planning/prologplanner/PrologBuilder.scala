@@ -3,6 +3,7 @@ package it.unibo.planning.prologplanner
 import alice.tuprolog.{Term, Theory}
 import it.unibo.model.{Agent, Direction, Scenario}
 import it.unibo.model.Tiling.*
+import it.unibo.model.FailedPlannerBuildException
 import it.unibo.planning.{Configuration, Plan, PrologPlanner}
 import it.unibo.planning.prologplanner.MoveFactsGenerator.generateMoveRules
 import it.unibo.prologintegration.Scala2Prolog.{Engine, mkPrologEngine}
@@ -18,16 +19,15 @@ class PrologBuilder(configuration: Configuration):
       val fullTheory = new Theory(s"$initFact\n$goalFact\n$directionsFact\n$tileFacts\n$theoryString")
       println(s"\n$fullTheory\n")
       val engine: Engine = mkPrologEngine(fullTheory)
-      val plan: Plan = PrologPlanner(engine, goalTerm, configuration.maxMoves).plan
       new Agent (
         configuration.initPos,
-        plan,
+        () => PrologPlanner(engine, goalTerm, configuration.maxMoves).plan,
         configuration.environmentTiles.checkSpecial,
       )
-    case _ => throw new IllegalArgumentException("Invalid configuration for PrologBuilder") 
+    case _ => throw FailedPlannerBuildException
     
   private object InitPos:
-    def unapply(init: (Int, Int)): Option[String] = Some(s"init(s(${init._1}, ${init._1})).")
+    def unapply(init: (Int, Int)): Option[String] = Some(s"init(s(${init._1}, ${init._2})).")
 
   private object Goal:
     def unapply(goal: (Int, Int)): Option[String] = Some(s"goal(s(${goal._1}, ${goal._2})).")

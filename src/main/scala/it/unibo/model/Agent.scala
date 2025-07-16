@@ -4,7 +4,7 @@ import it.unibo.model.Tiling.{Position, Special, Tile}
 import it.unibo.planning.Plan
 import it.unibo.planning.Plan.{FailedPlan, SucceededPlan, SucceededPlanWithMoves}
 
-class Agent(val initialPosition: Position, plan: => Plan, getTileAt: Position => Option[Tile]):
+class Agent(val initialPosition: Position, plan: () => Plan, getTileAt: Position => Option[Tile]):
   private var _currentPlan: List[Direction] = List.empty
   private var _planIndex: Int = 0
   private var _pos: Position = initialPosition
@@ -40,7 +40,7 @@ class Agent(val initialPosition: Position, plan: => Plan, getTileAt: Position =>
     addToPath(_pos, currentDirection)
     this computeCommand nextDirection
   
-  def searchPlan: Option[Int] = plan match
+  def searchPlan: Option[Int] = plan() match
     case SucceededPlanWithMoves(directions, nMoves) =>
       _currentPlan = directions
       Some(nMoves)
