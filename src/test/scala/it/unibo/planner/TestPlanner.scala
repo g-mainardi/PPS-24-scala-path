@@ -33,12 +33,12 @@ trait TestPlanner(gridrows: Int = 3,val gridcols: Int = 3) {
     }).toList
     }
 
-class TestScenarioWithPassableTiles(val nRows: Int, val nCols: Int)
+class TestScenarioWithPassableTiles(nRows: Int, nCols: Int)
   extends Scenario(nRows, nCols) with TestPlanner(nRows, nCols):
   override def generate(): Unit =
     _tiles = passableTiles
 
-class TestScenarioWithBlockingTiles(val nRows: Int, val nCols: Int)
+class TestScenarioWithBlockingTiles(nRows: Int, nCols: Int)
   extends Scenario(nRows, nCols) with TestPlanner(nRows, nCols):
   override def generate(): Unit =
     _tiles = blockingTiles
