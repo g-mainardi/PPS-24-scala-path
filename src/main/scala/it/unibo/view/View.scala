@@ -18,9 +18,8 @@ import it.unibo.model.Direction.Diagonals.*
 import java.awt.event.MouseAdapter
 
 
-class View(controller: DisplayableController) extends MainFrame:
+class View(controller: DisplayableController, gridOffset: Int, cellSize: Int) extends MainFrame:
   import ViewUtilities.*
-  import it.unibo.ScalaPath.{gridOffset, cellSize, gridSize}
   title = "Scala Path"
   preferredSize = new Dimension(800, 600)
   private val algorithmDropdown = new ComboBoxWithPlaceholder("Select algorithm", controller.algorithmsNames, Simulation set Simulation.ChangeAlgorithm(_))
@@ -32,7 +31,7 @@ class View(controller: DisplayableController) extends MainFrame:
       Some(Left), None, Some(Right),
       Some(LeftDown), Some(Down), Some(RightDown)
     )
-    var selectedDirections: List[Direction] = Direction.allDirections
+    private var selectedDirections: List[Direction] = Direction.allDirections
     private val buttonSize = new Dimension(40, 40)
     contents ++= directions.map { dirOpt =>
       val onDeselection: () => Unit = dirOpt.map { d => () =>
@@ -71,7 +70,8 @@ class View(controller: DisplayableController) extends MainFrame:
   private val resetButton = new DefaultDisabledButton("Reset")
   private val stepButton = new DefaultDisabledButton("Step")
   private val remainingSteps = new Label()
-
+  private val colsInput = new IntegerTextField()
+  colsInput.columns = 2
 
   private val directionGrid = new FlowPanel {
     contents += new DirectionGrid()
@@ -130,7 +130,7 @@ class View(controller: DisplayableController) extends MainFrame:
       case e: event.MouseClicked =>
         val x = (e.point.x - gridOffset) / cellSize
         val y = (e.point.y - gridOffset) / cellSize
-        if x >= 0 && y >= 0 && x < gridSize && y < gridSize then
+        if x >= 0 && y >= 0 && x < controller.scenario.nCols && y < controller.scenario.nRows then
           if moveGoalRadio.selected then {
             Simulation set Simulation.SetPosition(Simulation.SettablePosition.Goal(x, y))
           } else if moveStartRadio.selected then
@@ -140,7 +140,7 @@ class View(controller: DisplayableController) extends MainFrame:
       super.paintComponent(g)
       given Graphics2D = g
       drawCells(cellSize, gridOffset)
-      drawGrid(gridSize, cellSize, gridOffset)
+      drawGrid(cellSize, gridOffset)
       drawCircle(controller.goal.x, controller.goal.y, Color.RED)
       drawCircle(controller.init.x, controller.init.y, Color.BLUE)
       controller.agent foreach: agent =>
@@ -169,7 +169,7 @@ class View(controller: DisplayableController) extends MainFrame:
         g setColor tileColor(t)
         g fill makeCell(t.x, t.y)
 
-    private def drawGrid(size: Int, cellSize: Int, offset: Int)(using g: Graphics2D): Unit =
+    private def drawGrid(cellSize: Int, offset: Int)(using g: Graphics2D): Unit =
       for t <- controller.scenario.tiles do
         val rect = new Rectangle2D.Double(
           t.x * cellSize + offset,
@@ -182,7 +182,7 @@ class View(controller: DisplayableController) extends MainFrame:
 
   // private object ControlPanel extends FlowPanel(startButton, stepButton, resetButton, startStopButton, scenarioDropdown, algorithmDropdown, refreshScenarioButton)
   private object ControlPanel extends FlowPanel(startStopButton, stepButton, new Label("Remaining steps: "), remainingSteps, resetButton, new Label("Animation speed: "), speedSlider)
-  private object ScenarioSettingsPanel extends FlowPanel(new Label("Search with: "), scenarioDropdown, refreshScenarioButton, movePanel, algorithmDropdown)
+  private object ScenarioSettingsPanel extends FlowPanel(colsInput, new Label("Search with: "), scenarioDropdown, refreshScenarioButton, movePanel, algorithmDropdown)
 
   contents = new BorderPanel:
     import BorderPanel.Position
@@ -191,7 +191,7 @@ class View(controller: DisplayableController) extends MainFrame:
     layout(ScenarioSettingsPanel) = Position.North
     layout(directionGrid) = Position.West
 
-  listenTo(stepButton, resetButton, scenarioDropdown.selection, algorithmDropdown.selection, refreshScenarioButton, speedSlider)
+  listenTo(stepButton, resetButton, scenarioDropdown.selection, algorithmDropdown.selection, refreshScenarioButton, speedSlider, colsInput)
   reactions += {
     case ButtonClicked(`stepButton`) => Simulation set Simulation.Step
     case ButtonClicked(`resetButton`) => Simulation set Simulation.Empty
@@ -199,5 +199,6 @@ class View(controller: DisplayableController) extends MainFrame:
     case ValueChanged(`speedSlider`) =>
       val speed = speedSlider.value / 10.0
       Simulation set Simulation.SetAnimationSpeed(1 / speed)
+    case event.EditDone(`colsInput`) => println(s"Value: ${colsInput.text}")
   }
     
