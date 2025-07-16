@@ -6,13 +6,10 @@ import it.unibo.view.View
 import scala.swing.{Frame, SimpleSwingApplication}
 
 object ScalaPath extends SimpleSwingApplication:
-  val view: View = View(ScalaPathController)
+  val view: View = View(ScalaPathController, gridOffset = 50, cellSize = 20)
 
   ScalaPathController attachView view
 
-  val cellSize = 20
-  val gridSize = 10
-  val gridOffset = 50
 
   override def top: Frame = view
 
