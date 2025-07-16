@@ -9,17 +9,30 @@ import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should.Matchers
 
 class TestPlannerAStar extends AnyFlatSpec with Matchers with TestPlanner:
+  val passableScenario: Scenario = new TestScenarioWithPassableTiles(3, 3)
+  val blockingScenario: Scenario = new TestScenarioWithBlockingTiles(3, 3)
+  passableScenario.generate()
+  blockingScenario.generate()
 
-  "PlannerBuilder" should "find a valid path without max moves" in:
-    var scenario: Scenario = new TestScenarioWithPassableTiles(3, 3)
-    scenario.generate()
+  "ScalaPlanner" should "find a valid path without max moves" in:
     val planner: Planner = PlannerBuilder.start
       .withInit((0, 0))
       .withGoal((2, 2))
       .withMaxMoves(None)
-      .withTiles(scenario)
+      .withTiles(passableScenario)
       .withDirections(allDirections)
       .withAlgorithm(AStar)
       .build
     val plan: Plan = planner.plan
     plan shouldBe a[SucceededPlanWithMoves]
+
+  "ScalaPlanner" should "not find a valid path" in :
+    val planner: Planner = PlannerBuilder.start
+      .withInit((0, 0))
+      .withGoal((2, 2))
+      .withMaxMoves(None)
+      .withTiles(blockingScenario)
+      .withDirections(allDirections)
+      .withAlgorithm(AStar)
+      .build
+    planner.plan shouldBe a[FailedPlan]
