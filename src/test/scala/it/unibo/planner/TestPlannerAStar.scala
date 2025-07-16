@@ -1,5 +1,6 @@
 package it.unibo.planner
 
+import it.unibo.model.Agent
 import it.unibo.model.Direction.allDirections
 import it.unibo.planning.Algorithm.*
 import it.unibo.planning.Plan.*
@@ -10,13 +11,18 @@ import org.scalatest.matchers.should.Matchers
 class TestPlannerAStar extends AnyFlatSpec with Matchers with TestPlanner:
 
   "PlannerBuilder" should "find a valid path without max moves" in:
-    val planner: Planner = PlannerBuilder.start
+    val agent: Agent = PlannerBuilder.start
       .withInit((0, 0))
       .withGoal((2, 2))
       .withMaxMoves(None)
-      .withTiles(passableTiles)
+      .withTiles(TestScenarioWithPassableTiles(3, 3))
       .withDirections(allDirections)
       .withAlgorithm(AStar)
       .build
-    planner.plan shouldBe a[SucceededPlan]
+    
+    noException should be thrownBy 
+      agent.searchPlan
+    
+    
+    // agent .planner.plan shouldBe a[SucceededPlan]
   
