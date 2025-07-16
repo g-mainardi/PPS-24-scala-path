@@ -16,8 +16,6 @@ class Agent(val initialPosition: Position, plan: () => Plan, getTileAt: Position
   
   def path: List[(Position, Direction)] = _path
 
-  protected def addToPath(p: Position, d: Direction): Unit = _path = _path :+ (p, d)
-
   def resetPath(): Unit = _path = List()
 
   def computeCommand(direction: Direction): Unit =
@@ -26,13 +24,9 @@ class Agent(val initialPosition: Position, plan: () => Plan, getTileAt: Position
 
   def resetPosition(): Unit = _pos = initialPosition
 
-  private def currentDirection: Direction = _currentPlan(_planIndex)
-
   def planOver: Boolean = _planIndex >= _currentPlan.length
 
-  def nextDirection: Direction =
-    try _currentPlan(_planIndex)
-    finally _planIndex += 1
+  def remainingSteps: Int = _currentPlan.length - _planIndex
 
   def resetPlan(): Unit = _planIndex = 0
   
@@ -54,3 +48,11 @@ class Agent(val initialPosition: Position, plan: () => Plan, getTileAt: Position
   private def checkSpecial(): Unit = getTileAt(_pos) match
     case Some(special: Special) => _pos = special.newPos
     case _ =>
+
+  protected def addToPath(p: Position, d: Direction): Unit = _path = _path :+ (p, d)
+  
+  private def currentDirection: Direction = _currentPlan(_planIndex)
+  
+  private def nextDirection: Direction =
+    try _currentPlan(_planIndex)
+    finally _planIndex += 1
