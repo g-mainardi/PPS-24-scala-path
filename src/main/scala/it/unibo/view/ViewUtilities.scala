@@ -8,8 +8,8 @@ import it.unibo.model.Tiling.Position
 
 import java.awt.Color
 import java.awt.geom.{Ellipse2D, Rectangle2D}
-import scala.swing.*
-import scala.swing.event.{ButtonClicked, Event, SelectionChanged}
+import scala.swing.{Alignment, *}
+import scala.swing.event.{ButtonClicked, Event, KeyEvent, KeyTyped, SelectionChanged}
 import java.awt.Image
 import java.awt.image.BufferedImage
 import javax.swing.ImageIcon
@@ -20,7 +20,6 @@ object ViewUtilities:
 
   private val colorList: List[Color] = List(Color.YELLOW, Color.CYAN, Color.MAGENTA, Color.ORANGE, Color.PINK, Color.LIGHT_GRAY)
   private val specialTileColors: Map[String, Color] = SpecialTileRegistry.allKinds.map(_.name).zip(colorList).toMap
-
 
   def tileColor(tile: Tile): Color =
     import java.awt.Color.*
@@ -44,9 +43,6 @@ object ViewUtilities:
       case LeftDown => scaledIcon(path, diameter, diameter, 225)
       case Left => scaledIcon(path, diameter, diameter, 270)
       case LeftUp => scaledIcon(path, diameter, diameter, 315)
-
-
-
 
   class ComboBoxWithPlaceholder[A](placeholder: String, items: Seq[A], onSelect: Int => Unit) extends ComboBox(Seq(placeholder) ++ items):
     selection.index = 0
@@ -80,6 +76,15 @@ object ViewUtilities:
         state = !state
     }
 
+  class IntegerTextField() extends TextField:
+    listenTo(keys)
+    reactions += {
+      case e: KeyTyped =>
+        val c = e.char
+        if (!c.isDigit && c != '-' && c != '\b') then
+          e.consume()
+    }
+
   class SelectionButton(label1: String = "", label2: String = "", onState1:() => Unit = () => {}, onState2: () => Unit = () => {}) extends Button(label1):
     private var state = true // true: label1, false: label2
     reactions += {
@@ -94,8 +99,6 @@ object ViewUtilities:
           background = null
         state = !state
     }
-
-
 
   def scaledIcon(path: String, width: Int, height: Int, rotationDegrees: Double = 0): ImageIcon =
     val url = getClass.getResource(path)
