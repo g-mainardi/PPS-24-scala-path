@@ -47,24 +47,24 @@ object ScalaPathController extends SimulationController
       .build
       .toAgent
 
-  def generateScenario(): Unit =
-    _scenario.generate()
+  override def generateScenario(): Unit =
+    super.generateScenario()
     updateView()
 
   def resetSimulation(): Unit =
     resetAgent()
     updateView()
 
-  override protected def changeScenario(newScenario: Scenario): Unit =
-    super.changeScenario(newScenario)
+  override protected def scenario_=(newScenario: Scenario): Unit =
+    super.scenario_=(newScenario)
     generateScenario()
     disableControls()
     applyToView: v =>
       v.enableGenerateScenarioButton()
     resetSimulation()
 
-  override protected def changeAlgorithm(newAlgorithm: Algorithm): Unit =
-    super.changeAlgorithm(newAlgorithm)
+  override protected def algorithm_=(newAlgorithm: Algorithm): Unit =
+    super.algorithm_=(newAlgorithm)
     disableControls()
     applyToView: v =>
       v.disableGenerateScenarioButton()
@@ -94,14 +94,14 @@ object ScalaPathController extends SimulationController
 
   private def handleState(state: State): Unit = state match
     case ChangeScenario(scenario) =>
-      changeScenario(scenarios(scenario))
+      scenario_=(scenarios(scenario))
       Simulation set Empty
     case ChangeAlgorithm(algorithm) =>
-      changeAlgorithm(algorithms(algorithm))
+      algorithm_=(algorithms(algorithm))
       searchPlan()
       Simulation set Empty
     case DirectionsChoice(directions) =>
-      setDirections(directions)
+      directions_=(directions)
       Simulation set Empty
     case SetPosition(Goal(pos)) => 
       goal = Position(pos)

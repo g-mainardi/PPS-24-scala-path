@@ -7,32 +7,30 @@ import it.unibo.planning.Algorithm
 
 trait ScenarioManager:
   import Scenario.{nRows, nCols}
-  val builder = new SpecialTileBuilder
-  private var _init: Position = Position(0, 0)
-  private var _goal: Position = Position(nRows - 1, nCols - 1)
-  
-  def init: Position = _init
-  def goal: Position = _goal
-  def init_=(pos: Position): Unit = _init = pos
-  def goal_=(pos: Position): Unit = _goal = pos
-
-  builder tile "Teleport" does (_ => Scenario.randomPosition)
-  builder tile "JumpDown" does (pos => Position(pos.x + 2, pos.y))
-  builder tile "StairsUp" does (pos => Position(pos.x - 2, pos.y))
-
+  val builder = new SpecialTileBuilder // todo ???
   val scenarios: List[Scenario] =
     for
       scenarioType <- Terrain.apply _ :: Maze.apply _ :: Specials.apply _ :: Nil
     yield
       scenarioType(nRows, nCols)
 
-  protected var _scenario: Scenario = scenarios.head //todo correctly encapsulates with private
+  private var _scenario: Scenario = scenarios.head
+  private var _init: Position = Position(0, 0)
+  private var _goal: Position = Position(nRows - 1, nCols - 1)
 
-  protected def generateScenario(): Unit
-  
+  // todo ???
+  builder tile "Teleport" does (_ => Scenario.randomPosition)
+  builder tile "JumpDown" does (pos => Position(pos.x + 2, pos.y))
+  builder tile "StairsUp" does (pos => Position(pos.x - 2, pos.y))
+
+  def init: Position = _init
+  def goal: Position = _goal
+  def init_=(pos: Position): Unit = _init = pos
+  def goal_=(pos: Position): Unit = _goal = pos
   def scenariosNames: List[String] = scenarios map(_.toString)
   def scenario: Scenario = _scenario
-  protected def changeScenario(newScenario: Scenario): Unit = _scenario = newScenario
+  protected def scenario_=(newScenario: Scenario): Unit = _scenario = newScenario
+  protected def generateScenario(): Unit = _scenario.generate()
 
 trait AlgorithmManager:
   val algorithms: List[Algorithm] = Algorithm.values.toList
@@ -40,13 +38,13 @@ trait AlgorithmManager:
 
   def algorithmsNames: List[String] = algorithms map (_.toString)
   def algorithm: Algorithm = _algorithm
-  protected def changeAlgorithm(newAlgorithm: Algorithm): Unit = _algorithm = newAlgorithm
+  protected def algorithm_=(newAlgorithm: Algorithm): Unit = _algorithm = newAlgorithm
 
 trait DirectionManager:
   private var _directions: List[Direction] = allDirections
 
   def directions: List[Direction] = _directions
-  protected def setDirections(directions: List[Direction]): Unit = _directions = directions
+  protected def directions_=(directions: List[Direction]): Unit = _directions = directions
 
 trait DisplayableController 
   extends ScenarioManager 

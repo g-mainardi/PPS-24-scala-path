@@ -11,7 +11,7 @@ class TestDisplayableController extends AnyFlatSpec with Matchers:
   "A ScenarioManager" should "correctly switch Scenario and give names" in :
     object TestScenarioManager extends ScenarioManager:
       override protected def generateScenario(): Unit = ()
-      def testScenarioChanging(index: Int): Unit = changeScenario(scenarios(index))
+      def testScenarioChanging(index: Int): Unit = scenario_=(scenarios(index))
 
     TestScenarioManager.scenariosNames.zipWithIndex foreach: (name, index) =>
       TestScenarioManager testScenarioChanging index
@@ -19,7 +19,7 @@ class TestDisplayableController extends AnyFlatSpec with Matchers:
 
   "An AlgorithmManager" should "correctly switch Algorithm and give names" in :
     object TestAlgorithmManager extends AlgorithmManager:
-      def testAlgorithmChanging(index: Int): Unit = changeAlgorithm(algorithms(index))
+      def testAlgorithmChanging(index: Int): Unit = algorithm_=(algorithms(index))
 
     TestAlgorithmManager.algorithmsNames.zipWithIndex foreach : (name, index) =>
       TestAlgorithmManager testAlgorithmChanging index
