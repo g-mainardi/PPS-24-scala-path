@@ -1,18 +1,23 @@
 # Implementation
 
-### MVC
-- [Model](mvc/model.md)
-- [View](mvc/view.md)
-- [Controller](mvc/controller.md)
+### Gabriele Basigli
+- [View](gabrielebasigli/View)
+- [Terrain](gabrielebasigli/Terrain)
+- [ScalaBuilder](gabrielebasigli/ScalaBuilder.md)
+- [AStar](gabrielebasigli/AStar.md)
 
-### Scenarios Implementation
-- [Maze](scenarios/maze.md)
-- [Terrain](scenarios/terrain.md)
-- [Specials](scenarios/specials.md)
+### Giosuè G. Mainardi
+- [Model](giosuemainardi/Model)
+- [Agent](giosuemainardi/Agent.md)
+- [Controller](giosuemainardi/Controller)
+- [BFSPlanner](giosuemainardi/BFSPlanner.md)
 
-### Planning
-- [PlannerBuilder](planning/PlannerBuilder.md)
-- [BasePrologPlanner](planning/BasePrologPlanner.md)
+### Muhamad H. Salman
+- [Maze](muhamadsalman/Maze)
+- [Specials](muhamadsalman/SpecialTiles)
+- [DFSPlanner](muhamadsalman/DFSPlanner.md)
+- [PlannerBuilder](muhamadsalman/PlannerBuilder.md)
+- [PrologBuilder](muhamadsalman/PrologBuilder)
 
 
 | [Previous Chapter](../5-detailed_design/index.md) | [Index](../index.md) | [Next Chapter](../7-testing/index.md) |

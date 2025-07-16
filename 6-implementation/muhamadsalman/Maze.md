@@ -48,4 +48,6 @@ Continua finché tutte le celle sono visitate (quindi sono tutte connesse al lab
 
 Dal momento che il DFS scava solo verso celle non visitate, non si formano mai cicli. Quindi:
 1. tra due celle qualsiasi c’è esattamente un percorso. 
-2. il labirinto è sempre solvibile da qualunque punto a qualunque altro punto 
+2. il labirinto è sempre solvibile da qualunque punto a qualunque altro punto
+
+[Index](../index.md)

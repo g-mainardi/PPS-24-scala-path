@@ -1,7 +1,7 @@
 # Base Prolog Planner
 
-Il planner è in grado di esplorare una griglia 2D seguendo varie direzioni, 
-e trova un percorso da uno stato iniziale a uno stato obiettivo, 
+Il planner è in grado di esplorare una griglia 2D seguendo varie direzioni,
+e trova un percorso da uno stato iniziale a uno stato obiettivo,
 tenendo conto degli ostacoli e delle celle già visitate per evitare cicli.
 
 Il planner è implementato in Prolog e utilizza un approccio di ricerca depth-first per esplorare le possibili mosse fino a raggiungere lo stato obiettivo.
@@ -11,7 +11,7 @@ Può supportare diverse direzioni tipologie di direzioni, ad esempio cardinali e
 Prima di spostarsi verso una nuova cella, verifica se nello scenaroi è percorribile o meno.
 Per evitare dei plan in cui si ritorna su propri passi, il planner tiene traccia delle celle già visitate.
 
-Lo scenario viene generato a runtime da Scala e definisce per ogni cella se è percorribile o meno. 
+Lo scenario viene generato a runtime da Scala e definisce per ogni cella se è percorribile o meno.
 ```prolog
 passable(0, 1).
 passable(1, 1).
@@ -42,5 +42,8 @@ planner(State, Goal, Visited, [Dir|Rest], NewMoves) :-
     NewMoves is Moves + 1.
 ```
 
-Il parametro `Moves` è fully-relational, se specificato viene usato come massimo numero di mosse. 
+Il parametro `Moves` è fully-relational, se specificato viene usato come massimo numero di mosse.
 Se non viene specificato, viene usato come output indicando il numero di mosse del piano generato.
+
+[Index](../index.md)
+
