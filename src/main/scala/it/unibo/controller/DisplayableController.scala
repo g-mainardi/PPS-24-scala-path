@@ -6,17 +6,17 @@ import it.unibo.model.Tiling.Position
 import it.unibo.planning.Algorithm
 
 trait ScenarioManager:
-  import Scenario.{nRows, nCols}
   val builder = new SpecialTileBuilder // todo ???
-  val scenarios: List[Scenario] =
+  val scenarios: List[(Int, Int) => Scenario] =
     for
       scenarioType <- EmptyScenario.apply _ :: Terrain.apply _ :: Maze.apply _ :: Specials.apply _ :: Nil
     yield
-      scenarioType(nRows, nCols)
+      scenarioType
 
-  private var _scenario: Scenario = scenarios.head
+  private var (_nRows, _nCols) = (Scenario.nRows, Scenario.nCols)
+  private var _scenario: Scenario = scenarios head (_nRows, _nCols)
   private var _init: Position = Position(0, 0)
-  private var _goal: Position = Position(nRows - 1, nCols - 1)
+  private var _goal: Position = Position(_nRows - 1, _nCols - 1)
 
   generateScenario()
   // todo ???
@@ -28,7 +28,11 @@ trait ScenarioManager:
   def goal: Position = _goal
   def init_=(pos: Position): Unit = _init = pos
   def goal_=(pos: Position): Unit = _goal = pos
-  def scenariosNames: List[String] = scenarios map(_.toString)
+  def nRows: Int = _nRows
+  def nRows_=(nRows: Int): Unit = _nRows = nRows
+  def nCols: Int = _nCols
+  def nCols_=(nCols: Int): Unit = _nCols = nCols
+  def scenariosNames: List[String] = scenarios map(supp => supp(1, 1).toString) //todo
   def scenario: Scenario = _scenario
   protected def scenario_=(newScenario: Scenario): Unit = _scenario = newScenario
   protected def generateScenario(): Unit = _scenario.generate()

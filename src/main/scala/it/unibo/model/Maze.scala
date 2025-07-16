@@ -4,8 +4,8 @@ import it.unibo.model.Tiling.{Floor, Position, Tile, Wall}
 import scala.util.Random
 
 class Maze(nRows: Int, nCols: Int) extends Scenario(nRows, nCols):
-  private val logicalRows = Scenario.nRows / 2
-  private val logicalCols = Scenario.nCols / 2
+  private val logicalRows = nRows / 2
+  private val logicalCols = nCols / 2
   private val gridRows = 2 * logicalRows + 1
   private val gridCols = 2 * logicalCols + 1
   private val exitX = gridRows - 1

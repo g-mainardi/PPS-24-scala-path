@@ -2,7 +2,6 @@ package it.unibo.controller
 
 import it.unibo.controller.Simulation.SettablePosition.{Goal, Init}
 import it.unibo.model.*
-import it.unibo.model.Direction.allDirections
 import it.unibo.model.Tiling.Position
 import it.unibo.planning.{Algorithm, PlannerBuilder}
 
@@ -93,15 +92,15 @@ object ScalaPathController extends SimulationController
     case _ => ()
 
   private def handleState(state: State): Unit = state match
-    case ChangeScenario(scenario) =>
-      scenario_=(scenarios(scenario))
+    case ChangeScenario(index) =>
+      scenario = scenarios(index)(nRows, nCols)
       Simulation set Empty
-    case ChangeAlgorithm(algorithm) =>
-      algorithm_=(algorithms(algorithm))
+    case ChangeAlgorithm(index) =>
+      algorithm = algorithms(index)
       searchPlan()
       Simulation set Empty
-    case DirectionsChoice(directions) =>
-      directions_=(directions)
+    case DirectionsChoice(selections) =>
+      directions = selections
       Simulation set Empty
     case SetPosition(Goal(pos)) => 
       goal = Position(pos)
@@ -110,6 +109,10 @@ object ScalaPathController extends SimulationController
     case SetPosition(Init(pos)) => 
       init = Position(pos)
       updateView()
+      Simulation set Empty
+    case SetScenarioSize(r, c) =>
+      nRows = r
+      nCols = c
       Simulation set Empty
     case Running =>
       step()

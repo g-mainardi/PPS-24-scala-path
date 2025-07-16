@@ -67,7 +67,7 @@ class Terrain(nRows: Int, nCols: Int) extends Scenario(nRows, nCols):
     val permutation = PerlinNoise.randomPermutation
     _tiles =
       (for
-        x <- 0 until Scenario.nRows
-        y <- 0 until Scenario.nCols
+        x <- 0 until nRows
+        y <- 0 until nCols
       yield
         getTileFromNoise(PerlinNoise.getNoise(x, y, 0.15, permutation))(Position(x, y))).toList
