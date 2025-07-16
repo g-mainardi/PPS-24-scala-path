@@ -4,7 +4,7 @@ import it.unibo.model.{Agent, Direction, DummyScenario, Scenario}
 import it.unibo.model.Tiling.Tile
 import it.unibo.planning.Algorithm.*
 import it.unibo.planning.prologplanner.PrologBuilder
-import it.unibo.planning.scalaplanner.ScalaAStarBuilder
+import it.unibo.planning.scalaplanner.ScalaBuilder
 import it.unibo.planning.AStarAlgorithm
 
 object PlannerBuilder:
@@ -79,7 +79,7 @@ private class PlannerBuilder extends BuilderInit, BuilderGoal, BuilderConstraint
       case DFS => new PrologBuilder(configuration.copy(theoryPath = Some(theoryPaths(DFS)))).build
       case BFS => new PrologBuilder(configuration.copy(theoryPath = Some(theoryPaths(BFS)))).build
       //todo
-      case AStar => ???//new ScalaAStarBuilder(configuration.copy(algorithm = Some(AStarAlgorithm))).build
+      case AStar => new ScalaBuilder(configuration.copy(algorithm = Some(AStarAlgorithm))).build
 case class Configuration(initPos: (Int, Int),
                          goalPos: (Int, Int),
                          maxMoves: Option[Int] = None,
