@@ -5,9 +5,8 @@ import it.unibo.planning.Plan
 import it.unibo.planning.Plan.{FailedPlan, SucceededPlan, SucceededPlanWithMoves}
 
 class Agent(val initialPosition: Position, plan: () => Plan, getTileAt: Position => Option[Tile])
-  extends PathManager:
-  private var _currentPlan: List[Direction] = List.empty
-  private var _planIndex: Int = 0
+  extends PathManager
+  with PlanManager:
   private var _pos: Position = initialPosition
   
   def pos: Position = _pos
@@ -20,33 +19,21 @@ class Agent(val initialPosition: Position, plan: () => Plan, getTileAt: Position
 
   def resetPosition(): Unit = _pos = initialPosition
 
-  def planOver: Boolean = _planIndex >= _currentPlan.length
-
-  def remainingSteps: Int = _currentPlan.length - _planIndex
-
-  def resetPlan(): Unit = _planIndex = 0
-  
   def step(): Unit = 
     addToPath(_pos, currentDirection)
     this computeCommand nextDirection
   
   def searchPlan: Option[Int] = plan() match
     case SucceededPlanWithMoves(directions, nMoves) =>
-      _currentPlan = directions
+      currentPlan = directions
       Some(nMoves)
     case SucceededPlan(directions) =>
-      _currentPlan = directions
+      currentPlan = directions
       None
     case FailedPlan(error) =>
-      _currentPlan = List.empty
+      this.currentPlan_=(List.empty)
       throw PlanNotFoundException(error)
 
   private def checkSpecial(): Unit = getTileAt(_pos) match
     case Some(special: Special) => _pos = special.newPos
     case _ =>
-  
-  private def currentDirection: Direction = _currentPlan(_planIndex)
-  
-  private def nextDirection: Direction =
-    try _currentPlan(_planIndex)
-    finally _planIndex += 1
