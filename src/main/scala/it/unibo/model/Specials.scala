@@ -1,7 +1,7 @@
 package it.unibo.model
 
 import it.unibo.model.Scenario.{nCols, nRows}
-import it.unibo.model.Tiling.{Floor, Position, TilePos}
+import it.unibo.model.Tiling.{Floor, Position, Tile}
 
 case class SpecialKind(name: String, computeNewPos: Position => Position)
 
@@ -40,7 +40,7 @@ class Specials(nRows: Int, nCols: Int) extends Scenario(nRows, nCols):
       }.toMap
 
     _tiles = baseTiles.map:
-      case TilePos(pos) =>
+      case Tile(pos) =>
         specialPositions.collectFirst {
           case (kind, positions) if positions.contains(pos) =>
             SpecialTile(pos, kind)

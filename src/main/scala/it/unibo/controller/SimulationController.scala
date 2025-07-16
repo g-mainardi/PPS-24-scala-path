@@ -48,6 +48,8 @@ object ScalaPathController extends SimulationController
 
   override def generateScenario(): Unit =
     super.generateScenario()
+    init = randomPosition
+    goal = randomPosition
     updateView()
 
   def resetSimulation(): Unit =

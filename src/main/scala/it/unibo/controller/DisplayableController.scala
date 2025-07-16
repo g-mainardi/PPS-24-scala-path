@@ -1,7 +1,7 @@
 package it.unibo.controller
 
-import it.unibo.model.Direction.allDirections
-import it.unibo.model.{Direction, Maze, Scenario, SpecialTileBuilder, Specials, Terrain, EmptyScenario}
+import it.unibo.model.Direction.{allDirections, randomDirections}
+import it.unibo.model.{Direction, EmptyScenario, Maze, Scenario, SpecialTileBuilder, Specials, Terrain}
 import it.unibo.model.Tiling.Position
 import it.unibo.planning.Algorithm
 
@@ -20,7 +20,7 @@ trait ScenarioManager:
 
   generateScenario()
   // todo ???
-  builder tile "Teleport" does (_ => Scenario.randomPosition)
+  builder tile "Teleport" does (_ => randomPosition)
   builder tile "JumpDown" does (pos => Position(pos.x + 2, pos.y))
   builder tile "StairsUp" does (pos => Position(pos.x - 2, pos.y))
 
@@ -36,6 +36,9 @@ trait ScenarioManager:
   def scenario: Scenario = _scenario
   protected def scenario_=(newScenario: Scenario): Unit = _scenario = newScenario
   protected def generateScenario(): Unit = _scenario.generate()
+  protected def randomPosition: Position = _scenario.randomPosition match
+    case Some(pos) => pos
+    case None => throw IllegalStateException("Scenario has no valid tiles")
 
 trait AlgorithmManager:
   val algorithms: List[Algorithm] = Algorithm.values.toList

@@ -21,8 +21,14 @@ object Scenario:
   def randomPositions(size: Int): Set[Position] = Set.fill(size)(randomPosition)
 
 trait Scenario(val nRows: Int, val nCols: Int) extends PrettyPrint:
+  import it.unibo.utils.RandomGenerator.getRandomElement
   protected var _tiles: List[Tile] = List()
 
-  def tiles: List[Tile] = _tiles
   def generate(): Unit
+  
+  def tiles: List[Tile] = _tiles
+
   def checkSpecial(position: Position): Option[Tile] = tiles.find(tile => tile.x == position.x && tile.y == position.y)
+  
+  def randomPosition: Option[Position] = 
+    (tiles collect {case pass: Passage => Position(pass.y, pass.y)}).getRandomElement

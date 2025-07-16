@@ -7,7 +7,7 @@ object TrampolinePos:
   private var trampolines: Set[Position] = Set.empty
   def set(p: Set[Position]): Unit = trampolines = p
   def unapply(t: Tile): Option[Position] = t match
-    case TilePos(pos) => trampolines find (_ == pos)
+    case Tile(pos) => trampolines find (_ == pos)
 
 class Traps(nRows: Int, nCols: Int) extends Scenario(nRows, nCols):
   val nTrampolines = 4
@@ -22,5 +22,5 @@ class Traps(nRows: Int, nCols: Int) extends Scenario(nRows, nCols):
 
     TrampolinePos set randomPositions(nTrampolines)
     _tiles = _tiles map:
-      case TrampolinePos(p) => Teleport(p)
+      case TrampolinePos(p) => Teleport(p, ???)
       case t => t
