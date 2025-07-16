@@ -21,7 +21,7 @@ object Scenario:
 
   def randomPositions(size: Int): Set[Position] = Set.fill(size)(randomPosition)
 
-trait Scenario(nRows: Int, nCols: Int) extends PrettyPrint:
+trait Scenario(val nRows: Int, val nCols: Int) extends PrettyPrint:
   protected var _tiles: List[Tile] = List()
 
   def tiles: List[Tile] = _tiles

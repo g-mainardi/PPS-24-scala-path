@@ -1,7 +1,7 @@
 package it.unibo.controller
 
 import it.unibo.model.Direction.allDirections
-import it.unibo.model.{Direction, Maze, Scenario, SpecialTileBuilder, Specials, Terrain}
+import it.unibo.model.{Direction, Maze, Scenario, SpecialTileBuilder, Specials, Terrain, EmptyScenario}
 import it.unibo.model.Tiling.Position
 import it.unibo.planning.Algorithm
 
@@ -10,7 +10,7 @@ trait ScenarioManager:
   val builder = new SpecialTileBuilder // todo ???
   val scenarios: List[Scenario] =
     for
-      scenarioType <- Terrain.apply _ :: Maze.apply _ :: Specials.apply _ :: Nil
+      scenarioType <- EmptyScenario.apply _ :: Terrain.apply _ :: Maze.apply _ :: Specials.apply _ :: Nil
     yield
       scenarioType(nRows, nCols)
 
@@ -18,6 +18,7 @@ trait ScenarioManager:
   private var _init: Position = Position(0, 0)
   private var _goal: Position = Position(nRows - 1, nCols - 1)
 
+  generateScenario()
   // todo ???
   builder tile "Teleport" does (_ => Scenario.randomPosition)
   builder tile "JumpDown" does (pos => Position(pos.x + 2, pos.y))
