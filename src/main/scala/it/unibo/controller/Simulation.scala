@@ -13,6 +13,7 @@ object Simulation:
     case DirectionsChoice(directions: List[Direction])
     case SetPosition(toSet: SettablePosition)
     case SetAnimationSpeed(speed: Double)
+    case SetScenarioSize(nRows: Int, nCols: Int)
 
   enum SettablePosition:
     case Init(pos: (Int, Int))
