@@ -1,4 +1,4 @@
-# PrologBuilder
+## PrologBuilder
 Il `PrologBuilder` è la classe che concretamente assembla il Planner in Prolog con le configurazioni raccolte tramite il Planner Builder.
 
 Queste configurazioni vengono spacchettate ed tradotte nei corrispondenti predicati e fatti in Prolog, generando dinamicamente la teoria. 

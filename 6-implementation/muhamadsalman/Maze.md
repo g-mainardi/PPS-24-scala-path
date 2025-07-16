@@ -1,4 +1,4 @@
-# Maze
+## Maze
 Lo scenario labirinto viene generato in modo procedurale usando l'algoritmo DFS (Depth-First Search).
 Per gestire il labirinto, si parte da una cella e si scava verso celle adiacenti non visitate, rimuovendo i muri tra di esse.
 Viene utilizzata una griglia fisica ed una logica per rappresentare le celle e i muri.

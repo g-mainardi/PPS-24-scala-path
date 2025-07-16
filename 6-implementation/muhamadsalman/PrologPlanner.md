@@ -1,4 +1,4 @@
-# PrologPlanner
+## PrologPlanner
 Il Prolog planner è un'implementazione concreta del planner che utilizza Prolog per calcolare un piano da init a goal.
 Il planner si occupa anche di fare il parsing del risultato in output da Prolog e trasformarlo in una lista di mosse in Scala.
 

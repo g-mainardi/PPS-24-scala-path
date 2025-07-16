@@ -1,4 +1,4 @@
-# Base Prolog Planner
+## DFS Planner
 
 Il Depth-First-Search Planner è in grado di esplorare una griglia 2D seguendo varie direzioni,
 e trovare un percorso da uno stato iniziale a uno stato obiettivo, tenendo conto degli ostacoli e delle celle già visitate per evitare cicli.

@@ -1,4 +1,4 @@
-# Planner Builder
+## Planner Builder
 Planner Builder è un modulo che consente di configurare e costruire un planner per generare percorsi nello scenario. 
 Il planner accumula come configurazioni la posizione iniziale, il goal, lo scenario ed eventualmente il numero massimo di mosse. 
 

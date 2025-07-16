@@ -1,4 +1,4 @@
-# Special Tiles
+## Special Tiles
 
 Per le caselle speciali, è stata costruita un API che permette di definire programmaticamente delle caselle speciali con un comportamento a scelta. 
 Ad esempio è possibile definire una casella speciale che sposta l'agente in una posizione random, oppure una caseella che fa fare un salto di due caselle: 
