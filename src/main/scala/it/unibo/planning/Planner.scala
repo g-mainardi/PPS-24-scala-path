@@ -27,9 +27,9 @@ trait Planner(using configuration: Configuration):
 class DummyPlanner(using configuration: Configuration) extends Planner:
   override def plan: Plan = SucceededPlanWithMoves(List.fill(5)(Cardinals.Down), 5)
 
-class PrologPlanner(engine: Engine, goal: Term, maxMoves: Option[Int])(using configuration: Configuration) extends Planner, BasePrologPlanner:
+class PrologPlanner(engine: Engine, goal: Term)(using configuration: Configuration) extends Planner, BasePrologPlanner:
   override def plan: Plan =
-    checkSolutions(engine(goal), maxMoves)
+    checkSolutions(engine(goal))
 
 class ScalaPlanner(start: Position, goal: Position, tiles: List[Tile], directions: List[Direction], algorithm: PathFindingAlgorithm)(using configuration: Configuration) extends Planner, BaseScalaPlanner:
   override def plan: Plan =

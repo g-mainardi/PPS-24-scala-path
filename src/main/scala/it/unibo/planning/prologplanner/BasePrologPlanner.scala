@@ -4,14 +4,15 @@ import alice.tuprolog.{SolveInfo, Term}
 import it.unibo.model.Direction
 import it.unibo.model.Direction.{Cardinals, Diagonals}
 import it.unibo.model.Tiling.Position
-import it.unibo.planning.Plan
+import it.unibo.planning.{Configuration, Plan}
 import it.unibo.planning.Plan.{FailedPlan, SucceededPlan, SucceededPlanWithMoves}
 import it.unibo.prologintegration.Prolog2Scala.{extractListFromTerm, extractTerm}
+
 import scala.util.Try
 
 trait BasePrologPlanner:
-  def checkSolutions(solutions: LazyList[SolveInfo], maxMoves: Option[Int]): Plan = solutions match
-      case solveInfo #:: _ if solveInfo.isSuccess => convertToPlan(solveInfo, maxMoves)
+  def checkSolutions(solutions: LazyList[SolveInfo])(using configuration: Configuration): Plan = solutions match
+      case solveInfo #:: _ if solveInfo.isSuccess => convertToPlan(solveInfo, configuration.maxMoves)
       case _ => FailedPlan("No valid plan found")
 
   private def convertToPlan(solveInfo: SolveInfo, maxMoves: Option[Int]): Plan =

@@ -1,16 +1,14 @@
 package it.unibo.planning.prologplanner
 
 import alice.tuprolog.{Term, Theory}
-import it.unibo.model.{Agent, Direction, Scenario}
+import it.unibo.model.{Direction, Scenario}
 import it.unibo.model.Tiling.*
 import it.unibo.model.FailedPlannerBuildException
 import it.unibo.planning.{Configuration, Plan, Planner, PrologPlanner}
-import it.unibo.planning.prologplanner.MoveFactsGenerator.generateMoveRules
 import it.unibo.prologintegration.Scala2Prolog.{Engine, mkPrologEngine}
 
 import scala.io.Source
 import scala.util.Using
-import it.unibo.planning.prologplanner.Conversions.given_Conversion_Int_Int_Position
 
 class PrologBuilder(using configuration: Configuration):
   def build: Planner = configuration match
@@ -18,7 +16,7 @@ class PrologBuilder(using configuration: Configuration):
       val fullTheory = new Theory(s"$initFact\n$goalFact\n$directionsFact\n$tileFacts\n$theoryString")
       println(s"\n$fullTheory\n")
       val engine: Engine = mkPrologEngine(fullTheory)
-      PrologPlanner(engine, goalTerm, configuration.maxMoves)
+      PrologPlanner(engine, goalTerm)
     case _ => throw FailedPlannerBuildException
     
   private object InitPos:
@@ -42,13 +40,11 @@ class PrologBuilder(using configuration: Configuration):
     def unapply(scenario: Scenario): Option[String] = Some( scenario.tiles.collect {
       case s: Special => s"passable(s(${s.x}, ${s.y})).\nspecial(s(${s.x}, ${s.y}), s(${s.newPos.x}, ${s.newPos.y}))."
       case p: Passage => s"passable(s(${p.x}, ${p.y}))."
-      // case o: Obstacle => "" // s"blocked(${o.x}, ${o.y})."
     }.mkString("\n"))
 
   private object Directions:
     def unapply(directions: List[Direction]): Option[String] =
       Some(generateDeltaClauses(directions))
-      //Some(generateMoveRules(directions))
 
   private def toCamelCase(name: String): String =
     name.head.toLower + name.tail
