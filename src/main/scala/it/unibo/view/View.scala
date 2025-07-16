@@ -1,6 +1,6 @@
 package it.unibo.view
 
-import it.unibo.controller.{DisplayableController, Simulation}
+import it.unibo.controller.{DisplayableController, ScalaPathController, Simulation}
 import it.unibo.model.{Direction, SpecialKind, SpecialTile, SpecialTileBuilder, Tiling}
 import it.unibo.model.Tiling.Position
 
@@ -26,7 +26,7 @@ class View(controller: DisplayableController) extends MainFrame:
   private val algorithmDropdown = new ComboBoxWithPlaceholder("Select algorithm", controller.algorithmsNames, Simulation set Simulation.ChangeAlgorithm(_))
   private val scenarioDropdown = new ComboBoxWithPlaceholder("Select scenario...", controller.scenariosNames, Simulation set Simulation.ChangeScenario(_))
 
-  class DirectionGrid() extends GridPanel(3, 3):
+  private class DirectionGrid() extends GridPanel(3, 3):
     private val directions: List[Option[Direction]] = List(
       Some(LeftUp), Some(Up), Some(RightUp),
       Some(Left), None, Some(Right),
@@ -70,7 +70,7 @@ class View(controller: DisplayableController) extends MainFrame:
   }
   private val resetButton = new DefaultDisabledButton("Reset")
   private val stepButton = new DefaultDisabledButton("Step")
-  private val searchWithLabel = new Label("Search with: ")
+  private val remainingSteps = new Label()
 
 
   private val directionGrid = new FlowPanel {
@@ -86,7 +86,7 @@ class View(controller: DisplayableController) extends MainFrame:
     Simulation set Simulation.Paused(fromUser = true)
   ){enabled = false}
 
-  val speedSlider = new Slider {
+  private val speedSlider = new Slider {
     min = 1
     max = 31
     value = 10
@@ -97,7 +97,7 @@ class View(controller: DisplayableController) extends MainFrame:
     orientation = Orientation.Horizontal
     preferredSize = new Dimension(200, 40)
     labels = (min to max by majorTickSpacing).map(i => i -> new Label(f"${i / 10.0}%.1fx")).toMap
-    tooltip = "Animation speed (0.1 - 3.0)"
+    tooltip = "Animation speed (0.1x - 3.1x)"
   }
 
   def enableStepButton(): Unit = stepButton.enabled = true
@@ -146,6 +146,7 @@ class View(controller: DisplayableController) extends MainFrame:
       controller.agent foreach: agent =>
         drawCircle(agent.x, agent.y, Color.YELLOW)
         drawPath(agent.path)
+        remainingSteps.text = agent.remainingSteps.toString
 
     private def drawPath(positions: List[(Position, Direction)])(using g: Graphics2D): Unit =
       positions.foreach((p, d) =>
@@ -180,8 +181,8 @@ class View(controller: DisplayableController) extends MainFrame:
 
 
   // private object ControlPanel extends FlowPanel(startButton, stepButton, resetButton, startStopButton, scenarioDropdown, algorithmDropdown, refreshScenarioButton)
-  private object ControlPanel extends FlowPanel(startStopButton, stepButton, resetButton, new Label("Animation speed:"), speedSlider)
-  private object ScenarioSettingsPanel extends FlowPanel(searchWithLabel, scenarioDropdown, refreshScenarioButton, movePanel, algorithmDropdown)
+  private object ControlPanel extends FlowPanel(startStopButton, stepButton, new Label("Remaining steps: "), remainingSteps, resetButton, new Label("Animation speed: "), speedSlider)
+  private object ScenarioSettingsPanel extends FlowPanel(new Label("Search with: "), scenarioDropdown, refreshScenarioButton, movePanel, algorithmDropdown)
 
   contents = new BorderPanel:
     import BorderPanel.Position
@@ -196,7 +197,7 @@ class View(controller: DisplayableController) extends MainFrame:
     case ButtonClicked(`resetButton`) => Simulation set Simulation.Empty
     case ButtonClicked(`refreshScenarioButton`) => Simulation set Simulation.ChangeScenario(scenarioDropdown.selection.index)
     case ValueChanged(`speedSlider`) =>
-      val delay = speedSlider.value   // from 1 to 31
-      // Simulation set Simulation.ChangeSpeed(delay)
+      val speed = speedSlider.value / 10.0
+      Simulation set Simulation.SetAnimationSpeed(1 / speed)
   }
     
