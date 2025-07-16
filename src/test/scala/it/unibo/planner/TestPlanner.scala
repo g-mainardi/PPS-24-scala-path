@@ -1,5 +1,6 @@
 package it.unibo.planner
 
+import it.unibo.model.Scenario
 import it.unibo.model.Tiling.*
 
 import scala.util.Random
@@ -7,7 +8,7 @@ import scala.util.Random
 trait TestPlanner {
   val gridrows: Int = 3
   val gridcols: Int = 3
-
+  
   val passableTiles: List[Tile] = (
     for {
       x <- 0 to gridrows
@@ -33,3 +34,8 @@ trait TestPlanner {
       else Floor(pos)
     }).toList
     }
+
+class TestScenarioWithPassableTiles(val gridrows: Int, val gridcols: Int)
+  extends Scenario(gridrows, gridcols) with TestPlanner:
+  override def generate(): Unit =
+    _tiles = passableTiles
