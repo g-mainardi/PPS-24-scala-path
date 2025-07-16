@@ -34,17 +34,19 @@ object ScalaPathController extends SimulationController
       v.enableResetButton()
       v.disableStepButton()
 
-  def assembleAgent(): Unit = agent = 
+  def assembleAgent(): Unit =
     import it.unibo.planning.prologplanner.Conversions.given
-    PlannerBuilder.start
-      .withInit(init)
-      .withGoal(goal)
-      .withMaxMoves(None)
-      .withTiles(scenario)
-      .withDirections(directions)
-      .withAlgorithm(algorithm)
-      .build
-      .toAgent
+    agent =
+      PlannerBuilder.start
+        .withInit(init)
+        .withGoal(goal)
+        .withMaxMoves(None)
+        .withTiles(scenario)
+        .withDirections(directions)
+        .withAlgorithm(algorithm)
+        .build
+        .toAgent
+    updateView()
 
   override def generateScenario(): Unit =
     super.generateScenario()
