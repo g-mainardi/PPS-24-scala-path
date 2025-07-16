@@ -15,10 +15,10 @@ trait ScenarioManager:
 
   private var (_nRows, _nCols) = (Scenario.nRows, Scenario.nCols)
   private var _scenario: Scenario = scenarios head (_nRows, _nCols)
-  private var _init: Position = Position(0, 0)
-  private var _goal: Position = Position(_nRows - 1, _nCols - 1)
+  generateScenario() // todo teniamo?
+  private var _init: Position = randomPosition
+  private var _goal: Position = randomPosition
 
-  generateScenario()
   // todo ???
   builder tile "Teleport" does (_ => randomPosition)
   builder tile "JumpDown" does (pos => Position(pos.x + 2, pos.y))
