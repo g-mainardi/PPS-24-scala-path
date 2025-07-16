@@ -22,5 +22,5 @@ class Traps(nRows: Int, nCols: Int) extends Scenario(nRows, nCols):
 
     TrampolinePos set randomPositions(nTrampolines)
     _tiles = _tiles map:
-      case TrampolinePos(p) => Teleport(p, ???)
+      case TrampolinePos(p) => Teleport(p, p)
       case t => t

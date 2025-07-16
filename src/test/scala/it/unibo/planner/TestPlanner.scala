@@ -27,8 +27,8 @@ trait TestPlanner(gridrows: Int = 3,val gridcols: Int = 3) {
       y <- 0 to gridcols
     } yield {
       val pos = Position(x, y)
-      if (x == 1 && y == 1) Teleport(pos)
-      if (x == 2 && y == 2) Teleport(pos)
+      if (x == 1 && y == 1) Teleport(pos, pos)
+      if (x == 2 && y == 2) Teleport(pos, pos)
       else Floor(pos)
     }).toList
     }
