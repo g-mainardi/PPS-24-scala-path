@@ -7,6 +7,16 @@ import it.unibo.planning.prologplanner.PrologBuilder
 import it.unibo.planning.scalaplanner.ScalaBuilder
 import it.unibo.planning.AStarAlgorithm
 
+
+case class Configuration(initPos: (Int, Int),
+                         goalPos: (Int, Int),
+                         maxMoves: Option[Int] = None,
+                         environmentTiles: Scenario,
+                         directions: List[Direction],
+                         theoryPath: Option[String] = None,
+                         algorithm: Option[PathFindingAlgorithm] = None
+                          )
+
 object PlannerBuilder:
   def start: BuilderInit = new PlannerBuilder()
 
@@ -35,7 +45,7 @@ trait BuilderAlgorithm:
   def withAlgorithm(algorithm: Algorithm): CompleteBuilder
 
 trait CompleteBuilder:
-  def build: Agent
+  def build: Planner
 
 private class PlannerBuilder extends BuilderInit, BuilderGoal, BuilderConstraints, BuilderEnvironment, BuilderDirections, BuilderAlgorithm, CompleteBuilder:
   private val theoryPaths: Map[Algorithm, String] = Map(
@@ -67,7 +77,7 @@ private class PlannerBuilder extends BuilderInit, BuilderGoal, BuilderConstraint
     this.algorithm = algorithm
     this
 
-  def build: Agent =
+  def build: Planner =
     val configuration: Configuration = Configuration (
       initPos,
       goalPos,
@@ -76,14 +86,12 @@ private class PlannerBuilder extends BuilderInit, BuilderGoal, BuilderConstraint
       directions)
 
     algorithm match
-      case DFS => new PrologBuilder(configuration.copy(theoryPath = Some(theoryPaths(DFS)))).build
-      case BFS => new PrologBuilder(configuration.copy(theoryPath = Some(theoryPaths(BFS)))).build
-      case AStar => new ScalaBuilder(configuration.copy(algorithm = Some(AStarAlgorithm))).build
-case class Configuration(initPos: (Int, Int),
-                         goalPos: (Int, Int),
-                         maxMoves: Option[Int] = None,
-                         environmentTiles: Scenario,
-                         directions: List[Direction],
-                         theoryPath: Option[String] = None,
-                         algorithm: Option[PathFindingAlgorithm] = None
-                        )
+      case DFS =>
+        given Configuration = configuration.copy(theoryPath = Some(theoryPaths(DFS)))
+        new PrologBuilder().build
+      case BFS =>
+        given Configuration = configuration.copy(theoryPath = Some(theoryPaths(BFS)))
+        new PrologBuilder().build
+      case AStar =>
+        given Configuration = configuration.copy(algorithm = Some(AStarAlgorithm))
+        new ScalaBuilder().build

@@ -45,6 +45,7 @@ object ScalaPathController extends SimulationController
       .withDirections(directions)
       .withAlgorithm(algorithm)
       .build
+      .toAgent
 
   def generateScenario(): Unit =
     _scenario.generate()

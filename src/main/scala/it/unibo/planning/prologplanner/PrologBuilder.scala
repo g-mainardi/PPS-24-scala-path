@@ -4,26 +4,21 @@ import alice.tuprolog.{Term, Theory}
 import it.unibo.model.{Agent, Direction, Scenario}
 import it.unibo.model.Tiling.*
 import it.unibo.model.FailedPlannerBuildException
-import it.unibo.planning.{Configuration, Plan, PrologPlanner}
+import it.unibo.planning.{Configuration, Plan, Planner, PrologPlanner}
 import it.unibo.planning.prologplanner.MoveFactsGenerator.generateMoveRules
 import it.unibo.prologintegration.Scala2Prolog.{Engine, mkPrologEngine}
 
 import scala.io.Source
 import scala.util.Using
-
 import it.unibo.planning.prologplanner.Conversions.given_Conversion_Int_Int_Position
 
-class PrologBuilder(configuration: Configuration):
-  def build: Agent = configuration match
+class PrologBuilder(using configuration: Configuration):
+  def build: Planner = configuration match
     case Configuration(InitPos(initFact), Goal(goalFact), MaxMoves(goalTerm), Tiles(tileFacts), Directions(directionsFact), Theory(theoryString), _) =>
       val fullTheory = new Theory(s"$initFact\n$goalFact\n$directionsFact\n$tileFacts\n$theoryString")
       println(s"\n$fullTheory\n")
       val engine: Engine = mkPrologEngine(fullTheory)
-      new Agent (
-        configuration.initPos,
-        () => PrologPlanner(engine, goalTerm, configuration.maxMoves).plan,
-        configuration.environmentTiles.checkSpecial,
-      )
+      PrologPlanner(engine, goalTerm, configuration.maxMoves)
     case _ => throw FailedPlannerBuildException
     
   private object InitPos:
