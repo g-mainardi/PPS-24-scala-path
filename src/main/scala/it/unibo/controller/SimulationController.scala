@@ -112,9 +112,10 @@ object ScalaPathController extends SimulationController
       init = Position(pos)
       updateView()
       Simulation set Empty
-    case SetScenarioSize(r, c) =>
+    case SetScenarioSize(r, c) if r != nRows || c != nCols =>
       nRows = r
       nCols = c
+      resizeScenario(nRows, nCols)
       Simulation set Empty
     case Running =>
       step()

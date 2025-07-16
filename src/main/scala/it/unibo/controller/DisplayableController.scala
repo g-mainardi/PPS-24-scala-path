@@ -35,6 +35,13 @@ trait ScenarioManager:
   def scenariosNames: List[String] = scenarios map(supp => supp(1, 1).toString) //todo
   def scenario: Scenario = _scenario
   protected def scenario_=(newScenario: Scenario): Unit = _scenario = newScenario
+  protected def resizeScenario(nRows: Int, nCols: Int): Unit =
+    val constructor = _scenario.getClass.getConstructors.head
+    val newParams: Array[Object] = Array(
+      nRows.asInstanceOf[Object],
+      nCols.asInstanceOf[Object]
+    )
+    scenario = constructor.newInstance(newParams*).asInstanceOf[Scenario]
   protected def generateScenario(): Unit = _scenario.generate()
   protected def randomPosition: Position = _scenario.randomPosition match
     case Some(pos) => pos
