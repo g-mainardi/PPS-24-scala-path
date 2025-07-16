@@ -19,10 +19,10 @@ class TestPlannerAStar extends AnyFlatSpec with Matchers with TestPlanner:
       .withDirections(allDirections)
       .withAlgorithm(AStar)
       .build
-    
-    noException should be thrownBy 
+
+    noException should be thrownBy
       agent.searchPlan
-    
-    
+
+
     // agent .planner.plan shouldBe a[SucceededPlan]
   
