@@ -15,6 +15,12 @@ import it.unibo.model.planning.prologplanner.Conversions.given_Conversion_Int_In
 import it.unibo.model.planning.prologplanner.{BasePrologPlanner, PrologBuilder}
 import it.unibo.model.planning.scalaplanner.BaseScalaPlanner
 
+/**
+ * A generic interface for all planners, indipendently from the algorithm implementation.
+ * A Planner is responsible for computing a valid Plan to reach the goal from the initial position.
+ *
+ * @param configuration the implicit configuration of the planning problem
+ */
 trait Planner(using configuration: Configuration):
   def plan: Plan
   def toAgent: Agent = new Agent(
@@ -23,13 +29,34 @@ trait Planner(using configuration: Configuration):
       configuration.environmentTiles.checkSpecial,
     )
 
+/**
+ * A trivial planner implementation that always returns a hardcoded downward plan.
+ * Useful for testing or placeholder logic.
+ */
 class DummyPlanner(using configuration: Configuration) extends Planner:
   override def plan: Plan = SucceededPlanWithMoves(List.fill(5)(Cardinals.Down), 5)
 
+/**
+ * A planner based on a Prolog engine. Executes a Prolog query
+ * to generate a movement plan from the initial state to the goal.
+ *
+ * @param engine the Prolog engine instance
+ * @param goal   the Prolog term representing the goal state
+ */
 class PrologPlanner(engine: Engine, goal: Term)(using configuration: Configuration) extends Planner, BasePrologPlanner:
   override def plan: Plan =
     checkSolutions(engine(goal))
 
+/**
+ * A planner implemented purely in Scala using a pathfinding algorithm
+ * (e.g., A*). Computes a plan over a tile-based environment.
+ *
+ * @param start      the starting position
+ * @param goal       the target position
+ * @param tiles      the environment tiles
+ * @param directions allowed movement directions
+ * @param algorithm  the pathfinding algorithm to use
+ */
 class ScalaPlanner(start: Position, goal: Position, tiles: List[Tile], directions: List[Direction], algorithm: PathFindingAlgorithm)(using configuration: Configuration) extends Planner, BaseScalaPlanner:
   override def plan: Plan =
     checkSolution(algorithm.run(start, goal, tiles, directions))
