@@ -76,6 +76,9 @@ object ViewUtilities:
           text = label1
         state = !state
     }
+    def reset(): Unit =
+      state = true
+      text = label1
 
   class IntegerTextField() extends TextField:
     listenTo(keys)

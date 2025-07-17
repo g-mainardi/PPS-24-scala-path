@@ -109,7 +109,7 @@ class View(controller: DisplayableController, gridOffset: Int, cellSize: Int) ex
   def enableGenerateScenarioButton(): Unit = refreshScenarioButton.enabled = true
   def disableGenerateScenarioButton(): Unit = refreshScenarioButton.enabled = false
   def resetAlgorithmDropdown(): Unit = algorithmDropdown.reset()
-
+  def resetStartStopButton(): Unit = startStopButton.reset()
 
   def showInfoMessage(message: String, title: String): Unit =
     showPopupMessage(message, title, Dialog.Message.Info)
