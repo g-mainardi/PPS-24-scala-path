@@ -4,7 +4,7 @@ import it.unibo.view.View
 
 import scala.swing.Swing.onEDT
 
-trait ViewAttachable:
+trait ViewManager:
   private var _view: Option[View] = None
 
   final def attachView(v: View): Unit = _view = Some(v)

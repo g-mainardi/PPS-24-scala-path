@@ -9,26 +9,10 @@ import it.unibo.model.scenario.Scenario
 
 import scala.annotation.tailrec
 
-trait SimulationController:
-  private val _delay: Int = 400
-  private var _speed: Double = 1.0
-  protected var shouldSleep: Boolean = false
-
-  def start(): Unit
-  def stepDelay: Long = (_delay * _speed).toLong
-  protected def speed: Double = _speed
-  protected def speed_=(newSpeed: Double): Unit = _speed = newSpeed
-  protected def step(): Unit
-  protected def over(): Unit
-  protected def pause(): Unit
-  protected def resume(): Unit
-  protected def resetSimulation(): Unit
-  protected def reset(): Unit
-
-object ScalaPathController extends SimulationController
-  with DisplayableController
+object ScalaPathController extends DisplayableController
+  with SpeedManager
   with AgentManager
-  with ViewAttachable:
+  with ViewManager:
 
   def pause(): Unit =
     applyToView: v =>
@@ -138,7 +122,7 @@ object ScalaPathController extends SimulationController
       step()
       if planOver
       then Simulation set Paused()
-      else shouldSleep = true
+      else shouldSleep()
     case _ => ()
 
   @tailrec
@@ -147,9 +131,7 @@ object ScalaPathController extends SimulationController
     Simulation.exec:
       handleTransition(previous, current)
       handleState(current)
-    if shouldSleep then
-      shouldSleep = false
-      Thread sleep stepDelay
+    delay()
     loop(current)
 
   protected def step(): Unit =
