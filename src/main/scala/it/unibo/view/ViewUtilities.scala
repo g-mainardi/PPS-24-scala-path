@@ -143,8 +143,10 @@ object ViewUtilities:
       contents = new BorderPanel:
         layout(new Label(message)) = BorderPanel.Position.Center
       preferredSize = new Dimension(200, 80)
-    dialog.open()
+    onEDT:
+      dialog.open()
     dialog
 
   def closeLoadingDialog(dialog: Dialog): Unit =
-    dialog.close()
+    onEDT:
+      dialog.close()

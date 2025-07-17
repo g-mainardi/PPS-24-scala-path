@@ -114,6 +114,7 @@ object ScalaPathController extends SimulationController
       Simulation set Empty
     case ChangeAlgorithm(index) =>
       algorithm = algorithms(index)
+      assembleAgent()
       searchPlan()
       Simulation set Empty
     case DirectionsChoice(selections) =>
@@ -182,6 +183,6 @@ object ScalaPathController extends SimulationController
       v.enableGenerateScenarioButton()
       v.showInfoMessage(s"Plan found $withResult! Now you can execute it.", "Plan found")
 
-  protected def searchingPlan(): Unit =
+  protected def startSearch(): Unit =
     applyToView: v =>
       v.showLoadingDialog("Agent assembled! Now searching a plan...")
