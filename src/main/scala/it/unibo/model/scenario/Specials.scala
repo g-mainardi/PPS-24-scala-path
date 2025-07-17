@@ -3,6 +3,7 @@ package it.unibo.model.scenario
 import it.unibo.model.fundamentals.Tiling.Floor
 import it.unibo.model.*
 import it.unibo.model.fundamentals.{Position, Tile, Tiling}
+import Scenario.Dimensions
 
 /**
  * A programmatically defined kind of special tile.
@@ -18,7 +19,7 @@ case class SpecialKind(name: String, computeNewPos: Position => Position)
  * @param pos  the current position of the tile
  * @param kind the behavior-defining kind of this special tile
  */
-case class SpecialTile(pos: Position, kind: SpecialKind)(using bound: ScenarioDimensions) extends Tiling.Special:
+case class SpecialTile(pos: Position, kind: SpecialKind)(using bound: Dimensions) extends Tiling.Special:
   override val newPos: Position =
     val computed = kind.computeNewPos(pos)
     Position(computed.x % bound.nRows, computed.y % bound.nCols)

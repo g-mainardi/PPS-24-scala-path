@@ -7,8 +7,6 @@ import scala.util.Random
 trait Direction:
   def vector: Position
 
-trait Special extends Direction
-
 object Direction:
   enum Cardinals extends Direction:
     case Up, Down, Left, Right

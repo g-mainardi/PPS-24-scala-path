@@ -7,13 +7,13 @@ import it.unibo.utils.PrettyPrint
 object Scenario:
   val nRows = 7
   val nCols = 7
-
-case class ScenarioDimensions(nRows: Int, nCols: Int)
+  case class Dimensions(nRows: Int, nCols: Int)
 
 trait Scenario(val nRows: Int, val nCols: Int) extends PrettyPrint:
+  import Scenario.Dimensions
   import it.unibo.utils.RandomGenerator.*
   protected var _tiles: List[Tile] = List()
-  given ScenarioDimensions = ScenarioDimensions(nRows, nCols)
+  given Dimensions = Dimensions(nRows, nCols)
 
   def generate(): Unit
 

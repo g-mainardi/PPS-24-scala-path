@@ -4,11 +4,11 @@ import it.unibo.model.fundamentals.Position
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should.Matchers
 import it.unibo.model.fundamentals.Position
-import it.unibo.model.scenario.{Scenario, ScenarioDimensions, SpecialTile, SpecialTileBuilder, SpecialTileRegistry, Specials}
+import it.unibo.model.scenario.{Scenario, Dimensions, SpecialTile, SpecialTileBuilder, SpecialTileRegistry, Specials}
 
 class TestSpecials extends AnyFlatSpec with Matchers:
   val special = new SpecialTileBuilder
-  given ScenarioDimensions = ScenarioDimensions(10, 10)
+  given Dimensions = Dimensions(10, 10)
 
   behavior of "SpecialTileBuilder and SpecialTile"
   it should "register special kinds correctly in the registry" in {
