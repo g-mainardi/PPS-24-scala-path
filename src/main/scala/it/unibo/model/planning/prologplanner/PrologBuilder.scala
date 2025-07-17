@@ -11,15 +11,45 @@ import it.unibo.utils.prologintegration.Scala2Prolog.{Engine, mkPrologEngine}
 import scala.io.Source
 import scala.util.Using
 
+/**
+ * Builds a Prolog-based planner using a configuration and a theory file.
+ * It converts an implicit configuration into a prolog theory.
+ * It then initializes a tuProlog engine and returns a ready-to-use {@code PrologPlanner}.
+ *
+ * This builder relies on pattern matching extractors defined as private objects
+ * (e.g., {@code InitPos}, {@code Tiles}, {@code Theory}) for modular and readable code.
+ */
 class PrologBuilder(using configuration: Configuration):
+
+  /**
+   * Builds a {@code PrologPlanner} from the provided configuration.
+   * It extracts all required Prolog terms and source code fragments,
+   * combines them into a unified theory, and initializes the Prolog engine.
+   * Throws {@code FailedPlannerBuildException} if configuration is invalid.
+   *
+   * @return a new instance of {@code PrologPlanner}
+   */
   def build: Planner = configuration match
     case Configuration(InitPos(initFact), Goal(goalFact), MaxMoves(goalTerm), Tiles(tileFacts), Directions(directionsFact), Theory(theoryString), _) =>
       val fullTheory = new Theory(s"$initFact\n$goalFact\n$directionsFact\n$tileFacts\n$theoryString")
       println(s"\n$fullTheory\n")
-      val engine: Engine = mkPrologEngine(fullTheory)
+      val engine = mkPrologEngine(fullTheory)
       PrologPlanner(engine, goalTerm)
     case _ => throw FailedPlannerBuildException
-    
+
+  /**
+   * Extractor objects used to transform configuration fields into Prolog facts or terms.
+   *
+   * These extractors convert:
+   * - Init position into `init(...)` fact
+   * - Goal position into `goal(...)` fact
+   * - Max moves into a `plan(P, M)` Prolog term
+   * - Scenario tiles into `passable(...)` and `special(...)` facts
+   * - Direction list into `delta(...)` clauses plus a general move clause
+   * - Theory path into the contents of a `.pl` file
+   *
+   * They are used to deconstruct the configuration via pattern matching in the `build` method.
+   */
   private object InitPos:
     def unapply(init: (Int, Int)): Option[String] = Some(s"init(s(${init._1}, ${init._2})).")
 
@@ -47,10 +77,10 @@ class PrologBuilder(using configuration: Configuration):
     def unapply(directions: List[Direction]): Option[String] =
       Some(generateDeltaClauses(directions))
 
-  private def toCamelCase(name: String): String =
+  private def toCamelCase(name: String) =
     name.head.toLower + name.tail
 
-  private def generateDeltaClauses(directions: List[Direction]): String =
+  private def generateDeltaClauses(directions: List[Direction]) =
     val deltaClauses = directions.map {
       case d =>
         val Position(dx, dy) = d.vector

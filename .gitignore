@@ -1,6 +1,7 @@
 .idea/
 .bsp/
 .bloop/
+null/
 
 *.iml
 *.pdf

@@ -104,7 +104,6 @@ private class PlannerBuilder extends BuilderInit, BuilderGoal, BuilderConstraint
 
   /**
    * Builds the planner based on the algorithm type
-   *
    * @return a concrete Planner instance
    */
   def build: Planner =
