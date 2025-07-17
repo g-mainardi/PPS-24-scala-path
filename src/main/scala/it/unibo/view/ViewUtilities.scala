@@ -1,20 +1,26 @@
 package it.unibo.view
 
+import it.unibo.ScalaPath.view.pack
 import it.unibo.controller.{DisplayableController, Simulation}
 import it.unibo.model.fundamentals.Direction.Cardinals.*
 import it.unibo.model.fundamentals.Direction.Diagonals.*
 import it.unibo.model.fundamentals.{Position, Tile}
 import it.unibo.model.fundamentals.{Direction, Tiling}
 import it.unibo.model.scenario.{SpecialKind, SpecialTile, SpecialTileBuilder, SpecialTileRegistry}
-
+import java.awt.Dimension
 import java.awt.Color
 import java.awt.geom.{Ellipse2D, Rectangle2D}
 import scala.swing.{Alignment, *}
 import scala.swing.event.{ButtonClicked, Event, KeyEvent, KeyTyped, SelectionChanged}
 import java.awt.Image
 import java.awt.image.BufferedImage
-import javax.swing.ImageIcon
+import javax.swing.{ImageIcon, WindowConstants}
 import javax.imageio.ImageIO
+import scala.swing.Dialog.Result
+import scala.swing.Swing.onEDT
+import scala.swing.*
+import javax.swing.WindowConstants
+import scala.swing.Point
 
 object ViewUtilities:
   import Tiling.*
@@ -122,3 +128,21 @@ object ViewUtilities:
       title = title,
       messageType = messageType
     )
+
+  def showLoadingDialog(parent: Frame, message: String = "Loading..."): Dialog =
+    val dialog = new Dialog(parent):
+      modal = true
+      peer.setUndecorated(true)
+      peer.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE)
+      contents = new FlowPanel:
+        contents += new Label(message)
+      preferredSize = new Dimension(200, 80)
+      pack()
+      val px = parent.locationOnScreen.x + (parent.size.width - size.width) / 2
+      val py = parent.locationOnScreen.y + (parent.size.height - size.height) / 2
+      location = new Point(px, py)
+    dialog.open()
+    dialog
+
+  def closeLoadingDialog(dialog: Dialog): Unit =
+    dialog.close()

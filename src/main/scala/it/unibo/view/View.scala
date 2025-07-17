@@ -12,7 +12,7 @@ import javax.swing.ImageIcon
 import javax.imageio.ImageIO
 import it.unibo.model.fundamentals.Direction.Cardinals.*
 import it.unibo.model.fundamentals.Direction.Diagonals.*
-import it.unibo.model.fundamentals.{Direction, Tiling, Position}
+import it.unibo.model.fundamentals.{Direction, Position, Tiling}
 import it.unibo.model.scenario.{SpecialKind, SpecialTile, SpecialTileBuilder}
 
 import java.awt.event.MouseAdapter
@@ -72,6 +72,7 @@ class View(controller: DisplayableController, gridOffset: Int, cellSize: Int) ex
   private val remainingSteps = new Label()
   private val colsInput = new IntegerTextField() {columns = 2}
   private val rowsInput = new IntegerTextField() {columns = 2}
+  private var loadingDialog: Option[Dialog] = None
 
   private val directionGrid = new FlowPanel {
     contents += new DirectionGrid()
@@ -117,6 +118,12 @@ class View(controller: DisplayableController, gridOffset: Int, cellSize: Int) ex
 
   def showErrorMessage(message: String, title: String): Unit =
     showPopupMessage(message, title, Dialog.Message.Error)
+
+  def showLoadingDialog(message: String): Unit =
+    loadingDialog = Some(ViewUtilities.showLoadingDialog(this, message))
+
+  def closeLoadingDialog(): Unit
+    ViewUtilities.closeLoadingDialog(loadingDialog.get)
 
   private val moveStartRadio = new RadioButton("Start")
   private val moveGoalRadio = new RadioButton("Goal") { selected = true }
