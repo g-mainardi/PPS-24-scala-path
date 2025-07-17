@@ -10,13 +10,14 @@ trait ScenarioManager:
   val builder = new SpecialTileBuilder // todo ???
   val scenarios: List[(Int, Int) => Scenario] =
     for
-      scenarioType <- EmptyScenario.apply _ :: Terrain.apply _ :: Maze.apply _ :: Specials.apply _ :: Nil
+      scenarioType <- Terrain.apply _ :: Maze.apply _ :: Specials.apply _ :: Nil
     yield
       scenarioType
 
   private var (_nRows, _nCols) = (Scenario.nRows, Scenario.nCols)
-  private var _scenario: Scenario = scenarios head (_nRows, _nCols)
-  generateScenario() // todo teniamo?
+  private var _scenario: Scenario = EmptyScenario(_nRows, _nCols)
+  generateScenario()
+
   private var _init: Position = randomPosition
   private var _goal: Position = randomPosition
 
