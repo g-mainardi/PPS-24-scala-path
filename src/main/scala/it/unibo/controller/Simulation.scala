@@ -1,6 +1,6 @@
 package it.unibo.controller
 
-import it.unibo.model.fundamentals.Direction
+import it.unibo.model.fundamentals.{Direction, Position}
 
 object Simulation:
   enum State:
@@ -15,9 +15,11 @@ object Simulation:
     case SetAnimationSpeed(speed: Double)
     case SetScenarioSize(nRows: Int, nCols: Int)
 
-  enum SettablePosition:
-    case Init(pos: (Int, Int))
-    case Goal(pos: (Int, Int))
+  enum SettablePosition(private val pos: (Int, Int)):
+    case Init(private val pos: (Int, Int)) extends SettablePosition(pos)
+    case Goal(private val pos: (Int, Int)) extends SettablePosition(pos)
+    
+    def position: Position = Position(pos)
   
   export State.*
 
