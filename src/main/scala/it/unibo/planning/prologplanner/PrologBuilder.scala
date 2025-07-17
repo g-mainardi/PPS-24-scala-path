@@ -52,7 +52,7 @@ class PrologBuilder(using configuration: Configuration):
   private def generateDeltaClauses(directions: List[Direction]): String =
     val deltaClauses = directions.map {
       case d =>
-        val Position(dx, dy, visited) = d.vector
+        val Position(dx, dy) = d.vector
         val name = toCamelCase(d.toString)
         s"delta($name, $dx, $dy)."
     }.distinct.mkString("\n")
