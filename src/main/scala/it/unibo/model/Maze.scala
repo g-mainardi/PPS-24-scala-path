@@ -3,7 +3,7 @@ package it.unibo.model
 import it.unibo.model.Tiling.{Floor, Position, Tile, Wall}
 import scala.util.Random
 
-class Maze(nRows: Int, nCols: Int) extends Scenario(nRows, nCols):
+class Maze(nRows: Int, nCols: Int) extends EmptyScenario(nRows, nCols):
   private val logicalRows = nRows / 2
   private val logicalCols = nCols / 2
   private val gridRows = 2 * logicalRows + 1

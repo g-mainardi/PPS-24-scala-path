@@ -24,20 +24,21 @@ class SpecialTileBuilder:
   def does(compute: Position => Position): Unit =
     SpecialTileRegistry.registry += name -> SpecialKind(name, compute)
 
-class Specials(nRows: Int, nCols: Int) extends Scenario(nRows, nCols):
+class Specials(nRows: Int, nCols: Int) extends EmptyScenario(nRows, nCols):
   private val tilesPerKind = 3
   private val special = new SpecialTileBuilder
 
   special tile "Teleport" does (_ => randomFreePosition.get)
   special tile "JumpDown" does (pos => Position(pos.x + 2, pos.y))
   special tile "StairsUp" does (pos => Position(pos.x - 2, pos.y))
-
-  _tiles = (for
-    x <- 0 until nCols
-    y <- 0 until nRows
-  yield Floor(Position(x, y))).toList
+//
+//  _tiles = (for
+//    x <- 0 until nCols
+//    y <- 0 until nRows
+//  yield Floor(Position(x, y))).toList
 
   override def generate(): Unit =
+    super.generate()
     val specialPositions: Map[SpecialKind, Set[Position]] =
       SpecialTileRegistry.allKinds.map { kind =>
         kind -> randomFreePositions(tilesPerKind)
