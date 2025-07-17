@@ -33,4 +33,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: scala-path-${{ steps.tag.outputs.tag_name }}
-          path: target/scala-*/*-assembly-*.jar
+          path: target/scala-*/pps-24-scala-path-assembly.jar
