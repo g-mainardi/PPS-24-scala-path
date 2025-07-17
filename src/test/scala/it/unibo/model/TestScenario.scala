@@ -14,6 +14,7 @@ class TestScenario extends AnyFlatSpec with Matchers:
         pos: Position = Position(ind, ind)
       yield
         tileType(pos)
+
   "A Scenario" should "generate some tiling" in :
     val scenario: Scenario = DummyScenario(3, 3)
     scenario.generate()
