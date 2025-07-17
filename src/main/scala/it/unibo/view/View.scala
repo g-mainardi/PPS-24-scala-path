@@ -22,7 +22,7 @@ class View(controller: DisplayableController, gridOffset: Int, cellSize: Int) ex
   import ViewUtilities.*
   title = "Scala Path"
   preferredSize = new Dimension(800, 600)
-  private val algorithmDropdown = new ComboBoxWithPlaceholder("Select algorithm", controller.algorithmsNames, Simulation set Simulation.ChangeAlgorithm(_))
+  private val algorithmDropdown = new ComboBoxWithPlaceholder("Select algorithm", controller.algorithmsNames, Simulation set Simulation.ChangeAlgorithm(_)){enabled = false}
   private val scenarioDropdown = new ComboBoxWithPlaceholder("Select scenario...", controller.scenariosNames, Simulation set Simulation.ChangeScenario(_))
 
   private class DirectionGrid() extends GridPanel(3, 3):
@@ -108,6 +108,7 @@ class View(controller: DisplayableController, gridOffset: Int, cellSize: Int) ex
   def disableStartStopButton(): Unit = startStopButton.enabled = false
   def enableGenerateScenarioButton(): Unit = refreshScenarioButton.enabled = true
   def disableGenerateScenarioButton(): Unit = refreshScenarioButton.enabled = false
+  def enableAlgorithmDropdown(): Unit = algorithmDropdown.enabled = true
   def resetAlgorithmDropdown(): Unit = algorithmDropdown.reset()
   def resetStartStopButton(): Unit = startStopButton.reset()
 
