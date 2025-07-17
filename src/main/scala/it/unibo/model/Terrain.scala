@@ -55,7 +55,7 @@ object PerlinNoise:
     (lerp(v, x1, x2) + 1) / 2.0
 
 
-class Terrain(nRows: Int, nCols: Int) extends Scenario(nRows, nCols):
+class Terrain(nRows: Int, nCols: Int) extends EmptyScenario(nRows, nCols):
 
   private def getTileFromNoise(noise: Double)(position: Position): Tile =
     if noise < 0.4 then Water(position)
@@ -63,11 +63,8 @@ class Terrain(nRows: Int, nCols: Int) extends Scenario(nRows, nCols):
     else if noise < 0.9 then Rock(position)
     else Lava(position)
 
-  override def generate(): Unit =
-    val permutation = PerlinNoise.randomPermutation
-    _tiles =
-      (for
-        x <- 0 until nCols
-        y <- 0 until nRows
-      yield
-        getTileFromNoise(PerlinNoise.getNoise(x, y, 0.15, permutation))(Position(x, y))).toList
+  override def generate(generator: (x: Int, y:Int) => Tile): Unit =
+    super.generate {
+      lazy val permutation = PerlinNoise.randomPermutation
+      (x, y) => getTileFromNoise(PerlinNoise.getNoise(x, y, 0.15, permutation))(Position(x, y))
+    }
