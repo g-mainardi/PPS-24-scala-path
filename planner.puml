@@ -1,0 +1,62 @@
+@startuml
+' ========================
+'         ENUM
+' ========================
+enum Plan {
+  SucceededPlanWithMoves
+  SucceededPlan
+  FailedPlan
+}
+
+' ========================
+'      CLASSI CORE
+' ========================
+class Configuration {
+  +initPos: (Int, Int)
+  +goalPos: (Int, Int)
+  +maxMoves: Option[Int]
+  +environmentTiles: Scenario
+  +directions: List[Direction]
+  +theoryPath: Option[String]
+  +algorithm: Option[PathFindingAlgorithm]
+}
+
+interface Planner {
+  +plan(): Plan
+  +toAgent(): Agent
+}
+
+class DummyPlanner {
+  +plan(): Plan
+}
+
+class PrologPlanner {
+  +plan(): Plan
+  -engine: Engine
+  -goal: Term
+}
+
+class ScalaPlanner {
+  +plan(): Plan
+  -start: Position
+  -goal: Position
+  -tiles: List[Tile]
+  -directions: List[Direction]
+  -algorithm: PathFindingAlgorithm
+}
+
+Planner <|.. DummyPlanner
+Planner <|.. PrologPlanner
+Planner <|.. ScalaPlanner
+
+PrologPlanner --> Engine
+PrologPlanner --> Term
+ScalaPlanner --> Position
+ScalaPlanner --> Tile
+ScalaPlanner --> Direction
+ScalaPlanner --> PathFindingAlgorithm
+Planner --> Configuration
+Configuration --> Scenario
+Configuration --> Direction
+Configuration --> PathFindingAlgorithm
+@enduml
