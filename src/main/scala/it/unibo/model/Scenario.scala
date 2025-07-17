@@ -21,7 +21,7 @@ object Scenario:
   def randomPositions(size: Int): Set[Position] = Set.fill(size)(randomPosition)
 
 trait Scenario(val nRows: Int, val nCols: Int) extends PrettyPrint:
-  import it.unibo.utils.RandomGenerator.getRandomElement
+  import it.unibo.utils.RandomGenerator.*
   protected var _tiles: List[Tile] = List()
 
   def generate(): Unit
@@ -29,7 +29,9 @@ trait Scenario(val nRows: Int, val nCols: Int) extends PrettyPrint:
   def tiles: List[Tile] = _tiles
 
   def checkSpecial(position: Position): Option[Tile] = tiles.find(tile => tile.x == position.x && tile.y == position.y)
-  
+
   def freePositions: List[Position] = tiles collect {case pass: Passage => Position(pass.x, pass.y)}
-  
-  def randomPosition: Option[Position] = freePositions.getRandomElement
+
+  def randomFreePosition: Option[Position] = freePositions.getRandomElement
+
+  def randomFreePositions(n: Int): Seq[Position] = freePositions getRandomElements n

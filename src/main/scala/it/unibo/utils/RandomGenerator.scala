@@ -8,3 +8,7 @@ object RandomGenerator:
     def getRandomElement: Option[A] = seq match
       case Nil => None
       case _   => Some(seq(rand nextInt seq.size))
+
+    def getRandomElements(n: Int): Seq[A] = seq match
+      case Nil => List.empty
+      case _   => 0 until n map {_ => seq.getRandomElement.get}
