@@ -10,6 +10,17 @@ import it.unibo.model.planning.algorithms.Algorithm.*
 import it.unibo.model.planning.algorithms.{AStarAlgorithm, Algorithm, PathFindingAlgorithm}
 
 
+/**
+ * Configuration for a pathfinding task, containing all necessary parameters.
+ *
+ * @param initPos          starting position (x, y)
+ * @param goalPos          goal position (x, y)
+ * @param maxMoves         optional movement limit
+ * @param environmentTiles the scenario (tiles map)
+ * @param directions       the set of directions the agent can move
+ * @param theoryPath       optional path to a Prolog file (if using Prolog planner)
+ * @param algorithm        optional Scala algorithm (e.g., AStar)
+ */
 case class Configuration(initPos: (Int, Int),
                          goalPos: (Int, Int),
                          maxMoves: Option[Int] = None,
@@ -19,9 +30,17 @@ case class Configuration(initPos: (Int, Int),
                          algorithm: Option[PathFindingAlgorithm] = None
                           )
 
+/**
+ * Entry point for creating a Planner using the fluent builder API.
+ */
 object PlannerBuilder:
   def start: BuilderInit = new PlannerBuilder()
 
+/**
+ * Abstract builder that collects configuration,
+ * enforcing a specific method order.
+ * It offers a fluent interface
+ */
 trait BuilderInit:
   protected var initPos: (Int, Int) = (0, 0)
   def withInit(initPos: (Int, Int)): BuilderGoal
@@ -49,6 +68,10 @@ trait BuilderAlgorithm:
 trait CompleteBuilder:
   def build: Planner
 
+/**
+ * Concrete builder that collects configuration data step-by-step,
+ * then instantiates either a Prolog or Scala planner.
+ */
 private class PlannerBuilder extends BuilderInit, BuilderGoal, BuilderConstraints, BuilderEnvironment, BuilderDirections, BuilderAlgorithm, CompleteBuilder:
   private val theoryPaths: Map[Algorithm, String] = Map(
     DFS -> "src/main/prolog/dfs.pl",
@@ -79,6 +102,11 @@ private class PlannerBuilder extends BuilderInit, BuilderGoal, BuilderConstraint
     this.algorithm = algorithm
     this
 
+  /**
+   * Builds the planner based on the algorithm type
+   *
+   * @return a concrete Planner instance
+   */
   def build: Planner =
     val configuration: Configuration = Configuration (
       initPos,

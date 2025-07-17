@@ -4,18 +4,38 @@ import it.unibo.model.fundamentals.Tiling.Floor
 import it.unibo.model.*
 import it.unibo.model.fundamentals.{Position, Tile, Tiling}
 
+/**
+ * A programmatically defined kind of special tile.
+ * @param name          the name of the tile kind (e.g., "Teleport", "JumpDown")
+ * @param computeNewPos a function that computes the new position when the tile is activated
+ */
 case class SpecialKind(name: String, computeNewPos: Position => Position)
 
+/**
+ * A tile with custom movement logic defined by its kind.
+ * The resulting position is wrapped to stay within the scenario bounds.
+ *
+ * @param pos  the current position of the tile
+ * @param kind the behavior-defining kind of this special tile
+ */
 case class SpecialTile(pos: Position, kind: SpecialKind)(using bound: ScenarioDimensions) extends Tiling.Special:
   override val newPos: Position =
     val computed = kind.computeNewPos(pos)
     Position(computed.x % bound.nRows, computed.y % bound.nCols)
 
+/**
+ * Global registry for all declared special tile kinds.
+ */
 object SpecialTileRegistry:
   var registry: Map[String, SpecialKind] = Map()
   def allKinds: Iterable[SpecialKind] = registry.values
   def clear(): Unit = registry = Map.empty
 
+/**
+ * DSL-style builder for defining new special tile kinds.
+ *
+ * Usage: builder tile "Teleport" does (pos => ...)
+ */
 class SpecialTileBuilder:
   private var name: String = ""
 
@@ -26,6 +46,12 @@ class SpecialTileBuilder:
   def does(compute: Position => Position): Unit =
     SpecialTileRegistry.registry += name -> SpecialKind(name, compute)
 
+/**
+ * A scenario that includes random special tiles with predefined behaviors.
+ *
+ * @param nRows number of rows in the scenario
+ * @param nCols number of columns in the scenario
+ */
 class Specials(nRows: Int, nCols: Int) extends EmptyScenario(nRows, nCols):
   private val tilesPerKind = 3
   private val special = new SpecialTileBuilder
@@ -33,11 +59,6 @@ class Specials(nRows: Int, nCols: Int) extends EmptyScenario(nRows, nCols):
   special tile "Teleport" does (_ => randomFreePosition.get)
   special tile "JumpDown" does (pos => Position(pos.x + 2, pos.y))
   special tile "StairsUp" does (pos => Position(pos.x - 2, pos.y))
-//
-//  _tiles = (for
-//    x <- 0 until nCols
-//    y <- 0 until nRows
-//  yield Floor(Position(x, y))).toList
 
   override def generate(): Unit =
     super.generate()
@@ -53,9 +74,3 @@ class Specials(nRows: Int, nCols: Int) extends EmptyScenario(nRows, nCols):
             SpecialTile(pos, kind)
         }.getOrElse(Floor(pos))
       case other => other
-
-@main def defineSpecialTiles(): Unit =
-  val builder = new SpecialTileBuilder
-  // builder tile "Teleport" does (_ => randomPosition)
-  builder tile "JumpDown" does (pos => Position(pos.x + 2, pos.y))
-  builder tile "StairsUp" does (pos => Position(pos.x - 2, pos.y))
