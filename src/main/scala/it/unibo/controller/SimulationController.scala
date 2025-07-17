@@ -165,7 +165,7 @@ object ScalaPathController extends SimulationController
     applyToView: v =>
       v.disableStepButton()
       v.disableStartStopButton()
-      v.showInfoMessage("Plan terminated! You can restart it or generate a new Scenario.", "End of plan")
+      v.showInfoMessage("Plan terminated! You can restart it or try a new one.", "End of plan")
 
   protected def handleNoPlan(errorMessage: String): Unit =
     applyToView: v =>
@@ -173,9 +173,7 @@ object ScalaPathController extends SimulationController
       v.showErrorMessage(s"Error: $errorMessage!\nTry to modify some parameters.", "No plan found")
 
   protected def handleValidPlan(nMoves: Option[Int]): Unit =
-    val withResult: String = nMoves match
-      case Some(nMoves) => s"with $nMoves moves"
-      case None         => s"within _ moves" //todo max moves inserted
+    val withResult: String = nMoves map(n => s"with $n moves") getOrElse ""
     applyToView: v =>
       v.enableStepButton()
       v.enableStartStopButton()
