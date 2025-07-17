@@ -14,8 +14,8 @@ class Maze(nRows: Int, nCols: Int) extends Scenario(nRows, nCols):
   override def generate(): Unit =
     val allWalls: Map[Position, Tile] =
       (for
-        x <- 0 until gridRows
-        y <- 0 until gridCols
+        x <- 0 until gridCols
+        y <- 0 until gridRows
       yield Position(x, y) -> Wall(Position(x, y))
         ).toMap
 
