@@ -105,14 +105,9 @@ object ScalaPathController extends DisplayableController
     case DirectionsChoice(selections) =>
       directions = selections
       Simulation set Empty
-    case SetPosition(Goal(pos)) if pos.isAvailable =>
-      goal = Position(pos)
-      dropAgent()
-      View.disableControls()
-      View.update()
-      Simulation set Empty
-    case SetPosition(Init(pos)) if pos.isAvailable =>
-      init = Position(pos)
+    case SetPosition(toChange) if toChange.position.isAvailable => toChange match
+      case s: Goal => goal = s.position
+      case s: Init => init = s.position
       dropAgent()
       View.disableControls()
       View.update()

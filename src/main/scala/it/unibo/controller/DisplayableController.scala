@@ -41,8 +41,8 @@ object DisplayableController:
       case Some(pos) => pos
       case None => throw IllegalStateException("Scenario has no valid tiles")
 
-    extension (p: (Int, Int))
-      def isAvailable: Boolean = _scenario.freePositions contains Position(p)
+    extension (p: Position)
+      def isAvailable: Boolean = _scenario.freePositions contains p
 
   trait AlgorithmManager:
     import it.unibo.model.planning.algorithms.Algorithm
