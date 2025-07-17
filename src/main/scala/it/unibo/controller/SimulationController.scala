@@ -179,3 +179,6 @@ object ScalaPathController extends SimulationController
       v.enableStartStopButton()
       v.enableGenerateScenarioButton()
       v.showInfoMessage(s"Plan found $withResult! Now you can execute it.", "Plan found")
+
+  protected def searchingPlan(): Unit =
+    println("Agent assembled! Now searching a plan...")

@@ -122,8 +122,8 @@ class View(controller: DisplayableController, gridOffset: Int, cellSize: Int) ex
   def showLoadingDialog(message: String): Unit =
     loadingDialog = Some(ViewUtilities.showLoadingDialog(this, message))
 
-  def closeLoadingDialog(): Unit
-    ViewUtilities.closeLoadingDialog(loadingDialog.get)
+  def closeLoadingDialog(): Unit = loadingDialog foreach: dialog =>
+    ViewUtilities closeLoadingDialog dialog
 
   private val moveStartRadio = new RadioButton("Start")
   private val moveGoalRadio = new RadioButton("Goal") { selected = true }

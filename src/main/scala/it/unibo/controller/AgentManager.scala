@@ -11,6 +11,7 @@ trait AgentManager:
   def agent: Option[Agent] = _agent
   def agent_=(agent: Agent): Unit = _agent = Some(agent)
 
+  protected def searchingPlan(): Unit
   protected def handleNoPlan(errorMessage: String): Unit
   protected def handleValidPlan(nMoves: Option[Int] = None): Unit
   protected def assembleAgent(): Unit
@@ -30,7 +31,7 @@ trait AgentManager:
 
   protected def searchPlan(): Unit =
     assembleAgent()
-    println("Agent assembled! Now searching a plan...") //todo change with loading screen
+    searchingPlan()
     _agent match 
       case Some(agent) =>
         try handleValidPlan(agent.searchPlan)
