@@ -129,18 +129,21 @@ object ViewUtilities:
       messageType = messageType
     )
 
-  def showLoadingDialog(parent: Frame, message: String = "Loading..."): Dialog =
-    val dialog = new Dialog(parent):
+//  def showLoadingDialog(message: String, title: String): Unit =
+//    Dialog.showMessage(
+//      message = message,
+//      title = title,
+//      modal = true
+//    )
+
+  def showLoadingDialog(message: String = "Loading..."): Dialog =
+    val dialog = new Dialog():
       modal = true
       peer.setUndecorated(true)
       peer.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE)
       contents = new FlowPanel:
         contents += new Label(message)
       preferredSize = new Dimension(200, 80)
-      pack()
-      val px = parent.locationOnScreen.x + (parent.size.width - size.width) / 2
-      val py = parent.locationOnScreen.y + (parent.size.height - size.height) / 2
-      location = new Point(px, py)
     dialog.open()
     dialog
 

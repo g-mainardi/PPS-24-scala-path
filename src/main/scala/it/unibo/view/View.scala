@@ -120,7 +120,7 @@ class View(controller: DisplayableController, gridOffset: Int, cellSize: Int) ex
     showPopupMessage(message, title, Dialog.Message.Error)
 
   def showLoadingDialog(message: String): Unit =
-    loadingDialog = Some(ViewUtilities.showLoadingDialog(this, message))
+    loadingDialog = Some(ViewUtilities.showLoadingDialog(message))
 
   def closeLoadingDialog(): Unit = loadingDialog foreach: dialog =>
     ViewUtilities closeLoadingDialog dialog
