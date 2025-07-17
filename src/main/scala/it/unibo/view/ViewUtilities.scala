@@ -139,10 +139,9 @@ object ViewUtilities:
   def showLoadingDialog(message: String = "Loading..."): Dialog =
     val dialog = new Dialog():
       modal = true
-      peer.setUndecorated(true)
       peer.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE)
-      contents = new FlowPanel:
-        contents += new Label(message)
+      contents = new BorderPanel:
+        layout(new Label(message)) = BorderPanel.Position.Center
       preferredSize = new Dimension(200, 80)
     dialog.open()
     dialog

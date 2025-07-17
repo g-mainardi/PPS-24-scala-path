@@ -169,16 +169,19 @@ object ScalaPathController extends SimulationController
 
   protected def handleNoPlan(errorMessage: String): Unit =
     applyToView: v =>
+      v.closeLoadingDialog()
       v.enableGenerateScenarioButton()
       v.showErrorMessage(s"Error: $errorMessage!\nTry to modify some parameters.", "No plan found")
 
   protected def handleValidPlan(nMoves: Option[Int]): Unit =
     val withResult: String = nMoves map(n => s"with $n moves") getOrElse ""
     applyToView: v =>
+      v.closeLoadingDialog()
       v.enableStepButton()
       v.enableStartStopButton()
       v.enableGenerateScenarioButton()
       v.showInfoMessage(s"Plan found $withResult! Now you can execute it.", "Plan found")
 
   protected def searchingPlan(): Unit =
-    println("Agent assembled! Now searching a plan...")
+    applyToView: v =>
+      v.showLoadingDialog("Agent assembled! Now searching a plan...")
