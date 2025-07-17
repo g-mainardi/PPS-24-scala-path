@@ -7,19 +7,6 @@ object Scenario:
   val nRows = 7
   val nCols = 7
 
-//  import scala.util.Random
-//  private val rand = Random(seed = 42)
-//
-//  def randomPosition: Position =
-//    val positions: Seq[Position] = for
-//      x <- 0 to nRows
-//      y <- 0 to nCols
-//    yield
-//      Position(x, y)
-//    positions(rand nextInt positions.size)
-//
-//  def randomPositions(size: Int): Set[Position] = Set.fill(size)(randomPosition)
-
 case class ScenarioDimensions(nRows: Int, nCols: Int)
 
 trait Scenario(val nRows: Int, val nCols: Int) extends PrettyPrint:
@@ -37,4 +24,4 @@ trait Scenario(val nRows: Int, val nCols: Int) extends PrettyPrint:
 
   def randomFreePosition: Option[Position] = freePositions.getRandomElement
 
-  def randomFreePositions(n: Int): Seq[Position] = freePositions getRandomElements n
+  def randomFreePositions(n: Int): Set[Position] = freePositions getRandomElements n

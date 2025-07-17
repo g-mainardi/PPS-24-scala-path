@@ -16,7 +16,7 @@ object SpecialTileRegistry:
 
 class SpecialTileBuilder:
   private var name: String = ""
-  
+
   def tile(name: String): SpecialTileBuilder =
     this.name = name
     this
@@ -26,13 +26,13 @@ class SpecialTileBuilder:
 
 class Specials(nRows: Int, nCols: Int) extends Scenario(nRows, nCols):
   private val tilesPerKind = 3
+  private val special = new SpecialTileBuilder
 
-  val special = new SpecialTileBuilder
-  special tile "Teleport" does (_ => randomPosition.get)
+  special tile "Teleport" does (_ => randomFreePosition.get)
   special tile "JumpDown" does (pos => Position(pos.x + 2, pos.y))
   special tile "StairsUp" does (pos => Position(pos.x - 2, pos.y))
 
-  private val baseTiles = (for
+  _tiles = (for
     x <- 0 until nRows
     y <- 0 until nCols
   yield Floor(Position(x, y))).toList
@@ -40,10 +40,10 @@ class Specials(nRows: Int, nCols: Int) extends Scenario(nRows, nCols):
   override def generate(): Unit =
     val specialPositions: Map[SpecialKind, Set[Position]] =
       SpecialTileRegistry.allKinds.map { kind =>
-        kind -> randomPositions(tilesPerKind)
+        kind -> randomFreePositions(tilesPerKind)
       }.toMap
 
-    _tiles = baseTiles.map:
+    _tiles = _tiles.map:
       case Tile(pos) =>
         specialPositions.collectFirst {
           case (kind, positions) if positions.contains(pos) =>

@@ -14,7 +14,8 @@ checkSpecial(TempState, TempState).
 % planner(+CurrentState, +GoalState, +VisitedStates, -Path, -MoveCount)
 planner(State, Goal, Visited, [Dir|Rest], NewMoves) :-
     move(State, Dir, TempState),
+    \+ member(TempState, Visited),
     checkSpecial(TempState, NewState),
-    \+ member(NewState, Visited),
+    (TempState = NewState -> true; \+ member(NewState, Visited)),
     planner(NewState, Goal, [NewState|Visited], Rest, Moves),
   	NewMoves is Moves + 1.
