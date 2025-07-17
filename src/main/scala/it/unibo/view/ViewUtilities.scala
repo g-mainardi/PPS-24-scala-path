@@ -1,10 +1,11 @@
 package it.unibo.view
 
 import it.unibo.controller.{DisplayableController, Simulation}
-import it.unibo.model.Direction.Cardinals.*
-import it.unibo.model.Direction.Diagonals.*
-import it.unibo.model.{Direction, SpecialKind, SpecialTile, SpecialTileBuilder, SpecialTileRegistry, Tiling}
-import it.unibo.model.Tiling.Position
+import it.unibo.model.fundamentals.Direction.Cardinals.*
+import it.unibo.model.fundamentals.Direction.Diagonals.*
+import it.unibo.model.fundamentals.{Position, Tile}
+import it.unibo.model.fundamentals.{Direction, Tiling}
+import it.unibo.model.scenario.{SpecialKind, SpecialTile, SpecialTileBuilder, SpecialTileRegistry}
 
 import java.awt.Color
 import java.awt.geom.{Ellipse2D, Rectangle2D}
@@ -16,7 +17,7 @@ import javax.swing.ImageIcon
 import javax.imageio.ImageIO
 
 object ViewUtilities:
-  import it.unibo.model.Tiling.*
+  import Tiling.*
 
   private val colorList: List[Color] = List(Color.YELLOW, Color.CYAN, Color.MAGENTA, Color.ORANGE, Color.PINK, Color.LIGHT_GRAY)
   private val specialTileColors: Map[String, Color] = SpecialTileRegistry.allKinds.map(_.name).zip(colorList).toMap

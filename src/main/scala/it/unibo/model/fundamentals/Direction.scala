@@ -1,7 +1,6 @@
-package it.unibo.model
+package it.unibo.model.fundamentals
 
-import it.unibo.model.Direction.Cardinals.{Down, Left, Right, Up}
-import it.unibo.model.Tiling.Position
+import Direction.Cardinals.{Down, Left, Right, Up}
 
 import scala.util.Random
 

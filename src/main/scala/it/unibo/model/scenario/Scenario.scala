@@ -1,6 +1,7 @@
-package it.unibo.model
+package it.unibo.model.scenario
 
-import Tiling.*
+import it.unibo.model.fundamentals.{Position, Tile}
+import it.unibo.model.fundamentals.Tiling.Passage
 import it.unibo.utils.PrettyPrint
 
 object Scenario:

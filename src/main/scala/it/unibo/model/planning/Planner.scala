@@ -1,20 +1,19 @@
-package it.unibo.planning
+package it.unibo.model.planning
 
 import alice.tuprolog.{SolveInfo, Term}
-import it.unibo.model.{Agent, Direction}
-import it.unibo.planning.Algorithm.*
-import it.unibo.planning.Plan.*
-import it.unibo.model.Tiling.{Position, Tile}
-import it.unibo.model.Direction.{Cardinals, Diagonals, allDirections}
-import it.unibo.planning.prologplanner.{BasePrologPlanner, PrologBuilder}
-import it.unibo.planning.scalaplanner.BaseScalaPlanner
-import it.unibo.prologintegration.Prolog2Scala.{extractListFromTerm, extractTerm}
-import it.unibo.prologintegration.Scala2Prolog.Engine
+import it.unibo.model.planning.algorithms.Algorithm.*
+import Plan.*
+import it.unibo.model.fundamentals.Direction.{Cardinals, Diagonals, allDirections}
+import it.unibo.model.agent.Agent
+import it.unibo.model.fundamentals.{Direction, Position, Tile}
+import it.unibo.model.planning.algorithms.PathFindingAlgorithm
+import it.unibo.model.prologintegration.Prolog2Scala.{extractListFromTerm, extractTerm}
+import it.unibo.model.prologintegration.Scala2Prolog.Engine
 
 import scala.util.Try
-import it.unibo.planning.AStarAlgorithm
-
-import it.unibo.planning.prologplanner.Conversions.given_Conversion_Int_Int_Position
+import it.unibo.model.planning.prologplanner.Conversions.given_Conversion_Int_Int_Position
+import it.unibo.model.planning.prologplanner.{BasePrologPlanner, PrologBuilder}
+import it.unibo.model.planning.scalaplanner.BaseScalaPlanner
 
 trait Planner(using configuration: Configuration):
   def plan: Plan

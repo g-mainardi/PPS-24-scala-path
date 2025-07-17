@@ -1,6 +1,8 @@
 package it.unibo.model
 
-import it.unibo.model.Tiling.*
+import it.unibo.model.fundamentals.Position
+import it.unibo.model.fundamentals.Tiling.*
+import it.unibo.model.scenario.{Maze, Scenario, Terrain}
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should.Matchers
 

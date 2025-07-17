@@ -1,4 +1,6 @@
-package it.unibo.model
+package it.unibo.model.agent
+
+import it.unibo.model.fundamentals.Direction
 
 trait PlanManager:
   private var _currentPlan: List[Direction] = List()

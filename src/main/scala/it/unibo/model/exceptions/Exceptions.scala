@@ -1,4 +1,4 @@
-package it.unibo.model
+package it.unibo.model.exceptions
 
 case object FailedPlannerBuildException extends Exception
 case object FailedPlannerExecutionException extends Exception

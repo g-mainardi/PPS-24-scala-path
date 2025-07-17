@@ -1,8 +1,6 @@
 package it.unibo.view
 
 import it.unibo.controller.{DisplayableController, ScalaPathController, Simulation}
-import it.unibo.model.{Direction, SpecialKind, SpecialTile, SpecialTileBuilder, Tiling}
-import it.unibo.model.Tiling.Position
 
 import java.awt.Color
 import java.awt.geom.{Ellipse2D, Rectangle2D}
@@ -12,8 +10,10 @@ import java.awt.Image
 import java.awt.image.BufferedImage
 import javax.swing.ImageIcon
 import javax.imageio.ImageIO
-import it.unibo.model.Direction.Cardinals.*
-import it.unibo.model.Direction.Diagonals.*
+import it.unibo.model.fundamentals.Direction.Cardinals.*
+import it.unibo.model.fundamentals.Direction.Diagonals.*
+import it.unibo.model.fundamentals.{Direction, Tiling, Position}
+import it.unibo.model.scenario.{SpecialKind, SpecialTile, SpecialTileBuilder}
 
 import java.awt.event.MouseAdapter
 

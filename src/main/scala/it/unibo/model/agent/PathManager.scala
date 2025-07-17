@@ -1,6 +1,7 @@
-package it.unibo.model
+package it.unibo.model.agent
 
-import it.unibo.model.Tiling.Position
+import it.unibo.model.fundamentals.{Direction, Position}
+
 
 trait PathManager:
   private var _path: List[(Position, Direction)] = List()

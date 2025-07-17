@@ -1,6 +1,6 @@
 package it.unibo.controller
 
-import it.unibo.model.Direction
+import it.unibo.model.fundamentals.Direction
 
 object Simulation:
   enum State:

@@ -1,8 +1,10 @@
 package it.unibo.model
 
+import it.unibo.model.fundamentals.Position
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should.Matchers
-import it.unibo.model.Tiling.Position
+import it.unibo.model.fundamentals.Position
+import it.unibo.model.scenario.{Scenario, ScenarioDimensions, SpecialTile, SpecialTileBuilder, SpecialTileRegistry, Specials}
 
 class TestSpecials extends AnyFlatSpec with Matchers:
   val special = new SpecialTileBuilder

@@ -1,8 +1,8 @@
 package it.unibo.controller
 
-import it.unibo.model.Direction
-import it.unibo.model.Direction.allDirections
-import it.unibo.model.Tiling.Position
+import it.unibo.model.fundamentals.Direction.allDirections
+import it.unibo.model.fundamentals.Direction
+import it.unibo.model.fundamentals.Position
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should.Matchers
 

@@ -1,9 +1,9 @@
-package it.unibo.prologintegration
+package it.unibo.model.prologintegration
 
 import alice.tuprolog.{SolveInfo, Struct, Term, Theory, Var}
-import it.unibo.model.Direction
-import it.unibo.model.Direction.{Cardinals, Diagonals}
-import it.unibo.prologintegration.Scala2Prolog.Engine
+import it.unibo.model.fundamentals.Direction.{Cardinals, Diagonals}
+import it.unibo.model.fundamentals.Direction
+import Scala2Prolog.Engine
 
 object Prolog2Scala:
   given Conversion[Term, String] = _.toString

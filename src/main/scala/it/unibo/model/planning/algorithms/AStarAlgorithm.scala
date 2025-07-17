@@ -1,7 +1,9 @@
-package it.unibo.planning
+package it.unibo.model.planning.algorithms
 
-import it.unibo.model.Direction
-import it.unibo.model.Tiling.{Obstacle, Passage, Position, Tile}
+import it.unibo.model.fundamentals.Direction
+import it.unibo.model.fundamentals.Tiling.{Obstacle, Passage}
+import it.unibo.model.fundamentals.{Position, Tile}
+import it.unibo.model.planning.algorithms.PathFindingAlgorithm
 
 import scala.annotation.tailrec
 

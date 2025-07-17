@@ -1,7 +1,6 @@
-package it.unibo.planning
+package it.unibo.model.planning.algorithms
 
-import it.unibo.model.Direction
-import it.unibo.model.Tiling.{Position, Tile}
+import it.unibo.model.fundamentals.{Direction, Position, Tile}
 import it.unibo.utils.PrettyPrint
 
 trait PathFindingAlgorithm extends PrettyPrint:

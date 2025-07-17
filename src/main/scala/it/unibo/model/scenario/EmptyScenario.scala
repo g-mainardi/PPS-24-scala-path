@@ -1,6 +1,7 @@
-package it.unibo.model
+package it.unibo.model.scenario
 
-import it.unibo.model.Tiling.{Floor, Position, Tile}
+import it.unibo.model.fundamentals.{Position, Tile}
+import it.unibo.model.fundamentals.Tiling.Floor
 
 class EmptyScenario(nRows: Int, nCols: Int) extends Scenario(nRows, nCols):
   

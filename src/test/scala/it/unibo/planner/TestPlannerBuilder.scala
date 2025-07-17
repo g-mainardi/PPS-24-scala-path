@@ -1,11 +1,12 @@
 package it.unibo.planner
 
-import it.unibo.planning.{Algorithm, Configuration, Plan, Planner, PlannerBuilder}
-import it.unibo.planning.prologplanner.PrologBuilder
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should.Matchers
-import it.unibo.model.Direction.allDirections
-import it.unibo.planning.Algorithm.{BFS, DFS}
+import it.unibo.model.fundamentals.Direction.allDirections
+import it.unibo.model.planning.algorithms.Algorithm
+import it.unibo.model.planning.prologplanner.PrologBuilder
+import it.unibo.model.planning.algorithms.Algorithm.{BFS, DFS}
+import it.unibo.model.planning.{Configuration, Plan, Planner, PlannerBuilder}
 
 class TestPlannerBuilder extends AnyFlatSpec with Matchers with TestPlanner:
   val configuration: Configuration = Configuration(

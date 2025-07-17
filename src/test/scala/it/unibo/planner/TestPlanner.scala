@@ -1,7 +1,8 @@
 package it.unibo.planner
 
-import it.unibo.model.Scenario
-import it.unibo.model.Tiling.*
+import it.unibo.model.fundamentals.{Tile, Position}
+import it.unibo.model.fundamentals.Tiling.*
+import it.unibo.model.scenario.Scenario
 
 import scala.util.Random
 

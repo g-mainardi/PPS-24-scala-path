@@ -1,7 +1,9 @@
 package it.unibo.controller
 
-import it.unibo.model.{Agent, AgentNotBuiltException, Direction}
-import it.unibo.planning.Planner
+import it.unibo.model.agent.Agent
+import it.unibo.model.exceptions.AgentNotBuiltException
+import it.unibo.model.fundamentals.Direction
+import it.unibo.model.planning.Planner
 
 trait AgentManager:
   private var _agent: Option[Agent] = None

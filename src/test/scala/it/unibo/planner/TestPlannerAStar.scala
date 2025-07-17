@@ -1,10 +1,11 @@
 package it.unibo.planner
 
-import it.unibo.model.{Agent, Scenario}
-import it.unibo.model.Direction.allDirections
-import it.unibo.planning.Algorithm.*
-import it.unibo.planning.Plan.*
-import it.unibo.planning.{Plan, Planner, PlannerBuilder}
+import it.unibo.model.fundamentals.Direction.allDirections
+import it.unibo.model.agent.Agent
+import it.unibo.model.planning.algorithms.Algorithm.AStar
+import it.unibo.model.scenario.Scenario
+import it.unibo.model.planning.{Plan, Planner, PlannerBuilder}
+import it.unibo.model.planning.Plan.{SucceededPlan, FailedPlan, SucceededPlanWithMoves}
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should.Matchers
 

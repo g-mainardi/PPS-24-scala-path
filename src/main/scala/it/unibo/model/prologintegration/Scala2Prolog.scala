@@ -1,4 +1,4 @@
-package it.unibo.prologintegration
+package it.unibo.model.prologintegration
 
 import alice.tuprolog.{Prolog, SolveInfo, Term, Theory}
 

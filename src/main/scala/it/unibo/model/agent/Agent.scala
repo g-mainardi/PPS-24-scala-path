@@ -1,8 +1,10 @@
-package it.unibo.model
+package it.unibo.model.agent
 
-import it.unibo.model.Tiling.{Position, Special, Tile}
-import it.unibo.planning.Plan
-import it.unibo.planning.Plan.{FailedPlan, SucceededPlan, SucceededPlanWithMoves}
+import it.unibo.model.fundamentals.Tiling.Special
+import it.unibo.model.exceptions.PlanNotFoundException
+import it.unibo.model.fundamentals.{Direction, Position, Tile}
+import it.unibo.model.planning.Plan
+import Plan.{FailedPlan, SucceededPlan, SucceededPlanWithMoves}
 
 class Agent(val initialPosition: Position, plan: () => Plan, getTileAt: Position => Option[Tile])
   extends PathManager

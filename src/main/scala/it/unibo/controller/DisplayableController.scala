@@ -1,9 +1,10 @@
 package it.unibo.controller
 
-import it.unibo.model.Direction.{allDirections, randomDirections}
-import it.unibo.model.{Direction, EmptyScenario, Maze, Scenario, SpecialTileBuilder, Specials, Terrain}
-import it.unibo.model.Tiling.Position
-import it.unibo.planning.Algorithm
+import it.unibo.model.fundamentals.Direction
+import it.unibo.model.fundamentals.Direction.{allDirections, randomDirections}
+import it.unibo.model.fundamentals.Position
+import it.unibo.model.planning.algorithms.Algorithm
+import it.unibo.model.scenario.{EmptyScenario, Maze, Scenario, SpecialTileBuilder, Specials, Terrain}
 
 trait ScenarioManager:
   val builder = new SpecialTileBuilder // todo ???

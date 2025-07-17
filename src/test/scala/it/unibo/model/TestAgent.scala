@@ -1,9 +1,12 @@
 package it.unibo.model
 
-import it.unibo.model.Direction.{Cardinals, allDirections}
-import it.unibo.model.Tiling.Position
-import it.unibo.planning.Plan
-import it.unibo.planning.Plan.*
+import it.unibo.model.fundamentals.Direction.{Cardinals, allDirections}
+import it.unibo.model.fundamentals.Position
+import it.unibo.model.agent.Agent
+import it.unibo.model.fundamentals.{Direction, Position}
+import it.unibo.model.planning.Plan
+import it.unibo.model.planning.Plan.{SucceededPlan, FailedPlan, SucceededPlanWithMoves}
+import it.unibo.model.scenario.SpecialTile
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should.Matchers
 

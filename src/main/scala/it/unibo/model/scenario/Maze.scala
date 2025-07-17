@@ -1,6 +1,8 @@
-package it.unibo.model
+package it.unibo.model.scenario
 
-import it.unibo.model.Tiling.{Floor, Position, Tile, Wall}
+import it.unibo.model.fundamentals.{Position, Tile}
+import it.unibo.model.fundamentals.Tiling.{Floor, Wall}
+
 import scala.util.Random
 
 class Maze(nRows: Int, nCols: Int) extends EmptyScenario(nRows, nCols):

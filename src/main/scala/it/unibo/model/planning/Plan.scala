@@ -1,6 +1,6 @@
-package it.unibo.planning
+package it.unibo.model.planning
 
-import it.unibo.model.Direction
+import it.unibo.model.fundamentals.Direction
 
 enum Plan:
   case SucceededPlanWithMoves(directions: List[Direction], numMoves: Int)

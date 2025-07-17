@@ -1,11 +1,13 @@
-package it.unibo.planning
+package it.unibo.model.planning
 
-import it.unibo.model.{Agent, Direction, Scenario}
-import it.unibo.model.Tiling.Tile
-import it.unibo.planning.Algorithm.*
-import it.unibo.planning.prologplanner.PrologBuilder
-import it.unibo.planning.scalaplanner.ScalaBuilder
-import it.unibo.planning.AStarAlgorithm
+import it.unibo.model.fundamentals.Tile
+import it.unibo.model.agent.Agent
+import it.unibo.model.fundamentals.Direction
+import it.unibo.model.planning.prologplanner.PrologBuilder
+import it.unibo.model.planning.scalaplanner.ScalaBuilder
+import it.unibo.model.scenario.Scenario
+import it.unibo.model.planning.algorithms.Algorithm.*
+import it.unibo.model.planning.algorithms.{AStarAlgorithm, Algorithm, PathFindingAlgorithm}
 
 
 case class Configuration(initPos: (Int, Int),

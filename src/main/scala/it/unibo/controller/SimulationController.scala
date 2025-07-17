@@ -2,8 +2,10 @@ package it.unibo.controller
 
 import it.unibo.controller.Simulation.SettablePosition.{Goal, Init}
 import it.unibo.model.*
-import it.unibo.model.Tiling.Position
-import it.unibo.planning.{Algorithm, PlannerBuilder}
+import it.unibo.model.fundamentals.Position
+import it.unibo.model.planning.PlannerBuilder
+import it.unibo.model.planning.algorithms.Algorithm
+import it.unibo.model.scenario.Scenario
 
 import scala.annotation.tailrec
 
@@ -39,7 +41,7 @@ object ScalaPathController extends SimulationController
       v.disableStepButton()
 
   def assembleAgent(): Unit =
-    import it.unibo.planning.prologplanner.Conversions.given
+    import it.unibo.model.planning.prologplanner.Conversions.given
     agent =
       PlannerBuilder.start
         .withInit(init)

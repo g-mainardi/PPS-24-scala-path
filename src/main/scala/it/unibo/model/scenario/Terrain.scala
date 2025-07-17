@@ -1,7 +1,10 @@
-package it.unibo.model
-import scala.util.Random
+package it.unibo.model.scenario
+
+import it.unibo.model.fundamentals.{Position, Tile}
+import it.unibo.model.fundamentals.Tiling.*
+
 import scala.math.*
-import Tiling.*
+import scala.util.Random
 
 object PerlinNoise:
 

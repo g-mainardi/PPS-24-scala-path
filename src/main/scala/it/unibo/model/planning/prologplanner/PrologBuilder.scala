@@ -1,11 +1,12 @@
-package it.unibo.planning.prologplanner
+package it.unibo.model.planning.prologplanner
 
 import alice.tuprolog.{Term, Theory}
-import it.unibo.model.{Direction, Scenario}
-import it.unibo.model.Tiling.*
-import it.unibo.model.FailedPlannerBuildException
-import it.unibo.planning.{Configuration, Plan, Planner, PrologPlanner}
-import it.unibo.prologintegration.Scala2Prolog.{Engine, mkPrologEngine}
+import it.unibo.model.fundamentals.Tiling.*
+import it.unibo.model.exceptions.FailedPlannerBuildException
+import it.unibo.model.fundamentals.{Direction, Position}
+import it.unibo.model.planning.{Configuration, Plan, Planner, PrologPlanner}
+import it.unibo.model.scenario.Scenario
+import it.unibo.model.prologintegration.Scala2Prolog.{Engine, mkPrologEngine}
 
 import scala.io.Source
 import scala.util.Using
