@@ -33,8 +33,8 @@ class Specials(nRows: Int, nCols: Int) extends Scenario(nRows, nCols):
   special tile "StairsUp" does (pos => Position(pos.x - 2, pos.y))
 
   _tiles = (for
-    x <- 0 until nRows
-    y <- 0 until nCols
+    x <- 0 until nCols
+    y <- 0 until nRows
   yield Floor(Position(x, y))).toList
 
   override def generate(): Unit =
