@@ -1,7 +1,6 @@
 package it.unibo.controller
 
 import it.unibo.controller.Simulation.SettablePosition.{Goal, Init}
-import it.unibo.model.*
 import it.unibo.model.fundamentals.Position
 import it.unibo.model.planning.PlannerBuilder
 import it.unibo.model.planning.algorithms.Algorithm
@@ -14,15 +13,25 @@ object ScalaPathController extends DisplayableController
   with AgentManager
   with ViewManager:
 
-  def pause(): Unit =
-    applyToView: v =>
-      v.enableStepButton()
+  def start(): Unit = loop(Simulation.current)
 
-  def resume(): Unit =
-    applyToView: v =>
-      v.enableStartStopButton()
-      v.enableResetButton()
-      v.disableStepButton()
+  override protected def scenario_=(newScenario: Scenario): Unit =
+    super.scenario_=(newScenario)
+    generateScenario()
+    View.disableControls()
+    resetSimulation()
+
+  override protected def algorithm_=(newAlgorithm: Algorithm): Unit =
+    super.algorithm_=(newAlgorithm)
+    View.disableControls()
+    resetSimulation()
+
+  override def generateScenario(): Unit =
+    super.generateScenario()
+    init = randomPosition
+    goal = randomPosition
+    dropAgent()
+    View.update()
 
   def assembleAgent(): Unit =
     import it.unibo.model.planning.prologplanner.Conversions.given
@@ -36,57 +45,52 @@ object ScalaPathController extends DisplayableController
         .withAlgorithm(algorithm)
         .build
         .toAgent
-    updateView()
+    View.update()
 
-  override def generateScenario(): Unit =
-    super.generateScenario()
-    init = randomPosition
-    goal = randomPosition
-    dropAgent()
-    updateView()
-
-  def resetSimulation(): Unit =
+  private def resetSimulation(): Unit =
     resetAgent()
-    updateView()
+    View.update()
 
-  override protected def scenario_=(newScenario: Scenario): Unit =
-    super.scenario_=(newScenario)
-    generateScenario()
-    disableControls()
-    resetSimulation()
+  private def step(): Unit =
+    if planOver then View.over()
+    else
+      stepAgent()
+      View.update()
+      if planOver then View.over()
 
-  override protected def algorithm_=(newAlgorithm: Algorithm): Unit =
-    super.algorithm_=(newAlgorithm)
-    disableControls()
-    resetSimulation()
+  protected def handleNoPlan(errorMessage: String): Unit =
+    View noPlanFound s"Error: $errorMessage!\nTry to modify some parameters."
 
-  def start(): Unit = loop(Simulation.current)
+  protected def handleValidPlan(nMoves: Option[Int]): Unit =
+    val withResult: String = nMoves map(n => s"with $n moves") getOrElse ""
+    View planFound s"Plan found $withResult! Now you can execute it."
 
-  def reset(): Unit =
-    applyToView: v =>
-      v.disableResetButton()
-      v.enableStartStopButton()
-      v.enableStepButton()
-    resetSimulation()
+  protected def startSearch(): Unit = View.search()
 
   import Simulation.*
+  @tailrec
+  private def loop(previous: State): Unit =
+    val current = Simulation.current
+    Simulation.exec:
+      handleTransition(previous, current)
+      handleState(current)
+    delay()
+    loop(current)
+
   private def handleTransition(from: State, to: State): Unit = (from, to) match
-    case (Empty | Paused(_), Running) => resume()
-    case (Running, Paused(true)) => pause()
-    case (Empty, Step) =>
-      applyToView: v =>
-        v.enableResetButton()
+    case (Empty | Paused(_), Running) => View.resume()
+    case (Running, Paused(true)) => View.pause()
+    case (Empty, Step) => View.firstStep()
     case (Step, Step) =>
       step()
       Simulation set Paused()
-    case (Running | Paused(_), Empty) => reset()
+    case (Running | Paused(_), Empty) =>
+      View.reset()
+      resetSimulation()
     case (previous, SetAnimationSpeed(speed)) =>
       this.speed = speed
       Simulation set previous
-    case (Empty, ChangeScenario(_)) =>
-      applyToView: v =>
-        v.enableAlgorithmDropdown()
-        v.enableRefreshScenarioButton()
+    case (Empty, ChangeScenario(_)) => View.firstScenarioChoice()
     case _ => ()
 
   private def handleState(state: State): Unit = state match
@@ -104,14 +108,14 @@ object ScalaPathController extends DisplayableController
     case SetPosition(Goal(pos)) if pos.isAvailable =>
       goal = Position(pos)
       dropAgent()
-      disableControls()
-      updateView()
+      View.disableControls()
+      View.update()
       Simulation set Empty
     case SetPosition(Init(pos)) if pos.isAvailable =>
       init = Position(pos)
       dropAgent()
-      disableControls()
-      updateView()
+      View.disableControls()
+      View.update()
       Simulation set Empty
     case SetScenarioSize(r, c) if r != nRows || c != nCols =>
       nRows = r
@@ -124,42 +128,3 @@ object ScalaPathController extends DisplayableController
       then Simulation set Paused()
       else shouldSleep()
     case _ => ()
-
-  @tailrec
-  private def loop(previous: State): Unit =
-    val current = Simulation.current
-    Simulation.exec:
-      handleTransition(previous, current)
-      handleState(current)
-    delay()
-    loop(current)
-
-  protected def step(): Unit =
-    if planOver then over()
-    else
-      stepAgent()
-      updateView()
-      if planOver then over()
-
-  protected def over(): Unit =
-    applyToView: v =>
-      v.disableStepButton()
-      v.disableStartStopButton()
-      v.showInfoMessage("Plan terminated! You can restart it or try a new one.", "End of plan")
-
-  protected def handleNoPlan(errorMessage: String): Unit =
-    applyToView: v =>
-      v.closeLoadingDialog()
-      v.showErrorMessage(s"Error: $errorMessage!\nTry to modify some parameters.", "No plan found")
-
-  protected def handleValidPlan(nMoves: Option[Int]): Unit =
-    val withResult: String = nMoves map(n => s"with $n moves") getOrElse ""
-    applyToView: v =>
-      v.closeLoadingDialog()
-      v.enableStepButton()
-      v.enableStartStopButton()
-      v.showInfoMessage(s"Plan found $withResult! Now you can execute it.", "Plan found")
-
-  protected def startSearch(): Unit =
-    applyToView: v =>
-      v.showLoadingDialog("Agent assembled! Now searching a plan...")
