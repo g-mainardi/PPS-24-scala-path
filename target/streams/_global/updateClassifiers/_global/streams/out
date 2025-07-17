@@ -1,4 +1,4 @@
-[warn] scala-library-2.12.19-sources.jar no longer exists at C:\Users\muhamadhuseyn.salman\AppData\Local\Coursier\Cache\v1\https\repo1.maven.org\maven2\org\scala-lang\scala-library\2.12.19\scala-library-2.12.19-sources.jar
+[warn] scala-library-2.12.19-sources.jar no longer exists at C:\Users\muham\AppData\Local\Coursier\Cache\v1\https\repo1.maven.org\maven2\org\scala-lang\scala-library\2.12.19\scala-library-2.12.19-sources.jar
 [debug] not up to date. inChanged = false, force = false
-[debug] Updating ProjectRef(uri("file:/C:/Users/muham/Desktop/Coding/PPS-24-scala-path/"), "pps-24-scala-path")...
-[debug] Done updating ProjectRef(uri("file:/C:/Users/muham/Desktop/Coding/PPS-24-scala-path/"), "pps-24-scala-path")
+[debug] Updating ProjectRef(uri("file:/C:/Users/muhamadhuseyn.salman/PPS-24-scala-path/"), "pps-24-scala-path")...
+[debug] Done updating ProjectRef(uri("file:/C:/Users/muhamadhuseyn.salman/PPS-24-scala-path/"), "pps-24-scala-path")
