@@ -4,9 +4,6 @@ object Tiling:
   case class Position(x: Int, y: Int):
     def +(vector: Position): Position = Position(x + vector.x, y + vector.y)
     def -(other: Position): Position = Position(x - other.x, y - other.y)
-    override def equals(obj: Any): Boolean = obj match
-      case that: Position => this.x == that.x && this.y == that.y
-      case _ => false
   
   object Position:
     def apply(tuple: (Int, Int)): Position = Position(tuple._1, tuple._2)
