@@ -41,8 +41,21 @@ move(s(X,Y), Dir, s(X1,Y1)) :-
     passable(s(X1,Y1)).
 ```
 
+Il planner gestisce anche i casi di celle speciali, che causano un cambio di stato in base al tipo cella speciale.
+```prolog
+    checkSpecial(TempState, NewState) :- special(TempState, NewState), !.
+    checkSpecial(TempState, TempState).
+```
+
+Il comportamento delle celle speciali viene configurato in Scala e poi generato in Prolog.
+```prolog
+passable(s(0, 3)).
+special(s(0, 3), s(0, 0)).
+```
+
 Il planner è depth-first, quindi non garantisce il percorso minimo.
 Esplora tutte le direzioni possibili, evitando le celle già visitate e gli ostacoli.
+Ad ogni passo controlla se si è raggiunto una cella speciale e ne applica il risultato.
 ```prolog
 % Caso base: stato raggiunto
 planner(State, State, _, [], 0).
@@ -50,26 +63,18 @@ planner(State, State, _, [], 0).
 % Caso ricorsivo: esplora una direzione valida
 planner(State, Goal, Visited, [Dir|Rest], NewMoves) :-
     move(State, Dir, TempState),
+    \+ member(TempState, Visited),
     checkSpecial(TempState, NewState),
-    \+ member(NewState, Visited),
+    (TempState = NewState -> true; \+ member(NewState, Visited)),
     planner(NewState, Goal, [NewState|Visited], Rest, Moves),
-    NewMoves is Moves + 1.
+  	NewMoves is Moves + 1.
 ```
 Il parametro `Moves` è fully-relational, se specificato viene usato come massimo numero di mosse.
 Se non viene specificato, viene usato come output indicando il numero di mosse del piano generato.
-In questo ultimo caso ne verrà fatto il parsing lato scala ed eventualmente mostrato all'utente.
+In questo ultimo caso ne verrà fatto il parsing lato scala e mostrato all'utente.
 
 
-Il planner gestisce anche i casi di celle speciali, che causano un cambio di stato in base al tipo cella speciale.
-```prolog
-    checkSpecial(TempState, NewState) :- special(TempState, NewState), !.
-    checkSpecial(TempState, TempState).
-```
-Il comportamento delle celle speciali viene configurato in Scala e poi generato in Prolog.
-```prolog
-passable(s(0, 3)).
-special(s(0, 3), s(0, 0)).
-```
+
 
 [Index](../index.md)
 
