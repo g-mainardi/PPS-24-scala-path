@@ -20,9 +20,9 @@ trait ScenarioManager:
   private var _goal: Position = randomPosition
 
   // todo ???
-//  builder tile "Teleport" does (_ => randomPosition) todo random fallisce perchè non vede tiles
-  builder tile "JumpDown" does (pos => Position(pos.x + 2, pos.y))
-  builder tile "StairsUp" does (pos => Position(pos.x - 2, pos.y))
+  //  builder tile "Teleport" does (_ => randomPosition) todo random fallisce perchè non vede tiles
+  //  builder tile "JumpDown" does (pos => Position(pos.x + 2, pos.y))
+  //  builder tile "StairsUp" does (pos => Position(pos.x - 2, pos.y))
 
   def init: Position = _init
   def goal: Position = _goal

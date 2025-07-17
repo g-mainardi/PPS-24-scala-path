@@ -7,29 +7,36 @@ object Scenario:
   val nRows = 7
   val nCols = 7
 
-  import scala.util.Random
-  private val rand = Random(seed = 42)
+//  import scala.util.Random
+//  private val rand = Random(seed = 42)
+//
+//  def randomPosition: Position =
+//    val positions: Seq[Position] = for
+//      x <- 0 to nRows
+//      y <- 0 to nCols
+//    yield
+//      Position(x, y)
+//    positions(rand nextInt positions.size)
+//
+//  def randomPositions(size: Int): Set[Position] = Set.fill(size)(randomPosition)
 
-  def randomPosition: Position =
-    val positions: Seq[Position] = for
-      x <- 0 to nRows
-      y <- 0 to nCols
-    yield
-      Position(x, y)
-    positions(rand nextInt positions.size)
-
-  def randomPositions(size: Int): Set[Position] = Set.fill(size)(randomPosition)
+case class ScenarioDimensions(nRows: Int, nCols: Int)
 
 trait Scenario(val nRows: Int, val nCols: Int) extends PrettyPrint:
+
   import it.unibo.utils.RandomGenerator.getRandomElement
+
   protected var _tiles: List[Tile] = List()
+  given ScenarioDimensions = ScenarioDimensions(nRows, nCols)
 
   def generate(): Unit
-  
+
   def tiles: List[Tile] = _tiles
 
   def checkSpecial(position: Position): Option[Tile] = tiles.find(tile => tile.x == position.x && tile.y == position.y)
-  
-  def freePositions: List[Position] = tiles collect {case pass: Passage => Position(pass.x, pass.y)}
-  
+
+  def freePositions: List[Position] = tiles collect { case pass: Passage => Position(pass.x, pass.y) }
+
   def randomPosition: Option[Position] = freePositions.getRandomElement
+
+  def randomPositions(size: Int): Set[Position] = Set.fill(size)(randomPosition.get)

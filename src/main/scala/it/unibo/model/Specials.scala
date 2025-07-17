@@ -1,14 +1,13 @@
 package it.unibo.model
 
-import it.unibo.model.Scenario.{nCols, nRows}
 import it.unibo.model.Tiling.{Floor, Position, Tile}
 
 case class SpecialKind(name: String, computeNewPos: Position => Position)
 
-case class SpecialTile(pos: Position, kind: SpecialKind) extends Tiling.Special:
+case class SpecialTile(pos: Position, kind: SpecialKind)(using bound: ScenarioDimensions) extends Tiling.Special:
   override val newPos: Position =
     val computed = kind.computeNewPos(pos)
-    Position(computed.x % nRows, computed.y % nCols)
+    Position(computed.x % bound.nRows, computed.y % bound.nCols)
 
 object SpecialTileRegistry:
   var registry: Map[String, SpecialKind] = Map()
@@ -26,17 +25,22 @@ class SpecialTileBuilder:
     SpecialTileRegistry.registry += name -> SpecialKind(name, compute)
 
 class Specials(nRows: Int, nCols: Int) extends Scenario(nRows, nCols):
-  private val tilesPerKind = 4
+  private val tilesPerKind = 3
+
+  val special = new SpecialTileBuilder
+  special tile "Teleport" does (_ => randomPosition.get)
+  special tile "JumpDown" does (pos => Position(pos.x + 2, pos.y))
+  special tile "StairsUp" does (pos => Position(pos.x - 2, pos.y))
+
+  private val baseTiles = (for
+    x <- 0 until nRows
+    y <- 0 until nCols
+  yield Floor(Position(x, y))).toList
 
   override def generate(): Unit =
-    val baseTiles = (for
-      x <- 0 until nRows
-      y <- 0 until nCols
-    yield Floor(Position(x, y))).toList
-
     val specialPositions: Map[SpecialKind, Set[Position]] =
       SpecialTileRegistry.allKinds.map { kind =>
-        kind -> Scenario.randomPositions(tilesPerKind)
+        kind -> randomPositions(tilesPerKind)
       }.toMap
 
     _tiles = baseTiles.map:
@@ -49,6 +53,6 @@ class Specials(nRows: Int, nCols: Int) extends Scenario(nRows, nCols):
 
 @main def defineSpecialTiles(): Unit =
   val builder = new SpecialTileBuilder
-  builder tile "Teleport" does (_ => Scenario.randomPosition)
+  // builder tile "Teleport" does (_ => randomPosition)
   builder tile "JumpDown" does (pos => Position(pos.x + 2, pos.y))
   builder tile "StairsUp" does (pos => Position(pos.x - 2, pos.y))
