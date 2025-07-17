@@ -71,8 +71,6 @@ object ScalaPathController extends SimulationController
     disableControls()
     applyToView: v =>
       v.enableGenerateScenarioButton()
-      v.resetAlgorithmDropdown()
-      v.enableAlgorithmDropdown()
     resetSimulation()
 
   override protected def algorithm_=(newAlgorithm: Algorithm): Unit =
@@ -105,6 +103,9 @@ object ScalaPathController extends SimulationController
     case (previous, SetAnimationSpeed(speed)) =>
       this.speed = speed
       Simulation set previous
+    case (Empty, ChangeScenario(_)) =>
+      applyToView: v =>
+        v.enableAlgorithmDropdown()
     case _ => ()
 
   private def handleState(state: State): Unit = state match
