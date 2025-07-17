@@ -20,8 +20,8 @@ class Maze(nRows: Int, nCols: Int) extends EmptyScenario(nRows, nCols):
   private val logicalCols = nCols / 2
   private val gridRows = 2 * logicalRows + 1
   private val gridCols = 2 * logicalCols + 1
-  private val exitX = gridRows - 1
-  private val exitY = gridCols - 2
+  private val exitX = gridCols - 1
+  private val exitY = gridRows - 2
 
   /**
    * Generates the maze by carving paths recursively.
@@ -72,14 +72,14 @@ class Maze(nRows: Int, nCols: Int) extends EmptyScenario(nRows, nCols):
      */
     def carve(row: Int, col: Int, visited: Set[(Int, Int)], maze: Map[Position, Tile]): (Set[(Int, Int)], Map[Position, Tile]) =
       val newVisited = visited + ((row, col))
-      val x = 2 * row + 1
-      val y = 2 * col + 1
+      val x = 2 * col + 1
+      val y = 2 * row + 1
       val mazeWithRoom = maze + (Position(x, y) -> Floor(Position(x, y)))
 
       neighbors(row, col).foldLeft((newVisited, mazeWithRoom)) {
         case ((v, m), (nr, nc, dr, dc)) if inBounds(nr, nc) && !v.contains((nr, nc)) =>
-          val wallX = x + dr
-          val wallY = y + dc
+          val wallX = x + dc
+          val wallY = y + dr
           val m1 = m + (Position(wallX, wallY) -> Floor(Position(wallX, wallY)))
           val (v2, m2) = carve(nr, nc, v + ((nr, nc)), m1)
           (v2, m2)
