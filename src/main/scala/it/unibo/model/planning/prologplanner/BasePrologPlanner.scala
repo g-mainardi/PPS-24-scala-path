@@ -5,7 +5,7 @@ import it.unibo.model.fundamentals.Direction.{Cardinals, Diagonals}
 import it.unibo.model.fundamentals.{Direction, Position}
 import it.unibo.model.planning.{Configuration, Plan}
 import it.unibo.model.planning.Plan.{FailedPlan, SucceededPlan, SucceededPlanWithMoves}
-import it.unibo.model.prologintegration.Prolog2Scala.{extractListFromTerm, extractTerm}
+import it.unibo.utils.prologintegration.Prolog2Scala.{extractListFromTerm, extractTerm}
 
 import scala.util.Try
 

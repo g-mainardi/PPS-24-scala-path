@@ -1,4 +1,4 @@
-package it.unibo.model.prologintegration
+package it.unibo.utils.prologintegration
 
 import alice.tuprolog.{SolveInfo, Struct, Term, Theory, Var}
 import it.unibo.model.fundamentals.Direction.{Cardinals, Diagonals}

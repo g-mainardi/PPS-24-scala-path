@@ -6,7 +6,7 @@ import it.unibo.model.exceptions.FailedPlannerBuildException
 import it.unibo.model.fundamentals.{Direction, Position}
 import it.unibo.model.planning.{Configuration, Plan, Planner, PrologPlanner}
 import it.unibo.model.scenario.Scenario
-import it.unibo.model.prologintegration.Scala2Prolog.{Engine, mkPrologEngine}
+import it.unibo.utils.prologintegration.Scala2Prolog.{Engine, mkPrologEngine}
 
 import scala.io.Source
 import scala.util.Using

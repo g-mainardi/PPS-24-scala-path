@@ -1,8 +1,8 @@
 package it.unibo.prologintegration
 
 import alice.tuprolog.{SolveInfo, Term, Theory}
-import it.unibo.model.prologintegration.Scala2Prolog.*
-import it.unibo.model.prologintegration.Prolog2Scala.*
+import it.unibo.utils.prologintegration.Prolog2Scala.*
+import it.unibo.utils.prologintegration.Scala2Prolog.*
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should.Matchers
 

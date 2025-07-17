@@ -7,8 +7,8 @@ import it.unibo.model.fundamentals.Direction.{Cardinals, Diagonals, allDirection
 import it.unibo.model.agent.Agent
 import it.unibo.model.fundamentals.{Direction, Position, Tile}
 import it.unibo.model.planning.algorithms.PathFindingAlgorithm
-import it.unibo.model.prologintegration.Prolog2Scala.{extractListFromTerm, extractTerm}
-import it.unibo.model.prologintegration.Scala2Prolog.Engine
+import it.unibo.utils.prologintegration.Prolog2Scala.{extractListFromTerm, extractTerm}
+import it.unibo.utils.prologintegration.Scala2Prolog.Engine
 
 import scala.util.Try
 import it.unibo.model.planning.prologplanner.Conversions.given_Conversion_Int_Int_Position

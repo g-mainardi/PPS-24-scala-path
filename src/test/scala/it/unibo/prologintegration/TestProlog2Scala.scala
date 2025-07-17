@@ -1,13 +1,13 @@
 package it.unibo.prologintegration
 
-import alice.tuprolog._
+import alice.tuprolog.*
 import it.unibo.model.fundamentals.Direction.{Cardinals, Diagonals}
 import it.unibo.model.fundamentals.Direction
+import it.unibo.utils.prologintegration.Prolog2Scala.*
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should.Matchers
-import it.unibo.model.prologintegration.Prolog2Scala._
-import it.unibo.model.prologintegration.Scala2Prolog.mkPrologEngine
-import it.unibo.model.prologintegration.Scala2Prolog.Engine
+import it.unibo.utils.prologintegration.Scala2Prolog.mkPrologEngine
+import it.unibo.utils.prologintegration.Scala2Prolog.Engine
 
 class TestProlog2Scala extends AnyFlatSpec with Matchers:
 
