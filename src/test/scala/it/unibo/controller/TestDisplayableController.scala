@@ -1,5 +1,6 @@
 package it.unibo.controller
 
+import DisplayableController.*
 import it.unibo.model.fundamentals.Direction.allDirections
 import it.unibo.model.fundamentals.Direction
 import it.unibo.model.fundamentals.Position
