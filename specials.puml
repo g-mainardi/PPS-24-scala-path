@@ -1,0 +1,39 @@
+@startuml
+class SpecialKind {
+    - name: String
+    - computeNewPos: Position => Position
+    + <<case class>>
+  }
+
+  class SpecialTile {
+    - pos: Position
+    - kind: SpecialKind
+    + newPos: Position
+    + <<case class>>
+  }
+
+  class SpecialTileRegistry {
+    - registry: Map<String, SpecialKind>
+    + allKinds(): Iterable<SpecialKind>
+    + clear(): Unit
+  }
+
+  class SpecialTileBuilder {
+    - name: String
+    + tile(name: String): SpecialTileBuilder
+    + does(compute: Position => Position): Unit
+  }
+
+  class Specials {
+    - nRows: Int
+    - nCols: Int
+    - tilesPerKind: Int
+    - special: SpecialTileBuilder
+    + generate(): Unit
+  }
+
+  Specials "1" *-- "1" SpecialTileBuilder : uses
+  SpecialTile "1" --> "1" SpecialKind : kind
+  SpecialTileRegistry o-- SpecialKind : registry contains
+  SpecialTileBuilder ..> SpecialTileRegistry : uses
+@enduml
