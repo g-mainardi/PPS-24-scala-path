@@ -1,4 +1,4 @@
-name: Build fat JAR on tag
+name: Build
 
 on:
   push:
