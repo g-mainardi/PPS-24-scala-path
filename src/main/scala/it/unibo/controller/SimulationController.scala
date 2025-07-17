@@ -69,15 +69,11 @@ object ScalaPathController extends SimulationController
     super.scenario_=(newScenario)
     generateScenario()
     disableControls()
-    applyToView: v =>
-      v.enableGenerateScenarioButton()
     resetSimulation()
 
   override protected def algorithm_=(newAlgorithm: Algorithm): Unit =
     super.algorithm_=(newAlgorithm)
     disableControls()
-    applyToView: v =>
-      v.disableGenerateScenarioButton()
     resetSimulation()
 
   def start(): Unit = loop(Simulation.current)
@@ -106,6 +102,7 @@ object ScalaPathController extends SimulationController
     case (Empty, ChangeScenario(_)) =>
       applyToView: v =>
         v.enableAlgorithmDropdown()
+        v.enableRefreshScenarioButton()
     case _ => ()
 
   private def handleState(state: State): Unit = state match
@@ -171,7 +168,6 @@ object ScalaPathController extends SimulationController
   protected def handleNoPlan(errorMessage: String): Unit =
     applyToView: v =>
       v.closeLoadingDialog()
-      v.enableGenerateScenarioButton()
       v.showErrorMessage(s"Error: $errorMessage!\nTry to modify some parameters.", "No plan found")
 
   protected def handleValidPlan(nMoves: Option[Int]): Unit =
@@ -180,7 +176,6 @@ object ScalaPathController extends SimulationController
       v.closeLoadingDialog()
       v.enableStepButton()
       v.enableStartStopButton()
-      v.enableGenerateScenarioButton()
       v.showInfoMessage(s"Plan found $withResult! Now you can execute it.", "Plan found")
 
   protected def startSearch(): Unit =

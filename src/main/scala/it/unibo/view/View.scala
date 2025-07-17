@@ -66,6 +66,7 @@ class View(controller: DisplayableController, gridOffset: Int, cellSize: Int) ex
     borderPainted = false
     contentAreaFilled = false
     focusPainted = false
+    enabled = false
   }
   private val resetButton = new DefaultDisabledButton("Reset")
   private val stepButton = new DefaultDisabledButton("Step")
@@ -107,8 +108,7 @@ class View(controller: DisplayableController, gridOffset: Int, cellSize: Int) ex
   def disableResetButton(): Unit = resetButton.enabled = false
   def enableStartStopButton(): Unit = startStopButton.enabled = true
   def disableStartStopButton(): Unit = startStopButton.enabled = false
-  def enableGenerateScenarioButton(): Unit = refreshScenarioButton.enabled = true
-  def disableGenerateScenarioButton(): Unit = refreshScenarioButton.enabled = false
+  def enableRefreshScenarioButton(): Unit = refreshScenarioButton.enabled = true
   def enableAlgorithmDropdown(): Unit = algorithmDropdown.enabled = true
   def resetAlgorithmDropdown(): Unit = algorithmDropdown.reset()
   def resetStartStopButton(): Unit = startStopButton.reset()
