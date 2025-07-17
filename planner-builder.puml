@@ -1,0 +1,120 @@
+@startuml
+
+' ========================
+'         ENUM
+' ========================
+enum Plan {
+  SucceededPlanWithMoves
+  SucceededPlan
+  FailedPlan
+}
+
+' ========================
+'      CLASSI CORE
+' ========================
+class Configuration {
+  +initPos: (Int, Int)
+  +goalPos: (Int, Int)
+  +maxMoves: Option[Int]
+  +environmentTiles: Scenario
+  +directions: List[Direction]
+  +theoryPath: Option[String]
+  +algorithm: Option[PathFindingAlgorithm]
+}
+
+interface Planner {
+  +plan(): Plan
+  +toAgent(): Agent
+}
+
+class DummyPlanner {
+  +plan(): Plan
+}
+
+class PrologPlanner {
+  +plan(): Plan
+  -engine: Engine
+  -goal: Term
+}
+
+class ScalaPlanner {
+  +plan(): Plan
+  -start: Position
+  -goal: Position
+  -tiles: List[Tile]
+  -directions: List[Direction]
+  -algorithm: PathFindingAlgorithm
+}
+
+Planner <|.. DummyPlanner
+Planner <|.. PrologPlanner
+Planner <|.. ScalaPlanner
+
+PrologPlanner --> Engine
+PrologPlanner --> Term
+ScalaPlanner --> Position
+ScalaPlanner --> Tile
+ScalaPlanner --> Direction
+ScalaPlanner --> PathFindingAlgorithm
+Planner --> Configuration
+Configuration --> Scenario
+Configuration --> Direction
+Configuration --> PathFindingAlgorithm
+
+' ========================
+'     BUILDER API
+' ========================
+interface BuilderInit {
+  +withInit((Int, Int)): BuilderGoal
+}
+
+interface BuilderGoal {
+  +withGoal((Int, Int)): BuilderConstraints
+}
+
+interface BuilderConstraints {
+  +withMaxMoves(Option[Int]): BuilderEnvironment
+}
+
+interface BuilderEnvironment {
+  +withTiles(Scenario): BuilderDirections
+}
+
+interface BuilderDirections {
+  +withDirections(List[Direction]): BuilderAlgorithm
+}
+
+interface BuilderAlgorithm {
+  +withAlgorithm(Algorithm): CompleteBuilder
+}
+
+interface CompleteBuilder {
+  +build(): Planner
+}
+
+class PlannerBuilderImpl {
+  +withInit((Int, Int)): PlannerBuilderImpl
+  +withGoal((Int, Int)): PlannerBuilderImpl
+  +withMaxMoves(Option[Int]): PlannerBuilderImpl
+  +withTiles(Scenario): PlannerBuilderImpl
+  +withDirections(List[Direction]): PlannerBuilderImpl
+  +withAlgorithm(Algorithm): PlannerBuilderImpl
+  +build(): Planner
+}
+
+PlannerBuilderImpl ..|> BuilderInit
+PlannerBuilderImpl ..|> BuilderGoal
+PlannerBuilderImpl ..|> BuilderConstraints
+PlannerBuilderImpl ..|> BuilderEnvironment
+PlannerBuilderImpl ..|> BuilderDirections
+PlannerBuilderImpl ..|> BuilderAlgorithm
+PlannerBuilderImpl ..|> CompleteBuilder
+
+PlannerBuilder --> BuilderInit
+PlannerBuilderImpl --> Configuration
+PlannerBuilderImpl --> PrologPlanner
+PlannerBuilderImpl --> ScalaPlanner
+
+object PlannerBuilder
+
+@enduml
