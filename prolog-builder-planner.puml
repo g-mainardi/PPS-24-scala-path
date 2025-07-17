@@ -1,0 +1,42 @@
+@startuml
+' ========== CLASSI PRINCIPALI ==========
+class PrologBuilder {
+  +build(): Planner
+  -InitPos
+  -Goal
+  -MaxMoves
+  -Tiles
+  -Theory
+  -Directions
+}
+
+class BasePrologPlanner {
+  +checkSolutions(solutions: LazyList[SolveInfo]): Plan
+  -convertToPlan(solveInfo: SolveInfo, maxMoves: Option[Int]): Plan
+}
+
+class Conversions <<object>> {
+  {static} +Conversion[String, Direction]
+  {static} +Conversion[(Int, Int), Position]
+  {static} +Conversion[Position, (Int, Int)]
+}
+
+' ========== RELAZIONI ==========
+PrologBuilder --> Planner
+PrologBuilder --> Configuration
+PrologBuilder --> PrologPlanner
+PrologBuilder --> Theory
+PrologBuilder --> Engine
+PrologBuilder --> Scenario
+PrologBuilder --> Direction
+
+BasePrologPlanner --> Configuration
+BasePrologPlanner --> Plan
+BasePrologPlanner --> SolveInfo
+BasePrologPlanner --> Term
+BasePrologPlanner --> Direction
+BasePrologPlanner --> Conversions
+
+Conversions --> Direction
+Conversions --> Position
+@enduml
