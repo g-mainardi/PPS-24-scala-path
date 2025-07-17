@@ -117,11 +117,12 @@ class View(controller: DisplayableController, gridOffset: Int, cellSize: Int) ex
   def showErrorMessage(message: String, title: String): Unit =
     showPopupMessage(message, title, Dialog.Message.Error)
 
-  private val moveGoalRadio = new RadioButton("Change goal") { selected = true }
-  private val moveStartRadio = new RadioButton("Change start")
-  private val moveGroup = new ButtonGroup(moveGoalRadio, moveStartRadio)
+  private val moveStartRadio = new RadioButton("Start")
+  private val moveGoalRadio = new RadioButton("Goal") { selected = true }
 
-  private val movePanel = new FlowPanel(moveGoalRadio, moveStartRadio)
+  private val moveGroup = new ButtonGroup(moveStartRadio, moveGoalRadio)
+
+  private val movePanel = new FlowPanel(moveStartRadio, moveGoalRadio)
 
   private val gridPanel: Panel = new Panel:
     preferredSize = new Dimension(200, 100)
@@ -181,8 +182,12 @@ class View(controller: DisplayableController, gridOffset: Int, cellSize: Int) ex
 
 
   // private object ControlPanel extends FlowPanel(startButton, stepButton, resetButton, startStopButton, scenarioDropdown, algorithmDropdown, refreshScenarioButton)
-  private object ControlPanel extends FlowPanel(startStopButton, stepButton, new Label("Remaining steps: "), remainingSteps, resetButton, new Label("Animation speed: "), speedSlider)
-  private object ScenarioSettingsPanel extends FlowPanel(new Label("Dimensions: "), colsInput, new Label("x"), rowsInput, new Label("Search with: "), scenarioDropdown, refreshScenarioButton, movePanel, algorithmDropdown)
+  private object ControlPanel extends FlowPanel(startStopButton, stepButton,
+    new Label("Remaining steps: "), remainingSteps, resetButton,
+    new Label("Animation speed: "), speedSlider)
+  private object ScenarioSettingsPanel extends FlowPanel(new Label("Dimensions: "), colsInput, new Label("x"), rowsInput,
+    new Label("Search with: "), scenarioDropdown, refreshScenarioButton,
+    new Label("Change: "), movePanel, algorithmDropdown)
 
   contents = new BorderPanel:
     import BorderPanel.Position
