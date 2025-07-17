@@ -18,9 +18,9 @@ object Simulation:
   enum SettablePosition(private val pos: (Int, Int)):
     case Init(private val pos: (Int, Int)) extends SettablePosition(pos)
     case Goal(private val pos: (Int, Int)) extends SettablePosition(pos)
-    
+
     def position: Position = Position(pos)
-  
+
   export State.*
 
   @volatile private var _current: State = Empty
@@ -30,3 +30,30 @@ object Simulation:
   def set(s: State): Unit = synchronized{_current = s}
 
   def exec(action: => Unit): Unit = synchronized{action}
+
+  private[controller] type Transition = (State, State)
+  
+  import it.unibo.utils.PartialFunctionExtension.{~=~>, -?->}
+  
+  object FirstStep:
+    def unapply(t: Transition): Boolean = t equals (Empty, Step)
+
+  object ContinueStep:
+    def unapply(t: Transition): Boolean = t equals(Step, Step)
+    
+  object Resume:
+    def unapply(t: Transition): Boolean = -?-> { case (Empty | Paused(_), Running) => true }(t)
+
+  object Pause:
+    def unapply(t: Transition): Boolean = -?-> { case (Running, Paused(true)) => true }(t)
+
+  object FirstScenario:
+    def unapply(t: Transition): Boolean = -?-> { case (Empty, ChangeScenario(_)) => true }(t)
+
+  object Reset:
+    def unapply(t: Transition): Boolean = -?-> { case (Running | Paused(_), Empty) => true }(t)
+
+  object ChangeSpeed:
+    def unapply(t: Transition): Option[(State, Double)] = 
+      ~=~> { case (prev: State, SetAnimationSpeed(s)) => Some(prev, s)}(t)
+

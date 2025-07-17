@@ -1,7 +1,6 @@
 package it.unibo.controller
 
 import it.unibo.controller.Simulation.SettablePosition.{Goal, Init}
-import it.unibo.model.fundamentals.Position
 import it.unibo.model.planning.PlannerBuilder
 import it.unibo.model.planning.algorithms.Algorithm
 import it.unibo.model.scenario.Scenario
@@ -77,23 +76,17 @@ object ScalaPathController extends DisplayableController
     delay()
     loop(current)
 
-  private def handleTransition(from: State, to: State): Unit = (from, to) match
-    case (Empty | Paused(_), Running) => View.resume()
-    case (Running, Paused(true)) => View.pause()
-    case (Empty, Step) => View.firstStep()
-    case (Step, Step) =>
-      step()
-      Simulation set Paused()
-    case (Running | Paused(_), Empty) =>
-      View.reset()
-      resetSimulation()
-    case (previous, SetAnimationSpeed(speed)) =>
-      this.speed = speed
-      Simulation set previous
-    case (Empty, ChangeScenario(_)) => View.firstScenarioChoice()
-    case _ => ()
+  import it.unibo.utils.PartialFunctionExtension.doOrNothing
+  private def handleTransition(from: State, to: State): Unit = doOrNothing(from, to):
+    case Resume()                 => View.resume()
+    case Pause()                  => View.pause()
+    case FirstStep()              => View.firstStep()
+    case ContinueStep()           => step(); Simulation set Paused()
+    case Reset()                  => View.reset(); resetSimulation()
+    case ChangeSpeed(previous, s) => speed = s; Simulation set previous
+    case FirstScenario()          => View.firstScenarioChoice()
 
-  private def handleState(state: State): Unit = state match
+  private def handleState(state: State): Unit = doOrNothing(state):
     case ChangeScenario(index) =>
       scenario = scenarios(index)(nRows, nCols)
       Simulation set Empty
@@ -119,7 +112,4 @@ object ScalaPathController extends DisplayableController
       Simulation set Empty
     case Running =>
       step()
-      if planOver
-      then Simulation set Paused()
-      else shouldSleep()
-    case _ => ()
+      if planOver then Simulation set Paused() else shouldSleep()
