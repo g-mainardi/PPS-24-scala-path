@@ -43,7 +43,7 @@ trait ScenarioManager:
     )
     scenario = constructor.newInstance(newParams*).asInstanceOf[Scenario]
   protected def generateScenario(): Unit = _scenario.generate()
-  protected def randomPosition: Position = _scenario.randomPosition match
+  protected def randomPosition: Position = _scenario.randomFreePosition match
     case Some(pos) => pos
     case None => throw IllegalStateException("Scenario has no valid tiles")
 

@@ -8,10 +8,14 @@ import it.unibo.planning.{Algorithm, PlannerBuilder}
 import scala.annotation.tailrec
 
 trait SimulationController:
-  val stepDelay = 500
+  private val _delay: Int = 400
+  private var _speed: Double = 1.0
   protected var shouldSleep: Boolean = false
 
   def start(): Unit
+  def stepDelay: Long = (_delay * _speed).toLong
+  protected def speed: Double = _speed
+  protected def speed_=(newSpeed: Double): Unit = _speed = newSpeed
   protected def step(): Unit
   protected def over(): Unit
   protected def pause(): Unit
@@ -94,10 +98,9 @@ object ScalaPathController extends SimulationController
       step()
       Simulation set Paused()
     case (Running | Paused(_), Empty) => reset()
-//    case (_, SetPosition(pos)) =>
-//      dropAgent()
-//      disableControls()
-      //clearScenario()
+    case (previous, SetAnimationSpeed(speed)) =>
+      this.speed = speed
+      Simulation set previous
     case _ => ()
 
   private def handleState(state: State): Unit = state match
