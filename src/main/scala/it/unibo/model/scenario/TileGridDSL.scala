@@ -2,9 +2,6 @@ package it.unibo.model.scenario
 
 import it.unibo.model.fundamentals.Tiling.{Floor, Grass, Wall}
 import it.unibo.model.fundamentals.{Position, Tile}
-
-import scala.annotation.targetName
-import scala.collection.immutable.BitSet.empty
 import scala.language.postfixOps
 
 
@@ -19,7 +16,7 @@ object SimpleGridDSL:
 
     def row(s: String): Builder =
       if rows.nonEmpty && s.length != rows.head.length then
-        throw new IllegalArgumentException(s"Tutte le righe devono avere la stessa lunghezza; attesa ${rows.head.length}, trovata ${s.length}")
+        throw new IllegalArgumentException(s"Rows must be of the same length ${rows.head.length}, found ${s.length}")
       else this.copy(rows = rows :+ s)
 
     def rows(lines: String*): Builder =
@@ -28,7 +25,7 @@ object SimpleGridDSL:
     def build(): List[Tile] =
       rows.zipWithIndex.toList.flatMap { case (line, y) =>
         line.zipWithIndex.map { case (ch, x) =>
-          mapping.getOrElse(ch, throw new IllegalArgumentException(s"Carattere non mappato: '$ch'"))
+          mapping.getOrElse(ch, throw new IllegalArgumentException(s"Non existing char: '$ch'"))
             .apply(Position(x, y))
         }
       }
