@@ -1,45 +1,52 @@
 package it.unibo.planner
 
-import it.unibo.model.fundamentals.{Tile, Position}
+import it.unibo.model.fundamentals.{Direction, Position, Tile}
 import it.unibo.model.fundamentals.Tiling.*
 import it.unibo.model.scenario.Scenario
 
 import scala.util.Random
 
-trait TestPlanner(gridrows: Int = 3,val gridcols: Int = 3) {
-  
-  val passableTiles: Seq[Tile] = (
-    for {
-      x <- 0 to gridrows
-      y <- 0 to gridcols
-    } yield Floor(Position(x, y))
-    ).toList
+trait TestPlanner(val gridrows: Int = 3,val gridcols: Int = 3):
+  protected val initPos: Position = Position(1, 1)
+  protected val goalPos: Position = Position(3, 3)
+  protected val directions: Seq[Direction] = Direction.allDirections
+  protected val maxMoves: Option[Int] = Some(10)
 
-  val blockingTiles: Seq[Tile] = (
-    for {
-      x <- 0 to gridrows
-      y <- 0 to gridcols
-    } yield Wall(Position(x, y))
-    ).toList
-
-  val specialTiles: Seq[Tile] = (
-    for {
-      x <- 0 to gridrows
-      y <- 0 to gridcols
-    } yield {
-      val pos = Position(x, y)
-      if (x == 1 && y == 1) Teleport(pos, pos)
-      if (x == 2 && y == 2) Teleport(pos, pos)
-      else Floor(pos)
-    }).toList
-    }
+  val passableScenario: Scenario = new TestScenarioWithPassableTiles(3, 3)
+  val blockingScenario: Scenario = new TestScenarioWithBlockingTiles(3, 3)
+  val specialsScenario: Scenario = new TestScenarioSpecialsTiles(3, 3)
+  passableScenario.generate()
+  blockingScenario.generate()
 
 class TestScenarioWithPassableTiles(nRows: Int, nCols: Int)
-  extends Scenario(nRows, nCols) with TestPlanner(nRows, nCols):
+  extends Scenario(nRows, nCols):
   override def generate(): Unit =
-    _tiles = passableTiles
+    _tiles = (
+      for {
+        x <- 0 to nRows
+        y <- 0 to nCols
+      } yield Floor(Position(x, y))
+      ).toList
 
 class TestScenarioWithBlockingTiles(nRows: Int, nCols: Int)
-  extends Scenario(nRows, nCols) with TestPlanner(nRows, nCols):
+  extends Scenario(nRows, nCols):
   override def generate(): Unit =
-    _tiles = blockingTiles
+    _tiles = (
+      for {
+        x <- 0 to nRows
+        y <- 0 to nCols
+      } yield Wall(Position(x, y))
+      ).toList
+
+class TestScenarioSpecialsTiles(nRows: Int, nCols: Int)
+  extends Scenario(nRows, nCols):
+  override def generate(): Unit =
+    _tiles = (
+      for {
+        x <- 0 to nRows
+        y <- 0 to nCols
+      } yield {
+        if (x == y) Teleport(Position(x, y), Position(2, 1))
+        else Floor(Position(x, y))
+      }
+    ).toList

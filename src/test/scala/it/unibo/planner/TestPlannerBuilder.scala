@@ -2,25 +2,46 @@ package it.unibo.planner
 
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should.Matchers
-import it.unibo.model.fundamentals.Direction.allDirections
 import it.unibo.model.planning.algorithms.Algorithm
-import it.unibo.model.planning.prologplanner.PrologBuilder
-import it.unibo.model.planning.algorithms.Algorithm.{BFS, DFS}
-import it.unibo.model.planning.{Configuration, Plan, Planner, PlannerBuilder}
+import it.unibo.model.planning.algorithms.Algorithm.*
+import it.unibo.model.planning.{PlannerBuilder, PrologPlanner, ScalaPlanner}
 
 class TestPlannerBuilder extends AnyFlatSpec with Matchers with TestPlanner:
-  val configuration: Configuration = Configuration(
-    (1,1),
-    (2,2),
-    Some(5),
-    TestScenarioWithPassableTiles(3, 3),
-    allDirections)
+  "PlannerBuilder" should "build a PrologPlanner for BFS" in {
+    val planner = PlannerBuilder.start
+      .withInit(initPos)
+      .withGoal(goalPos)
+      .withMaxMoves(maxMoves)
+      .withTiles(passableScenario)
+      .withDirections(directions)
+      .withAlgorithm(BFS)
+      .build
 
-  private val theoryPaths: Map[Algorithm, String] = Map(
-    DFS -> "src/main/prolog/dfs.pl",
-    BFS -> "src/main/prolog/bfs.pl"
-  )
+    planner shouldBe a [PrologPlanner]
+  }
 
-//  "PlannerBuilder" should "return a configuration error (missing theory)" in:
-//    an [IllegalArgumentException] should be thrownBy PrologBuilder().build(configuration.copy(theoryPath = None))
-//    
+  it should "build a PrologPlanner for DFS" in {
+    val planner = PlannerBuilder.start
+      .withInit(initPos)
+      .withGoal(goalPos)
+      .withMaxMoves(None)
+      .withTiles(passableScenario)
+      .withDirections(directions)
+      .withAlgorithm(DFS)
+      .build
+
+    planner shouldBe a [PrologPlanner]
+  }
+
+  it should "build a ScalaPlanner for AStar" in {
+    val planner = PlannerBuilder.start
+      .withInit(initPos)
+      .withGoal(goalPos)
+      .withMaxMoves(maxMoves)
+      .withTiles(passableScenario)
+      .withDirections(directions)
+      .withAlgorithm(AStar)
+      .build
+
+    planner shouldBe a [ScalaPlanner]
+  }
