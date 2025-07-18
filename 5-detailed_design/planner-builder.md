@@ -11,3 +11,5 @@ ad esempio algoritmi diversi portano a Planner concreti diversi.
 <p align="center">
   <img src="../resources/planner-builder.png" alt="Planner Builder" title="Planner Builder" />
 </p>
+
+[Index](../index.md)

@@ -18,3 +18,5 @@ un insieme predefinito.
 <p align="center">
   <img src="../resources/specials.png" alt="Special Tiles" title="Special Tiles" />
 </p>
+
+[Index](../index.md)

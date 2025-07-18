@@ -14,3 +14,6 @@ che incapsula il piano calcolato dal Planner.
 <p align="center">
   <img src="../resources/planner.png" alt="Planner" title="Planner" />
 </p>
+
+
+[Index](../index.md)
