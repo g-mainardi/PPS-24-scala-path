@@ -14,25 +14,24 @@ import scala.util.Using
 /**
  * Builds a Prolog-based planner using a configuration and a theory file.
  * It converts an implicit configuration into a prolog theory.
- * It then initializes a tuProlog engine and returns a ready-to-use {@code PrologPlanner}.
+ * It then initializes a tuProlog engine and returns a ready-to-use {@PrologPlanner}.
  *
  * This builder relies on pattern matching extractors defined as private objects
- * (e.g., {@code InitPos}, {@code Tiles}, {@code Theory}) for modular and readable code.
+ * (e.g., {@InitPos}, {@Tiles}, {@Theory}) for modular and readable code.
  */
 class PrologBuilder(using configuration: Configuration):
 
   /**
-   * Builds a {@code PrologPlanner} from the provided configuration.
+   * Builds a {@PrologPlanner} from the provided configuration.
    * It extracts all required Prolog terms and source code fragments,
    * combines them into a unified theory, and initializes the Prolog engine.
-   * Throws {@code FailedPlannerBuildException} if configuration is invalid.
+   * Throws {@FailedPlannerBuildException} if configuration is invalid.
    *
-   * @return a new instance of {@code PrologPlanner}
+   * @return a new instance of {@PrologPlanner}
    */
   def build: Planner = configuration match
     case Configuration(InitPos(initFact), Goal(goalFact), MaxMoves(goalTerm), Tiles(tileFacts), Directions(directionsFact), Theory(theoryString), _) =>
       val fullTheory = new Theory(s"$initFact\n$goalFact\n$directionsFact\n$tileFacts\n$theoryString")
-      println(s"\n$fullTheory\n")
       val engine = mkPrologEngine(fullTheory)
       PrologPlanner(engine, goalTerm)
     case _ => throw FailedPlannerBuildException
@@ -63,9 +62,7 @@ class PrologBuilder(using configuration: Configuration):
 
   private object Theory:
     def unapply(pathOpt: Option[String]): Option[String] =
-      pathOpt.flatMap { path =>
-        Using(Source.fromFile(path))(_.mkString).toOption
-      }
+      pathOpt.flatMap { path => Using(Source.fromFile(path))(_.mkString).toOption }
 
   private object Tiles:
     def unapply(scenario: Scenario): Option[String] = Some( scenario.tiles.collect {
