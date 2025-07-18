@@ -1,7 +1,7 @@
 package it.unibo.model.planning.algorithms
 
 import it.unibo.model.fundamentals.Direction
-import it.unibo.model.fundamentals.Tiling.{Obstacle, Passage}
+import it.unibo.model.fundamentals.Tiling.{Obstacle, Passage, Special}
 import it.unibo.model.fundamentals.{Position, Tile}
 import it.unibo.model.planning.algorithms.PathFindingAlgorithm
 
@@ -15,17 +15,30 @@ object AStarAlgorithm extends PathFindingAlgorithm:
    * @param current
    * @return
    */
-  private def reconstructPath(cameFrom: Map[Position, Position], current: Position): Seq[Direction] =
+  private def reconstructPath(cameFrom: Map[Position, Position], current: Position, tiles: Seq[Tile]): Seq[Direction] =
+    println("here")
     @tailrec
     def _reconstructPath(pos: Position, acc: List[Direction]): Seq[Direction] =
       cameFrom.get(pos) match
         case Some(prev) =>
-          val delta = pos - prev
-          val dir = Direction.allDirections.find(_.vector == delta).get   // todo use a method inside Direction (like getFromVector)
-          _reconstructPath(prev, dir :: acc)
-        case None => acc
+          var delta = pos - prev
 
+          if delta.x > 1 || delta.y > 1 then  // special case like a teleport
+            var originalPos = tiles.find(
+              t => t match
+                case s: Special => s.newPos == pos
+                case _ => false
+            )
+            originalPos match
+              case Some(t) => delta = Position(t.x, t.y) - prev
+              case _ => None
+
+          Direction.allDirections.find(_.vector == delta) match
+            case Some(dir) => _reconstructPath(prev, dir :: acc)
+            case _ => _reconstructPath(prev, acc)
+        case None => acc
     _reconstructPath(current, Nil)
+
 
 
   /**
@@ -44,8 +57,18 @@ object AStarAlgorithm extends PathFindingAlgorithm:
    * @param pos
    * @return
    */
-  def neighbors(pos: Position, directions: Seq[Direction]): Seq[Position] =
-    directions.map(dir => pos + dir.vector)
+  //  def neighbors(pos: Position, directions: Seq[Direction]): Seq[Position] =
+  //    directions.map(dir => pos + dir.vector)
+
+  def neighbors(pos: Position, directions: Seq[Direction], tiles: Seq[Tile]): Seq[Position] =
+    // directions.map(dir => pos + dir.vector)
+    directions.flatMap { dir =>
+      val candidate = pos + dir.vector
+      tiles.find(t => t.x == candidate.x && t.y == candidate.y) match
+        case Some(s: Special) => Seq(s.newPos)
+        case Some(_) => Seq(candidate)
+        case _ => Seq.empty
+    }
 
 
   override def run(start: Position, goal: Position, tiles: Seq[Tile], directions: Seq[Direction]): Option[Seq[Direction]] =
@@ -56,21 +79,21 @@ object AStarAlgorithm extends PathFindingAlgorithm:
       tile match
         case Some(_: Passage) => true
         case Some(_: Obstacle) => false
-        case None => false
+        case _ => false
 
 
     given Ordering[(Double, Position)] = Ordering.by(-_._1)
     @tailrec
     def _run(openSet: Set[Position], cameFrom: Map[Position, Position], gScore: Map[Position, Double], fQueue: List[(Double, Position)]): Option[Seq[Direction]] = fQueue match
       case Nil => None
-      case (_, current) :: rest if current == goal => Some(reconstructPath(cameFrom, current))
+      case (_, current) :: rest if current == goal => Some(reconstructPath(cameFrom, current, tiles))
       case (_, current) :: rest =>
         var newOpen = openSet - current
         var updatedCameFrom = cameFrom
         var updatedGScore = gScore
         var updatedQueue = rest
 
-        for neighbor <- neighbors(current, directions).filter(passable) do
+        for neighbor <- neighbors(current, directions, tiles).filter(passable) do
           val tentativeG = gScore(current) + 1
           val currentG = gScore.getOrElse(neighbor, Double.PositiveInfinity)
 

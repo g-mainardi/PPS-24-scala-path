@@ -20,17 +20,17 @@ class TestPlannerAStar extends AnyFlatSpec with Matchers with TestPlanner:
     val plan: Plan = planner.plan
     plan shouldBe a[SucceededPlanWithMoves]
 
-//  "ScalaPlanner" should "find a valid path with teleport" in :
-//    val planner: Planner = PlannerBuilder.start
-//      .withInit(Position(0, 0))
-//      .withGoal(Position(8, 8))
-//      .withMaxMoves(None)
-//      .withTiles(scenarioWithClosedWalls)
-//      .withDirections(directions)
-//      .withAlgorithm(AStar)
-//      .build
-//    val plan: Plan = planner.plan
-//    plan shouldBe a[SucceededPlanWithMoves]
+  "ScalaPlanner" should "find a valid path with teleport" in :
+    val planner: Planner = PlannerBuilder.start
+      .withInit(Position(0, 0))
+      .withGoal(Position(8, 8))
+      .withMaxMoves(None)
+      .withTiles(scenarioWithClosedWalls)
+      .withDirections(directions)
+      .withAlgorithm(AStar)
+      .build
+    val plan: Plan = planner.plan
+    plan shouldBe a[SucceededPlanWithMoves]
 
   "ScalaPlanner" should "not find a valid path" in :
     val planner: Planner = PlannerBuilder.start
