@@ -1,20 +1,24 @@
 package it.unibo.controller
 
 import it.unibo.model.agent.Agent
+import it.unibo.model.exceptions.AgentNotBuiltException
 import it.unibo.model.fundamentals.Tiling.Floor
-import it.unibo.model.fundamentals.{Position, Tile}
+import it.unibo.model.fundamentals.{Direction, Position, Tile}
+import it.unibo.model.fundamentals.Direction.Cardinals.*
 import it.unibo.model.planning.Plan
 import it.unibo.model.planning.Plan.*
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should.Matchers
 
 class TestAgentManager extends AnyFlatSpec with Matchers:
+  private val directions: Seq[Direction] = Up :: Down :: Right :: Left :: Nil
+
   class AgentManagerMock extends AgentManager:
     private var _searchStarted = false
     private var _planSuccess = false
     private var _planResult: Option[Int] = None
     private var _planFail: Option[String] = None
-    private var _planSelected: Plan = SucceededPlan(Seq.empty)
+    private var _planSelected: Option[Plan] = None
 
     override protected def startSearch(): Unit = _searchStarted = true
 
@@ -26,55 +30,96 @@ class TestAgentManager extends AnyFlatSpec with Matchers:
 
     override protected def assembleAgent(): Unit =
       val samePosToTile: Position => Option[Tile] = p => Some(Floor(p))
-      agent = Agent(Position(0, 0), () => _planSelected, samePosToTile)
+      _planSelected foreach: plan =>
+        agent = Agent(Position(0, 0), () => plan, samePosToTile)
 
-    def testPlanWithMoves(n: Int): Unit =
-      _planSelected = SucceededPlanWithMoves(Seq.empty, n)
+    private def assembleWith(plan: Plan): Unit =
+      _planSelected = Some(plan)
       assembleAgent()
+
+    def assembleAndSearchWith(plan: Plan): Unit =
+      assembleWith(plan)
       searchPlan()
 
-    def testPlan(): Unit =
-      _planSelected = SucceededPlan(Seq.empty)
-      assembleAgent()
-      searchPlan()
+    def testSearch(): Unit = searchPlan()
 
-    def testFailedPlan(msg: String): Unit =
-      _planSelected = FailedPlan(msg)
-      assembleAgent()
-      searchPlan()
+    def testDrop(): Unit = dropAgent()
+
+    def testAssemble(): Unit = assembleWith:
+      SucceededPlan(Seq.empty)
+
+    def testPlanOver: Boolean = planOver
+
+    def testStep(): Unit = stepAgent()
 
     def searchStarted: Boolean = _searchStarted
     def planSuccess: Boolean = _planSuccess
     def planResult: Option[Int] = _planResult
     def planFail: Option[String] = _planFail
 
-  "An AgentManager" should "give a plan" in :
+  it should "give an agent after assemble" in:
     val mockAM = AgentManagerMock()
-    mockAM.testPlan()
+    mockAM.testAssemble()
+    mockAM.agent should not be empty
+
+  it should "drop an agent" in :
+    val mockAM = AgentManagerMock()
+    mockAM.testAssemble()
+    mockAM.testDrop()
+    mockAM.agent shouldBe empty
+
+  it should "give a plan" in :
+    val mockAM = AgentManagerMock()
+    mockAM assembleAndSearchWith:
+      SucceededPlan(Seq.empty)
 
     mockAM.searchStarted shouldBe true
     mockAM.planSuccess shouldBe true
     mockAM.planResult shouldBe empty
     mockAM.planFail shouldBe empty
 
-  "An AgentManager" should "give a plan with no moves" in :
+  it should "give a plan with moves" in :
     val mockAM = AgentManagerMock()
-    val nMoves = 0
-    mockAM testPlanWithMoves nMoves
+
+    mockAM assembleAndSearchWith:
+      SucceededPlanWithMoves(directions, directions.length)
 
     mockAM.searchStarted shouldBe true
     mockAM.planSuccess shouldBe true
-    mockAM.planResult shouldBe Some(nMoves)
+    mockAM.planResult shouldBe Some(directions.length)
     mockAM.planFail shouldBe empty
 
-  "An AgentManager" should "give a failed plan" in :
+  it should "give a failed plan" in :
     val mockAM = AgentManagerMock()
-    val msg = "plan not found"
-    mockAM.testFailedPlan(msg)
+    an[AgentNotBuiltException.type] should be thrownBy:
+      mockAM.testSearch()
 
-    mockAM.searchStarted shouldBe true
-    mockAM.planFail shouldBe Some(msg)
-    mockAM.planSuccess shouldBe false
-    mockAM.planResult shouldBe empty
+  it should "have plan over on absent agent" in:
+    val mockAM = AgentManagerMock()
+    mockAM.testPlanOver shouldBe true
+
+    mockAM.assembleAndSearchWith:
+      SucceededPlan(directions)
+    mockAM.testPlanOver shouldBe false
+
+    mockAM.testDrop()
+    mockAM.testPlanOver shouldBe true
+
+  it should "step the agent then plan over" in:
+    val mockAM = AgentManagerMock()
+
+    mockAM.assembleAndSearchWith:
+      SucceededPlan(Seq.empty)
+    mockAM.testPlanOver shouldBe true
+
+    mockAM.assembleAndSearchWith:
+      SucceededPlan(directions)
+    mockAM.testPlanOver shouldBe false
+
+    directions foreach: _ =>
+      mockAM.testStep()
+    mockAM.testPlanOver shouldBe true
+
+
 
 
