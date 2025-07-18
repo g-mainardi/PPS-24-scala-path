@@ -33,6 +33,8 @@ object DisplayableController:
     def scenario: Scenario = _scenario
     protected def scenario_=(newScenario: Scenario): Unit = _scenario = newScenario
     protected def resizeScenario(nRows: Int, nCols: Int): Unit =
+      _nRows = nRows
+      _nCols = nCols
       val constructor = _scenario.getClass.getConstructors.head
       val newParams: Array[Object] = Array(
         nRows.asInstanceOf[Object],

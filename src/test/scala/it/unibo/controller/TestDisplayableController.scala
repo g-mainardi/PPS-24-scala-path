@@ -25,3 +25,22 @@ class TestDisplayableController extends AnyFlatSpec with Matchers:
     TestAlgorithmManager.algorithmsNames.zipWithIndex foreach : (name, index) =>
       TestAlgorithmManager testAlgorithmChanging index
       TestAlgorithmManager.algorithm.toString should be(name)
+
+  "A DirectionManager" should "set and get directions correctly" in :
+    object TestDirectionManager extends DirectionManager:
+      def setDirections(dirs: Seq[Direction]): Unit = directions_=(dirs)
+
+    val testDirections = Seq(Direction.Cardinals.Up, Direction.Cardinals.Left)
+    TestDirectionManager.setDirections(testDirections)
+    TestDirectionManager.directions shouldBe testDirections
+
+  "A ScenarioManager" should "resize scenario correctly" in:
+    object TestScenarioManager extends ScenarioManager:
+      def resizeTo(rows: Int, cols: Int): Unit = resizeScenario(rows, cols)
+
+    TestScenarioManager.resizeTo(5, 15)
+    TestScenarioManager.nRows shouldBe 5
+    TestScenarioManager.nCols shouldBe 15
+    TestScenarioManager.scenario.nRows shouldBe 5
+    TestScenarioManager.scenario.nCols shouldBe 15
+
