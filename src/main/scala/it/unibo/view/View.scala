@@ -64,7 +64,7 @@ class View(controller: DisplayableController, gridOffset: Int, cellSize: Int) ex
     maximumSize = preferredSize
     minimumSize = preferredSize
   }
-  
+
   private val gridPanel: Panel = new Panel:
     preferredSize = new Dimension(200, 100)
     listenTo(mouse.clicks)

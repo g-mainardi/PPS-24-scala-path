@@ -134,12 +134,6 @@ object ViewUtilities:
       messageType = messageType
     )
 
-//  def showLoadingDialog(message: String, title: String): Unit =
-//    Dialog.showMessage(
-//      message = message,
-//      title = title,
-//      modal = true
-//    )
 
   def showLoadingDialog(message: String = "Loading..."): Dialog =
     val dialog = new Dialog():
@@ -147,7 +141,7 @@ object ViewUtilities:
       peer.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE)
       contents = new BorderPanel:
         layout(new Label(message)) = BorderPanel.Position.Center
-      preferredSize = new Dimension(200, 80)
+      preferredSize = new Dimension(300, 200)
     onEDT:
       dialog.open()
     dialog
