@@ -11,6 +11,8 @@ trait ViewManager:
   
   final private def applyToView(viewAction: ControllableView => Unit): Unit = onEDT:
     _view foreach viewAction
+    
+  def view: Option[ControllableView] = _view
 
   protected object View:
     def update(): Unit = applyToView: v =>
