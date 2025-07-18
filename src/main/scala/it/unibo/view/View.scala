@@ -19,7 +19,8 @@ import it.unibo.model.scenario.{SpecialKind, SpecialTile, SpecialTileBuilder}
 import java.awt.event.MouseAdapter
 
 
-class View(controller: DisplayableController, gridOffset: Int, cellSize: Int) extends MainFrame:
+class View(controller: DisplayableController, gridOffset: Int, cellSize: Int)
+  extends ControllableView(controller):
   import ViewUtilities.*
   import ViewPanels.*
   import ViewComponents.*
@@ -27,36 +28,6 @@ class View(controller: DisplayableController, gridOffset: Int, cellSize: Int) ex
   title = "Scala Path"
   preferredSize = new Dimension(800, 600)
 
-  private var loadingDialog: Option[Dialog] = None
-
-
-  private val controlPanel = ControlPanel()
-  private val scenarioSettingsPanel = ScenarioSettingsPanel(controller)
-
-  def enableStepButton(): Unit = controlPanel.stepButton.enabled = true
-  def disableStepButton(): Unit = controlPanel.stepButton.enabled = false
-  def enableResetButton(): Unit = controlPanel.resetButton.enabled = true
-  def disableResetButton(): Unit = controlPanel.resetButton.enabled = false
-  def resetStartStopButton(): Unit = controlPanel.startStopButton.reset()
-  def enableStartStopButton(): Unit = controlPanel.startStopButton.enabled = true
-  def disableStartStopButton(): Unit = controlPanel.startStopButton.enabled = false
-
-  def enableRefreshScenarioButton(): Unit = scenarioSettingsPanel.refreshScenarioButton.enabled = true
-  def enableAlgorithmDropdown(): Unit = scenarioSettingsPanel.algorithmDropdown.enabled = true
-  def resetAlgorithmDropdown(): Unit = scenarioSettingsPanel.algorithmDropdown.reset()
-
-  def showInfoMessage(message: String, title: String): Unit =
-    showPopupMessage(message, title, Dialog.Message.Info)
-
-  def showErrorMessage(message: String, title: String): Unit =
-    showPopupMessage(message, title, Dialog.Message.Error)
-
-  def showLoadingDialog(message: String): Unit =
-    loadingDialog = Some(ViewUtilities.showLoadingDialog(message))
-
-  def closeLoadingDialog(): Unit = loadingDialog match
-    case Some(dialog) => ViewUtilities closeLoadingDialog dialog
-    case None         => throw IllegalStateException("No loading dialog to close")
 
   private val directionGrid = new FlowPanel {
     contents += new DirectionGrid()
