@@ -44,7 +44,7 @@ object Simulation:
     def unapply(t: Transition): Boolean = t equals (Empty, Step)
 
   object ContinueStep:
-    def unapply(t: Transition): Boolean = t equals(Step, Step)
+    def unapply(t: Transition): Boolean = t equals (Step, Step)
     
   object Resume:
     def unapply(t: Transition): Boolean = -?-> { case (Empty | Paused(_), Running) => true }(t)
@@ -53,7 +53,7 @@ object Simulation:
     def unapply(t: Transition): Boolean = -?-> { case (Running, Paused(true)) => true }(t)
 
   object FirstScenario:
-    def unapply(t: Transition): Boolean = -?-> { case (Empty, ChangeScenario(_)) => true }(t)
+    def unapply(t: Transition): Boolean = -?-> { case (_, _: ChangeScenario) => true }(t)
 
   object Reset:
     def unapply(t: Transition): Boolean = -?-> { case (Running | Paused(_), Empty) => true }(t)
