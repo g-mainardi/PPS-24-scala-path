@@ -77,11 +77,11 @@ class Maze(nRows: Int, nCols: Int) extends EmptyScenario(nRows, nCols):
       val mazeWithRoom = maze + (Position(x, y) -> Floor(Position(x, y)))
 
       neighbors(row, col).foldLeft((newVisited, mazeWithRoom)) {
-        case ((v, m), (nr, nc, dr, dc)) if inBounds(nr, nc) && !v.contains((nr, nc)) =>
-          val wallX = x + dc
-          val wallY = y + dr
-          val m1 = m + (Position(wallX, wallY) -> Floor(Position(wallX, wallY)))
-          val (v2, m2) = carve(nr, nc, v + ((nr, nc)), m1)
+        case ((currentVisited, currentMaze), (neighborRow, neighborCol, deltaRow, deltaCol)) if inBounds(neighborRow, neighborCol) && !currentVisited.contains((neighborRow, neighborCol)) =>
+          val wallX = x + deltaCol
+          val wallY = y + deltaRow
+          val m1 = currentMaze + (Position(wallX, wallY) -> Floor(Position(wallX, wallY)))
+          val (v2, m2) = carve(neighborRow, neighborCol, currentVisited + ((neighborRow, neighborCol)), m1)
           (v2, m2)
 
         case ((v, m), _) => (v, m)
