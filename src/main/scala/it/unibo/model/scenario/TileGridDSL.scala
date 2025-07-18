@@ -1,16 +1,22 @@
 package it.unibo.model.scenario
 
 import scala.language.postfixOps
-import it.unibo.model.fundamentals.Tiling.{Floor, Grass, Wall}
+import it.unibo.model.fundamentals.Tiling.*
 import it.unibo.model.fundamentals.{Position, Tile}
 import scala.language.implicitConversions
 
 // --- DSL symbols ---
 object TileSymbol:
   sealed trait Symbol
+  case object W extends Symbol
+  case object T extends Symbol
   case object F extends Symbol
   case object G extends Symbol
-  case object W extends Symbol
+  case object L extends Symbol
+  case object R extends Symbol
+  case class TP(to: Position) extends Symbol
+
+
 
 import TileSymbol.*
 class GridBuilder:
@@ -28,13 +34,18 @@ class GridBuilder:
 
   def build(): List[Tile] =
     val mapping: Map[Symbol, Position => Tile] = Map(
+      W -> Wall.apply,
+      T -> Trap.apply,
       F -> Floor.apply,
       G -> Grass.apply,
-      W -> Wall.apply
+      L -> Lava.apply,
+      R -> Rock.apply
     )
     rows.zipWithIndex.flatMap { case (line, y) =>
       line.zipWithIndex.map { case (sym, x) =>
-        mapping.getOrElse(sym, throw new IllegalArgumentException(s"Unknown symbol: $sym"))(Position(x, y))
+        sym match
+          case TP(to) => Teleport(Position(x, y), to)
+          case _ => mapping.getOrElse(sym, throw new IllegalArgumentException(s"Unknown symbol: $sym"))(Position(x, y))
       }
     }
 
@@ -45,15 +56,15 @@ object GridDSL:
     body
     builder.build()
 
-  extension (sym: Symbol)(using builder: GridBuilder)
+  extension (sym: Symbol)(using b: GridBuilder)
     infix def |(next: Symbol) : GridBuilder =
-      builder.add(sym)
-      builder.add(next)
-      builder
+      b.add(sym)
+      b.add(next)
+      b
 
     def || : GridBuilder =
-      builder.newRow()
-      builder
+      b.newRow()
+      b
 
   extension (b: GridBuilder)
     infix def |(next: Symbol): GridBuilder =
