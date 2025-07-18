@@ -30,6 +30,7 @@ class View(controller: DisplayableController, gridOffset: Int, cellSize: Int)
 
 
   private val directionGrid = new FlowPanel {
+    contents += new Label("Possible directions")
     contents += new DirectionGrid()
     preferredSize = new Dimension(40 * 3, 40 * 3)
     maximumSize = preferredSize
