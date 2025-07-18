@@ -71,18 +71,17 @@ class Maze(nRows: Int, nCols: Int) extends EmptyScenario(nRows, nCols):
      * @return updated set of visited cells and updated maze
      */
     def carve(row: Int, col: Int, visited: Set[(Int, Int)], maze: Map[Position, Tile]): (Set[(Int, Int)], Map[Position, Tile]) =
-      val newVisited = visited + ((row, col))
+      val updatedVisited = visited + ((row, col))
       val x = 2 * col + 1
       val y = 2 * row + 1
-      val mazeWithRoom = maze + (Position(x, y) -> Floor(Position(x, y)))
-
-      neighbors(row, col).foldLeft((newVisited, mazeWithRoom)) {
+      val updatedMaze = maze + (Position(x, y) -> Floor(Position(x, y)))
+      neighbors(row, col).foldLeft((updatedVisited, updatedMaze)) {
         case ((currentVisited, currentMaze), (neighborRow, neighborCol, deltaRow, deltaCol))
           if inBounds(neighborRow, neighborCol) && !currentVisited.contains((neighborRow, neighborCol)) =>
           val wallX = x + deltaCol
           val wallY = y + deltaRow
           val carvedMaze = currentMaze + (Position(wallX, wallY) -> Floor(Position(wallX, wallY)))
-          carve(neighborRow, neighborCol, currentVisited + ((neighborRow, neighborCol)), carvedMaze)
+          carve(neighborRow, neighborCol, currentVisited, carvedMaze)
         case ((visited, maze), _) => (visited, maze)
       }
 
