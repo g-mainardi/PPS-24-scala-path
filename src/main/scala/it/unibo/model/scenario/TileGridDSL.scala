@@ -4,6 +4,7 @@ import scala.language.postfixOps
 import it.unibo.model.fundamentals.Tiling.*
 import it.unibo.model.fundamentals.{Position, Tile}
 import scala.language.implicitConversions
+import it.unibo.model.scenario.{Scenario, SpecialTile, SpecialTileBuilder, SpecialTileRegistry, Specials}
 
 // --- DSL symbols ---
 object TileSymbol:
@@ -23,6 +24,7 @@ class GridBuilder:
   private var currentRow: Seq[Symbol] = Seq.empty
   private var rows: Seq[Seq[Symbol]] = Seq.empty
 
+
   def add(sym: Symbol): Unit =
     currentRow = currentRow :+ sym
 
@@ -33,6 +35,7 @@ class GridBuilder:
     currentRow = Seq.empty
 
   def build(): Seq[Tile] =
+    given Scenario.Dimensions = Scenario.Dimensions(rows.head.length, rows.length)
     val mapping: Map[Symbol, Position => Tile] = Map(
       W -> Wall.apply,
       T -> Trap.apply,
@@ -44,7 +47,11 @@ class GridBuilder:
     rows.zipWithIndex.flatMap { case (line, y) =>
       line.zipWithIndex.map { case (sym, x) =>
         sym match
-          case TP(to) => Teleport(Position(x, y), to)
+          case TP(to) =>
+            val special = new SpecialTileBuilder
+            special tile "Teleport" does (pos => to)
+            val kind = SpecialTileRegistry.allKinds.find(_.name == "Teleport").get
+            SpecialTile(Position(x, y), kind)
           case _ => mapping.getOrElse(sym, throw new IllegalArgumentException(s"Unknown symbol: $sym"))(Position(x, y))
       }
     }
