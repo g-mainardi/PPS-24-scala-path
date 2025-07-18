@@ -72,8 +72,14 @@ class View(controller: DisplayableController, gridOffset: Int, cellSize: Int) ex
   private val resetButton = new DefaultDisabledButton("Reset")
   private val stepButton = new DefaultDisabledButton("Step")
   private val remainingSteps = new Label()
-  private val colsInput = new IntegerTextField() {columns = 2}
-  private val rowsInput = new IntegerTextField() {columns = 2}
+  private val colsInput = new IntegerTextField() {
+    columns = 2
+    text = controller.scenario.nCols.toString
+  }
+  private val rowsInput = new IntegerTextField() {
+    columns = 2
+    text = controller.scenario.nRows.toString
+  }
   private var loadingDialog: Option[Dialog] = None
 
   private val directionGrid = new FlowPanel {

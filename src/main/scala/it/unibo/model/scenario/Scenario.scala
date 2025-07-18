@@ -5,8 +5,8 @@ import it.unibo.model.fundamentals.Tiling.Passage
 import it.unibo.utils.PrettyPrint
 
 object Scenario:
-  val nRows = 7
-  val nCols = 7
+  val nRows = 10
+  val nCols = 10
   case class Dimensions(nRows: Int, nCols: Int)
 
 trait Scenario(val nRows: Int, val nCols: Int) extends PrettyPrint:
