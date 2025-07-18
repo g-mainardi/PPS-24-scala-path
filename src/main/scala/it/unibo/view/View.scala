@@ -1,6 +1,7 @@
 package it.unibo.view
 
 import it.unibo.controller.{DisplayableController, ScalaPathController, Simulation}
+import Simulation.*
 
 import java.awt.Color
 import java.awt.geom.{Ellipse2D, Rectangle2D}
@@ -22,8 +23,8 @@ class View(controller: DisplayableController, gridOffset: Int, cellSize: Int) ex
   import ViewUtilities.*
   title = "Scala Path"
   preferredSize = new Dimension(800, 600)
-  private val algorithmDropdown = new ComboBoxWithPlaceholder("Select algorithm", controller.algorithmsNames, Simulation set Simulation.ChangeAlgorithm(_)){enabled = false}
-  private val scenarioDropdown = new ComboBoxWithPlaceholder("Select scenario...", controller.scenariosNames, Simulation set Simulation.ChangeScenario(_))
+  private val algorithmDropdown = new ComboBoxWithPlaceholder("Select algorithm", controller.algorithmsNames, Simulation set UICommand.ChangeAlgorithm(_)){enabled = false}
+  private val scenarioDropdown = new ComboBoxWithPlaceholder("Select scenario...", controller.scenariosNames, Simulation set UICommand.ChangeScenario(_))
 
   private class DirectionGrid() extends GridPanel(3, 3):
     private val directions: List[Option[Direction]] = List(
@@ -36,13 +37,13 @@ class View(controller: DisplayableController, gridOffset: Int, cellSize: Int) ex
     contents ++= directions.map { dirOpt =>
       val onDeselection: () => Unit = dirOpt.map { d => () =>
         selectedDirections = selectedDirections :+ d
-        Simulation set Simulation.DirectionsChoice(selectedDirections)
+        Simulation set UICommand.DirectionsChoice(selectedDirections)
         println("called onDeselection, selectedDirections: " + selectedDirections)
       }.getOrElse(() => {})
 
       val onSelection: () => Unit = dirOpt.map { d => () =>
         selectedDirections = selectedDirections.filterNot(_ == d)
-        Simulation set Simulation.DirectionsChoice(selectedDirections)
+        Simulation set UICommand.DirectionsChoice(selectedDirections)
         println("called onSelection, selectedDirections: " + selectedDirections)
       }.getOrElse(() => {})
 
@@ -84,8 +85,8 @@ class View(controller: DisplayableController, gridOffset: Int, cellSize: Int) ex
   private val startStopButton = new TwoStateButton(
     "Start",
     "Stop",
-    Simulation set Simulation.Running,
-    Simulation set Simulation.Paused(fromUser = true)
+    Simulation set ExecutionState.Running,
+    Simulation set ExecutionState.Paused(fromUser = true)
   ){enabled = false}
 
   private val speedSlider = new Slider {
@@ -142,9 +143,9 @@ class View(controller: DisplayableController, gridOffset: Int, cellSize: Int) ex
         val y = (e.point.y - gridOffset) / cellSize
         if x >= 0 && y >= 0 && x < controller.scenario.nCols && y < controller.scenario.nRows then
           if moveGoalRadio.selected then {
-            Simulation set Simulation.SetPosition(Simulation.SettablePosition.Goal(x, y))
+            Simulation set UICommand.SetPosition(Simulation.SettablePosition.Goal(x, y))
           } else if moveStartRadio.selected then
-            Simulation set Simulation.SetPosition(Simulation.SettablePosition.Init(x, y))
+            Simulation set UICommand.SetPosition(Simulation.SettablePosition.Init(x, y))
     }
     override def paintComponent(g: Graphics2D): Unit =
       super.paintComponent(g)
@@ -207,12 +208,12 @@ class View(controller: DisplayableController, gridOffset: Int, cellSize: Int) ex
 
   listenTo(stepButton, resetButton, scenarioDropdown.selection, algorithmDropdown.selection, refreshScenarioButton, speedSlider, colsInput, rowsInput)
   reactions += {
-    case ButtonClicked(`stepButton`) => Simulation set Simulation.Step
-    case ButtonClicked(`resetButton`) => Simulation set Simulation.Empty
-    case ButtonClicked(`refreshScenarioButton`) => Simulation set Simulation.ChangeScenario(scenarioDropdown.selection.index)
+    case ButtonClicked(`stepButton`) => Simulation set ExecutionState.Step
+    case ButtonClicked(`resetButton`) => Simulation set ExecutionState.Empty
+    case ButtonClicked(`refreshScenarioButton`) => Simulation set UICommand.ChangeScenario(scenarioDropdown.selection.index)
     case ValueChanged(`speedSlider`) =>
       val speed = speedSlider.value / 10.0
-      Simulation set Simulation.SetAnimationSpeed(1 / speed)
+      Simulation set UICommand.SetAnimationSpeed(1 / speed)
     case event.EditDone(`colsInput`) => onDimensionChange()
     case event.EditDone(`rowsInput`) => onDimensionChange()
   }
@@ -223,6 +224,6 @@ class View(controller: DisplayableController, gridOffset: Int, cellSize: Int) ex
 
     (maybeRows, maybeCols) match
       case (Some(rows), Some(cols)) if rows > 0 && cols > 0 =>
-        Simulation set Simulation.SetScenarioSize(rows, cols)
+        Simulation set UICommand.SetScenarioSize(rows, cols)
         println(s"passing ($rows $cols)")
       case _ => None

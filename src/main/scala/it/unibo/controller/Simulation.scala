@@ -3,11 +3,15 @@ package it.unibo.controller
 import it.unibo.model.fundamentals.{Direction, Position}
 
 object Simulation:
-  enum State:
+  trait State
+
+  enum ExecutionState extends State:
     case Running
     case Paused(fromUser: Boolean = false)
     case Step
     case Empty
+
+  enum UICommand extends State:
     case ChangeScenario(scenarioIndex: Int)
     case ChangeAlgorithm(algorithmIndex: Int)
     case DirectionsChoice(directions: List[Direction])
@@ -21,7 +25,8 @@ object Simulation:
 
     def position: Position = Position(pos)
 
-  export State.*
+  import ExecutionState.*
+  import UICommand.*
 
   @volatile private var _current: State = Empty
 

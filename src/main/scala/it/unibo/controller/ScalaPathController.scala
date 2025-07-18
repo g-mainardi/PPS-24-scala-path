@@ -67,6 +67,8 @@ object ScalaPathController extends DisplayableController
   protected def startSearch(): Unit = View.search()
 
   import Simulation.*
+  import ExecutionState.*
+  import UICommand.*
   @tailrec
   private def loop(previous: State): Unit =
     val current = Simulation.current
