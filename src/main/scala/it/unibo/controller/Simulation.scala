@@ -14,7 +14,7 @@ object Simulation:
   enum UICommand extends State:
     case ChangeScenario(scenarioIndex: Int)
     case ChangeAlgorithm(algorithmIndex: Int)
-    case DirectionsChoice(directions: List[Direction])
+    case DirectionsChoice(directions: Seq[Direction])
     case SetPosition(toSet: SettablePosition)
     case SetAnimationSpeed(speed: Double)
     case SetScenarioSize(nRows: Int, nCols: Int)

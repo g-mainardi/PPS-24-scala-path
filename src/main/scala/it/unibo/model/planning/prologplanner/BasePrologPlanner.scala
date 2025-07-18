@@ -38,7 +38,7 @@ trait BasePrologPlanner:
   private def convertToPlan(solveInfo: SolveInfo, maxMoves: Option[Int]): Plan =
     import Conversions.given
     val listTerm: Term = extractTerm(solveInfo, "P")
-    val directions: List[Direction] = extractListFromTerm(listTerm).toList map (s => s: Direction)
+    val directions: Seq[Direction] = extractListFromTerm(listTerm).toList map (s => s: Direction)
     maxMoves match
       case None =>
         val movesTerm: Term = extractTerm(solveInfo, "M")

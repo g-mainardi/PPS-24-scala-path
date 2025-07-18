@@ -33,7 +33,7 @@ class Agent(val initialPosition: Position, plan: () => Plan, getTileAt: Position
       currentPlan = directions
       None
     case FailedPlan(error) =>
-      this.currentPlan_=(List.empty)
+      this.currentPlan_=(Seq.empty)
       throw PlanNotFoundException(error)
 
   private def checkSpecial(): Unit = getTileAt(_pos) match

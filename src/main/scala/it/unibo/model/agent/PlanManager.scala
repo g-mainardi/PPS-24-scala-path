@@ -3,13 +3,13 @@ package it.unibo.model.agent
 import it.unibo.model.fundamentals.Direction
 
 trait PlanManager:
-  private var _currentPlan: List[Direction] = List()
+  private var _currentPlan: Seq[Direction] = Seq.empty
   private var _planIndex: Int = 0
   
   def remainingSteps: Int = _currentPlan.length - _planIndex
 
-  def currentPlan: List[Direction] = _currentPlan
-  def currentPlan_=(newPlan: List[Direction]): Unit = _currentPlan = newPlan
+  def currentPlan: Seq[Direction] = _currentPlan
+  def currentPlan_=(newPlan: Seq[Direction]): Unit = _currentPlan = newPlan
   
   def planOver: Boolean = _planIndex >= _currentPlan.length
 

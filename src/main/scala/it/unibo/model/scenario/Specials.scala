@@ -65,7 +65,7 @@ class Specials(nRows: Int, nCols: Int) extends EmptyScenario(nRows, nCols):
     super.generate()
     val specialPositions: Map[SpecialKind, Set[Position]] =
       SpecialTileRegistry.allKinds.map { kind =>
-        kind -> randomFreePositions(tilesPerKind)
+        kind -> randomFreePositions(tilesPerKind).toSet
       }.toMap
 
     _tiles = _tiles.map:

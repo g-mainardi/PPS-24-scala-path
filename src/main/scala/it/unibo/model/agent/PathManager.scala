@@ -4,9 +4,9 @@ import it.unibo.model.fundamentals.{Direction, Position}
 
 
 trait PathManager:
-  private var _path: List[(Position, Direction)] = List()
+  private var _path: Seq[(Position, Direction)] = Seq.empty
 
-  def path: List[(Position, Direction)] = _path
+  def path: Seq[(Position, Direction)] = _path
   protected def addToPath(p: Position, d: Direction): Unit = _path = _path :+ (p, d)
-  def resetPath(): Unit = _path = List()
+  def resetPath(): Unit = _path = Seq.empty
 

@@ -20,8 +20,8 @@ object TileSymbol:
 
 import TileSymbol.*
 class GridBuilder:
-  private var currentRow: List[Symbol] = List.empty
-  private var rows: List[List[Symbol]] = List.empty
+  private var currentRow: Seq[Symbol] = Seq.empty
+  private var rows: Seq[Seq[Symbol]] = Seq.empty
 
   def add(sym: Symbol): Unit =
     currentRow = currentRow :+ sym
@@ -30,9 +30,9 @@ class GridBuilder:
     if rows.nonEmpty && currentRow.length != rows.head.length then
       throw new IllegalArgumentException(s"Rows must be of the same length: expected ${rows.head.length}, found ${currentRow.length}")
     rows = rows :+ currentRow
-    currentRow = List.empty
+    currentRow = Seq.empty
 
-  def build(): List[Tile] =
+  def build(): Seq[Tile] =
     val mapping: Map[Symbol, Position => Tile] = Map(
       W -> Wall.apply,
       T -> Trap.apply,
@@ -51,7 +51,7 @@ class GridBuilder:
 
 
 object GridDSL:
-  def grid(body: GridBuilder ?=> Unit): List[Tile] =
+  def grid(body: GridBuilder ?=> Unit): Seq[Tile] =
     given builder: GridBuilder = new GridBuilder()
     body
     builder.build()

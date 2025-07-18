@@ -4,7 +4,7 @@ import it.unibo.model.fundamentals.{Direction, Position, Tile}
 import it.unibo.utils.PrettyPrint
 
 trait PathFindingAlgorithm extends PrettyPrint:
-  def run(start: Position, goal: Position, tiles: List[Tile], directions: List[Direction]): Option[List[Direction]]
+  def run(start: Position, goal: Position, tiles: Seq[Tile], directions: Seq[Direction]): Option[Seq[Direction]]
 
 enum Algorithm:
   case BFS

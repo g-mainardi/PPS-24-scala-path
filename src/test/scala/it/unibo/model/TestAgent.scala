@@ -12,7 +12,7 @@ import org.scalatest.matchers.should.Matchers
 
 class TestAgent extends AnyFlatSpec with Matchers:
   val scenarioSize = 5
-  val directions: List[Direction] = List.fill(scenarioSize)(Cardinals.Down)
+  val directions: Seq[Direction] = List.fill(scenarioSize)(Cardinals.Down)
   val plan: Plan = SucceededPlan(directions)
   val planWithMoves: Plan = SucceededPlanWithMoves(directions, directions.length)
   val failedPlan: Plan = FailedPlan("plan not found")

@@ -32,7 +32,7 @@ class View(controller: DisplayableController, gridOffset: Int, cellSize: Int) ex
       Some(Left), None, Some(Right),
       Some(LeftDown), Some(Down), Some(RightDown)
     )
-    private var selectedDirections: List[Direction] = Direction.allDirections
+    private var selectedDirections: Seq[Direction] = Direction.allDirections
     private val buttonSize = new Dimension(40, 40)
     contents ++= directions.map { dirOpt =>
       val onDeselection: () => Unit = dirOpt.map { d => () =>
@@ -159,7 +159,7 @@ class View(controller: DisplayableController, gridOffset: Int, cellSize: Int) ex
         drawPath(agent.path)
         remainingSteps.text = agent.remainingSteps.toString
 
-    private def drawPath(positions: List[(Position, Direction)])(using g: Graphics2D): Unit =
+    private def drawPath(positions: Seq[(Position, Direction)])(using g: Graphics2D): Unit =
       positions.foreach((p, d) =>
         val px = p.x * cellSize + gridOffset
         val py = p.y * cellSize + gridOffset

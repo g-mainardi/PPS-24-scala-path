@@ -25,5 +25,5 @@ object Direction:
       case LeftUp    => Left.vector + Up.vector
       case LeftDown  => Left.vector + Down.vector
 
-  val allDirections: List[Direction] = Cardinals.values.toList ++ Diagonals.values.toList
-  val randomDirections: List[Direction] = Random.shuffle(allDirections).take(4)
+  val allDirections: Seq[Direction] = Cardinals.values.toList ++ Diagonals.values.toList
+  val randomDirections: Seq[Direction] = Random shuffle allDirections take 4 

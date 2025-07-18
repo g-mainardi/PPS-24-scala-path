@@ -15,9 +15,9 @@ object AStarAlgorithm extends PathFindingAlgorithm:
    * @param current
    * @return
    */
-  private def reconstructPath(cameFrom: Map[Position, Position], current: Position): List[Direction] =
+  private def reconstructPath(cameFrom: Map[Position, Position], current: Position): Seq[Direction] =
     @tailrec
-    def _reconstructPath(pos: Position, acc: List[Direction]): List[Direction] =
+    def _reconstructPath(pos: Position, acc: List[Direction]): Seq[Direction] =
       cameFrom.get(pos) match
         case Some(prev) =>
           val delta = pos - prev
@@ -44,11 +44,11 @@ object AStarAlgorithm extends PathFindingAlgorithm:
    * @param pos
    * @return
    */
-  def neighbors(pos: Position, directions: List[Direction]): List[Position] =
+  def neighbors(pos: Position, directions: Seq[Direction]): Seq[Position] =
     directions.map(dir => pos + dir.vector)
 
 
-  override def run(start: Position, goal: Position, tiles: List[Tile], directions: List[Direction]): Option[List[Direction]] =
+  override def run(start: Position, goal: Position, tiles: Seq[Tile], directions: Seq[Direction]): Option[Seq[Direction]] =
     val initG = Map(start -> 0.0)
     val initF = heuristic(start, goal)
     val passable = (position: Position) =>
@@ -61,7 +61,7 @@ object AStarAlgorithm extends PathFindingAlgorithm:
 
     given Ordering[(Double, Position)] = Ordering.by(-_._1)
     @tailrec
-    def _run(openSet: Set[Position], cameFrom: Map[Position, Position], gScore: Map[Position, Double], fQueue: List[(Double, Position)]): Option[List[Direction]] = fQueue match
+    def _run(openSet: Set[Position], cameFrom: Map[Position, Position], gScore: Map[Position, Double], fQueue: List[(Double, Position)]): Option[Seq[Direction]] = fQueue match
       case Nil => None
       case (_, current) :: rest if current == goal => Some(reconstructPath(cameFrom, current))
       case (_, current) :: rest =>

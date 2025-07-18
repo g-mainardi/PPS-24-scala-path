@@ -8,21 +8,21 @@ import scala.util.Random
 
 trait TestPlanner(gridrows: Int = 3,val gridcols: Int = 3) {
   
-  val passableTiles: List[Tile] = (
+  val passableTiles: Seq[Tile] = (
     for {
       x <- 0 to gridrows
       y <- 0 to gridcols
     } yield Floor(Position(x, y))
     ).toList
 
-  val blockingTiles: List[Tile] = (
+  val blockingTiles: Seq[Tile] = (
     for {
       x <- 0 to gridrows
       y <- 0 to gridcols
     } yield Wall(Position(x, y))
     ).toList
 
-  val specialTiles: List[Tile] = (
+  val specialTiles: Seq[Tile] = (
     for {
       x <- 0 to gridrows
       y <- 0 to gridcols

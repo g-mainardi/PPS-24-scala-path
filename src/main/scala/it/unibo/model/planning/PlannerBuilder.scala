@@ -25,7 +25,7 @@ case class Configuration(initPos: (Int, Int),
                          goalPos: (Int, Int),
                          maxMoves: Option[Int] = None,
                          environmentTiles: Scenario,
-                         directions: List[Direction],
+                         directions: Seq[Direction],
                          theoryPath: Option[String] = None,
                          algorithm: Option[PathFindingAlgorithm] = None
                           )
@@ -58,8 +58,8 @@ trait BuilderEnvironment:
   def withTiles(scenario: Scenario): BuilderDirections
 
 trait BuilderDirections:
-  protected var directions: List[Direction] = List.empty
-  def withDirections(directions: List[Direction]): BuilderAlgorithm
+  protected var directions: Seq[Direction] = Seq.empty
+  def withDirections(directions: Seq[Direction]): BuilderAlgorithm
 
 trait BuilderAlgorithm:
   protected var algorithm: Algorithm = BFS
@@ -94,7 +94,7 @@ private class PlannerBuilder extends BuilderInit, BuilderGoal, BuilderConstraint
     this.environmentTiles = scenario
     this
 
-  def withDirections(directions: List[Direction]): PlannerBuilder =
+  def withDirections(directions: Seq[Direction]): PlannerBuilder =
     this.directions = directions
     this
 
