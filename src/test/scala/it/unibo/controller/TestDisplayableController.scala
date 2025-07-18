@@ -1,9 +1,9 @@
 package it.unibo.controller
 
 import DisplayableController.*
-import it.unibo.model.fundamentals.Direction.allDirections
 import it.unibo.model.fundamentals.Direction
 import it.unibo.model.fundamentals.Position
+import it.unibo.model.scenario.EmptyScenario
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should.Matchers
 
@@ -43,4 +43,29 @@ class TestDisplayableController extends AnyFlatSpec with Matchers:
     TestScenarioManager.nCols shouldBe 15
     TestScenarioManager.scenario.nRows shouldBe 5
     TestScenarioManager.scenario.nCols shouldBe 15
+
+  "A ScenarioManager" should "set and get init and goal positions" in :
+    object TestScenarioManager extends ScenarioManager
+    val pos1 = Position(1, 2)
+    val pos2 = Position(3, 4)
+    TestScenarioManager.init_=(pos1)
+    TestScenarioManager.goal_=(pos2)
+    TestScenarioManager.init shouldBe pos1
+    TestScenarioManager.goal shouldBe pos2
+
+  it should "throw exception if randomPosition is called on empty scenario" in :
+    object TestScenarioManager extends ScenarioManager:
+      override def randomPosition: Position =
+        scenario = new EmptyScenario(0, 0)
+        super.randomPosition
+    an [IllegalStateException] should be thrownBy TestScenarioManager.randomPosition
+
+  "A DirectionManager" should "set and get directions for empty and custom sequences" in :
+    object TestDirectionManager extends DirectionManager:
+      def setDirections(dirs: Seq[Direction]): Unit = directions_=(dirs)
+    TestDirectionManager.setDirections(Seq())
+    TestDirectionManager.directions shouldBe empty
+    val customDirs = Seq(Direction.Cardinals.Down)
+    TestDirectionManager.setDirections(customDirs)
+    TestDirectionManager.directions shouldBe customDirs
 
