@@ -51,10 +51,10 @@ class PrologBuilder(using configuration: Configuration):
    * They are used to deconstruct the configuration via pattern matching in the `build` method.
    */
   private object InitPos:
-    def unapply(init: (Int, Int)): Option[String] = Some(s"init(s(${init._1}, ${init._2})).")
+    def unapply(init: Position): Option[String] = Some(s"init(s(${init.x}, ${init.y})).")
 
   private object Goal:
-    def unapply(goal: (Int, Int)): Option[String] = Some(s"goal(s(${goal._1}, ${goal._2})).")
+    def unapply(goal: Position): Option[String] = Some(s"goal(s(${goal.x}, ${goal.y})).")
 
   private object MaxMoves:
     def unapply(maxMovesOpt: Option[Int]): Option[Term] = maxMovesOpt match

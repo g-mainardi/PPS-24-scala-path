@@ -11,7 +11,6 @@ import it.unibo.utils.prologintegration.Prolog2Scala.{extractListFromTerm, extra
 import it.unibo.utils.prologintegration.Scala2Prolog.Engine
 
 import scala.util.Try
-import it.unibo.model.planning.prologplanner.Conversions.given_Conversion_Int_Int_Position
 import it.unibo.model.planning.prologplanner.{BasePrologPlanner, PrologBuilder}
 import it.unibo.model.planning.scalaplanner.BaseScalaPlanner
 

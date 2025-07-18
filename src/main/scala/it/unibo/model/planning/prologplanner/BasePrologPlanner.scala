@@ -27,7 +27,6 @@ trait BasePrologPlanner:
       case solveInfo #:: _ if solveInfo.isSuccess => convertToPlan(solveInfo, configuration.maxMoves)
       case _ => FailedPlan("No valid plan found")
 
-
   /**
    * Internal method to extract a list of directions (as a plan) from a SolveInfo.
    *
@@ -52,6 +51,3 @@ object Conversions:
   given Conversion[String, Direction] with
     def apply(s: String): Direction =
       Try(Cardinals valueOf s.capitalize) getOrElse (Diagonals valueOf s.capitalize)
-
-  given Conversion[(Int, Int), Position] = Position(_, _)
-  given Conversion[Position, (Int, Int)] = p => (p.x, p.y)

@@ -1,14 +1,12 @@
 package it.unibo.model.planning
 
-import it.unibo.model.fundamentals.Tile
+import it.unibo.model.fundamentals.{Direction, Position, Tile}
 import it.unibo.model.agent.Agent
-import it.unibo.model.fundamentals.Direction
 import it.unibo.model.planning.prologplanner.PrologBuilder
 import it.unibo.model.planning.scalaplanner.ScalaBuilder
 import it.unibo.model.scenario.Scenario
 import it.unibo.model.planning.algorithms.Algorithm.*
 import it.unibo.model.planning.algorithms.{AStarAlgorithm, Algorithm, PathFindingAlgorithm}
-
 
 /**
  * Configuration for a pathfinding task, containing all necessary parameters.
@@ -21,8 +19,8 @@ import it.unibo.model.planning.algorithms.{AStarAlgorithm, Algorithm, PathFindin
  * @param theoryPath       optional path to a Prolog file (if using Prolog planner)
  * @param algorithm        optional Scala algorithm (e.g., AStar)
  */
-case class Configuration(initPos: (Int, Int),
-                         goalPos: (Int, Int),
+case class Configuration(initPos: Position,
+                         goalPos: Position,
                          maxMoves: Option[Int] = None,
                          environmentTiles: Scenario,
                          directions: Seq[Direction],
@@ -42,12 +40,12 @@ object PlannerBuilder:
  * It offers a fluent interface
  */
 trait BuilderInit:
-  protected var initPos: (Int, Int) = (0, 0)
-  def withInit(initPos: (Int, Int)): BuilderGoal
+  protected var initPos: Position = Position(0, 0)
+  def withInit(initPos: Position): BuilderGoal
 
 trait BuilderGoal:
-  protected var goalPos: (Int, Int) = (0,0)
-  def withGoal(goal: (Int, Int)): BuilderConstraints
+  protected var goalPos: Position = Position(0,0)
+  def withGoal(goal: Position): BuilderConstraints
 
 trait BuilderConstraints:
   protected var maxMoves: Option[Int] = None
@@ -78,11 +76,11 @@ private class PlannerBuilder extends BuilderInit, BuilderGoal, BuilderConstraint
     BFS -> "src/main/prolog/bfs.pl"
   )
 
-  def withInit(initPos: (Int, Int)): PlannerBuilder =
+  def withInit(initPos: Position): PlannerBuilder =
     this.initPos = initPos
     this
 
-  def withGoal(goal: (Int, Int)): PlannerBuilder =
+  def withGoal(goal: Position): PlannerBuilder =
     this.goalPos = goal
     this
 
