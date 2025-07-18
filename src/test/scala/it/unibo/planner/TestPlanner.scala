@@ -4,6 +4,8 @@ import it.unibo.model.fundamentals.{Direction, Position, Tile}
 import it.unibo.model.fundamentals.Tiling.*
 import it.unibo.model.scenario.Scenario
 
+import it.unibo.model.scenario.GridDSL.*
+import it.unibo.model.scenario.TileSymbol.*
 import scala.util.Random
 
 trait TestPlanner(val gridrows: Int = 3,val gridcols: Int = 3):
@@ -15,8 +17,11 @@ trait TestPlanner(val gridrows: Int = 3,val gridcols: Int = 3):
   val passableScenario: Scenario = new TestScenarioWithPassableTiles(3, 3)
   val blockingScenario: Scenario = new TestScenarioWithBlockingTiles(3, 3)
   val specialsScenario: Scenario = new TestScenarioSpecialsTiles(3, 3)
+  val scenarioWithClosedWalls: Scenario = new TestScenarioWithClosedWalls
+
   passableScenario.generate()
   blockingScenario.generate()
+  scenarioWithClosedWalls.generate()
 
 class TestScenarioWithPassableTiles(nRows: Int, nCols: Int)
   extends Scenario(nRows, nCols):
@@ -50,3 +55,18 @@ class TestScenarioSpecialsTiles(nRows: Int, nCols: Int)
         else Floor(Position(x, y))
       }
     ).toList
+
+class TestScenarioWithClosedWalls extends Scenario(10, 10):
+  private val p = Position(7, 8)
+  override def generate(): Unit =
+    _tiles = grid:
+      (F | F | F | F | F | F | F | F | F | F). ||
+      (F | F | TP(p) | F | F | F | F | F | F | F). ||
+      (F | F | F | F | F | F | F | F | F | F). ||
+      (F | F | F | F | F | F | F | F | F | F). ||
+      (F | F | F | F | F | F | F | F | F | F). ||
+      (F | F | F | F | F | F | F | F | F | F). ||
+      (F | F | F | F | F | F | W | W | W | W). ||
+      (F | F | F | F | F | F | W | F | F | W). ||
+      (F | F | F | F | F | F | W | F | F | W). ||
+      (F | F | F | F | F | F | W | W | W | W). ||
