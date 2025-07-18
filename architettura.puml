@@ -1,0 +1,48 @@
+@startuml
+skinparam classAttributeIconSize 0
+
+package "View Layer" {
+  class View {
+    - controller: DisplayableController
+  }
+}
+
+package "Controller Layer" {
+  class DisplayableController
+  class ViewManager
+  class AgentManager
+  class Simulation
+}
+
+package "Model Layer" {
+  class Agent
+  class Planner
+  class PlannerBuilder
+  class Configuration
+  class Scenario
+  class Tile
+  class Direction
+  class Position
+}
+
+View --> DisplayableController : uses
+DisplayableController <|-- ViewManager
+DisplayableController <|-- AgentManager
+AgentManager --> Agent : manages
+Agent --> Plan : uses
+Agent --> Position : has
+Agent --> Tile : uses
+PlannerBuilder --> Planner : builds
+PlannerBuilder --> Configuration : configures
+Planner --> Agent : creates
+Planner --> Scenario : uses
+Planner --> Direction : uses
+Scenario --> Tile : contains
+Tile --> Position : has
+Planner --> Plan : returns
+
+Simulation ..> DisplayableController : controls
+Simulation ..> AgentManager : controls
+Simulation ..> ViewManager : controls
+
+@enduml
