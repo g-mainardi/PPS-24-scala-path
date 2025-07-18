@@ -40,7 +40,18 @@ class TestPlannerDFS extends AnyFlatSpec with Matchers with TestPlanner:
       .withAlgorithm(DFS)
       .build
     val plan: Plan = planner.plan
-    plan shouldBe a[SucceededPlanWithMoves]
+    plan shouldBe a [SucceededPlanWithMoves]
+
+  "DFS Planner" should "find a valid path with specials" in :
+    val planner: Planner = PlannerBuilder.start
+      .withInit(initPos)
+      .withGoal(goalPos)
+      .withMaxMoves(None)
+      .withTiles(specialsScenario)
+      .withDirections(directions)
+      .withAlgorithm(DFS)
+      .build
+    planner.plan shouldBe a [SucceededPlanWithMoves]
 
 
   "PlannerBuilder" should "not find a valid path" in :

@@ -54,12 +54,11 @@ class SpecialTileBuilder:
  * @param nCols number of columns in the scenario
  */
 class Specials(nRows: Int, nCols: Int) extends EmptyScenario(nRows, nCols):
-  private val tilesPerKind = 3
   private val special = new SpecialTileBuilder
-
   special tile "Teleport" does (_ => randomFreePosition.get)
   special tile "JumpDown" does (pos => Position(pos.x, pos.y - 2))
   special tile "StairsUp" does (pos => Position(pos.x, pos.y + 2))
+  private val tilesPerKind = nRows * nCols / SpecialTileRegistry.allKinds.size
 
   override def generate(): Unit =
     super.generate()
