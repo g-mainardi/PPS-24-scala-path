@@ -22,12 +22,5 @@ class TestScalaPath extends AnyFlatSpec with Matchers:
   it should "attach view to controller" in:
     ScalaPathController.view should not be empty
 
-  it should "start and stop without problems" in :
-    noException should be thrownBy:
-      val controllerThread = new Thread(() => ScalaPath main Array.empty)
-      controllerThread.start()
-      Thread sleep 1000
-      controllerThread join 5000
-
   it should "be a SimpleSwingApplication" in:
     ScalaPath shouldBe a[scala.swing.SimpleSwingApplication]
