@@ -2,14 +2,15 @@ package it.unibo.controller
 
 import it.unibo.model.fundamentals.Position
 
+import scala.collection.immutable.ListMap
+
 object DisplayableController:
   trait ScenarioManager:
     import it.unibo.model.scenario.{EmptyScenario, Maze, Scenario, Specials, Terrain}
-    val scenarios: Seq[(Int, Int) => Scenario] =
-      for
-        scenarioType <- Terrain.apply :: Maze.apply :: Specials.apply :: Nil
-      yield
-        scenarioType
+    private val scenarioMap: ListMap[String, (Int, Int) => Scenario] = ListMap:
+      "Terrain"  -> Terrain.apply
+      "Maze"     -> Maze.apply
+      "Specials" -> Specials.apply
 
     private var (_nRows, _nCols) = (Scenario.nRows, Scenario.nCols)
     private var _scenario: Scenario = EmptyScenario(_nRows, _nCols)
@@ -26,7 +27,8 @@ object DisplayableController:
     def nRows_=(nRows: Int): Unit = _nRows = nRows
     def nCols: Int = _nCols
     def nCols_=(nCols: Int): Unit = _nCols = nCols
-    def scenariosNames: Seq[String] = scenarios map(supp => supp(1, 1).toString) //todo
+    def scenarios: Seq[(Int, Int) => Scenario] = scenarioMap.values.toList
+    def scenariosNames: Seq[String] = scenarioMap.keys.toList
     def scenario: Scenario = _scenario
     protected def scenario_=(newScenario: Scenario): Unit = _scenario = newScenario
     protected def resizeScenario(nRows: Int, nCols: Int): Unit =
