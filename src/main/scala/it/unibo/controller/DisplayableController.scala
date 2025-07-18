@@ -7,10 +7,11 @@ import scala.collection.immutable.ListMap
 object DisplayableController:
   trait ScenarioManager:
     import it.unibo.model.scenario.{EmptyScenario, Maze, Scenario, Specials, Terrain}
-    private val scenarioMap: ListMap[String, (Int, Int) => Scenario] = ListMap:
-      "Terrain"  -> Terrain.apply
-      "Maze"     -> Maze.apply
+    private val scenarioMap: ListMap[String, (Int, Int) => Scenario] = ListMap(
+      "Terrain" -> Terrain.apply,
+      "Maze" -> Maze.apply,
       "Specials" -> Specials.apply
+    )
 
     private var (_nRows, _nCols) = (Scenario.nRows, Scenario.nCols)
     private var _scenario: Scenario = EmptyScenario(_nRows, _nCols)
