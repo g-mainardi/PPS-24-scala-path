@@ -56,16 +56,21 @@ object ViewUtilities:
     listenTo(selection)
     reactions += {
       case SelectionChanged(_) =>
-        if selection.index > 0 && peer.getItemAt(0) == placeholder then
-          val selected = selection.item
-          selection.index = selection.index - 1
-          peer.setModel(ComboBox.newConstantModel(items))
-          selection.item = selected
-        onSelect(selection.index)
+        if selection.index == 0 && peer.getItemAt(0) == placeholder then
+          ()
+        else
+          if selection.index > 0 && peer.getItemAt(0) == placeholder then
+            val selected = selection.item
+            selection.index -= 1
+            peer.setModel(ComboBox.newConstantModel(items))
+            selection.item = selected
+          onSelect(selection.index)
     }
     def reset(): Unit =
+      deafTo(selection)
       peer.setModel(ComboBox.newConstantModel(Seq(placeholder) ++ items))
       selection.index = 0
+      listenTo(selection)
 
   class DefaultDisabledButton(label: String) extends Button(label):
     enabled = false
