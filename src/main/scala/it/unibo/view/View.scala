@@ -23,7 +23,6 @@ class View(controller: DisplayableController, gridOffset: Int, cellSize: Int)
   extends ControllableView(controller):
   import ViewUtilities.*
   import ViewPanels.*
-  import ViewComponents.*
 
   title = "Scala Path"
   preferredSize = new Dimension(800, 600)
@@ -53,45 +52,16 @@ class View(controller: DisplayableController, gridOffset: Int, cellSize: Int)
     override def paintComponent(g: Graphics2D): Unit =
       super.paintComponent(g)
       given Graphics2D = g
-      drawCells(cellSize, gridOffset)
-      drawGrid(cellSize, gridOffset)
-      drawCircle(controller.goal.x, controller.goal.y, Color.RED)
-      drawCircle(controller.init.x, controller.init.y, Color.BLUE)
+      var tiles = controller.scenario.tiles
+      drawCells(cellSize, gridOffset, tiles)
+      drawGrid(cellSize, gridOffset, tiles)
+      drawCircle(controller.goal.x, controller.goal.y, Color.RED, cellSize, gridOffset)
+      drawCircle(controller.init.x, controller.init.y, Color.BLUE, cellSize, gridOffset)
       controller.agent foreach: agent =>
-        drawCircle(agent.x, agent.y, Color.YELLOW)
-        drawPath(agent.path)
+        drawCircle(agent.x, agent.y, Color.YELLOW, cellSize, gridOffset)
+        drawPath(agent.path, cellSize, gridOffset)
         controlPanel.remainingSteps.text = agent.remainingSteps.toString
-
-    private def drawPath(positions: Seq[(Position, Direction)])(using g: Graphics2D): Unit =
-      positions.foreach((p, d) =>
-        val px = p.x * cellSize + gridOffset
-        val py = p.y * cellSize + gridOffset
-        g.drawImage(getArrowIconFromDirection(d, cellSize).getImage, px, py, null))
-    
-    private def drawCircle(x: Int, y: Int, color: Color)(using g: Graphics2D): Unit =
-      g setColor color
-      val entity = new Ellipse2D.Double(x * cellSize + gridOffset,
-        y * cellSize + gridOffset,
-        cellSize, cellSize
-      )
-      g fill entity
-
-    private def drawCells(size: Int, gridOffset: Int)(using g: Graphics2D): Unit =
-      def makeCell(x: Int, y: Int): Rectangle2D =
-        new Rectangle2D.Double(x * size + gridOffset, y * size + gridOffset, size, size)
-      controller.scenario.tiles foreach : t =>
-        g setColor tileColor(t)
-        g fill makeCell(t.x, t.y)
-
-    private def drawGrid(cellSize: Int, offset: Int)(using g: Graphics2D): Unit =
-      for t <- controller.scenario.tiles do
-        val rect = new Rectangle2D.Double(
-          t.x * cellSize + offset,
-          t.y * cellSize + offset,
-          cellSize, cellSize
-        )
-        g setColor Color(147, 153, 149)
-        g draw rect
+  
 
   contents = new BorderPanel:
     import BorderPanel.Position

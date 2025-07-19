@@ -226,3 +226,68 @@ object ViewUtilities:
   def closeLoadingDialog(dialog: Dialog): Unit =
     onEDT:
       dialog.close()
+
+
+  /**
+   * Draws a path on the graphics context using a sequence of positions and directions.
+   * @param positions a sequence of tuples containing positions and their corresponding directions
+   * @param scale the scale factor to apply to the positions
+   * @param offset an optional offset to apply to the positions (default is 0)
+   * @param g the Graphics2D context to draw on
+   */
+  def drawPath(positions: Seq[(Position, Direction)],  scale: Int, offset: Int = 0)(using g: Graphics2D): Unit =
+    positions.foreach((p, d) =>
+      val px = p.x * scale + offset
+      val py = p.y * scale + offset
+      g.drawImage(getArrowIconFromDirection(d, scale).getImage, px, py, null))
+
+  /**
+   * Draws a circle at the specified position with a given color and diameter.
+   * @param x the x-coordinate of the circle's center
+   * @param y the y-coordinate of the circle's center
+   * @param color the color of the circle
+   * @param diameter the diameter of the circle
+   * @param offset an optional offset to apply to the circle's position (default is 0)
+   * @param g the Graphics2D context to draw on
+   */
+  def drawCircle(x: Int, y: Int, color: Color, diameter: Int, offset: Int = 0)(using g: Graphics2D): Unit =
+    g setColor color
+    val entity = new Ellipse2D.Double(x * diameter + offset,
+      y * diameter + offset,
+      diameter, diameter
+    )
+    g fill entity
+
+
+  /**
+   * Draws a grid of cells with a specified cell size and offset.
+   * @param cellSize the size of each cell in the grid
+   * @param offset the offset to apply to the grid position
+   * @param tiles the sequence of tiles to draw
+   * @param g the Graphics2D context to draw on
+   */
+  def drawCells(cellSize: Int, offset: Int = 0, tiles: Seq[Tile])(using g: Graphics2D): Unit =
+    def makeCell(x: Int, y: Int): Rectangle2D =
+      new Rectangle2D.Double(x * cellSize + offset, y * cellSize + offset, cellSize, cellSize)
+
+    tiles foreach: t =>
+      g setColor tileColor(t)
+      g fill makeCell(t.x, t.y)
+
+
+  /**
+   * Draws a gray grid to separate the tiles visually.
+   * @param cellSize the size of each cell in the grid
+   * @param offset the offset to apply to the grid position
+   * @param tiles the sequence of tiles to draw the grid for
+   * @param g the Graphics2D context to draw on
+   */
+  def drawGrid(cellSize: Int, offset: Int = 0, tiles: Seq[Tile])(using g: Graphics2D): Unit =
+    for t <- tiles do
+      val rect = new Rectangle2D.Double(
+        t.x * cellSize + offset,
+        t.y * cellSize + offset,
+        cellSize, cellSize
+      )
+      g setColor Color(147, 153, 149)
+      g draw rect

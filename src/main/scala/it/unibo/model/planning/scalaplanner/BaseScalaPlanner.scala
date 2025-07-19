@@ -7,7 +7,6 @@ import Plan.{FailedPlan, SucceededPlan, SucceededPlanWithMoves}
 trait BaseScalaPlanner:
   def checkSolution(directions: Option[Seq[Direction]]): Plan =
     if directions.nonEmpty then
-      // SucceededPlan(directions.get)
       SucceededPlanWithMoves(directions.get, directions.get.length)
     else
       FailedPlan("No valid plan found")
