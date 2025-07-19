@@ -1,18 +1,20 @@
 package it.unibo.controller
 
-import it.unibo.view.{ControllableView, View}
+import it.unibo.view.ControllableView
 
 import scala.swing.Swing.onEDT
 
-trait ViewManager:
-  private var _view: Option[ControllableView] = None
+trait ViewManager[V <: ControllableView]:
+  private var _view: Option[V] = None
 
-  final def attachView(v: ControllableView): Unit = _view = Some(v)
+  final def attachView(v: V): Unit = _view = Some(v)
   
-  final private def applyToView(viewAction: ControllableView => Unit): Unit = onEDT:
+  protected def exec(op: => Unit): Unit = onEDT(op)
+
+  final private def applyToView(viewAction: V => Unit): Unit = exec:
     _view foreach viewAction
     
-  def view: Option[ControllableView] = _view
+  def view: Option[V] = _view
 
   protected object View:
     def update(): Unit = applyToView: v =>
