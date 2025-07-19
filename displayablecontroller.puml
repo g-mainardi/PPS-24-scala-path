@@ -1,0 +1,46 @@
+@startuml ScalaPathController_Architecture
+package "it.unibo.controller" {
+
+    ' Core Traits
+    interface DisplayableController <<trait>> {
+    }
+
+    interface AgentManager <<trait>> {
+        +agent: Option[Agent]
+        +agent_=(agent: Agent): Unit
+        #assembleAgent(): Unit
+        #planOver: Boolean
+        #resetAgent(): Unit
+        #stepAgent(): Unit
+        #dropAgent(): Unit
+        #searchPlan(): Unit
+    }
+
+    ' Nested Traits in DisplayableController
+    interface ScenarioManager <<trait>> {
+        +init: Position
+        +goal: Position
+        +scenarios: Seq[Scenario]
+        +scenario: Scenario
+        #generateScenario(): Unit
+    }
+
+    interface AlgorithmManager <<trait>> {
+        +algorithms: Seq[Algorithm]
+        #algorithm_=(newAlgorithm: Algorithm): Unit
+    }
+
+    interface DirectionManager <<trait>> {
+        +directions: Seq[Direction]
+        #directions_=(directions: Seq[Direction]): Unit
+    }
+
+
+    DisplayableController ..|> ScenarioManager
+    DisplayableController ..|> AlgorithmManager
+    DisplayableController ..|> DirectionManager
+    DisplayableController ..|> AgentManager
+
+}
+
+@enduml
