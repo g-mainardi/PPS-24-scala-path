@@ -10,19 +10,18 @@ import scala.annotation.tailrec
 object AStarAlgorithm extends PathFindingAlgorithm:
 
   /**
-   *
-   * @param cameFrom
-   * @param current
-   * @return
+   * Reconstructs the path from the start position to the goal position using the `cameFrom` map.
+   * @param cameFrom a map that contains the previous position for each position in the path
+   * @param current the current position
+   * @param tiles the sequence of tiles in the scenario
+   * @return a sequence of directions representing the path
    */
   private def reconstructPath(cameFrom: Map[Position, Position], current: Position, tiles: Seq[Tile]): Seq[Direction] =
-    println("here")
     @tailrec
     def _reconstructPath(pos: Position, acc: List[Direction]): Seq[Direction] =
       cameFrom.get(pos) match
         case Some(prev) =>
           var delta = pos - prev
-
           if delta.x > 1 || delta.y > 1 then  // special case like a teleport
             var originalPos = tiles.find(
               t => t match
@@ -32,7 +31,6 @@ object AStarAlgorithm extends PathFindingAlgorithm:
             originalPos match
               case Some(t) => delta = Position(t.x, t.y) - prev
               case _ => None
-
           Direction.allDirections.find(_.vector == delta) match
             case Some(dir) => _reconstructPath(prev, dir :: acc)
             case _ => _reconstructPath(prev, acc)
@@ -40,28 +38,24 @@ object AStarAlgorithm extends PathFindingAlgorithm:
     _reconstructPath(current, Nil)
 
 
-
   /**
    * Computes the distance between two points on a 2D grid.
-   * @param start
-   * @param target
+   * @param start the starting position
+   * @param target the target position
    * @return the distance as a Double
    */
   private def heuristic(start: Position, target: Position): Double =
-    //(start.x - target.x).abs max (start.y - target.y).abs
     (start.x - target.x)*(start.x - target.x) + (start.y - target.y)*(start.y - target.y)
 
 
   /**
-   * Maybe this function will become a parameter in the future
-   * @param pos
-   * @return
+   * Returns the neighbors of a given position based on the provided directions.
+   * @param pos the current position
+   * @param directions the directions to consider for neighboring positions
+   * @param tiles the sequence of tiles in the scenario
+   * @return a sequence of neighboring positions
    */
-  //  def neighbors(pos: Position, directions: Seq[Direction]): Seq[Position] =
-  //    directions.map(dir => pos + dir.vector)
-
   def neighbors(pos: Position, directions: Seq[Direction], tiles: Seq[Tile]): Seq[Position] =
-    // directions.map(dir => pos + dir.vector)
     directions.flatMap { dir =>
       val candidate = pos + dir.vector
       tiles.find(t => t.x == candidate.x && t.y == candidate.y) match
@@ -70,7 +64,14 @@ object AStarAlgorithm extends PathFindingAlgorithm:
         case _ => Seq.empty
     }
 
-
+  /**
+   * Runs the A* algorithm to find a path from the start position to the goal position.
+   * @param start the starting position
+   * @param goal the goal position
+   * @param tiles the sequence of tiles in the scenario
+   * @param directions the sequence of directions the agent can move
+   * @return an optional sequence of directions representing the path from start to goal
+   */
   override def run(start: Position, goal: Position, tiles: Seq[Tile], directions: Seq[Direction]): Option[Seq[Direction]] =
     val initG = Map(start -> 0.0)
     val initF = heuristic(start, goal)
@@ -80,7 +81,6 @@ object AStarAlgorithm extends PathFindingAlgorithm:
         case Some(_: Passage) => true
         case Some(_: Obstacle) => false
         case _ => false
-
 
     given Ordering[(Double, Position)] = Ordering.by(-_._1)
     @tailrec

@@ -27,7 +27,11 @@ object ViewUtilities:
 
   private val colorList: List[Color] = List(Color.YELLOW, Color.CYAN, Color.MAGENTA, Color.ORANGE, Color.PINK, Color.LIGHT_GRAY)
   private val specialTileColors: Map[String, Color] = SpecialTileRegistry.allKinds.map(_.name).zip(colorList).toMap
-
+  /**
+   * Returns a color for the given tile.
+   * @param tile the tile to get the color for
+   * @return the color associated with the tile type
+   */
   def tileColor(tile: Tile): Color =
     import java.awt.Color.*
     tile match
@@ -39,6 +43,13 @@ object ViewUtilities:
       case _: Rock => GRAY
       case special: SpecialTile => specialTileColors.getOrElse(special.kind.name, Color.PINK)
 
+
+  /**
+   * Retrieves an arrow icon based on the specified direction.
+   * @param direction the direction for which to get the arrow icon
+   * @param diameter the diameter of the icon
+   * @return an ImageIcon representing the arrow in the specified direction
+   */
   def getArrowIconFromDirection(direction: Direction, diameter: Int = 14): ImageIcon =
     val path = "/icons/arrow.png"
     direction match
@@ -51,6 +62,14 @@ object ViewUtilities:
       case Left => scaledIcon(path, diameter, diameter, 270)
       case LeftUp => scaledIcon(path, diameter, diameter, 315)
 
+
+  /**
+   * Extends the ComboBox class to include a placeholder item.
+   * @param placeholder a placeholder string to display when no item is selected
+   * @param items a sequence of items to populate the ComboBox
+   * @param onSelect a callback function that is called when an item is selected
+   * @tparam A the type of items in the ComboBox
+   */
   class ComboBoxWithPlaceholder[A](placeholder: String, items: Seq[A], onSelect: Int => Unit) extends ComboBox(Seq(placeholder) ++ items):
     selection.index = 0
     listenTo(selection)
@@ -66,15 +85,30 @@ object ViewUtilities:
             selection.item = selected
           onSelect(selection.index)
     }
+
+    /**
+     * Resets the ComboBox to its initial state with the placeholder selected.
+     */
     def reset(): Unit =
       deafTo(selection)
       peer.setModel(ComboBox.newConstantModel(Seq(placeholder) ++ items))
       selection.index = 0
       listenTo(selection)
 
+  /**
+   * A button that is initially disabled.
+   * @param label the text to display on the button
+   */
   class DefaultDisabledButton(label: String) extends Button(label):
     enabled = false
 
+
+  /** A button that toggles between two states with different labels and actions.
+   * @param label1 the text for the first state
+   * @param label2 the text for the second state
+   * @param onState1 action to perform when the button is in the first state
+   * @param onState2 action to perform when the button is in the second state
+   */
   class TwoStateButton(label1: String = "", label2: String = "", onState1: => Unit = {}, onState2: => Unit = {}) extends Button(label1):
     private var state = true // true: label1, false: label2
     reactions += {
@@ -87,10 +121,17 @@ object ViewUtilities:
           text = label1
         state = !state
     }
+    /**
+     * Resets the button to its initial state with label1.
+     */
     def reset(): Unit =
       state = true
       text = label1
 
+
+  /** A text field that only allows integer input.
+   * It listens to key events and consumes any non-digit input.
+   */
   class IntegerTextField() extends TextField:
     listenTo(keys)
     reactions += {
@@ -100,6 +141,15 @@ object ViewUtilities:
           e.consume()
     }
 
+
+  /**
+   * A button that toggles between two states with different labels and actions.
+   * This button is used for selection purposes, when the button is pressed it also changes its color.
+   * @param label1 the text for the first state
+   * @param label2 the text for the second state
+   * @param onState1 action to perform when the button is in the first state
+   * @param onState2 action to perform when the button is in the second state
+   */
   class SelectionButton(label1: String = "", label2: String = "", onState1:() => Unit = () => {}, onState2: () => Unit = () => {}) extends Button(label1):
     private var state = true // true: label1, false: label2
     reactions += {
@@ -115,6 +165,15 @@ object ViewUtilities:
         state = !state
     }
 
+
+  /**
+   * Creates a scaled icon from a resource path, with optional rotation.
+   * @param path the resource path to the icon image
+   * @param width the desired width of the icon
+   * @param height the desired height of the icon
+   * @param rotationDegrees the degrees to rotate the icon (default is 0)
+   * @return a scaled and optionally rotated ImageIcon
+   */
   def scaledIcon(path: String, width: Int, height: Int, rotationDegrees: Double = 0): ImageIcon =
     val url = getClass.getResource(path)
     val original = ImageIO.read(url)
@@ -127,6 +186,13 @@ object ViewUtilities:
     g2d.dispose()
     new ImageIcon(buffered)
 
+
+  /**
+   * Shows a popup message dialog with the specified message, title, and type.
+   * @param message the message to display in the dialog
+   * @param title the title of the dialog
+   * @param messageType the type of message (e.g., Dialog.Message.Info, Dialog.Message.Warning, etc.)
+   */
   def showPopupMessage(message: String, title: String, messageType: Dialog.Message.Value): Unit =
     Dialog.showMessage(
       message = message,
@@ -135,6 +201,12 @@ object ViewUtilities:
     )
 
 
+  /**
+   * Shows a loading dialog with a specified message.
+   * The dialog is modal and prevents interaction with other windows until closed.
+   * @param message the message to display in the loading dialog
+   * @return the Dialog instance for further manipulation (e.g., closing it)
+   */
   def showLoadingDialog(message: String = "Loading..."): Dialog =
     val dialog = new Dialog():
       modal = true
@@ -146,6 +218,11 @@ object ViewUtilities:
       dialog.open()
     dialog
 
+
+  /**
+   * Closes the specified loading dialog.
+   * @param dialog the Dialog instance to close
+   */
   def closeLoadingDialog(dialog: Dialog): Unit =
     onEDT:
       dialog.close()
