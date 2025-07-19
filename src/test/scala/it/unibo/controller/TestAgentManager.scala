@@ -91,10 +91,23 @@ class TestAgentManager extends AnyFlatSpec with Matchers:
 
   it should "give a failed plan" in :
     val mockAM = AgentManagerMock()
-    an[AgentNotBuiltException.type] should be thrownBy:
+    val noPlanMessage = "plan not found"
+
+    mockAM assembleAndSearchWith :
+      FailedPlan(noPlanMessage)
+
+    mockAM.searchStarted shouldBe true
+    mockAM.planSuccess shouldBe false
+    mockAM.planResult shouldBe None
+    mockAM.planFail shouldBe Some(noPlanMessage)
+
+  it should "throw an exception if agent is not set" in :
+    val mockAM = AgentManagerMock()
+    mockAM.agent shouldBe empty
+    an[AgentNotBuiltException.type] should be thrownBy :
       mockAM.testSearch()
 
-  it should "have plan over on absent agent" in:
+  it should "have plan over on absent agent" in :
     val mockAM = AgentManagerMock()
     mockAM.testPlanOver shouldBe true
 
@@ -105,7 +118,7 @@ class TestAgentManager extends AnyFlatSpec with Matchers:
     mockAM.testDrop()
     mockAM.testPlanOver shouldBe true
 
-  it should "step the agent then plan over" in:
+  it should "step the agent then plan over" in :
     val mockAM = AgentManagerMock()
 
     mockAM.assembleAndSearchWith:
