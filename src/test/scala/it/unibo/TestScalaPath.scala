@@ -24,3 +24,13 @@ class TestScalaPath extends AnyFlatSpec with Matchers:
 
   it should "be a SimpleSwingApplication" in:
     ScalaPath shouldBe a[scala.swing.SimpleSwingApplication]
+
+  it should "start and stop controller" in :
+    noException should be thrownBy:
+
+      val controllerThread = new Thread(() => ScalaPath main Array.empty)
+      controllerThread.start()
+
+      Thread sleep 1000
+
+      controllerThread join 5000
