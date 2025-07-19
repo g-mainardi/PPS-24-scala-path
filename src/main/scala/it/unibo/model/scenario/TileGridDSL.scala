@@ -1,9 +1,9 @@
 package it.unibo.model.scenario
 
-import scala.language.postfixOps
 import it.unibo.model.fundamentals.Tiling.*
 import it.unibo.model.fundamentals.{Position, Tile}
-import scala.language.implicitConversions
+
+import scala.language.{implicitConversions, postfixOps}
 import it.unibo.model.scenario.{Scenario, SpecialTile, SpecialTileBuilder, SpecialTileRegistry, Specials}
 
 // --- DSL symbols ---
@@ -19,8 +19,9 @@ object TileSymbol:
 
 
 
-import TileSymbol.*
+// import TileSymbol.*
 class GridBuilder:
+  import TileSymbol.*
   private var currentRow: Seq[Symbol] = Seq.empty
   private var rows: Seq[Seq[Symbol]] = Seq.empty
 
@@ -63,32 +64,52 @@ object GridDSL:
     body
     builder.build()
 
-  extension (sym: Symbol)(using b: GridBuilder)
-    infix def |(next: Symbol) : GridBuilder =
-      b.add(sym)
-      b.add(next)
-      b
+  def F(using b: GridBuilder): GridBuilder =
+    b.add(TileSymbol.F)
+    b
 
-    def || : GridBuilder =
-      b.newRow()
-      b
+  def G(using b: GridBuilder): GridBuilder =
+    b.add(TileSymbol.G)
+    b
+
+  def W(using b: GridBuilder): GridBuilder =
+    b.add(TileSymbol.W)
+    b
+
+  def T(using b: GridBuilder): GridBuilder =
+    b.add(TileSymbol.T)
+    b
+
+  def L(using b: GridBuilder): GridBuilder =
+    b.add(TileSymbol.L)
+    b
+
+  def R(using b: GridBuilder): GridBuilder =
+    b.add(TileSymbol.R)
+    b
+
+  def TP(to: Position)(using b: GridBuilder): GridBuilder =
+    b.add(TileSymbol.TP(to))
+    b
 
   extension (b: GridBuilder)
-    infix def |(next: Symbol): GridBuilder =
-      b.add(next)
+    def ||(next: GridBuilder): GridBuilder =
+      b.newRow()
       b
-
     def || : GridBuilder =
       b.newRow()
       b
 
+    def |(next: GridBuilder): GridBuilder = b
+
+
 import GridDSL.*
-import TileSymbol.*
+// import TileSymbol.*
 
 @main def testDSL(): Unit =
   val tiles = grid:
-    (F | F | F). ||
-    (G | G | G). ||
-    (W | W | W). ||
+    F | F | F ||;
+    G | G | G ||
+//    W | W | W ||
 
   tiles.foreach(t => println(s"${t.getClass.getSimpleName} at (${t.x}, ${t.y})"))

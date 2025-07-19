@@ -23,14 +23,15 @@ object AStarAlgorithm extends PathFindingAlgorithm:
         case Some(prev) =>
           var delta = pos - prev
           if delta.x.abs > 1 || delta.y.abs > 1 then  // special case like a teleport
-            var originalPos = tiles.find(
+            val originalTile = tiles.find(
               t => t match
                 case s: Special => s.newPos == pos
                 case _ => false
             )
-            originalPos match
+            originalTile match
               case Some(t) => delta = Position(t.x, t.y) - prev
               case _ => None
+            delta = Position(0, 0)
           Direction.allDirections.find(_.vector == delta) match
             case Some(dir) => _reconstructPath(prev, dir :: acc)
             case _ => _reconstructPath(prev, acc)
@@ -60,8 +61,8 @@ object AStarAlgorithm extends PathFindingAlgorithm:
       val candidate = pos + dir.vector
       tiles.find(t => t.x == candidate.x && t.y == candidate.y) match
         case Some(s: Special) => Seq(s.newPos)
-        case Some(_) => Seq(candidate)
-        case _ => Seq.empty
+        case Some(_)          => Seq(candidate)
+        case _                => Seq.empty
     }
 
   /**
