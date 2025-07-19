@@ -22,7 +22,7 @@ object AStarAlgorithm extends PathFindingAlgorithm:
       cameFrom.get(pos) match
         case Some(prev) =>
           var delta = pos - prev
-          if delta.x > 1 || delta.y > 1 then  // special case like a teleport
+          if delta.x.abs > 1 || delta.y.abs > 1 then  // special case like a teleport
             var originalPos = tiles.find(
               t => t match
                 case s: Special => s.newPos == pos
