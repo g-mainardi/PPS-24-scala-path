@@ -92,6 +92,10 @@ object PerlinNoise:
  * @param nCols number of columns in the scenario
  */
 class Terrain(nRows: Int, nCols: Int) extends EmptyScenario(nRows, nCols):
+  private val WaterThreshold = 0.4
+  private val GrassThreshold = 0.7
+  private val RockThreshold = 0.9
+  private val PerlinScale = 0.15
 
   /**
    * Converts a noise value to a specific tile type based on predefined thresholds.
@@ -99,9 +103,9 @@ class Terrain(nRows: Int, nCols: Int) extends EmptyScenario(nRows, nCols):
    * @return a function that takes a Position and returns a Tile
    */
   private def getTileFromNoise(noise: Double)(position: Position): Tile =
-    if noise < 0.4 then Water(position)
-    else if noise < 0.7 then Grass(position)
-    else if noise < 0.9 then Rock(position)
+    if noise < WaterThreshold then Water(position)
+    else if noise < GrassThreshold then Grass(position)
+    else if noise < RockThreshold then Rock(position)
     else Lava(position)
 
   /**
@@ -112,5 +116,5 @@ class Terrain(nRows: Int, nCols: Int) extends EmptyScenario(nRows, nCols):
   override def generate(generator: (x: Int, y:Int) => Tile): Unit =
     super.generate {
       lazy val permutation = PerlinNoise.randomPermutation
-      (x, y) => getTileFromNoise(PerlinNoise.getNoise(x, y, 0.15, permutation))(Position(x, y))
+      (x, y) => getTileFromNoise(PerlinNoise.getNoise(x, y, PerlinScale, permutation))(Position(x, y))
     }
