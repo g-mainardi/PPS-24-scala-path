@@ -7,9 +7,9 @@ import it.unibo.model.scenario.Scenario
 
 import scala.annotation.tailrec
 
-object ScalaPathController extends DisplayableController
+object ScalaPathController
+  extends DisplayableController
   with SpeedManager
-  with AgentManager
   with ViewManager:
 
   def start(): Unit = loop(Simulation.current)
