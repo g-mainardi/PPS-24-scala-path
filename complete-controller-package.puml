@@ -92,7 +92,7 @@ package "it.unibo.controller" {
         Empty
     }
 
-    class UICommand <<enum>> {
+    enum UICommand {
         ChangeScenario
         ChangeAlgorithm
         DirectionsChoice
@@ -101,7 +101,7 @@ package "it.unibo.controller" {
         SetScenarioSize
     }
 
-    class SettablePosition <<enum>> {
+    enum SettablePosition {
         Init
         Goal
         +position: Position

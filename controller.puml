@@ -4,7 +4,6 @@ package "it.unibo.controller" {
     ' Main Controller Object
     class ScalaPathController <<object>> {
         +start(): Unit
-        +assembleAgent(): Unit
         -resetSimulation(): Unit
         -step(): Unit
         -loop(previous: State): Unit
@@ -43,10 +42,10 @@ package "it.unibo.controller" {
     }
 
     ' Simulation States and Commands
-    class ExecutionState <<enum>> {
+    enum ExecutionState {
     }
 
-    class UICommand <<enum>> {
+    enum UICommand {
     }
 
     ' View Manager Inner Object
