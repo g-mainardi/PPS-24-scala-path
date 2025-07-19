@@ -4,6 +4,15 @@ import it.unibo.view.ControllableView
 
 import scala.swing.Swing.onEDT
 
+/**
+ * Trait that manages interactions with a Swing-based {@ControllableView}.
+ *
+ * {@ViewManager} abstracts view updates and control enabling/disabling by
+ * encapsulating all UI operations in a safe way using the Swing Event Dispatch Thread (EDT).
+ * It provides a protected {@View} object that exposes common UI actions for the controller.
+ *
+ * @tparam V the type of view being controlled (must extend {@ControllableView})
+ */
 trait ViewManager[V <: ControllableView]:
   private var _view: Option[V] = None
 
@@ -16,6 +25,10 @@ trait ViewManager[V <: ControllableView]:
     
   def view: Option[V] = _view
 
+  /**
+   * Object that exposes common high-level operations to interact with the UI.
+   * Each method safely applies the corresponding action to the view, if present.
+   */
   protected object View:
     def update(): Unit = applyToView: v =>
       v.repaint()

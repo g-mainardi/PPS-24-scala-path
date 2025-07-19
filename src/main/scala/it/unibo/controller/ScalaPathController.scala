@@ -7,6 +7,18 @@ import it.unibo.model.scenario.Scenario
 
 import scala.annotation.tailrec
 
+/**
+ * Main simulation controller for the Scala pathfinding environment.
+ *
+ * `ScalaPathController` orchestrates the entire simulation by extending core management traits:
+ * - {@DisplayableController} for scenario, algorithm, direction, and agent configuration
+ * - {@SpeedManager} for controlling simulation timing
+ * - {@ViewManager} for updating the UI
+ *
+ * It handles simulation state transitions, agent assembly and planning, and UI updates,
+ * acting as the main reactive component of the system.
+ */
+
 object ScalaPathController
   extends DisplayableController
   with SpeedManager
@@ -32,6 +44,9 @@ object ScalaPathController
     dropAgent()
     View.update()
 
+  /**
+   * Instantiates a new agent using the builder pipeline and attaches it to the view.
+   */
   def assembleAgent(): Unit =
     import it.unibo.model.planning.prologplanner.Conversions.given
     agent =
@@ -50,6 +65,9 @@ object ScalaPathController
     resetAgent()
     View.update()
 
+  /**
+   * Executes one planning step, updating the view and checking completion.
+   */
   private def step(): Unit =
     if planOver then View.over()
     else
@@ -66,6 +84,11 @@ object ScalaPathController
 
   protected def startSearch(): Unit = View.search()
 
+  /**
+   * Main simulation loop, reacts to changes in the {@Simulation} state.
+   *
+   * @param previous the last known simulation state
+   */
   import Simulation.*
   import ExecutionState.*
   import UICommand.*
@@ -78,6 +101,12 @@ object ScalaPathController
     delay()
     loop(current)
 
+  /**
+   * Handles the transition between simulation states, triggering appropriate UI actions.
+   *
+   * @param from the previous state
+   * @param to   the new state
+   */
   import it.unibo.utils.PartialFunctionExtension.doOrNothing
   private def handleTransition(from: State, to: State): Unit = doOrNothing(from, to):
     case Resume()                 => View.resume()
@@ -88,6 +117,12 @@ object ScalaPathController
     case ChangeSpeed(previous, s) => speed = s; Simulation set previous
     case FirstScenario()          => View.firstScenarioChoice()
 
+  /**
+   * Handles logic specific to the current simulation state, such as updating configuration
+   * or running the agent.
+   *
+   * @param state the current state
+   */
   private def handleState(state: State): Unit = doOrNothing(state):
     case ChangeScenario(index) =>
       scenario = scenarios(index)(nRows, nCols)

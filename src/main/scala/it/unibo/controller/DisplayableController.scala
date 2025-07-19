@@ -4,7 +4,28 @@ import it.unibo.model.fundamentals.Position
 
 import scala.collection.immutable.ListMap
 
+/**
+ * A high-level controller that manages all displayable aspects of the simulation:
+ * the scenario, planning algorithm, available directions, and the agent itself.
+ *
+ * This controller aggregates:
+ * - scenario configuration and generation logic
+ * - algorithm selection
+ * - movement direction settings
+ * - agent management (via {@AgentManager})
+ *
+ * It acts as the main interface between the simulation logic and the UI layer.
+ */
 object DisplayableController:
+
+
+  /**
+   * Manages the simulation scenario, including:
+   * - current map type (e.g., Maze, Terrain, Specials)
+   * - map dimensions
+   * - scenario generation and resizing
+   * - init/goal positions
+   */
   trait ScenarioManager:
     import it.unibo.model.scenario.{EmptyScenario, Maze, Scenario, Specials, Terrain}
     private val scenarioMap: ListMap[String, (Int, Int) => Scenario] = ListMap(
@@ -49,6 +70,10 @@ object DisplayableController:
     extension (p: Position)
       def isAvailable: Boolean = _scenario.freePositions contains p
 
+  /**
+   * Manages the planning algorithm selection.
+   * Provides access to the list of available algorithms and the currently selected one.
+   */
   trait AlgorithmManager:
     import it.unibo.model.planning.algorithms.Algorithm
     val algorithms: Seq[Algorithm] = Algorithm.values.toList
@@ -58,6 +83,11 @@ object DisplayableController:
     def algorithm: Algorithm = _algorithm
     protected def algorithm_=(newAlgorithm: Algorithm): Unit = _algorithm = newAlgorithm
 
+
+  /**
+   * Manages the set of allowed movement directions.
+   * Allows the controller to restrict or change which directions the agent can use.
+   */
   trait DirectionManager:
     import it.unibo.model.fundamentals.Direction
     import Direction.allDirections

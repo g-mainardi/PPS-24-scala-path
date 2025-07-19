@@ -5,6 +5,14 @@ import it.unibo.model.exceptions.AgentNotBuiltException
 import it.unibo.model.fundamentals.Direction
 import it.unibo.model.planning.Planner
 
+/**
+ * Trait responsible for managing the lifecycle and behavior of an @Agent,
+ * including planning, resetting, stepping, and handling planning outcomes.
+ *
+ * Subclasses must implement the abstract methods to start the planning process
+ * and handle the results (success or failure).
+ */
+
 trait AgentManager:
   private var _agent: Option[Agent] = None
 
@@ -16,6 +24,11 @@ trait AgentManager:
   protected def handleValidPlan(nMoves: Option[Int] = None): Unit
   protected def assembleAgent(): Unit
 
+  /**
+   * Checks whether the agent has completed its plan.
+   *
+   * @return true if the plan is over or no agent is present
+   */
   protected def planOver: Boolean = _agent match
     case Some(a) => a.planOver
     case None    => true
@@ -29,6 +42,13 @@ trait AgentManager:
   
   protected def dropAgent(): Unit = _agent = None
 
+  /**
+   * Initiates planning for the current agent:
+   * - starts the search
+   * - handles the result in case of success or failure
+   *
+   * @throws AgentNotBuiltException if no agent is available
+   */
   protected def searchPlan(): Unit =
     startSearch()
     _agent match 

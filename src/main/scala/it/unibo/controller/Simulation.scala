@@ -2,15 +2,35 @@ package it.unibo.controller
 
 import it.unibo.model.fundamentals.{Direction, Position}
 
+/**
+ * Object that manages the global simulation state, used to coordinate execution and UI commands.
+ *
+ * It defines:
+ * - {@State}: a base type for all simulation-related states
+ * - {@ExecutionState}: current simulation activity (running, paused, etc.)
+ * - {@UICommand}: commands from the UI that affect the simulation
+ * - {@SettablePosition}: sealed hierarchy for agent goal and init positions
+ * - Custom extractors to simplify transition handling
+ *
+ * The simulation state is stored in a synchronized, volatile variable {@_current}.
+ * Transitions between states can be matched via pattern extractors like {@Resume}, {@Reset}, etc.
+ */
 object Simulation:
   trait State
 
+
+  /**
+   * Represents the runtime status of the simulation.
+   */
   enum ExecutionState extends State:
     case Running
     case Paused(fromUser: Boolean = false)
     case Step
     case Empty
 
+  /**
+   * Represents commands issued from the UI that modify the simulation.
+   */
   enum UICommand extends State:
     case ChangeScenario(scenarioIndex: Int)
     case ChangeAlgorithm(algorithmIndex: Int)
@@ -19,6 +39,11 @@ object Simulation:
     case SetAnimationSpeed(speed: Double)
     case SetScenarioSize(nRows: Int, nCols: Int)
 
+  /**
+   * Represents a UI-settable position (Init or Goal).
+   *
+   * @param pos the position as a tuple (x, y)
+   */
   enum SettablePosition(private val pos: (Int, Int)):
     case Init(private val pos: (Int, Int)) extends SettablePosition(pos)
     case Goal(private val pos: (Int, Int)) extends SettablePosition(pos)
