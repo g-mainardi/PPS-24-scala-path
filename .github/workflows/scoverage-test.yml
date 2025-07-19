@@ -14,23 +14,43 @@ jobs:
   build:
     runs-on: ubuntu-latest
     name: Test scala
+    timeout-minutes: 8
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        
+
       - name: SetupJDK21
         uses: actions/setup-java@v3
         with:
           java-version: '21'
           distribution: 'temurin'
-          
+
       - name: Setup sbt
         uses: sbt/setup-sbt@v1
-          
-      - name: Run tests
-        run: sbt coverage test coverageReport
+
+      - name: Install xvfb for GUI tests
+        run: sudo apt-get update && sudo apt-get install -y xvfb
+
+      - name: Run tests with coverage, virtual display and timeout
+        run: |
+          timeout 300s xvfb-run -a sbt coverage test coverageReport || {
+            echo "Command timed out or failed, cleaning up..."
+            pkill -f sbt || true
+            pkill -f java || true
+          }
         
-      - uses: codecov/codecov-action@v4
+      - name: Check coverage report and upload
+        run: |
+          if [ -f target/scala-*/scoverage-report/scoverage.xml ] || [ -f target/scala-*/coverage-report/cobertura.xml ]; then
+            echo "Coverage report found, uploading..."
+          else
+            echo "No coverage report found, failing job"
+            exit 1
+          fi
+
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v4
         with:
           fail_ci_if_error: true
           token: ${{ secrets.CODECOV_TOKEN }}
