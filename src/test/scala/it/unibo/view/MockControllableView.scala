@@ -1,15 +1,9 @@
-
 package it.unibo.view
 
 import it.unibo.controller.DisplayableController
 
-
-
-class MockView(
-                controller: DisplayableController,
-                gridOffset: Int,
-                cellSize: Int
-              ) extends View(controller, gridOffset, cellSize) {  var repaintCalled = false
+class MockControllableView(controller: DisplayableController) extends ControllableView(controller):
+  var repaintCalled = false
   var disableStepButtonCalled = false
   var disableResetButtonCalled = false
   var disableStartStopButtonCalled = false
@@ -35,19 +29,19 @@ class MockView(
   override def enableResetButton(): Unit = enableResetButtonCalled = true
   override def enableStartStopButton(): Unit = enableStartStopButtonCalled = true
   override def resetStartStopButton(): Unit = resetStartStopButtonCalled = true
-  override def showInfoMessage(msg: String, title: String): Unit = {
+  
+  override def showInfoMessage(msg: String, title: String): Unit =
     showInfoMessageCalled = true
     showInfoMessageArgs = (msg, title)
-  }
-  override def showErrorMessage(msg: String, title: String): Unit = {
+  
+  override def showErrorMessage(msg: String, title: String): Unit =
     showErrorMessageCalled = true
     showErrorMessageArgs = (msg, title)
-  }
-  override def showLoadingDialog(msg: String): Unit = {
+  
+  override def showLoadingDialog(msg: String): Unit =
     showLoadingDialogCalled = true
     showLoadingDialogArg = msg
-  }
+  
   override def closeLoadingDialog(): Unit = closeLoadingDialogCalled = true
   override def enableAlgorithmDropdown(): Unit = enableAlgorithmDropdownCalled = true
   override def enableRefreshScenarioButton(): Unit = enableRefreshScenarioButtonCalled = true
-}
