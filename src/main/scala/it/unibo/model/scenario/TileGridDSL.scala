@@ -49,8 +49,8 @@ class GridBuilder:
         sym match
           case TP(to) =>
             val special = new SpecialTileBuilder
-            special tile "Teleport" does (pos => to)
-            val kind = SpecialTileRegistry.allKinds.find(_.name == "Teleport").get
+            special tile "TestTeleport" does (pos => to)
+            val kind = SpecialTileRegistry.allKinds.find(_.name == "TestTeleport").get
             SpecialTile(Position(x, y), kind)
           case _ => mapping.getOrElse(sym, throw new IllegalArgumentException(s"Unknown symbol: $sym"))(Position(x, y))
       }
