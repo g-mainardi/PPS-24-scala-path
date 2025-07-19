@@ -1,0 +1,70 @@
+@startuml Agent_Package_Architecture
+!theme toy
+
+package "it.unibo.model.agent" {
+    
+    ' Main Agent Class
+    class Agent {
+        +pos: Position
+        +resetPosition(): Unit
+        +step(): Unit
+        +searchPlan(): Option[Int]
+        -plan: () => Plan
+        -checkSpecial(): Unit
+    }
+    
+    ' PathManager Trait
+    interface PathManager <<trait>> {
+        +path: Seq[(Position, Direction)]
+        +resetPath(): Unit
+        #addToPath(p: Position, d: Direction): Unit
+    }
+    
+    ' PlanManager Trait
+    interface PlanManager <<trait>> {
+        +currentPlan: Seq[Direction]
+        +currentPlan_=(newPlan: Seq[Direction]): Unit
+        +planOver: Boolean
+        +resetPlan(): Unit
+        #nextDirection: Direction
+        #currentDirection: Direction
+    }
+    
+    ' Relationships within the package
+    Agent --|> PathManager : implements
+    Agent --|> PlanManager : implements
+    
+}
+
+' External Dependencies (referenced but not detailed)
+package "it.unibo.model.fundamentals" {
+    class Position <<external>> {
+        + x: Int
+        + y: Int
+        + +(other: Position): Position
+    }
+    
+    interface Direction <<external>> {
+        +vector: Position
+    }
+
+}
+
+package "it.unibo.model.planning" {
+    enum Plan <<external>> {
+        SucceededPlanWithMoves(directions, numMoves)
+        SucceededPlan(directions)
+        FailedPlan(errorMessage)
+    }
+}
+
+
+' External relationships
+Agent --> Position : uses
+Agent --> Plan : handles
+
+PathManager --> Position : stores in path
+PathManager --> Direction : stores in path
+PlanManager --> Direction : manages sequence
+
+@enduml
