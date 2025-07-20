@@ -9,3 +9,5 @@ Il modulo `ViewUtilities` invece contiene tutte le classi generiche che possono 
 Infine, come ultimo aspettto, ma non per importanza, la view estende una interfaccia nominata `ConrollableView`, la quale espone una serie di metodi che permettono al controller di interfacciarsi con la view e di intervenire su alcune funzionalità di questa. Ad esempio sulla attivazione / disattivazione di uno o più pulsanti. Questa scelta è stata fatta per separare ancora di più la logica dell'applicazione dalla visualizzazione del suo stato, tutto in linea con i principii del pattern MVC.
 Di seguito un uml completo dei componenti appena descritti.
 <img width="2084" height="908" alt="diagram-15675314231273744946" src="https://github.com/user-attachments/assets/2c0c51b1-2185-4a55-aa08-0f7bfd30c7eb" />
+Invece il sequente digramma casi d'uso, mostra l'interazione dell'utente con la view:
+<img width="554" height="551" alt="UseCase-ScalaPath drawio" src="https://github.com/user-attachments/assets/e1186c2a-881e-4c3b-af6c-ec59f85cdc4a" />
