@@ -24,22 +24,24 @@ class GridBuilder(expectedColumns: Option[Int]):
    *
    * @param f A function that takes the current position and returns a Tile.
    */
-  def add(f: Position => Tile): Unit =
+  def +(f: Position => Tile): GridBuilder =
     tiles = tiles :+ f(Position(currentColumnIndex, currentRowIndex))
     expectedColumns match
-      case Some(columns) if currentColumnIndex == (columns -1) => newRow()
+      case Some(columns) if currentColumnIndex == (columns -1) => ++()
       case _ => currentColumnIndex += 1
+    this
 
   /**
    * Starts a new row in the grid.
    */
-  def newRow(): Unit =
+  def ++(): GridBuilder =
     if maxColumnIndex.isEmpty then
       maxColumnIndex = Some(currentColumnIndex)
     if currentColumnIndex != maxColumnIndex.get then
       throw new IllegalArgumentException(s"Rows must be of the same length: expected ${maxColumnIndex.get}, found ${currentColumnIndex} at row ${currentRowIndex}")
     currentRowIndex += 1
     currentColumnIndex = 0
+    this
 
   /**
    * Builds the grid and returns the sequence of tiles.
@@ -88,8 +90,7 @@ object GridDSL:
    * @return the GridBuilder instance for method chaining.
    */
   def F(using b: GridBuilder): GridBuilder =
-    b.add(Floor.apply)
-    b
+    b + Floor.apply
 
   /**
    * Adds a Grass tile to the grid.
@@ -97,8 +98,7 @@ object GridDSL:
    * @return the GridBuilder instance for method chaining.
    */
   def G(using b: GridBuilder): GridBuilder =
-    b.add(Grass.apply)
-    b
+    b + Grass.apply
 
   /**
    * Adds a Wall tile to the grid.
@@ -106,8 +106,7 @@ object GridDSL:
    * @return the GridBuilder instance for method chaining.
    */
   def W(using b: GridBuilder): GridBuilder =
-    b.add(Wall.apply)
-    b
+    b + Wall.apply
 
   /**
    * Adds a Trap tile to the grid.
@@ -115,8 +114,7 @@ object GridDSL:
    * @return the GridBuilder instance for method chaining.
    */
   def T(using b: GridBuilder): GridBuilder =
-    b.add(Trap.apply)
-    b
+    b + Trap.apply
 
   /**
    * Adds a Lava tile to the grid.
@@ -124,8 +122,7 @@ object GridDSL:
    * @return the GridBuilder instance for method chaining.
    */
   def L(using b: GridBuilder): GridBuilder =
-    b.add(Lava.apply)
-    b
+    b + Lava.apply
 
   /**
    * Adds a Rock tile to the grid.
@@ -133,8 +130,7 @@ object GridDSL:
    * @return the GridBuilder instance for method chaining.
    */
   def R(using b: GridBuilder): GridBuilder =
-    b.add(Rock.apply)
-    b
+    b + Rock.apply
 
   /**
    * Adds a Teleport tile to the grid that teleports to a specified position.
@@ -143,14 +139,13 @@ object GridDSL:
    * @return the GridBuilder instance for method chaining.
    */
   def TP(to: Position)(using b: GridBuilder): GridBuilder =
-    b.add(pos => {
+    b + (pos => {
       val special = new SpecialTileBuilder
       special tile "TestTeleport" does (_ => to)
       val kind = SpecialTileRegistry.allKinds.find(_.name == "TestTeleport").get
       given Scenario.Dimensions = Scenario.Dimensions(to.x + 1, to.y + 1)
       SpecialTile(pos, kind)
     })
-    b
 
   extension (b: GridBuilder)
     /**
@@ -160,8 +155,7 @@ object GridDSL:
      * @return the GridBuilder instance for method chaining.
      */
     def ||(next: GridBuilder): GridBuilder =
-      b.newRow()
-      b
+      b.++()
 
     /**
      * Adds a new row to the grid.
@@ -169,8 +163,8 @@ object GridDSL:
      * @return the GridBuilder instance for method chaining.
      */
     def || : GridBuilder =
-      b.newRow()
-      b
+      b.++()
+
 
     /**
      * Combines two GridBuilders into one.
