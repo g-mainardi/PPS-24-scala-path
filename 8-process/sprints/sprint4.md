@@ -38,6 +38,6 @@ We have learned that after many refactors during previous sprints, the code is n
 In fact, this was maybe the sprints with the most functionalities added.
 We have worked on code almost until the end because there were always some fixes or little improvements to do.
 This wasn't good, there were important changes and features that we could have added before this sprint instead of the last week.
-We haven't noticed that some classes still have an old designed that needed to be updated.
+We haven't noticed that some classes still have an old design that needed to be updated.
 
 [Previous Sprint](sprint3.md) | [Index](../index.md)

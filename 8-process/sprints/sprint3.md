@@ -39,6 +39,6 @@ The BFS algorithm was re-designed to have the same interface of the DFS algorith
 
 ### Sprint Retrospective
 
-Time really flies when you do serious refactors.
+Time really flies when you do refactor.
 
 [Previous Sprint](sprint2.md) | [Index](../index.md) | [Next Sprint](sprint4.md)
