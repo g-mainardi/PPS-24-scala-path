@@ -1,5 +1,15 @@
 # Testing
 
+Scala Test has been used for unit testing along with automated testing using GitHub Actions workflows.
+We have used Scala Test's DSL to write expressive and readable tests. Here an example:
+
+```scala
+  "A Maze Scenario" should "generate some tiling" in :
+    val scenario: Scenario = Maze(3,3)
+    scenario.generate()
+    scenario.tiles should not be empty
+```
+
 ### TDD
 We tried to adopt TDD when it felt natural to do so, and since we have done many refactorings the tests kept evolving with the code, in order to never be without coverage and feedbacks. We have to admit that it wasn't easy to follow the TDD approach because often we weren't sure on how to do things and how to write code, and writing a-priori tests sometimes has helped with that, sometimes it was just hard. 
 
