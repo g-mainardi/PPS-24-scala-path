@@ -1,1 +1,7 @@
-# View
+# ScalaBuilder
+Al centro di questi moduli si trova l'interfaccia `Planner`, che definisce il contratto per ogni oggetto in grado di pianificare un percorso (`plan()`) e di trasformarsi in un agente eseguibile (`toAgent()`). La classe `ScalaPlanner` implementa questa interfaccia ed estende anche `BaseScalaPlanner`, che fornisce un metodo ausiliario per verificare se la soluzione trovata dal planner ha avuto successo o meno.
+La `ScalaPlanner` incapsula tutti i dati necessari per eseguire un algoritmo di pathfinding: la posizione iniziale e quella finale, la mappa delle tile, la lista di direzioni consentite e l’algoritmo di pianificazione da utilizzare. Tutti questi dati vengono forniti tramite l'oggetto `Configuration`.
+Per istanziare uno `ScalaPlanner`, si utilizza la classe `ScalaBuilder`, che segue il pattern Builder e si occupa di costruire l’oggetto planner a partire dalla `Configuration`. Il builder si occupa di assemblare tutti i componenti necessari, garantendo che la configurazione segua un preciso ordine.
+Questo modulo è stato progetto per essere altamente componibile e aperto a estensioni, permettendo l’aggiunta di nuovi algoritmi di pianificazione o nuovi tipi di ambiente senza modificare le classi esistenti. Tutti gli elementi interagiscono tramite interfacce o classi contenitore, facilitando la riusabilità e l'estensibilità del codice.
+Di seguito un uml che mostra come i componenti interagiscono tra loro.
+<img width="918" height="794" alt="diagram-4807315137824222799" src="https://github.com/user-attachments/assets/d23bf1ed-7a78-411c-a588-a47a516a82b8" />
