@@ -6,90 +6,72 @@ import it.unibo.model.fundamentals.{Position, Tile}
 import scala.language.{implicitConversions, postfixOps}
 import it.unibo.model.scenario.{Scenario, SpecialTile, SpecialTileBuilder, SpecialTileRegistry, Specials}
 
-// --- DSL symbols ---
-object TileSymbol:
-  sealed trait Symbol
-  case object W extends Symbol
-  case object T extends Symbol
-  case object F extends Symbol
-  case object G extends Symbol
-  case object L extends Symbol
-  case object R extends Symbol
-  case class TP(to: Position) extends Symbol
+class GridBuilder(expectedColumns: Option[Int]):
+  var tiles: Seq[Tile] = Seq.empty
+  private var currentRowIndex: Int = 0
+  private var currentColumnIndex: Int = 0
+  private var maxColumnIndex: Option[Int] = None
 
-
-
-// import TileSymbol.*
-class GridBuilder:
-  import TileSymbol.*
-  private var currentRow: Seq[Symbol] = Seq.empty
-  private var rows: Seq[Seq[Symbol]] = Seq.empty
-
-
-  def add(sym: Symbol): Unit =
-    currentRow = currentRow :+ sym
+  def add(f: Position => Tile): Unit =
+    tiles = tiles :+ f(Position(currentColumnIndex, currentRowIndex))
+    expectedColumns match
+      case Some(columns) if currentColumnIndex == (columns -1) => newRow()
+      case _ => currentColumnIndex += 1
 
   def newRow(): Unit =
-    if rows.nonEmpty && currentRow.length != rows.head.length then
-      throw new IllegalArgumentException(s"Rows must be of the same length: expected ${rows.head.length}, found ${currentRow.length}")
-    rows = rows :+ currentRow
-    currentRow = Seq.empty
+    if maxColumnIndex.isEmpty then
+      maxColumnIndex = Some(currentColumnIndex)
+    if currentColumnIndex != maxColumnIndex.get then
+      throw new IllegalArgumentException(s"Rows must be of the same length: expected ${maxColumnIndex.get}, found ${currentColumnIndex} at row ${currentRowIndex}")
+    currentRowIndex += 1
+    currentColumnIndex = 0
 
   def build(): Seq[Tile] =
-    given Scenario.Dimensions = Scenario.Dimensions(rows.head.length, rows.length)
-    val mapping: Map[Symbol, Position => Tile] = Map(
-      W -> Wall.apply,
-      T -> Trap.apply,
-      F -> Floor.apply,
-      G -> Grass.apply,
-      L -> Lava.apply,
-      R -> Rock.apply
-    )
-    rows.zipWithIndex.flatMap { case (line, y) =>
-      line.zipWithIndex.map { case (sym, x) =>
-        sym match
-          case TP(to) =>
-            val special = new SpecialTileBuilder
-            special tile "TestTeleport" does (pos => to)
-            val kind = SpecialTileRegistry.allKinds.find(_.name == "TestTeleport").get
-            SpecialTile(Position(x, y), kind)
-          case _ => mapping.getOrElse(sym, throw new IllegalArgumentException(s"Unknown symbol: $sym"))(Position(x, y))
-      }
-    }
+    expectedColumns match
+      case Some(columns) if tiles.length % columns != 0 => throw new IllegalArgumentException(s"Rows must be of the same length: expected ${columns}}")
+      case _ => ()
+    tiles
 
 
 object GridDSL:
-  def grid(body: GridBuilder ?=> Unit): Seq[Tile] =
-    given builder: GridBuilder = new GridBuilder()
+
+  def grid(columns: Int = -1)(body: GridBuilder ?=> Unit): Seq[Tile] =
+    given builder: GridBuilder = new GridBuilder(if columns!= -1 then Some(columns) else None)
     body
     builder.build()
 
   def F(using b: GridBuilder): GridBuilder =
-    b.add(TileSymbol.F)
+    b.add(Floor.apply)
     b
 
   def G(using b: GridBuilder): GridBuilder =
-    b.add(TileSymbol.G)
+    b.add(Grass.apply)
     b
 
   def W(using b: GridBuilder): GridBuilder =
-    b.add(TileSymbol.W)
+    b.add(Wall.apply)
     b
 
   def T(using b: GridBuilder): GridBuilder =
-    b.add(TileSymbol.T)
+    b.add(Trap.apply)
     b
 
   def L(using b: GridBuilder): GridBuilder =
-    b.add(TileSymbol.L)
+    b.add(Lava.apply)
     b
 
   def R(using b: GridBuilder): GridBuilder =
-    b.add(TileSymbol.R)
+    b.add(Rock.apply)
     b
 
   def TP(to: Position)(using b: GridBuilder): GridBuilder =
-    b.add(TileSymbol.TP(to))
+    b.add(pos => {
+      val special = new SpecialTileBuilder
+      special tile "TestTeleport" does (_ => to)
+      val kind = SpecialTileRegistry.allKinds.find(_.name == "TestTeleport").get
+      given Scenario.Dimensions = Scenario.Dimensions(to.x + 1, to.y + 1)
+      SpecialTile(pos, kind)
+    })
     b
 
   extension (b: GridBuilder)
@@ -101,15 +83,3 @@ object GridDSL:
       b
 
     def |(next: GridBuilder): GridBuilder = b
-
-
-import GridDSL.*
-// import TileSymbol.*
-
-@main def testDSL(): Unit =
-  val tiles = grid:
-    F | F | F ||;
-    G | G | G ||
-//    W | W | W ||
-
-  tiles.foreach(t => println(s"${t.getClass.getSimpleName} at (${t.x}, ${t.y})"))

@@ -49,14 +49,14 @@ class TestScenarioWithBlockingTiles(nRows: Int, nCols: Int)
 class TestScenarioWithClosedWalls extends Scenario(10, 10):
   private val p = Position(7, 8)
   override def generate(): Unit =
-    _tiles = grid:
-      F | F | F | F | F | F | F | F | F | F ||;
-      F | F | TP(p) | F | F | F | F | F | F | F ||;
-      F | F | F | F | F | F | F | F | F | F ||;
-      F | F | F | F | F | F | F | F | F | F ||;
-      F | F | F | F | F | F | F | F | F | F ||;
-      F | F | F | F | F | F | F | F | F | F ||;
-      F | F | F | F | F | F | W | W | W | W ||;
-      F | F | F | F | F | F | W | F | F | W ||;
-      F | F | F | F | F | F | W | F | F | W ||;
-      F | F | F | F | F | F | W | W | W | W ||
+    _tiles = grid(10):
+      F | F | F | F | F | F | F | F | F | F
+      F | F | TP(p) | F | F | F | F | F | F | F
+      F | F | F | F | F | F | F | F | F | F
+      F | F | F | F | F | F | F | F | F | F
+      F | F | F | F | F | F | F | F | F | F
+      F | F | F | F | F | F | F | F | F | F
+      F | F | F | F | F | F | W | W | W | W
+      F | F | F | F | F | F | W | F | F | W
+      F | F | F | F | F | F | W | F | F | W
+      F | F | F | F | F | F | W | W | W | W
