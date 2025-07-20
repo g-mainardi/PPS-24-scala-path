@@ -1,7 +1,7 @@
 # Testing
 
-Scala Test has been used for unit testing along with automated testing using GitHub Actions workflows.
-We have used Scala Test's DSL to write expressive and readable tests. Here an example:
+Abbiamo usato Scala Test per fare unit testing, i quali sono stati poi automatizzati usando le GitHub Actions.
+Abbiamo utilizzato il DSL offerto da Scala Test per scrivere test espressivi e leggibili, ad esempio: 
 
 ```scala
   "A Maze Scenario" should "generate some tiling" in :
@@ -11,20 +11,23 @@ We have used Scala Test's DSL to write expressive and readable tests. Here an ex
 ```
 
 ### TDD
-We tried to adopt TDD when it felt natural to do so, and since we have done many refactorings the tests kept evolving with the code, in order to never be without coverage and feedbacks. We have to admit that it wasn't easy to follow the TDD approach because often we weren't sure on how to do things and how to write code, and writing a-priori tests sometimes has helped with that, sometimes it was just hard. 
+Abbiamo cercato di adottare il TDD quando ci sembrava naturale farlo, e poiché abbiamo effettuato molti refactoring, i test sono evoluti insieme al codice, in modo da non rimanere mai senza coverage e feedback. Dobbiamo ammettere che non è stato facile seguire l’approccio TDD, perché spesso non eravamo sicuri su come fare le cose e su come scrivere il codice; scrivere test a priori a volte ci ha aiutato, altre volte è stato semplicemente difficile.
 
 ### Coverage
-At the start of the project, we set a goal of 60-70% of test coverage. We achievede that goal reaching 75%. 
-We have focused more on quality than quantity, insted of writing a lot of tests we have tried to write good tests that actually test important feature of the application. In fact, many bugs have been discovered this way. 
+All'inizio del progetto, ci siamo posti l'obiettivo di raggiungere una test coverage del 60-70%. Alla fine del progetto siamo riusciti a raggiungere il 75%.
+Ci siamo concentrati più sulla qualità che sulla quantità: invece di scrivere molti test, abbiamo cercato di scrivere test utili che verificassero effettivamente funzionalità importanti dell'applicazione. Infatti, molti bug sono stati scoperti proprio in questo modo. 
 
-We also managed to reach a pretty good coverage with fews tests, because we have tested all the features that involves important pieces of code and the integration between them. We tried to test all crucial features, what haven't been tested is often utiliy code that is not involved in main functionalities. We have raised the coverage also by building a `ViewMock` to test the `Controller`'s behavior. However, we haven't deeply tested the `View`.
+Siamo anche riusciti a raggiungere una buona copertura con pochi test, perché abbiamo testato tutte le funzionalità che coinvolgono parti importanti del codice e l'integrazione tra di esse. Abbiamo cercato di testare tutte le funzionalità cruciali, ciò che non è stato testato riguarda spesso codice di utilità che non è coinvolto nelle funzionalità principali.
+Abbiamo aumentato la copertura anche costruendo una `ViewMock` per testare il comportamento del `Controller`. Tuttavia, non abbiamo fatto lo stesso con la `View`.
+
 
 <p align="center">
   <img src="../resources/coverage.png" alt="Coverage" title="Coverage" />
 </p>
 
 ### Grid DSL
-Lastly, one of us has built a graphical DSL to enhance Scenario's tests. The DSL uses some specific characters to build scenarios graphically in an ASCII-art like style, and then use those scenarios in tests. 
+Infine, uno di noi ha costruito un DSL grafico per migliorare i test sugli Scenari. Il DSL utilizza alcuni caratteri speciali per costruire graficamente gli scenari in uno stile simile all'ASCII-art, questi scenari vengono poi utilizzati da altri test.
+
 ```scala
 class TestScenarioWithClosedWalls extends Scenario(10, 10):
   private val p = Position(7, 8)
