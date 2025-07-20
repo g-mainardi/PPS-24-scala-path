@@ -42,6 +42,9 @@ package "it.unibo.controller" {
     }
 
     ' Simulation States and Commands
+    interface State <<trait>> {
+    }
+
     enum ExecutionState {
     }
 
@@ -72,31 +75,13 @@ package "it.unibo.controller" {
     DisplayableController ..|> AgentManager
 
     ScalaPathController --> Simulation : uses
-    Simulation --> ExecutionState : contains
-    Simulation --> UICommand : contains
+    ExecutionState ..|> State
+    UICommand ..|> State
+    Simulation --> State : contains
 
     ViewManager --> ViewObject : contains
     ScalaPathController --> ViewObject : uses
     ScalaPathController --> TransitionPatterns : pattern matching
-
-    ' Notes
-    note right of ScalaPathController
-        Main controller object that orchestrates
-        the entire pathfinding simulation.
-        Uses trait composition for modularity.
-    end note
-
-    note bottom of Simulation
-        Global state manager using
-        synchronized access and
-        state machine pattern
-    end note
-
-    note left of ViewManager
-        Generic view manager with
-        type parameter V
-        Uses Swing EDT for thread safety
-    end note
 }
 
 @enduml

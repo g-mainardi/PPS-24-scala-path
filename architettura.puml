@@ -11,7 +11,7 @@ package "Controller Layer" {
   class DisplayableController
   class ViewManager
   class AgentManager
-  class Simulation
+  class ScalaPathController
   class ScenarioManager
 }
 
@@ -43,8 +43,8 @@ Scenario --> Tile : contains
 Tile --> Position : has
 Planner --> Plan : returns
 
-Simulation ..|> DisplayableController
-Simulation ..|> ViewManager
+ScalaPathController ..|> DisplayableController
+ScalaPathController ..|> ViewManager
 ViewManager --> View : uses
 
 
