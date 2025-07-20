@@ -16,7 +16,7 @@ import it.unibo.model.fundamentals.{Direction, Position}
  * Transitions between states can be matched via pattern extractors like [[Resume]], [[Reset]], etc.
  */
 object Simulation:
-  trait State
+  sealed trait State
 
   /**
    * Represents the runtime status of the simulation.
