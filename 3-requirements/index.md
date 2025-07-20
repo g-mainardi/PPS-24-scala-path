@@ -1,9 +1,8 @@
 # Requirements
 
 ## 1. Requisiti di Business
-(a cosa serve questo software? Come possiamo giudicare se il progetto ha successo? Goal del progetto)
 - 1.1. L'applicazione deve fungere da strumento interattivo per osservare il comportamento di diversi algoritmi di pathfinding in diversi scenari.
-- 
+
 ## 2. Modello di Dominio
 ### Glossario
 - **Agent**: Entità che si muove all'interno della griglia seguendo un piano (`plan`) per raggiungere un obiettivo (`goal`).
@@ -21,7 +20,6 @@
 ## 3. Requisiti Funzionali
 
 ### 3.1. Utente 
-(Validati da acceptance tests)
 - 3.1.1. L’utente deve poter scegliere quale algoritmo di ricerca utilizzare tramite una dropdown list (Dijkstra, A*, Greedy Best‑first, ecc.).
 - 3.1.2. L'utente deve poter visualizzare la griglia di celle della simulazione.
 - 3.1.3. Sulla griglia devono essere presenti il punto di partenza e il goal.
@@ -33,10 +31,8 @@
 - 3.1.9. L’utente deve poter abilitare o disabilitare singole direzioni di movimento (cardinali e diagonali).
 - 3.1.10. L’utente deve poter spostare interattivamente la posizione iniziale (“start”) o la destinazione (“goal”) cliccando sulla griglia, selezionando prima l’opzione “Change start” o “Change goal”.
 - 3.1.11. L’utente deve ricevere popup informative o di errore in caso di eventi significativi o anomalie.
-- 3.1.12. L'utente deve poter scegliere tipologie diverse di agenti, ad esempio agente "normale" o agente che permette di saltare due caselle alla volta, agente che capace di spostarsi anche in diagonale, ecc
 
 ### 3.2. Di sistema
-(validati da set automatici)
 - 3.2.1. L’applicazione deve implementare funzioni di controllo della simulazione come “Start”, “Stop”, “Reset”, “Clear”, ecc.
 - 3.2.2. L’applicazione deve implementare diversi algoritmi di ricerca del percorso (Dijkstra, A*, Greedy Best‑first, ecc.).
 - 3.2.3. L’applicazione deve essere in grado di generare uno scenario in base alla tipologia di generazione scelta dall’utente.
