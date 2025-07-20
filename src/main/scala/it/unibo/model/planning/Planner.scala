@@ -56,6 +56,6 @@ class PrologPlanner(engine: Engine, goal: Term)(using configuration: Configurati
  * @param directions allowed movement directions
  * @param algorithm  the pathfinding algorithm to use
  */
-class ScalaPlanner(start: Position, goal: Position, tiles: Seq[Tile], directions: Seq[Direction], algorithm: PathFindingAlgorithm)(using configuration: Configuration) extends Planner, BaseScalaPlanner:
+class ScalaPlanner(start: Position, goal: Position, tiles: Seq[Tile], directions: Seq[Direction], algorithm: PathFindingAlgorithm)(using configuration: Configuration) extends Planner with BaseScalaPlanner:
   override def plan: Plan =
     checkSolution(algorithm.run(start, goal, tiles, directions))
