@@ -14,7 +14,7 @@ with PlanManager
 ```
 
 L'Agent riceve le sue dipendenze attraverso il costruttore:
-- `plan: () => Plan`: Funzione per ottenere un piano di navigazione
+- `plan: () => Plan`: Funzione a zero argomenti per ottenere un piano di navigazione (supplier)
 - `getTileAt: Position => Option[Tile]`: Funzione per accedere alla destinazione delle tile di teletrasporto nel mondo
 
 Questo approccio garantisce **separazione delle responsabilità** e **testabilità**.
@@ -37,7 +37,8 @@ def computeCommand(direction: Direction): Unit =
   checkSpecial()
 ```
 
-La ricerca del piano viene fatta partire evocando il function literal ottenuto come parametro del costruttore.
+La ricerca del piano viene fatta partire evocando il supplier ottenuto come parametro del costruttore, il quale solo ora
+viene effettivamente costruito, avendolo ricevuto by-value ma sottoforma di `Function0[Plan]`
 ```scala
 def searchPlan: Option[Int] = plan() match
   case SucceededPlanWithMoves(directions, nMoves) =>

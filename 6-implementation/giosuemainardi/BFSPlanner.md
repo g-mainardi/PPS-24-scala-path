@@ -10,6 +10,16 @@ si cerca il percorso con il minor numero di passi.
 
 #### Entry Point e Struttura generale
 
+La teoria del planner si basa su una configurazione comune generata a runtime dall'applicazione, che definisce:
+
+- Le posizioni percorribili sulla griglia
+- L'insieme delle mosse consentite
+- La posizione di partenza (init)
+- La posizione di arrivo (goal)
+- Il comportamento delle caselle speciali che modificano la posizione del giocatore
+
+Per maggiori dettagli sulla generazione di questa configurazione si rimanda alla documentazione del DFS-Planner.
+
 L'algoritmo utilizza una **coda** per esplorare sistematicamente tutti i percorsi possibili, garantendo che il primo 
 percorso trovato sia quello con il minor numero di mosse.
 
