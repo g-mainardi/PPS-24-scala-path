@@ -35,7 +35,7 @@ class TestScenarioWithClosedWalls extends Scenario(10, 10):
 ```
 
 La classe GridBuilder, tiene traccia delle coordinate correnti e consente di costruire riga per riga una sequenza di celle, e garantisce che tutte le righe abbiano la stessa lunghezza.
-Il metodo `add` aggiunge una nuova tile alla sequenza interna di tiles, nel caso sia stato sia stato definito il numero di colonne provvede anche ad aggiungere una nuova riga. Infine il metodo `build` restituisce la sequenza di tiles.
+Il metodo `+` aggiunge una nuova tile alla sequenza interna di tiles, nel caso sia stato sia stato definito il numero di colonne provvede anche ad aggiungere una nuova riga. Infine il metodo `build` restituisce la sequenza di tiles.
 
 ```scala
 class GridBuilder(expectedColumns: Option[Int]):
@@ -44,19 +44,21 @@ class GridBuilder(expectedColumns: Option[Int]):
   private var currentColumnIndex: Int = 0
   private var maxColumnIndex: Option[Int] = None
 
-  def add(f: Position => Tile): Unit =
+  def +(f: Position => Tile): GridBuilder =
     tiles = tiles :+ f(Position(currentColumnIndex, currentRowIndex))
     expectedColumns match
-      case Some(columns) if currentColumnIndex == (columns -1) => newRow()
+      case Some(columns) if currentColumnIndex == (columns -1) => ++()
       case _ => currentColumnIndex += 1
+    this
 
-  def newRow(): Unit =
+  def ++(): GridBuilder =
     if maxColumnIndex.isEmpty then
       maxColumnIndex = Some(currentColumnIndex)
     if currentColumnIndex != maxColumnIndex.get then
       throw new IllegalArgumentException(s"Rows must be of the same length: expected ${maxColumnIndex.get}, found ${currentColumnIndex} at row ${currentRowIndex}")
     currentRowIndex += 1
     currentColumnIndex = 0
+    this
 
   def build(): Seq[Tile] =
     expectedColumns match
@@ -64,8 +66,8 @@ class GridBuilder(expectedColumns: Option[Int]):
       case _ => ()
     tiles
 ```
-Questi metodi vengono poi chiamati dall'object `GridDSL`. Ad esempio il metodo F utilizza implicitamente il `GridBuilder` e ne chiama il metodo `add` passando il costruttore della tile di tipo Floor. Questo concetto viene esteso ad ogni tipologia di tile. 
-L'unica eccezione son le tile di tipo `Specials` che richiede qualche passaggio in più. Il metodo `|` funge da semplice separatore visivo, non impatta sulla creazione delle celle, mentre il metodo `||` permette di "andare a capo" e di dichiarare una nuova linea di celle. 
+Questi metodi vengono poi chiamati dall'object `GridDSL`. Ad esempio il metodo F utilizza implicitamente il `GridBuilder` e ne chiama il metodo `+` passando il costruttore della tile di tipo Floor. Questo concetto viene esteso ad ogni tipologia di tile. 
+L'unica eccezione son le tile di tipo `Specials` che richiede qualche passaggio in più. Il metodo `|` funge da semplice separatore visivo, non impatta sulla creazione delle celle, mentre il metodo `||` permette di "andare a capo" e di dichiarare una nuova linea di celle, chiamando a sua volta il metodo `++` del `GridBuilder`. 
 
 ```scala
 object GridDSL:
@@ -75,39 +77,33 @@ object GridDSL:
     builder.build()
 
   def F(using b: GridBuilder): GridBuilder =
-    b.add(Floor.apply)
-    b
+    b + Floor.apply
 
   def G(using b: GridBuilder): GridBuilder =
-    b.add(Grass.apply)
-    b
+    b + Grass.apply
 
   def W(using b: GridBuilder): GridBuilder =
-    b.add(Wall.apply)
-    b
+    b + Wall.apply
 
   /**
   * others tile type methods ...
   */
 
   def TP(to: Position)(using b: GridBuilder): GridBuilder =
-    b.add(pos => {
+    b + (pos => {
       val special = new SpecialTileBuilder
       special tile "TestTeleport" does (_ => to)
       val kind = SpecialTileRegistry.allKinds.find(_.name == "TestTeleport").get
       given Scenario.Dimensions = Scenario.Dimensions(to.x + 1, to.y + 1)
       SpecialTile(pos, kind)
     })
-    b
 
   extension (b: GridBuilder)
     def ||(next: GridBuilder): GridBuilder =
-      b.newRow()
-      b
+      b.++()
 
     def || : GridBuilder =
-      b.newRow()
-      b
+      b.++()
 
     def |(next: GridBuilder): GridBuilder = b
 ```
