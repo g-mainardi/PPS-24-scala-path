@@ -8,7 +8,7 @@ import org.scalatest.matchers.should.Matchers.shouldBe
 
 import scala.swing.Frame
 
-class TestScalaPath extends AnyFlatSpec with Matchers:
+class TestScalaPath extends AnyFlatSpec with Matchers
 
 //  "ScalaPath" should "initialize view with correct parameters" in:
 //    val view = ScalaPath.view
