@@ -7,7 +7,6 @@
 - [AStar](gabrielebasigli/AStar.md)
 
 ### Giosuè G. Mainardi
-- [Model](giosuemainardi/Model)
 - [Agent](giosuemainardi/Agent.md)
 - [Controller](giosuemainardi/Controller)
 - [BFSPlanner](giosuemainardi/BFSPlanner.md)
