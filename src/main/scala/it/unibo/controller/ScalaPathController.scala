@@ -11,9 +11,9 @@ import scala.annotation.tailrec
  * Main simulation controller for the Scala pathfinding environment.
  *
  * `ScalaPathController` orchestrates the entire simulation by extending core management traits:
- * - {@DisplayableController} for scenario, algorithm, direction, and agent configuration
- * - {@SpeedManager} for controlling simulation timing
- * - {@ViewManager} for updating the UI
+ * <li> [[DisplayableController]] for scenario, algorithm, direction, and agent configuration
+ * <li> [[SpeedManager]] for controlling simulation timing
+ * <li> [[ViewManager]] for updating the UI  </li>
  *
  * It handles simulation state transitions, agent assembly and planning, and UI updates,
  * acting as the main reactive component of the system.
@@ -48,7 +48,6 @@ object ScalaPathController
    * Instantiates a new agent using the builder pipeline and attaches it to the view.
    */
   def assembleAgent(): Unit =
-    import it.unibo.model.planning.prologplanner.Conversions.given
     agent =
       PlannerBuilder.start
         .withInit(init)
@@ -84,14 +83,15 @@ object ScalaPathController
 
   protected def startSearch(): Unit = View.search()
 
-  /**
-   * Main simulation loop, reacts to changes in the {@Simulation} state.
-   *
-   * @param previous the last known simulation state
-   */
   import Simulation.*
   import ExecutionState.*
   import UICommand.*
+
+  /**
+   * Main simulation loop, reacts to changes in the [[Simulation]] state.
+   *
+   * @param previous the last known simulation state
+   */
   @tailrec
   private def loop(previous: State): Unit =
     val current = Simulation.current
@@ -101,13 +101,13 @@ object ScalaPathController
     delay()
     loop(current)
 
+  import it.unibo.utils.PartialFunctionExtension.doOrNothing
   /**
-   * Handles the transition between simulation states, triggering appropriate UI actions.
+   * Handles the transition between simulation states, triggering appropriate actions.
    *
    * @param from the previous state
    * @param to   the new state
    */
-  import it.unibo.utils.PartialFunctionExtension.doOrNothing
   private def handleTransition(from: State, to: State): Unit = doOrNothing(from, to):
     case Resume()                 => View.resume()
     case Pause()                  => View.pause()
