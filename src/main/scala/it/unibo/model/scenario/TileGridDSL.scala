@@ -7,7 +7,7 @@ import scala.language.{implicitConversions, postfixOps}
 import it.unibo.model.scenario.{Scenario, SpecialTile, SpecialTileBuilder, SpecialTileRegistry, Specials}
 
 class GridBuilder(expectedColumns: Option[Int]):
-  var tiles: Seq[Tile] = Seq.empty
+  private var tiles: Seq[Tile] = Seq.empty
   private var currentRowIndex: Int = 0
   private var currentColumnIndex: Int = 0
   private var maxColumnIndex: Option[Int] = None
