@@ -1,7 +1,7 @@
 ## PrologBuilder & PrologPlanner
 
 Il PrologBuilder è una classe concreta che implementa l'interfaccia `PlannerBuilder` e 
-costruisce un `PrologPlanner`, il quale è una classe conreta che implementa l'interfaccia `Planner`.
+costruisce un `PrologPlanner`, il quale è una classe concreta che implementa l'interfaccia `Planner`.
 
 Il PrologBuilder riceve la configurazione completa dal PlannerBuilder e converte tutti i dati in un formato usabile da Prolog. 
 Dopodiché ritorna un PrologPlanner pronto ad essere utilizzato. 
