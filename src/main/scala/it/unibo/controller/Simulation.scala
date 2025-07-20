@@ -6,18 +6,17 @@ import it.unibo.model.fundamentals.{Direction, Position}
  * Object that manages the global simulation state, used to coordinate execution and UI commands.
  *
  * It defines:
- * - {@State}: a base type for all simulation-related states
- * - {@ExecutionState}: current simulation activity (running, paused, etc.)
- * - {@UICommand}: commands from the UI that affect the simulation
- * - {@SettablePosition}: sealed hierarchy for agent goal and init positions
- * - Custom extractors to simplify transition handling
+ * <li> [[State]]: a base type for all simulation-related states
+ * <li> [[ExecutionState]]: current simulation activity (running, paused, etc.)
+ * <li> [[UICommand]]: commands from the UI that affect the simulation
+ * <li> [[SettablePosition]]: sealed hierarchy for agent goal and init positions
+ * <li> Custom extractors to simplify transition handling </li> 
  *
- * The simulation state is stored in a synchronized, volatile variable {@_current}.
- * Transitions between states can be matched via pattern extractors like {@Resume}, {@Reset}, etc.
+ * The simulation state is stored in a synchronized, volatile variable [[_current]].
+ * Transitions between states can be matched via pattern extractors like [[Resume]], [[Reset]], etc.
  */
 object Simulation:
-  trait State
-
+  sealed trait State
 
   /**
    * Represents the runtime status of the simulation.

@@ -4,27 +4,18 @@ import it.unibo.model.fundamentals.Position
 
 import scala.collection.immutable.ListMap
 
-/**
- * A high-level controller that manages all displayable aspects of the simulation:
- * the scenario, planning algorithm, available directions, and the agent itself.
- *
- * This controller aggregates:
- * - scenario configuration and generation logic
- * - algorithm selection
- * - movement direction settings
- * - agent management (via {@AgentManager})
- *
- * It acts as the main interface between the simulation logic and the UI layer.
- */
 object DisplayableController:
 
 
   /**
    * Manages the simulation scenario, including:
-   * - current map type (e.g., Maze, Terrain, Specials)
-   * - map dimensions
-   * - scenario generation and resizing
-   * - init/goal positions
+   * <li> current map type (e.g., 
+   * [[it.unibo.model.scenario.Maze]], 
+   * [[it.unibo.model.scenario.Terrain]], 
+   * [[it.unibo.model.scenario.Specials]])
+   * <li> map dimensions
+   * <li> scenario generation and resizing
+   * <li> init/goal positions
    */
   trait ScenarioManager:
     import it.unibo.model.scenario.{EmptyScenario, Maze, Scenario, Specials, Terrain}
@@ -97,6 +88,19 @@ object DisplayableController:
     protected def directions_=(directions: Seq[Direction]): Unit = _directions = directions
 
 import DisplayableController.*
+
+/**
+ * A high-level controller that manages all displayable aspects of the simulation:
+ * the scenario, planning algorithm, available directions, and the agent itself.
+ *
+ * This controller aggregates:
+ * <li> scenario configuration and generation logic
+ * <li> algorithm selection
+ * <li> movement direction settings
+ * <li> agent management (via [[AgentManager]])</li> 
+ *
+ * It acts as the main interface between the simulation logic and the UI layer.
+ */
 trait DisplayableController 
   extends ScenarioManager 
   with AlgorithmManager 

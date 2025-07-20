@@ -6,7 +6,7 @@ import it.unibo.model.fundamentals.Direction
 import it.unibo.model.planning.Planner
 
 /**
- * Trait responsible for managing the lifecycle and behavior of an @Agent,
+ * Trait responsible for managing the lifecycle and behavior of an [[it.unibo.model.Agent]],
  * including planning, resetting, stepping, and handling planning outcomes.
  *
  * Subclasses must implement the abstract methods to start the planning process
@@ -44,8 +44,8 @@ trait AgentManager:
 
   /**
    * Initiates planning for the current agent:
-   * - starts the search
-   * - handles the result in case of success or failure
+   * <li> starts the search
+   * <li> handles the result in case of success or failure
    *
    * @throws AgentNotBuiltException if no agent is available
    */

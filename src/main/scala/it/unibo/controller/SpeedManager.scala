@@ -3,7 +3,7 @@ package it.unibo.controller
 /**
  * Trait that manages the simulation speed and delay between steps.
  *
- * `SpeedManager` allows the controller to introduce controlled delays
+ * [[SpeedManager]] allows the controller to introduce controlled delays
  * between simulation actions, enabling animations or pacing of agent movement.
  *
  * It uses an internal delay multiplier and a flag to determine whether a sleep should occur.
