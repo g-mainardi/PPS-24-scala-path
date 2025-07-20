@@ -58,7 +58,8 @@ class Specials(nRows: Int, nCols: Int) extends EmptyScenario(nRows, nCols):
   special tile "Teleport" does (_ => randomFreePosition.get)
   special tile "JumpDown" does (pos => Position(pos.x, pos.y - 2))
   special tile "StairsUp" does (pos => Position(pos.x, pos.y + 2))
-  private val tilesPerKind = math.min (nRows, nCols) / SpecialTileRegistry.allKinds.size
+  //private val tilesPerKind = math.min (nRows, nCols) / SpecialTileRegistry.allKinds.size
+  private val tilesPerKind = 3
 
   override def generate(): Unit =
     super.generate()
