@@ -19,7 +19,7 @@ class TestScenarioWithClosedWalls extends Scenario(10, 10):
 ```
 
 
-La classe GridBuilder, tiene traccia delle coordinate correnti e consente di costruire riga per riga una sequenza di celle, garantendo che tutte le righe abbiano la stessa lunghezza.
+La classe GridBuilder, tiene traccia delle coordinate correnti e consente di costruire riga per riga una sequenza di celle, e garantisce che tutte le righe abbiano la stessa lunghezza.
 
 ```scala
 class GridBuilder(expectedColumns: Option[Int]):
