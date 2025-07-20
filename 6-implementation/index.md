@@ -1,10 +1,10 @@
 # Implementation
 
 ### Gabriele Basigli
-- [View](gabrielebasigli/View)
-- [Terrain](gabrielebasigli/Terrain)
-- [ScalaBuilder](gabrielebasigli/ScalaBuilder.md)
 - [AStar](gabrielebasigli/AStar.md)
+- [View](gabrielebasigli/View.md)
+- [Terrain](gabrielebasigli/Terrain.md)
+- [ScalaBuilder](gabrielebasigli/ScalaBuilder.md)
 - [TileGridDS](gabrielebasigli/TileGridDSL.md)
 ### Giosuè G. Mainardi
 - [Agent](giosuemainardi/Agent.md)
