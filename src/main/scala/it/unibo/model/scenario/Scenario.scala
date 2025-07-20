@@ -26,3 +26,6 @@ trait Scenario(val nRows: Int, val nCols: Int) extends PrettyPrint:
   def randomFreePosition: Option[Position] = freePositions.getRandomElement
 
   def randomFreePositions(n: Int): Seq[Position] = freePositions getRandomElements n
+
+  def resize(nRows: Int, nCols: Int): Scenario =
+    this.getClass getDeclaredConstructor(classOf[Int], classOf[Int]) newInstance(nRows, nCols)

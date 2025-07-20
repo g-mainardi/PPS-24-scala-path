@@ -47,12 +47,7 @@ object DisplayableController:
     protected def resizeScenario(nRows: Int, nCols: Int): Unit =
       _nRows = nRows
       _nCols = nCols
-      val constructor = _scenario.getClass.getConstructors.head
-      val newParams: Array[Object] = Array(
-        nRows.asInstanceOf[Object],
-        nCols.asInstanceOf[Object]
-      )
-      scenario = constructor.newInstance(newParams*).asInstanceOf[Scenario]
+      scenario = _scenario resize (_nRows, _nCols)
     protected def generateScenario(): Unit = _scenario.generate()
     protected def randomPosition: Position = _scenario.randomFreePosition match
       case Some(pos) => pos
