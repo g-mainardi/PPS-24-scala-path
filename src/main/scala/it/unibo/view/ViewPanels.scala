@@ -109,7 +109,6 @@ object ViewPanels:
       (maybeRows, maybeCols) match
         case (Some(rows), Some(cols)) if rows > 0 && cols > 0 =>
           Simulation set UICommand.SetScenarioSize(rows, cols)
-          println(s"passing ($rows $cols)")
         case _ => None
 
   class DirectionGrid() extends GridPanel(3, 3):
@@ -125,14 +124,12 @@ object ViewPanels:
         () =>
           selectedDirections = selectedDirections :+ d
           Simulation set UICommand.DirectionsChoice(selectedDirections)
-          println("called onDeselection, selectedDirections: " + selectedDirections)
       }.getOrElse(() => {})
 
       val onSelection: () => Unit = dirOpt.map { d =>
         () =>
           selectedDirections = selectedDirections.filterNot(_ == d)
           Simulation set UICommand.DirectionsChoice(selectedDirections)
-          println("called onSelection, selectedDirections: " + selectedDirections)
       }.getOrElse(() => {})
 
       val btn = new SelectionButton(
