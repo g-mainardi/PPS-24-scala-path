@@ -38,6 +38,7 @@ trait ViewManager[V <: ControllableView]:
       v.disableStepButton()
       v.disableResetButton()
       v.disableStartStopButton()
+      v.resetStartStopButton()
 
     def pause(): Unit = applyToView: v =>
       v.enableStepButton()

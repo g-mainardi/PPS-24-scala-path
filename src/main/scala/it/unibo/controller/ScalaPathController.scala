@@ -29,20 +29,16 @@ object ScalaPathController
   override protected def scenario_=(newScenario: Scenario): Unit =
     super.scenario_=(newScenario)
     generateScenario()
-    View.disableControls()
     resetSimulation()
 
   override protected def algorithm_=(newAlgorithm: Algorithm): Unit =
     super.algorithm_=(newAlgorithm)
-    View.disableControls()
     resetSimulation()
 
   override def generateScenario(): Unit =
     super.generateScenario()
     init = randomPosition
     goal = randomPosition
-    dropAgent()
-    View.update()
 
   /**
    * Instantiates a new agent using the builder pipeline and attaches it to the view.
@@ -115,7 +111,7 @@ object ScalaPathController
     case ContinueStep()           => step(); Simulation set Paused()
     case Reset()                  => View.reset(); resetSimulation()
     case ChangeSpeed(previous, s) => speed = s; Simulation set previous
-    case FirstScenario()          => View.firstScenarioChoice()
+    case ConfigurationChanged()   => resetOnConfigChange()
 
   /**
    * Handles logic specific to the current simulation state, such as updating configuration
@@ -126,9 +122,11 @@ object ScalaPathController
   private def handleState(state: State): Unit = doOrNothing(state):
     case ChangeScenario(index) =>
       scenario = scenarios(index)(nRows, nCols)
+      View.firstScenarioChoice()
       Simulation set Empty
     case ChangeAlgorithm(index) =>
       algorithm = algorithms(index)
+      View.disableControls()
       assembleAgent()
       searchPlan()
       Simulation set Empty
@@ -138,9 +136,6 @@ object ScalaPathController
     case SetPosition(toChange) if toChange.position.isAvailable => toChange match
       case s: Goal => goal = s.position
       case s: Init => init = s.position
-      dropAgent()
-      View.disableControls()
-      View.update()
       Simulation set Empty
     case SetScenarioSize(r, c) if r != nRows || c != nCols =>
       nRows = r
@@ -150,3 +145,8 @@ object ScalaPathController
     case Running =>
       step()
       if planOver then Simulation set Paused() else shouldSleep()
+
+  private def resetOnConfigChange(): Unit =
+    dropAgent()
+    View.disableControls()
+    View.update()

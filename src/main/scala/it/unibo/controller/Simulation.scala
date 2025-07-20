@@ -76,8 +76,9 @@ object Simulation:
   object Pause:
     def unapply(t: Transition): Boolean = -?-> { case (Running, Paused(true)) => true }(t)
 
-  object FirstScenario:
-    def unapply(t: Transition): Boolean = -?-> { case (_, _: ChangeScenario) => true }(t)
+  object ConfigurationChanged:
+    opaque type ConfigurationChange = ChangeScenario | SetPosition | SetScenarioSize | DirectionsChoice
+    def unapply(t: Transition): Boolean = -?-> { case (_, _: ConfigurationChange ) => true }(t)
 
   object Reset:
     def unapply(t: Transition): Boolean = -?-> { case (Running | Paused(_), Empty) => true }(t)
