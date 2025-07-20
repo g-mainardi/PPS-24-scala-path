@@ -18,19 +18,19 @@ Start Date: 30/6/25
 <br/>
 End Date: 6/7/25
 
-The aim of the sprint is to finalize the controller and view design, and to implement a planner that can handle obstacles and tiles.
-Secondly, we aim to add also two more major algorithm for pathfinding.
-If feasible, we aim to add variability and flexibility to the scenarios generation, so that we can have different variants of the maze, terrain and traps scenarios.
+L'obiettivo dello sprint è finalizzare la progettazione del Controller e della View, e implementare un Planner in grado di gestire ostacoli e celle (Tile).
+Inoltre, puntiamo ad aggiungere due algoritmi principali per il pathfinding (BFS e A*).
+Se possibile, vogliamo introdurre variabilità e flessibilità nella generazione degli Scenario, in modo da ottenere diverse varianti degli scenari di tipo Maze, Terrain e Traps.
 
 ### Sprint Review
-We have done a lot of refactoring to improve the overall design, making it more flexible, extensible and modular.
-We have found ourselves spending a lot of time discussing design choices, cleaner code and different styles to achieve more conciseness.
-Overall, we have refined the code we have built in the first sprint, creating a more solid foundation for next steps.
-We have achieved an extended and modular planner builder, and we have added a partial implementation of two more algorithms for pathfinding: A* and Dijkstra.
+Abbiamo effettuato molti refactoring per migliorare il design complessivo, rendendolo più flessibile, estensibile e modulare.
+Abbiamo dedicato molto tempo a discutere le scelte di design, clean code e diversi stili per ottenere maggiore concisione.
+Nel complesso, abbiamo raffinato il codice sviluppato nel primo sprint, creando una base più solida per i prossimi passi.
+Abbiamo realizzato un PlannerBuilder esteso e modulare, e abbiamo aggiunto una prima implementazione parziale di due ulteriori algoritmi di pathfinding: A* e BFS.
 
 ### Sprint Retrospective
-We have discovered that code can always become more clean and elegant, and design can always become more modular and flexible, 
-therefore improvement and refactoring are a never ending process.
+Abbiamo scoperto che il codice può sempre diventare più pulito ed elegante, e il design può sempre essere reso più modulare e flessibile;
+di conseguenza, il miglioramento e il refactoring sono un processo senza fine.
 
 
 [Previous Sprint](sprint1.md) | [Index](../index.md) | [Next Sprint](sprint3.md)

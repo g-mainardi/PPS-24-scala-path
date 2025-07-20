@@ -19,25 +19,24 @@ Start Date: 14/7
 <br/>
 End Date: 20/7
 
-In this final sprint we aim to complete the controller and the GUI adding the possibility to configure the scenario and the agent.
-We also need to refactor and expand the agent concept, that we have neglected so far.
-There are some sugar refactors that can be done in the controller, if time allows.
-We also aim to build and ASCII-art DSL to tests scenario generation.
+In questo sprint finale puntiamo a completare il Controller e la GUI, aggiungendo la possibilità di configurare lo Scenario e l’Agent.
+È inoltre necessario rifattorizzare e ampliare il concetto di Agent, finora trascurato.
+Sono previsti alcuni sugar refactor nel Controller, tempo permettendo.
+Infine, vogliamo costruire un DSL in stile ASCII-art per testare la generazione degli scenari.
 
 ### Sprint Review
 
-In this sprint we managed to add many functionalities to the GUI and the corresponding management in the controller.
-We added the possibility to choose the directions, the scenario dimensions and the init and goal positions.
-The scenario object has been separated in different parts, because it had too many responsibilities, like managing init e goal positions.
-The agent concept has been refactored and is now a more autonomous concept, it's no longer encapsulated in other objects.
-The Planner has been adapted to return and agent which includes the plan to execute.
+In questo sprint siamo riusciti ad aggiungere molte funzionalità alla GUI e alla corrispondente gestione nel controller.
+Abbiamo introdotto la possibilità di scegliere le direzioni, le dimensioni dello scenario e le posizioni di inizio (init) e obiettivo (goal).
+L’oggetto Scenario è stato suddiviso in parti diverse, poiché aveva troppe responsabilità, come la gestione delle posizioni init e goal.
+Il concetto di Agent è stato rifattorizzato ed è ora un’entità più autonoma, non più incapsulata in altri oggetti.
+Il Planner è stato adattato per restituire un agente che include il piano da eseguire.
 
 ### Sprint Retrospective
 
-We have learned that after many refactors during previous sprints, the code is now more flexible and it was easy to add new functionalities.
-In fact, this was maybe the sprints with the most functionalities added.
-We have worked on code almost until the end because there were always some fixes or little improvements to do.
-This wasn't good, there were important changes and features that we could have added before this sprint instead of the last week.
-We haven't noticed that some classes still have an old design that needed to be updated.
+Abbiamo imparato che, dopo molti refactor nei sprint precedenti, il codice è ora più flessibile ed è stato facile aggiungere nuove funzionalità.
+Infatti, questo è stato probabilmente il sprint con il maggior numero di funzionalità aggiunte.
+Abbiamo lavorato sul codice quasi fino alla fine, perché c’erano sempre correzioni o piccoli miglioramenti da fare.
+Non è stato ottimale arrivare all'ultimo sprint con molte piccole funzionalità da aggiungere, alcuni cambiamenti importanti avremmo potuto farli prima di questo sprint. Non ci siamo accorti che alcune classi mantengono ancora un design vecchio che andava aggiornato.
 
 [Previous Sprint](sprint3.md) | [Index](../index.md)

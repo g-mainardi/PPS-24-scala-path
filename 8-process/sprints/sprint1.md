@@ -19,21 +19,20 @@ Start Date: 23/6
 <br/>
 End Date: 29/6
 
-The aim of the sprint is first to set up the project repository, the build tool and the CI.
-Then, we aim to design architecture and model so that everyone is on the same page.
-Secondly, the sprint also aims to design a view and controller and a base planner that will be used as a common base.
-Lastly, the sprints aims to build the core logic of different scenario generation.
+L'obiettivo dello sprint è innanzitutto configurare il repository del progetto, lo strumento di build e la CI.
+Successivamente, puntiamo a progettare l'architettura e il modello in modo che tutti siano allineati.
+Inoltre, lo sprint ha l'obiettivo di progettare una View, un Controller e un Planner di base che saranno utilizzati come base comune.
+Infine, miriamo a costruire la logica centrale per la generazione dei diversi Scenario.
 
 ### Sprint Review
-We have successfully set up the project repository, the build tool and the CI.
-We have done a lot of pair programming at start to design the model and the architecture, and then we have split the work in (i) controller, (ii) view, (iii) base planner.
-After that we had a common base for the scenarios generation, and we have split the work in (i) maze, (ii) terrain, (iii) traps.
-A basic working version of the controller and the view has been achieved, using a dummy scenario.
-Also a first version of the scala-prolog integration with a dummy planner has been achieved.
-
+Abbiamo configurato con successo il repository del progetto, lo strumento di build e la CI.
+Abbiamo svolto molte sessioni di pair programming all'inizio per progettare il modello e l'architettura, dopodiché abbiamo suddiviso il lavoro in: (i) Controller, (ii) View, (iii) Planner di base.
+Una volta ottenuta una base comune per la generazione degli Scenario, abbiamo suddiviso ulteriormente il lavoro in: (i) Maze, (ii) Terrain, (iii) Traps.
+È stata realizzata una prima versione funzionante del Controller e della View, utilizzando uno Scenario fittizio.
+È stata inoltre completata una prima versione dell’integrazione Scala-Prolog, utilizzando un Planner di esempio.
 
 ### Sprint Retrospective
-We have experienced pair programming, and we have found it very useful when starting a project. We know we are on the same page so far.
-We were also able to better divide the work and responsibilities having a common base.
+Abbiamo sperimentato il pair programming e lo abbiamo trovato molto utile nella fase iniziale di un progetto. Finora ci ha permesso di essere tutti sulla stessa lunghezza d’onda.
+Avere una base comune ci ha anche aiutato a suddividere meglio il lavoro e le responsabilità.
 
 [Index](../index.md) | [Next Sprint](sprint2.md)

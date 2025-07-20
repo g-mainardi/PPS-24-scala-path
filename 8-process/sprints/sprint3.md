@@ -17,28 +17,23 @@
 |    14    |    Builder    |    Refactor with multiple traits    |  Salman  |           6           |   6   |   6   |   4   |   2   |   0   |   -   |   -   |
 
 ### Sprint Goal
-
 Start Date: 7/7/25
 <br/>
 End Date: 13/7/25
 
-In this sprint we aim to complete the two major algorithms for pathfinding: A* and BFS.
-We should also start discussing how to structure different agents and how to integrate their behavior.
-We plan to expand the concept of special tiles and add the possibility to create custom specials.
-We also aim to add variability and flexibility to the scenarios generation or in the planner configuration,
-so that we can have different variants of the same scenario of different configurations for the same planning algorithm.
+In questo sprint puntiamo a completare i due principali algoritmi di pathfinding: A* e BFS.
+Dovremmo inoltre iniziare a discutere come strutturare i diversi agenti e come integrare i loro comportamenti.
+Abbiamo in programma di ampliare il concetto di special tiles e aggiungere la possibilità di creare special personalizzati.
+Vogliamo anche introdurre variabilità e flessibilità nella generazione degli scenari o nella configurazione del planner,
+in modo da poter avere diverse varianti dello stesso scenario o differenti configurazioni per lo stesso algoritmo di pianificazione.
 
 ### Sprint Review
-
-We actually spent most of the time redesign and refactor code, to make it more modular and flexible, so that new
-features are easier to implement.
-We have spent time fixing bugs in the controller-view interaction after adding more buttons and dropdown menu.
-The Planner builder has been completely refactored to enforce an order in which methods can be called, and to improve
-modularity when creating child builders.
-The BFS algorithm was re-designed to have the same interface of the DFS algorithm, with a fully-relational parameter.
+Abbiamo effettivamente trascorso la maggior parte del tempo a ridisegnare e rifattorizzare il codice, per renderlo più modulare e flessibile, in modo che l’implementazione di nuove funzionalità risulti più semplice.
+Abbiamo dedicato tempo a correggere bug nell’interazione tra Controller e View dopo l’aggiunta di nuovi pulsanti e menu a tendina.
+Il PlannerBuilder è stato completamente rifattorizzato per imporre un ordine nelle chiamate ai metodi e per migliorare la modularità nella creazione di sotto-builder.
+L’algoritmo BFS è stato riprogettato per avere la stessa interfaccia dell’algoritmo DFS, con un parametro fully-relational.
 
 ### Sprint Retrospective
-
-Time really flies when you do refactor.
+Time really flies when you refactor.
 
 [Previous Sprint](sprint2.md) | [Index](../index.md) | [Next Sprint](sprint4.md)
