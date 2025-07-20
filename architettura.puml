@@ -12,6 +12,7 @@ package "Controller Layer" {
   class ViewManager
   class AgentManager
   class Simulation
+  class ScenarioManager
 }
 
 package "Model Layer" {
@@ -25,10 +26,11 @@ package "Model Layer" {
   class Position
 }
 
-View --> DisplayableController : uses
-DisplayableController <|-- ViewManager
-DisplayableController <|-- AgentManager
+
+DisplayableController ..|> AgentManager
+DisplayableController ..|> ScenarioManager
 AgentManager --> Agent : manages
+ScenarioManager --> Scenario : manages
 Agent --> Plan : uses
 Agent --> Position : has
 Agent --> Tile : uses
@@ -41,8 +43,9 @@ Scenario --> Tile : contains
 Tile --> Position : has
 Planner --> Plan : returns
 
-Simulation ..> DisplayableController : controls
-Simulation ..> AgentManager : controls
-Simulation ..> ViewManager : controls
+Simulation ..|> DisplayableController
+Simulation ..|> ViewManager
+ViewManager --> View : uses
+
 
 @enduml

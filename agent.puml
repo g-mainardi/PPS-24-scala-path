@@ -31,8 +31,8 @@ package "it.unibo.model.agent" {
     }
     
     ' Relationships within the package
-    Agent --|> PathManager : implements
-    Agent --|> PlanManager : implements
+    Agent ..|> PathManager
+    Agent ..|> PlanManager
     
 }
 
