@@ -13,7 +13,7 @@ libraryDependencies ++= Seq(
 // https://www.scala-sbt.org/1.x/docs/Java-Sources.html
 Compile / compileOrder := CompileOrder.ScalaThenJava
 
-Test / parallelExecution := false
+// Test / parallelExecution := false
 
 // Plugin assembly
 enablePlugins(AssemblyPlugin)
