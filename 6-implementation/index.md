@@ -9,12 +9,12 @@
 
 ### Giosuè G. Mainardi
 - [Agent](giosuemainardi/Agent.md)
-- [Controller](giosuemainardi/Controller)
+- [Controller](giosuemainardi/Controller.md)
 - [BFSPlanner](giosuemainardi/BFSPlanner.md)
 
 ### Muhamad H. Salman
-- [Maze](muhamadsalman/Maze)
-- [Specials](muhamadsalman/SpecialTiles)
+- [Maze](muhamadsalman/Maze.md)
+- [Specials](muhamadsalman/SpecialTiles.md)
 - [DFSPlanner](muhamadsalman/DFSPlanner.md)
 - [PlannerBuilder](muhamadsalman/PlannerBuilder.md)
 - [PrologBuilder](muhamadsalman/PrologBuilder)
