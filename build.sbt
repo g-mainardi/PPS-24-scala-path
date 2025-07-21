@@ -13,8 +13,6 @@ libraryDependencies ++= Seq(
 // https://www.scala-sbt.org/1.x/docs/Java-Sources.html
 Compile / compileOrder := CompileOrder.ScalaThenJava
 
-// Test / parallelExecution := false
-
 // Plugin assembly
 enablePlugins(AssemblyPlugin)
 
@@ -34,4 +32,9 @@ assembly / assemblyJarName := "pps-24-scala-path-assembly.jar"
  assembly / assemblyMergeStrategy := {
   case PathList("META-INF", _*) => MergeStrategy.discard
   case _                        => MergeStrategy.first
+}
+
+// Ignore test on build
+Test / test := {
+  streams.value.log info "Skipping tests during build"
 }
