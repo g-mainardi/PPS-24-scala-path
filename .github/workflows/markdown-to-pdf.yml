@@ -18,13 +18,14 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y pandoc texlive-xetex
 
-      - name: Generate PDF from Markdown
+      - name: Generate LaTeX from filelist.txt
         run: |
           mkdir -p output
-          pandoc $(cat filelist.txt) -o output/final-doc.pdf --toc --pdf-engine=xelatex
+          pandoc $(cat filelist.txt) -s --toc -o output/final-doc.tex
 
-      - name: Upload PDF artifact
+      - name: Upload LaTeX source
         uses: actions/upload-artifact@v4
         with:
-          name: documentation-pdf
-          path: output/final-doc.pdf
+          name: documentation-latex
+          path: output/final-doc.tex
+
