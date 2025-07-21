@@ -10,22 +10,31 @@ import scala.util.Random
 
 trait TestPlanner(val gridrows: Int = 3,val gridcols: Int = 3):
   protected val initPos: Position = Position(1, 1)
-  protected val goalPos: Position = Position(3, 3)
+  protected val goalPos: Position = Position(2, 2)
   protected val directions: Seq[Direction] = Direction.allDirections
   protected val maxMoves: Option[Int] = Some(10)
 
-  val passableScenario: Scenario = new TestScenarioWithPassableTiles(3, 3)
-  val blockingScenario: Scenario = new TestScenarioWithBlockingTiles(3, 3)
-  // val specialsScenario: Scenario = new TestScenarioSpecialsTiles(3, 3)
-  val scenarioWithClosedWalls: Scenario = new TestScenarioWithClosedWalls
+  def passableScenario: Scenario =
+    val scenario = new TestScenarioWithPassableTiles(3, 3)
+    scenario.generate()
+    scenario
+  
+  def blockingScenario: Scenario =
+    val scenario = new TestScenarioWithBlockingTiles(3, 3)
+    scenario.generate()
+    scenario
+  
+  def scenarioWithClosedWalls: Scenario =
+    val scenario = new TestScenarioWithClosedWalls
+    scenario.generate()
+    scenario
 
-  val specialsScenario = new Specials(5, 5)
-  specialsScenario.generate()
+  def specialsScenario: Scenario =
+    val scenario = new Specials(5, 5)
+    scenario.generate()
+    scenario
 
-  passableScenario.generate()
-  blockingScenario.generate()
-  scenarioWithClosedWalls.generate()
-
+// Resto del codice rimane uguale
 class TestScenarioWithPassableTiles(nRows: Int, nCols: Int)
   extends Scenario(nRows, nCols):
   override def generate(): Unit =
