@@ -72,8 +72,8 @@ trait CompleteBuilder:
  */
 private class PlannerBuilder extends BuilderInit, BuilderGoal, BuilderConstraints, BuilderEnvironment, BuilderDirections, BuilderAlgorithm, CompleteBuilder:
   private val theoryPaths: Map[Algorithm, String] = Map(
-    DFS -> "src/main/prolog/dfs.pl",
-    BFS -> "src/main/prolog/bfs.pl"
+    DFS -> "/prolog/dfs.pl",
+    BFS -> "/prolog/bfs.pl"
   )
 
   def withInit(initPos: Position): PlannerBuilder =

@@ -7,6 +7,7 @@ import it.unibo.model.fundamentals.{Direction, Position}
 import it.unibo.model.planning.{Configuration, Plan, Planner, PrologPlanner}
 import it.unibo.model.scenario.Scenario
 import it.unibo.utils.prologintegration.Scala2Prolog.{Engine, mkPrologEngine}
+import it.unibo.view.ViewUtilities.getClass
 
 import scala.io.Source
 import scala.util.Using
@@ -62,7 +63,11 @@ class PrologBuilder(using configuration: Configuration):
 
   private object Theory:
     def unapply(pathOpt: Option[String]): Option[String] =
-      pathOpt.flatMap { path => Using(Source.fromFile(path))(_.mkString).toOption }
+      pathOpt.flatMap { path =>
+        Option(getClass.getResourceAsStream(path)).map { stream =>
+          Using.resource(Source.fromInputStream(stream))(_.mkString)
+        }
+      }
 
   private object Tiles:
     def unapply(scenario: Scenario): Option[String] = Some( scenario.tiles.collect {
@@ -84,5 +89,6 @@ class PrologBuilder(using configuration: Configuration):
         val name = toCamelCase(d.toString)
         s"delta($name, $dx, $dy)."
     }.distinct.mkString("\n")
-    val moveClause = Using(Source.fromFile("src/main/prolog/moveClause.pl"))(_.mkString).get
+    val stream = getClass.getResourceAsStream("/prolog/moveClause.pl")
+    val moveClause: String = Using.resource(Source.fromInputStream(stream))(_.mkString)
     s"$deltaClauses\n\n$moveClause"
