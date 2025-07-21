@@ -3,7 +3,7 @@ name: Generate PDF Documentation
 on:
   workflow_dispatch:
   push:
-    branches: [ main ]
+    branches: [ gh-pages ]
 
 jobs:
   build-doc:
