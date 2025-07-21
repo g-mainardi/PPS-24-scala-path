@@ -10,7 +10,7 @@ Viene utilizzata una griglia fisica ed una logica per rappresentare le celle e i
 ### Logical Grid
 L'algoritmo utilizza una griglia logica ed una fisica. In quella logica i muri sono delle linee che non occupano spazio,
 invece in quella fisica i muri sono delle celle che occupano spazio.
-Inzialmente tutte le celle sono isolate dalle altre attraverso dei muri.
+Inizialmente tutte le celle sono isolate dalle altre attraverso dei muri.
 
 Per esempio, una griglia rows x cols ha effettivamente dimensione 2*rows+1 x 2*cols+1, dove:
 - Le celle pari (2x+1, 2y+1) sono floor. 

@@ -9,6 +9,11 @@ Abbiamo utilizzato il DSL offerto da Scala Test per scrivere test espressivi e l
     scenario.generate()
     scenario.tiles should not be empty
 ```
+In locale non abbiamo avuto problemi nell'eseguire i testi. Invece sul cloud con i runner di GitHub abbiamo riscontrato molti problemi.
+Abbiamo notato che dei test che funzionavano in locale, non funzionavano quando eseguiti tramite le GitHub Actions. 
+Inoltre solo alcune volte fallivano ed altre no, in modo non predicibile.
+In locale i test funzionano completamente in qualunque modo li si lanci.
+Abbiamo provato a risolvere in vari modi, anche cambiando la configurazione di sbt e serializzando i test, ma non siamo riusciti ad superare il problema completamente.
 
 ### TDD
 Abbiamo cercato di adottare il TDD quando ci sembrava naturale farlo, e poiché abbiamo effettuato molti refactoring, i test sono evoluti insieme al codice, in modo da non rimanere mai senza coverage e feedback. Dobbiamo ammettere che non è stato facile seguire l’approccio TDD, perché spesso non eravamo sicuri su come fare le cose e su come scrivere il codice; scrivere test a priori a volte ci ha aiutato, altre volte è stato semplicemente difficile.
