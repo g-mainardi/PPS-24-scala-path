@@ -1,0 +1,30 @@
+name: Generate PDF Documentation
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+
+jobs:
+  build-doc:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install pandoc and LaTeX
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y pandoc texlive-xetex
+
+      - name: Generate PDF from Markdown
+        run: |
+          mkdir -p output
+          pandoc $(cat filelist.txt) -o output/final-doc.pdf --toc --pdf-engine=xelatex
+
+      - name: Upload PDF artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: documentation-pdf
+          path: output/final-doc.pdf
