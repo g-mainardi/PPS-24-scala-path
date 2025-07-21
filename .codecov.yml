@@ -22,7 +22,7 @@ ignore:
   - "**/target/**"        # Esclude cartella compilata
   - "**/*.conf"           # Configurazioni non testabili
   - "**/test/**"          # Se vuoi ignorare i test stessi nel report
-  - "**/view/**"          # Esclude i sorgenti di View
+#  - "**/view/**"          # Esclude i sorgenti di View
 
 comment:
   layout: "reach,diff,flags,files"

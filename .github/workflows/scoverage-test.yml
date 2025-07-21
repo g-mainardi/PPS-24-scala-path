@@ -14,7 +14,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     name: Test scala
-    timeout-minutes: 8
+    timeout-minutes: 5
 
     steps:
       - name: Checkout
@@ -34,7 +34,7 @@ jobs:
 
       - name: Run tests with coverage, virtual display and timeout
         run: |
-          timeout 300s xvfb-run -a sbt coverage test coverageReport || {
+          timeout 120s xvfb-run -a sbt coverage test coverageReport || {
             echo "Command timed out or failed, cleaning up..."
             pkill -f sbt || true
             pkill -f java || true
