@@ -6,6 +6,9 @@
 
 # ScalaPath
 Pathfinding engine in Scala and Prolog
+
+https://g-mainardi.github.io/PPS-24-scala-path/
+
 <img width="911" height="641" alt="ScalaPath" src="https://github.com/user-attachments/assets/980a98d1-b5a4-4113-914a-0a54aef918fc" />
 
 # ScalaPath guida utente
