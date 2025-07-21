@@ -28,12 +28,6 @@ assembly / packageOptions += Package.ManifestAttributes(
 // JAR result name
 assembly / assemblyJarName := "pps-24-scala-path-assembly.jar"
 
-// Merge strategy to avoid errors in META-INF
- assembly / assemblyMergeStrategy := {
-  case PathList("META-INF", _*) => MergeStrategy.discard
-  case _                        => MergeStrategy.first
-}
-
 // Ignore test on build
 Test / test := {
   streams.value.log info "Skipping tests during build"
