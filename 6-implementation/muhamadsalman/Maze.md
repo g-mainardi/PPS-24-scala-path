@@ -3,6 +3,9 @@ Lo scenario labirinto viene generato in modo procedurale usando l'algoritmo DFS 
 Per gestire il labirinto, si parte da una cella e si scava verso celle adiacenti non visitate, rimuovendo i muri tra di esse.
 Viene utilizzata una griglia fisica ed una logica per rappresentare le celle e i muri.
 
+<p align="center">
+  <img src="../../resources/maze.png" alt="Maze" title="Maze" />
+</p>
 
 ### Logical Grid
 L'algoritmo utilizza una griglia logica ed una fisica. In quella logica i muri sono delle linee che non occupano spazio,
