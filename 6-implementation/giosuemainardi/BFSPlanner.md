@@ -1,3 +1,4 @@
+# BFS Planner
 Il **Breadth-First Search (BFS)** è un algoritmo di ricerca non informato che esplora sistematicamente un grafo visitando
 tutti i nodi a distanza _k_ prima di procedere con quelli a distanza _k+1_. 
 Questo approccio garantisce di trovare sempre il **percorso più breve** in termini di numero di archi (o mosse) quando 
@@ -118,3 +119,5 @@ checkSpecial(Next, Next).
 
 Il sistema supporta tile speciali che possono modificare la posizione di destinazione (ad esempio, teleport o trappole). 
 Se una posizione non è speciale, rimane invariata.
+
+[Index](../index.md)

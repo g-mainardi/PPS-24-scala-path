@@ -1,6 +1,6 @@
 # ScalaPathController
 
-Il `ScalaPathController` implementa un'**architettura modulare basata su mixin** che rappresenta il cuore del sistema di
+Lo `ScalaPathController` implementa un'**architettura modulare basata su mixin** che rappresenta il cuore del sistema di
 pathfinding, orchestrando l'intera simulazione attraverso trait specializzati.
 
 ## Architettura Generale
