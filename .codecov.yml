@@ -23,7 +23,6 @@ ignore:
   - "**/*.conf"           # Configurazioni non testabili
   - "**/test/**"          # Se vuoi ignorare i test stessi nel report
   - "**/view/**"          # Esclude i sorgenti di View
-  - "**/Simulation.scala" # I file di utils che non sono in un sotto package
 
 comment:
   layout: "reach,diff,flags,files"
