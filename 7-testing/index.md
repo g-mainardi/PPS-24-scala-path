@@ -25,7 +25,7 @@ Abbiamo aumentato la copertura anche costruendo una `ViewMock` per testare il co
 </p>
 
 ### Grid DSL
-Infine, uno di noi ha costruito un DSL grafico per migliorare i test sugli Scenari. Il DSL utilizza alcuni caratteri speciali per costruire graficamente gli scenari in uno stile simile all'ASCII-art, questi scenari vengono poi utilizzati da dei test per le celle di tipo  speciale e il funzionamento degli allgoritmi di pathfinding. 
+Infine, uno di noi ha costruito un DSL grafico per migliorare i test sugli Scenari. Il DSL utilizza alcuni caratteri speciali per costruire graficamente gli scenari in uno stile simile all'ASCII-art, questi scenari vengono poi utilizzati da dei test per le celle di tipo  speciale e il funzionamento degli algoritmi di pathfinding. 
 
 ```scala
 class TestScenarioWithClosedWalls extends Scenario(10, 10):
@@ -33,15 +33,15 @@ class TestScenarioWithClosedWalls extends Scenario(10, 10):
   override def generate(10): Unit =
     _tiles = grid:
       F | F | F | F | F | F | F | F | F | F
-      F | F | TP(p) | F | F | F | F | F | F | F ||
-      F | F | F | F | F | F | F | F | F | F ||
-      F | F | F | F | F | F | F | F | F | F ||
-      F | F | F | F | F | F | F | F | F | F ||
-      F | F | F | F | F | F | F | F | F | F ||
-      F | F | F | F | F | F | W | W | W | W ||
-      F | F | F | F | F | F | W | F | F | W ||
-      F | F | F | F | F | F | W | F | F | W ||
-      F | F | F | F | F | F | W | W | W | W ||  
+      F | F | TP(p) | F | F | F | F | F | F | F
+      F | F | F | F | F | F | F | F | F | F
+      F | F | F | F | F | F | F | F | F | F
+      F | F | F | F | F | F | F | F | F | F
+      F | F | F | F | F | F | F | F | F | F
+      F | F | F | F | F | F | W | W | W | W
+      F | F | F | F | F | F | W | F | F | W
+      F | F | F | F | F | F | W | F | F | W
+      F | F | F | F | F | F | W | W | W | W
 ```
 
 
