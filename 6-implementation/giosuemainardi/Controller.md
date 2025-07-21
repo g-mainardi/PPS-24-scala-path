@@ -1,5 +1,4 @@
-[Index](../index.md)
-
+# Controller 
 Al centro dell'architettura del controller troviamo `ScalaPathController`, un object singleton che funge da
 orchestratore principale, implementazione di diversi trait che, attraverso il meccanismo dei mixin, permette di comporre modularmente le
 funzionalità del sistema.
@@ -277,3 +276,5 @@ trait SpeedManager:
 
 La separazione tra il **delay fisso** e il **moltiplicatore di velocità** permette un controllo granulare dell'animazione, 
 mentre il flag `shouldSleep` implementa un meccanismo di **lazy delay** che introduce pause solo quando necessario.
+
+[Index](../index.md)

@@ -7,4 +7,9 @@ Una cella può essere di diversi tipi:
 
 Nella griglia è presente una entità (agent), che si muove seguendo un piano (plan) fornito da una entità che calcola il percorso ottimale (planner). A questo scopo il planner fornisce il plan in base a diversi algoritmi di ricerca del percorso (pathfinding). L'obbiettivo dell'agente è quello di raggiungere una determinata cella (goal).
 
+<p align="center">
+  <img src="../resources/screenshot.png" alt="Application screenshot" title="Application screenshot" />
+</p>
+
+
  [Index](../index.md) | [Next Chapter](../2-development_process/index.md) |

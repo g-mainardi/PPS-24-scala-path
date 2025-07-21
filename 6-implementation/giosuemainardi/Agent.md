@@ -1,4 +1,4 @@
-[Index](../index.md)
+# Agent
 
 La classe `Agent` rappresenta il componente centrale del sistema di pathfinding, responsabile dell'esecuzione della 
 navigazione e del tracciamento del percorso.
@@ -58,4 +58,4 @@ Il metodo gestisce i diversi risultati della pianificazione attraverso **pattern
 - **SucceededPlan**: Piano trovato senza stima delle mosse, perchè specificato il massimo in input
 - **FailedPlan**: Nessun piano trovato
 
-
+[Index](../index.md)

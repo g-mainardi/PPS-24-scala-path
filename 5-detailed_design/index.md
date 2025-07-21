@@ -9,7 +9,7 @@
 ### Planning
 - [Planner](planner.md)
 - [Specials](specials.md)
-- [PlannerBuilder](plannerBuilder.md)
+- [PlannerBuilder](planner-builder.md)
 - [PrologPlanner](prologPlanner.md)
 - [ScalaBuilder](scalaBuilder.md)
 

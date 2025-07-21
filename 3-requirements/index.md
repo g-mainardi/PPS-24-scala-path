@@ -20,21 +20,24 @@
 ## 3. Requisiti Funzionali
 
 ### 3.1. Utente 
-- 3.1.1. L’utente deve poter scegliere quale algoritmo di ricerca utilizzare tramite una dropdown list (Dijkstra, A*, Greedy Best‑first, ecc.).
-- 3.1.2. L'utente deve poter visualizzare la griglia di celle della simulazione.
-- 3.1.3. Sulla griglia devono essere presenti il punto di partenza e il goal.
-- 3.1.4. L'utente deve poter selezionare quale metodologia di generazione dello scenario l'applicazione deve utilizzare, tramite una dropdown list (Terrain, Maze, Trap).
-- 3.1.5. L’utente deve poter generare un nuovo scenario casuale tramite un pulsante di refresh.
-- 3.1.6. L’utente deve poter avviare o mettere in pausa la simulazione tramite un pulsante “Start/Stop”.
+- 3.1.1. L’utente deve poter scegliere quale algoritmo di ricerca utilizzare tramite una dropdown list (Breadth-First, Depth-First, A*, ecc.).
+- 3.1.2. L'utente deve poter far partire la ricerca di un piano alla semplice scelta dell'algoritmo.
+- 3.1.3. L'utente deve poter visualizzare la griglia di celle della simulazione.
+- 3.1.4. Sulla griglia devono essere presenti il punto di partenza e il goal.
+- 3.1.5. L'utente deve poter selezionare quale metodologia di generazione dello scenario l'applicazione deve utilizzare, tramite una dropdown list (Terrain, Maze, Trap).
+- 3.1.6. L’utente deve poter generare un nuovo scenario casuale tramite un pulsante di refresh.
 - 3.1.7. L’utente deve poter avanzare di un singolo passo nella simulazione tramite un pulsante “Step”.
-- 3.1.8. L’utente deve poter resettare la simulazione allo stato iniziale tramite un pulsante “Reset”.
-- 3.1.9. L’utente deve poter abilitare o disabilitare singole direzioni di movimento (cardinali e diagonali).
-- 3.1.10. L’utente deve poter spostare interattivamente la posizione iniziale (“start”) o la destinazione (“goal”) cliccando sulla griglia, selezionando prima l’opzione “Change start” o “Change goal”.
-- 3.1.11. L’utente deve ricevere popup informative o di errore in caso di eventi significativi o anomalie.
+- 3.1.8. L'utente deve poter visualizzare il numero di passi del piano corrente sono ancora da eseguire.
+- 3.1.9. L’utente deve poter fare partire l'esecuzione automatica del piano della simulazione e regolarne la velocità.
+- 3.1.10. L’utente deve poter avviare o mettere in pausa l'esecuzione automatica tramite un pulsante “Start/Stop”.
+- 3.1.11. L’utente deve poter resettare la simulazione allo stato iniziale tramite un pulsante “Reset”.
+- 3.1.12. L’utente deve poter abilitare o disabilitare singole direzioni di movimento (cardinali e diagonali).
+- 3.1.13. L’utente deve poter spostare interattivamente la posizione iniziale (“start”) o la destinazione (“goal”) cliccando sulla griglia, selezionando prima l’opzione “Change start” o “Change goal”.
+- 3.1.14. L’utente deve ricevere popup informative o di errore in caso di eventi significativi o anomalie.
 
 ### 3.2. Di sistema
 - 3.2.1. L’applicazione deve implementare funzioni di controllo della simulazione come “Start”, “Stop”, “Reset”, “Clear”, ecc.
-- 3.2.2. L’applicazione deve implementare diversi algoritmi di ricerca del percorso (Dijkstra, A*, Greedy Best‑first, ecc.).
+- 3.2.2. L’applicazione deve implementare diversi algoritmi di ricerca del percorso (Breadth-First, Depth-First, A*, ecc.).
 - 3.2.3. L’applicazione deve essere in grado di generare uno scenario in base alla tipologia di generazione scelta dall’utente.
 - 3.2.4. Il sistema deve disegnare la griglia con le celle colorate in base al tipo di tile (Passage, Obstacle, Special).
 - 3.2.5. Il sistema deve visualizzare l’agente e il goal come cerchi colorati (blu per l’agente, rosso per il goal).
@@ -45,12 +48,19 @@
 - 3.2.10. Il sistema deve abilitare o disabilitare i pulsanti “Step”, “Reset”, “Start/Stop” e “Refresh Scenario” in base allo stato corrente della simulazione.
 - 3.2.11. Il sistema deve intercettare e processare tutti gli eventi GUI (click su pulsanti, selezione dropdown, click sulla griglia) senza bloccare il thread dell’interfaccia.
 - 3.2.12. L’applicazione deve tener conto, durante la ricerca del percorso, della tipologia di agente selezionato dall’utente.
+- 3.2.13. L'applicazione deve essere in grado di gestire modifiche alla configurazione mentre se ne sta eseguendo un'altra e permettere poi di far partire una nuova ricerca.
+- 3.2.14. L'applicazione non deve consentire di far partire la ricerca di un piano se non è stato ancora selezionato uno scenario diverso da quello vuoto.
 
 ## 4. Requisiti non Funzionali
 - 4.1. Il sistema deve garantire una code coverage di almeno 50%.
 - 4.2. I test devono essere eseguiti automaticamente all’interno della pipeline CI/CD.
 - 4.3. L’esecuzione automatica dei test non deve superare i 5 minuti.
 - 4.4. Il sistema deve fallire la build in caso di fallimento di uno o più test.
+- 4.5. Il codice deve seguire convenzioni di stile Scala e includere documentazione scaladoc per ogni trait pubblico.
+- 4.6. L'applicazione non deve andare in errore in presenza di input utente non validi.
+- 4.7. Deve essere possibile eseguire una simulazione completa con meno di 5 interazioni utente.
+- 4.8. La generazione dello scenario deve essere immediata (inferiore a 200ms).
+- 4.9. L'applicazione deve rispondere agli input utente entro 200 ms in condizioni normali.
 
 ## 5. Requisiti di implementazione
 - 5.1. Il progetto deve essere sviluppato utilizzando Scala 3.
