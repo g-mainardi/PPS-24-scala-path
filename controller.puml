@@ -18,20 +18,8 @@ package "it.unibo.controller" {
     interface SpeedManager <<trait>> {
     }
 
-    interface AgentManager <<trait>> {
-    }
 
     interface ViewManager <<trait>> {
-    }
-
-    ' Nested Traits in DisplayableController
-    interface ScenarioManager <<trait>> {
-    }
-
-    interface AlgorithmManager <<trait>> {
-    }
-
-    interface DirectionManager <<trait>> {
     }
 
     ' Simulation Object
@@ -65,23 +53,21 @@ package "it.unibo.controller" {
     }
 
     ' Relationships
-    ScalaPathController ..|> DisplayableController
-    ScalaPathController ..|> SpeedManager
-    ScalaPathController ..|> ViewManager
 
-    DisplayableController ..|> ScenarioManager
-    DisplayableController ..|> AlgorithmManager
-    DisplayableController ..|> DirectionManager
-    DisplayableController ..|> AgentManager
 
-    ScalaPathController --> Simulation : uses
     ExecutionState ..|> State
     UICommand ..|> State
+    ScalaPathController --> Simulation : uses
     Simulation --> State : contains
 
     ViewManager --> ViewObject : contains
     ScalaPathController --> ViewObject : uses
     ScalaPathController --> TransitionPatterns : pattern matching
+
+
+    ScalaPathController ..|> DisplayableController
+    ScalaPathController ..|> SpeedManager
+    ScalaPathController ..|> ViewManager
 }
 
 @enduml
