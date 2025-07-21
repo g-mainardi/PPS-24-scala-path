@@ -52,7 +52,7 @@
 - 3.2.14. L'applicazione non deve consentire di far partire la ricerca di un piano se non è stato ancora selezionato uno scenario diverso da quello vuoto.
 
 ## 4. Requisiti non Funzionali
-- 4.1. Il sistema deve garantire una code coverage di almeno 50%.
+- 4.1. Il sistema deve garantire una code coverage di almeno 60%-70%.
 - 4.2. I test devono essere eseguiti automaticamente all’interno della pipeline CI/CD.
 - 4.3. L’esecuzione automatica dei test non deve superare i 5 minuti.
 - 4.4. Il sistema deve fallire la build in caso di fallimento di uno o più test.
