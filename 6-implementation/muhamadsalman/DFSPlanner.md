@@ -58,7 +58,7 @@ Esplora tutte le direzioni possibili, evitando le celle già visitate e gli osta
 Ad ogni passo controlla se si è raggiunto una cella speciale e ne applica il risultato.
 ```prolog
 % Caso base: stato raggiunto
-planner(State, State, _, [], 0).
+planner(State, State, _, [], 0) :- !.
 
 % Caso ricorsivo: esplora una direzione valida
 planner(State, Goal, Visited, [Dir|Rest], NewMoves) :-
