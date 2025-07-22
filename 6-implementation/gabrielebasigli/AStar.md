@@ -74,7 +74,6 @@ Il codice seguente implementa questa logica:
             originalTile match
               case Some(t) => delta = Position(t.x, t.y) - prev
               case _ => None
-            delta = Position(0, 0)
           Direction.allDirections.find(_.vector == delta) match
             case Some(dir) => _reconstructPath(prev, dir :: acc)
             case _ => _reconstructPath(prev, acc)
