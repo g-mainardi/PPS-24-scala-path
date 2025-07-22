@@ -1,7 +1,7 @@
 package it.unibo.model.scenario
 
 import it.unibo.model.fundamentals.{Position, Tile}
-import it.unibo.model.fundamentals.Tiling.Passage
+import it.unibo.model.fundamentals.Tiling.{Floor, Grass, Passage}
 import it.unibo.utils.PrettyPrint
 
 object Scenario:
@@ -21,7 +21,7 @@ trait Scenario(val nRows: Int, val nCols: Int) extends PrettyPrint:
 
   def checkSpecial(position: Position): Option[Tile] = _tiles.find(tile => tile.x == position.x && tile.y == position.y)
 
-  def freePositions: Seq[Position] = _tiles collect {case pass: Passage => Position(pass.x, pass.y)}
+  def freePositions: Seq[Position] = _tiles collect {case pass: (Floor | Grass) => Position(pass.x, pass.y)}
 
   def randomFreePosition: Option[Position] = freePositions.getRandomElement
 

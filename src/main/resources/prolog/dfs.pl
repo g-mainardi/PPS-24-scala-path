@@ -5,7 +5,7 @@ plan(Path, Moves) :-
     planner(Init, Goal, [Init], Path, Moves).
 
 % Base case: at goal, no moves needed
-planner(State, State, _, [], 0).
+planner(State, State, _, [], 0):- !.
 
 checkSpecial(TempState, NewState) :- special(TempState, NewState), !.
 checkSpecial(TempState, TempState).
