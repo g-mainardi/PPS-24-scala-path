@@ -4,12 +4,19 @@
 
 [![Test coverage](https://codecov.io/gh/g-mainardi/PPS-24-scala-path/graph/badge.svg?token=06P0TEB653)](https://codecov.io/gh/g-mainardi/PPS-24-scala-path)
 
-# ScalaPath
-Pathfinding engine in Scala and Prolog
+<a href="https://g-mainardi.github.io/PPS-24-scala-path/"><img src="https://github.com/user-attachments/assets/787c57a9-c3ee-455a-826d-8b7eb1ed4d4b" alt="Pages badge" height="72"/></a>
 
-https://g-mainardi.github.io/PPS-24-scala-path/
+<div align="center">
+  <a href="https://github.com/g-mainardi/PPS-24-scala-path/">
+    <img height="372" alt="ScalaPath icon" src="https://github.com/user-attachments/assets/f4e60231-b299-4653-a534-7166569ff729" />
+  </a>
+</div>
 
-<img width="911" height="641" alt="ScalaPath" src="https://github.com/user-attachments/assets/980a98d1-b5a4-4113-914a-0a54aef918fc" />
+<div align="center">
+  
+  ## Pathfinding engine in Scala and Prolog 
+  <img height="500" alt="ScalaPath app" src="https://github.com/user-attachments/assets/980a98d1-b5a4-4113-914a-0a54aef918fc" />
+</div>
 
 # ScalaPath guida utente
 
